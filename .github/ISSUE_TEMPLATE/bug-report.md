@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: "[FE] [BUG] 날짜 업무명 "
-labels: bug, enhancement
+labels: bug
 assignees: costudying, ksostuft, lSuns, minbumKIM0501, somang1206
 
 ---
