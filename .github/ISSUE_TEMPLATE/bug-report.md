@@ -2,17 +2,8 @@
 name: Bug report
 about: Create a report to help us improve
 title: "[FE] [BUG] 날짜 업무명 "
-labels: bug
+labels: bug, enhancement
 assignees: minbumKIM0501, somang1206, costudying, ksostuft, lSuns
-
----
-
----
-name: "\U0001F41C Bug report"
-about: BUG 발생 시 작성해주세요.
-title: ''
-labels: bug
-assignees: ''
 
 ---
 
