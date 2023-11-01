@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: ''
 labels: enhancement
-assignees: minbumKIM0501, somang1206, costudying, ksostuft, lSuns
+assignees: costudying, ksostuft, lSuns, minbumKIM0501, somang1206
 
 ---
 
