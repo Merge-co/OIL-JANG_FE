@@ -1,0 +1,143 @@
+.mergeMain {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-flow: column wrap;
+}
+
+.resetBox {
+  float: right;
+  position: relative;
+  display: flex;
+  align-content: center;
+  padding-right: 18px;
+  padding-bottom: 10px;
+  cursor:pointer
+}
+
+.resetBtn {
+  font-size: 16px;
+  font-weight: 500;
+  background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible;
+}
+
+.mergeBox0 {
+  position: relative;
+  color: #222;
+}
+
+.mergeBox1 {
+  clear: both;
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-content: center;
+  background-color: #F8F4F2;
+  border-top: 0.75px solid #C7C6C6;
+  border-left: 0.75px solid #C7C6C6;
+  border-right: 0.75px solid #C7C6C6;
+  flex-wrap: wrap;
+  padding-left: 18px;
+  font-size: 20px;
+  font-weight: 500;
+  justify-content: space-between;
+}
+
+
+.mergeBox2 {
+  position: relative;
+  height: 560px;
+  border: 0.75px solid #C7C6C6;
+  background-color: #F8F4F2;
+  margin-bottom: 12px;
+  padding-left: 18px;
+  padding-top: 32px;
+}
+
+.mergeItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addItem {
+  position: relative;
+  margin-top: 21px;
+  margin-bottom: 18px;
+}
+
+.setMoneyTitle {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.setMoney {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  margin-right: 18px;
+  font-size: 20px;
+  max-width: 145px;
+}
+
+.selectedItemNum {
+  margin-right: 18px;
+}
+
+.remainPrice {
+  margin-right: 18px;
+}
+
+.selectedItemBox {
+  width: 367px;
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.selectedTitleBox {
+  padding-left: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 0.75px solid #C7C6C6;
+  font-weight: 500;
+}
+
+.selectedProductInfoBox {
+  position: relative;
+  display: flex;
+  padding-left: 18px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.selectedProductInfo {
+  padding-left: 18px;
+  padding-top: 9px;
+  cursor: pointer;
+}
+
+.selectedProductImg {
+  width: 85px;
+  height: 72px;
+  background-color: #D9D9D9;
+  cursor: pointer;
+}
+
+.selectedProductTitle {
+
+}
+
+.selcetedProductPrice {
+  font-weight: 700;
+  padding-top: 11px;
+}
+
+.cancelBtn {
+  position: relative;
+  top: 19px;
+  left: 129px;
+  cursor: pointer;
+}
+
+
