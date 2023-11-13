@@ -1,0 +1,8 @@
+.mergeMain {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-flow: column wrap;
+    align-content: center;
+    height: 1300px;
+  }

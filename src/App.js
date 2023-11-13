@@ -13,9 +13,8 @@ function App() {
         <Route path='/' element={<Layout />}>
 
           <Route index element={<Main />} />
-          <Route path='product/merge' element={<Merge />} />
+          <Route path='merge' element={<Merge />} />
           <Route path='admin' element={<AdminHeader />} />
-
         </Route>
 
       </Routes>
