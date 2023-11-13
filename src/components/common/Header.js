@@ -11,6 +11,7 @@ function Header() {
             <div>마이페이지 아이콘</div>
             <div>쪽지 아이콘</div>
             <div>로그아웃</div>
+            <div><NavLink to="/admin">관리자 헤더 이동</NavLink></div>
             <h1>나는 해더 끝    </h1>
         </>
     );
