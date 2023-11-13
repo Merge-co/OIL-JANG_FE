@@ -1,9 +1,20 @@
+import MergeBox from "../../components/product/MergeBox";
+import MergeCategory from "../../components/product/MergeCategory";
 import ProductCategory from "../../components/product/ProductCategory";
+import ProductFilter from "../../components/product/ProductFilter";
+import ProductList from "../../components/product/ProductList";
+import MergeLayoutCSS from "../../styles/product/MergeLayout.module.css";
 
 function Merge() {
     return(
         <>
-            <ProductCategory/>
+            <div className={MergeLayoutCSS.mergeMain}>
+                <ProductCategory/>
+                <MergeCategory/>
+                <ProductFilter/>
+                <ProductList/>
+                <MergeBox/>
+            </div>
         </>
     );
 }

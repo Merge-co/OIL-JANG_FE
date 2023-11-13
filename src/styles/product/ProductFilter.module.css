@@ -1,0 +1,16 @@
+.productFilterContainer {
+    position: relative;
+  }
+  
+  .productFilter {
+    position: relative;
+    display: flex;
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 46px;
+  }
+  
+  .filterName {
+    margin-top: 13px;
+  }
+  
