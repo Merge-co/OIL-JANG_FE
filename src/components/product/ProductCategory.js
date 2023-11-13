@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetProductCategory } from '../../apis/ProductAPICalls';
-import CategoryCSS from './ProductCategory.module.css';
+import CategoryCSS from '../../styles/ProductCategory.module.css'
 import { useEffect, useState } from 'react';
 
 function ProductCategory() {
