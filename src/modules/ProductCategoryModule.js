@@ -13,6 +13,11 @@ const actions = createActions({
 
 const productCategoryReducer = handleActions(
     {
-        [GET_CATEGORIES]: (state, {payload}) => 
-    }
+        [GET_CATEGORIES]: (state, {payload}) => {
+            return payload;
+        }
+    },
+    initialState
 );
+
+export default productCategoryReducer;

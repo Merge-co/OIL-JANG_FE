@@ -1,4 +1,5 @@
 import axios from "axios";
+import { GET_CATEGORIES } from "../modules/ProductCategoryModule";
 
 export const callGetProductCategory = () => {
     const requestURL = "http://localhost:8000/categories";
@@ -7,8 +8,6 @@ export const callGetProductCategory = () => {
         const result = await axios.get(requestURL).then(
             result => result.data.results.productCategoryList
         );
-        
-        console.log(result);
 
         dispatch({ type: GET_CATEGORIES, payload: result});
     }
