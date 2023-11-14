@@ -1,3 +1,4 @@
+import PagingBar from "../../components/common/PagingBar";
 import MergeBox from "../../components/product/MergeBox";
 import MergeCategory from "../../components/product/MergeCategory";
 import ProductCategory from "../../components/product/ProductCategory";
@@ -12,7 +13,7 @@ function Merge() {
                 <ProductCategory/>
                 <MergeCategory/>
                 <ProductFilter/>
-                <ProductList/>
+                <ProductList type="merge"/>
                 <MergeBox/>
             </div>
         </>

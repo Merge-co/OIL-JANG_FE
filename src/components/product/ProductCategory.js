@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetProductCategory } from '../../apis/ProductAPICalls';
 import CategoryCSS from '../../styles/product/ProductCategory.module.css'
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ButtonCSS from '../../styles/Button.module.css';
 
 function ProductCategory() {
@@ -17,6 +17,7 @@ function ProductCategory() {
     let changeCategoryLists = [];
 
     const productCategories = useSelector(state => state.productCategoryReducer);
+    
 
     let upperCategory = [];
         
@@ -41,7 +42,7 @@ function ProductCategory() {
     const dispatch = useDispatch();
     
     const categoryBtnHandler = id => {
-        if(categoryLists.length == 0) {
+        if(categoryLists.length === 0) {
             changeCategoryLists.map(categoryList => {
                 if(categoryList.id === id) {
                     categoryList.categoryChecked = !categoryList.categoryChecked;
@@ -58,7 +59,7 @@ function ProductCategory() {
             });
             changeCategoryLists = [...categoryLists];
             
-            let checkFive = categoryLists.filter(category => category.categoryChecked == true);
+            let checkFive = categoryLists.filter(category => category.categoryChecked === true);
             if(checkFive.length <= 5) {
                 setCategoryLists(changeCategoryLists);
             } else {
@@ -87,8 +88,9 @@ function ProductCategory() {
                         
                     </div>
                 </div>
-                )}
-                <button className="smallBtn2 categorySearchBtn">검색</button>
+                )} 
+
+                <button className={`${ButtonCSS.smallBtn2} ${CategoryCSS.categorySearchBtn}`}>검색</button>
             </div>
         </>
     );
