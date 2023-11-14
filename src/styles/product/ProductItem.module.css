@@ -28,7 +28,8 @@
 
 .itemBoxDatetime {
   position: relative;
-  margin-left: 170px;
+  float: right;
+  margin-right: 10px;
   margin-top: -20px;
   color: #CFC6C6;
 }
