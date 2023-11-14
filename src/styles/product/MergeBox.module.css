@@ -76,6 +76,7 @@
   max-width: 145px;
   position: relative;
   top: 3px;
+  text-align: right;
 }
 
 .selectedItemNum {

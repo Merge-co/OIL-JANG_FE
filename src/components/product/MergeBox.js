@@ -50,7 +50,7 @@ function MergeBox() {
             <div className={MergeBoxCSS.mergeBox1}>
                 <div className={MergeBoxCSS.setMoneyTitle}>예산 설정</div><button onClick={onClickSetMoney} className={ButtonCSS.smallBtn2}>설정</button>
                 <label>
-                    <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money} placeholder="예산 설정" dir="rtl"/>
+                    <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money} placeholder="예산 설정"        />
                 </label>
             </div>
             <div className={MergeBoxCSS.mergeBox1}>
