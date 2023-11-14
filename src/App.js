@@ -4,6 +4,7 @@ import Layout from './layouts/Layout';
 import Main from './pages/product/Main';
 import Merge from './pages/product/Merge';
 import AdminHeader from './components/common/AdminHeader';
+import Report from './pages/report/Report';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route index element={<Main />} />
           <Route path='merge' element={<Merge />} />
           <Route path='admin' element={<AdminHeader />} />
+          <Route path='report' element={<Report />} />
+
         </Route>
 
       </Routes>
