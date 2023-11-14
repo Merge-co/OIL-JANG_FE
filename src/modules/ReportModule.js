@@ -1,24 +1,24 @@
-import { createActions, handleActions } from 'redux-actions';
-
+import { createActions, handleActions } from "redux-actions";
 // 초기값
 const initialState = [];
 
 // Actions
-
-export const GET_REPORT = 'report/GET_REPORT';
+export const GET_REPORTS = 'report/GET_REPORTS';
 
 const actions = createActions({
-    [GET_REPORT]: () => { }
+    [GET_REPORTS]: () => {}
 });
 
 // reducer
 const reportReducer = handleActions(
     {
-        [GET_REPORT]: (state, { payload }) => {
+        [GET_REPORTS]: (state, { payload }) => {
+            // console.log('(reducer) payload : ', payload);
             return payload;
         }
     },
     initialState
 );
+console.log('Module', reportReducer);
 
 export default reportReducer;

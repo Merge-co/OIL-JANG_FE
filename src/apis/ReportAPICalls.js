@@ -1,12 +1,15 @@
 import {
-    GET_REPORT
-} from '../modules/ReportModule'
+    GET_REPORTS
+} from '../modules/ReportModule.js'
 
 export const callReportAPI = () => {
+
     console.log('[ReportAPICalls] callReportAPI Call')
-    const requestURL = `http://localhost:8000/reports/reportManagerment`
+    
+    const requestURL = `http://localhost:8000/reports/reportSelect`
 
     return async (dispatch, getState) => {
+
         const result = await fetch(requestURL, {
             method: "GET",
             headers: {
@@ -16,6 +19,6 @@ export const callReportAPI = () => {
         })
             .then(response => response.json());
         console.log('[ReportAPICalls] callReportList Result : ', result);
-        dispatch({ type: GET_REPORT, payload: result.date });
+        dispatch({ type: GET_REPORTS, payload: result });
     };
 };

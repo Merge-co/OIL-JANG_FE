@@ -3,6 +3,7 @@ import productCategoryReducer from './ProductCategoryModule';
 import reportReducer from './ReportModule';
 
 const rootReducer = combineReducers({
-    productCategoryReducer, reportReducer
+    productCategoryReducer, 
+    reportReducer
 });
 export default rootReducer;
