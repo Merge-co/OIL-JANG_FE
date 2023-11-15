@@ -3,9 +3,9 @@ import { callGetProductCategory } from '../../apis/ProductAPICalls';
 import CategoryCSS from '../../styles/product/ProductCategory.module.css'
 import { useEffect, useState } from 'react';
 import ButtonCSS from '../../styles/Button.module.css';
+import { GET_MERGE_CATEGORY } from '../../modules/MergeModule';
 
-function ProductCategory() {
-
+function ProductCategory(type) {
     const [ categoryLists, setCategoryLists ] = useState([]);
 
     useEffect(
@@ -17,7 +17,8 @@ function ProductCategory() {
     let changeCategoryLists = [];
 
     const productCategories = useSelector(state => state.productCategoryReducer);
-    
+
+    let checkFive = categoryLists.filter(category => category.categoryChecked === true);
 
     let upperCategory = [];
         
@@ -26,7 +27,7 @@ function ProductCategory() {
         if(category.upperCategoryCode === 0) {
             upperCategoryCount++;
         }
-        changeCategoryLists.push({ id: category.categoryCode, categoryChecked: false });
+        changeCategoryLists.push({ id: category.categoryCode, categoryName: category.categoryName, categoryChecked: false });
     }
     
     for(let i = 1; i <= upperCategoryCount; i++) {
@@ -49,6 +50,8 @@ function ProductCategory() {
                 }
             });
             changeCategoryLists = [...changeCategoryLists];
+
+            let checkFive = changeCategoryLists.filter(category => category.categoryChecked === true);
             setCategoryLists(changeCategoryLists);
         } else {
             
@@ -60,15 +63,33 @@ function ProductCategory() {
             changeCategoryLists = [...categoryLists];
             
             let checkFive = categoryLists.filter(category => category.categoryChecked === true);
-            if(checkFive.length <= 5) {
+            if(checkFive.length <= 5 && type.type === "merge") {
                 setCategoryLists(changeCategoryLists);
             } else {
-                categoryLists.map(categoryList => {
-                    if(categoryList.id === id) {
-                        categoryList.categoryChecked = !categoryList.categoryChecked;
-                    }
-                });
+                if(type.type === "merge") {
+                    alert("최대 5개의 카테고리까지 선택할 수 있습니다.");
+                    categoryLists.map(categoryList => {
+                        if(categoryList.id === id) {
+                            categoryList.categoryChecked = !categoryList.categoryChecked;
+                        }
+                    });
+                } else {
+                    categoryLists.map(categoryList => {
+                        if(categoryList.id !== id && categoryList.categoryChecked === true) {
+                            categoryList.categoryChecked = !categoryList.categoryChecked
+                        }
+                    });
+                    setCategoryLists(changeCategoryLists);
+                }
             }
+        }
+    }
+
+    const onClickHandler = () => {
+        if(checkFive.length === 0) {
+            alert("최소 1개의 카테고리를 선택해주세요");
+        } else {
+            dispatch({ type: GET_MERGE_CATEGORY, payload: checkFive});
         }
         
     }
@@ -90,7 +111,7 @@ function ProductCategory() {
                 </div>
                 )} 
 
-                <button className={`${ButtonCSS.smallBtn2} ${CategoryCSS.categorySearchBtn}`}>검색</button>
+                <button onClick={() => onClickHandler()} className={`${ButtonCSS.smallBtn2} ${CategoryCSS.categorySearchBtn}`}>검색</button>
             </div>
         </>
     );

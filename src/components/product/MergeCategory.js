@@ -1,14 +1,23 @@
+import { useState } from 'react';
 import MergeCategoryCSS from '../../styles/product/MergeCategory.module.css';
+import { useSelector } from 'react-redux';
 
 function MergeCategory() {
+
+    const mergeCategory = useSelector(state => state.mergeReducer);
+
+    const [ mergeCategoryBtn, setMergeCategoryBtn ] = useState("");
+
+    const onClickHandler = filterNo => {
+        setMergeCategoryBtn(filterNo);
+    }
+
     return(
         <>
             <div className={MergeCategoryCSS.selectedCategories}>
-                <div className={MergeCategoryCSS.clickedSelectedCategory}>패딩</div>
-                <div className={MergeCategoryCSS.selectedCategory}>점퍼</div>
-                <div className={MergeCategoryCSS.selectedCategory}>조끼/베스트</div>
-                <div className={MergeCategoryCSS.selectedCategory}>니트/스웨터</div>
-                <div className={MergeCategoryCSS.selectedCategory}>후드티/후드집업</div>
+                {mergeCategory.map(
+                    category => <div onClick={() => onClickHandler(category.id)} className={mergeCategoryBtn === category.id ? MergeCategoryCSS.clickedSelectedCategory : MergeCategoryCSS.selectedCategory}>{category.categoryName}</div>
+                )}
             </div>
         </>
     );

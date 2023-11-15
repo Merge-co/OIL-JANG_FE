@@ -9,7 +9,7 @@ function MergeBox() {
     const [ selectedItem, setSelectedItem ] = useState('0');
 
     const onChangeHandler = e => {
-        setMoney(e.target.value);
+        setMoney(e.target.value.replace(/[^0-9]/g, ''));
     }
 
     const onClickReset = () => {

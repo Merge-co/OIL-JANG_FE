@@ -3,15 +3,15 @@ import { createActions, handleActions } from "redux-actions";
 
 const initialState = [];
 
-export const GET_PRODUCTLIST = 'product/GET_PRODUCTLIST';
+export const GET_PRODUCT_SEARCH = 'product/GET_PRODUCT_CATEGORY';
 
 const actions = createActions({
-    [GET_PRODUCTLIST]: () => {}
+    [GET_PRODUCT_SEARCH]: () => {}
 });
 
 const productReducer = handleActions(
     {
-        [GET_PRODUCTLIST]: (state, {payload}) => {
+        [GET_PRODUCT_SEARCH]: (state, {payload}) => {
             return payload;
         }
     },

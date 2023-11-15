@@ -5,7 +5,6 @@ import ButtonCSS from '../../styles/Button.module.css';
 function ProductItem(productList) {
     const productElement = productList.productList;
     const type = productList.type;
-    console.log(type);
 
     function timeForToday(value) {
         const today = new Date();
