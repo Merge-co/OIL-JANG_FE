@@ -4,5 +4,7 @@
     flex-direction: column;
     flex-flow: column wrap;
     align-content: center;
-    height: 1300px;
+    height: 1200px;
+    width: 1400px;
+    margin: 0 auto;
   }
