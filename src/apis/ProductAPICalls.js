@@ -5,8 +5,14 @@ import { GET_PRODUCTLIST } from "../modules/ProductListModule";
 export const callGetProductCategory = () => {
     const requestURL = `http://localhost:8000/categories`;
 
+    const token = `Bearer ${window.localStorage.getItem("userToken")}`;
+
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL).then(
+        const result = await axios.get(requestURL, {
+            headers: {
+                Authorization: token,
+            }
+        }).then(
             result => result.data.results.productCategoryList
         );
 
