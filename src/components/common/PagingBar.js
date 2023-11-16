@@ -1,5 +1,5 @@
 import PagingBarCSS from '../../styles/PagingBar.module.css';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GET_PAGING } from './../../modules/PagingModule';
 import { useDispatch } from 'react-redux';
 
@@ -17,18 +17,11 @@ function PagingBar(pagingBtn) {
 
     const dispatch = useDispatch();
 
-    const params = new URLSearchParams(window.location.search);
-
-    const queryString = useLocation().search;
+    const curURL = new URL(window.location.href);
 
     const onClickHandler = page => {
-        if(params.get("page") !== page) {
-            if(queryString) {
-                navigate(`${queryString}&page=${page}`);
-            } else {
-                navigate(`?page=${page}`);
-            }
-        }
+        curURL.searchParams.set('page', page);
+        navigate(`${curURL.search}`);
         dispatch({ type: GET_PAGING, payload: page});
     }
 
@@ -40,21 +33,29 @@ function PagingBar(pagingBtn) {
         );
     }
 
+    function PagingBtnRender() {
+        return (
+            <>
+                <div className={PagingBarCSS.barCenter}>
+                    <div className={`${PagingBarCSS.paging}, clearfix`}>
+                        {start === 0 ? "" : ""}
+                        <button onClick={() => onClickHandler(start)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-backward"></i></button>
+                        <button onClick={() => onClickHandler(before)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-left"></i></button>
+                        
+                        {numPageArr.map(val => <PagingRender val={val} current={current}/>)}
+                        
+                        <button onClick={() => onClickHandler(after)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-right"></i></button>
+                        <button onClick={() => onClickHandler(last)} className={`${PagingBarCSS.lastButton} ${PagingBarCSS.arrowBtn}`}><i className="xi-forward"></i></button>
+                        
+                    </div>
+                </div>  
+            </>
+        );
+    }
+
     return(
         <>
-            <div className={PagingBarCSS.barCenter}>
-                <div className={`${PagingBarCSS.paging}, clearfix`}>
-
-                    <button onClick={() => onClickHandler(start)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-backward"></i></button>
-                    <button onClick={() => onClickHandler(before)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-left"></i></button>
-                    
-                    {numPageArr.map(val => <PagingRender val={val} current={current}/>)}
-                    
-                    <button onClick={() => onClickHandler(after)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-right"></i></button>
-                    <button onClick={() => onClickHandler(last)} className={`${PagingBarCSS.lastButton} ${PagingBarCSS.arrowBtn}`}><i className="xi-forward"></i></button>
-                    
-                </div>
-            </div>  
+            {last !== 0 ? <PagingBtnRender/> : ""}
         </>
     );
 }

@@ -4,14 +4,25 @@ import CategoryCSS from '../../styles/product/ProductCategory.module.css'
 import { useEffect, useState } from 'react';
 import ButtonCSS from '../../styles/Button.module.css';
 import { GET_MERGE_CATEGORY } from '../../modules/MergeModule';
+import { GET_CATEGORY_CODE, GET_RESET_MERGE_CATEGERY, GET_RESET_PRODUCT_CATEGERY } from '../../modules/ProductModule';
+import { useNavigate } from 'react-router-dom';
 
 function ProductCategory(type) {
     const [ categoryLists, setCategoryLists ] = useState([]);
+
+    const reset = useSelector(state => state.productReducer.resetProductCategory);
 
     useEffect(
         () => {
             dispatch(callGetProductCategory());
         },[]
+    );
+
+    useEffect(
+        () => {
+            setCategoryLists([]);
+            dispatch({ type: GET_RESET_PRODUCT_CATEGERY, payload: 0});
+        },[reset == 1]
     );
 
     let changeCategoryLists = [];
@@ -85,13 +96,16 @@ function ProductCategory(type) {
         }
     }
 
+    const navigate = useNavigate();
+
     const onClickHandler = () => {
         if(checkFive.length === 0) {
             alert("최소 1개의 카테고리를 선택해주세요");
         } else {
             dispatch({ type: GET_MERGE_CATEGORY, payload: checkFive});
+            dispatch({ type: GET_CATEGORY_CODE, payload: 0});
+            navigate(``);
         }
-        
     }
 
     return(

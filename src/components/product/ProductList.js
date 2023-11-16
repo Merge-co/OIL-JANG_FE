@@ -9,15 +9,19 @@ function ProductList(type) {
 
     const ProductInfos = useSelector(state => state.productListReducer);
     const PagingInfo = useSelector(state => state.pagingReducer);
-    const productSearch = useSelector(state => state.productSearch);
-
-    console.log(productSearch);
-
+    const reset = useSelector(state => state.productReducer);
+    const getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
 
     let productList = ProductInfos[0] ? ProductInfos[0].productList : "";
     let pagingBtn = ProductInfos[0] ? ProductInfos[0].pagingBtn : "";
 
     const dispatch = useDispatch();
+
+    if(window.localStorage.getItem("mergeKeys")) {
+        let b = window.localStorage.getItem("mergeKeys").split(",");
+        console.log(b);
+        console.log(b.map(b => window.localStorage.getItem(b)));
+    }
 
     useEffect(
         () => {
@@ -35,7 +39,7 @@ function ProductList(type) {
                     dispatch(callGetProductList("list"));
                     break;
             }
-        },[PagingInfo, productSearch]
+        },[PagingInfo, reset, getCategoryCode]
     );
 
     let styleObject;
@@ -50,7 +54,7 @@ function ProductList(type) {
             
             break;
         default:
-            
+            styleObject = {width: 840, left: 50};
             break;
     }
 

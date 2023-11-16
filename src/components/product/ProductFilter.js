@@ -1,9 +1,9 @@
 import ProductFilterCSS from '../../styles/product/ProductFilter.module.css';
 import ProductCategoryCSS from '../../styles/product/ProductCategory.module.css';
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { GET_PRODUCT_SEARCH } from '../../modules/ProductModule';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GET_PRODUCT_FILTER, GET_RESET_FILTER } from '../../modules/ProductModule';
+import { useDispatch, useSelector } from 'react-redux';
 
 function ProductFilter() {
 
@@ -13,52 +13,37 @@ function ProductFilter() {
 
     const dispatch = useDispatch();
 
-    const params = new URLSearchParams(window.location.search);
+    const reset = useSelector(state => state.productReducer.resetFilter);
 
-    const queryString = useLocation().search;
+    useEffect( 
+        () => {
+            setCheckedBtn(1);
+            dispatch({ type: GET_RESET_FILTER, payload: 0});
+        },[reset == 1]
+    );
 
+    const curURL = new URL(window.location.href);
 
     const onClickHandler = filterNo => {
         setCheckedBtn(filterNo);
-        dispatch({ type: GET_PRODUCT_SEARCH, payload: filterNo});
+        dispatch({ type: GET_PRODUCT_FILTER, payload: filterNo});
         
         switch(filterNo) {
-
             case 1:
-                if(!params.get("sortCondition")) {
-                    if(queryString) {
-                        navigate(`${queryString}&sortCondition=latest`);
-                    } else {
-                        navigate(`?sortCondition=latest`);
-                    }
-                }
+                curURL.searchParams.set('sortCondition', "latest");
+                navigate(`${curURL.search}`);
                 break;
             case 2:
-                if(!params.get("sortCondition")) {
-                    if(queryString) {
-                        navigate(`${queryString}&sortCondition=maxPrice`);
-                    } else {
-                        navigate(`?sortCondition=maxPrice`);
-                    }
-                }
+                curURL.searchParams.set('sortCondition', "maxPrice");
+                navigate(`${curURL.search}`);
                 break;
             case 3:
-                if(!params.get("sortCondition")) {
-                    if(queryString) {
-                        navigate(`${queryString}&sortCondition=minPrice`);
-                    } else {
-                        navigate(`?sortCondition=minPrice`);
-                    }
-                }
+                curURL.searchParams.set('sortCondition', "minPrice");
+                navigate(`${curURL.search}`);
                 break;
             default:
-                if(!params.get("sortCondition")) {
-                    if(queryString) {
-                        navigate(`${queryString}&sortCondition=latest`);
-                    } else {
-                        navigate(`?sortCondition=latest`);
-                    }
-                }
+                curURL.searchParams.set('sortCondition', "latest");
+                navigate(`${curURL.search}`);
                 break;
         }
     }
