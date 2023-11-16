@@ -5,27 +5,32 @@
   }
   
   .selectedCategory {
-    width: 145px;
+    width: 168px;
     height: 42px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    border-bottom: 1px solid #222222;
-    border-top: 1px solid #D9D9D9;
+    cursor: pointer;
+    box-sizing: border-box;
+
     border-left: 1px solid #D9D9D9;
     border-right: 1px solid #D9D9D9;
-    cursor: pointer;
+    border-bottom: 1px solid #222222;
+    border-top: 1px solid #D9D9D9;
   }
-  
+
   .clickedSelectedCategory {
-    width: 145px;
+    width: 168px;
     height: 42px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
+    box-sizing: border-box;
+
     border-top: 1px solid #222222;
     border-left: 1px solid #222222;
     border-right: 1px solid #222222;
+    border-collapse:collapse;
   }

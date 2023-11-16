@@ -5,7 +5,6 @@ import ButtonCSS from '../../styles/Button.module.css';
 function ProductItem(productList) {
     const productElement = productList.productList;
     const type = productList.type;
-    console.log(type);
 
     function timeForToday(value) {
         const today = new Date();
@@ -34,6 +33,23 @@ function ProductItem(productList) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
     }
 
+    const onClickHandler = () => {
+        const productSerial = "product" + productElement.productCode;
+        
+        window.localStorage.setItem(productSerial, JSON.stringify(productElement));
+        console.log(JSON.parse(window.localStorage.getItem(productSerial)));
+        if(!window.localStorage.getItem("mergeKeys")) {
+            window.localStorage.setItem("mergeKeys", productSerial);
+        } else {
+            let mergeKeys = window.localStorage.getItem("mergeKeys").split(",");
+            mergeKeys.push(productSerial);
+            mergeKeys = Array.from(new Set(mergeKeys));
+            window.localStorage.setItem("mergeKeys", mergeKeys);
+        }
+    }
+    
+    
+
     return(
         <>  
             {type === 'merge' ? <div className='mergeItem'>
@@ -44,7 +60,7 @@ function ProductItem(productList) {
                         <div className={ProductItemCSS.itemBoxPrice}>{priceToString(productElement.productPrice)}</div>
                         <div className={ProductItemCSS.itemBoxDatetime}>{timeForToday(productElement.enrollDateTime)}</div>
                     </div>
-                    {type === 'merge' ? <button className={`${ButtonCSS.smallBtn2} ${ProductListCSS.addItem}`}>담기</button>: ""}
+                    {type === 'merge' ? <button onClick={() => onClickHandler()} className={`${ButtonCSS.smallBtn2} ${ProductListCSS.addItem}`}>담기</button>: ""}
                 </div>
             </div> : ""}
             
