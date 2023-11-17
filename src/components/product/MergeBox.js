@@ -109,6 +109,11 @@ function MergeBox() {
         setRemain(+money - buyMoney);
         window.localStorage.setItem("remainMoneySearch", window.localStorage.getItem("remainMoney"));
         dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
+
+        const curURL = new URL(window.location.href);
+        curURL.searchParams.set('page', 1);
+        navigate(`${curURL.search}`);
+        dispatch({ type: GET_PAGING, payload: 1});
     }
 
     const onClickSetMoney = () => {

@@ -36,7 +36,6 @@ function ProductList(type) {
                     break;
             }
             dispatch({ type: GET_SEARCH_AGAIN, payload: 0});
-            console.log(111);
         },[PagingInfo, reset.productFilter, getCategoryCode, getSearchAgain]
     );
 
