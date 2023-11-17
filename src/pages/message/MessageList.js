@@ -5,6 +5,7 @@ import{
     callMessageListAPI
 } from '../../apis/MessageAPICalls'
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
 function MessageList(){
 
@@ -14,6 +15,11 @@ function MessageList(){
     const messages = useSelector(state => state.messageReducer);
     const messageList = messages.data;
 
-    const pageInfo = messages
+    const pageInfo = messages.pageInfo
+
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+
     
 }
