@@ -39,8 +39,8 @@ function MergeCategory() {
         curURL.searchParams.set('categoryCode', filterNo);
         curURL.searchParams.delete('page');
         navigate(`${curURL.search}`);
-        dispatch({ type: GET_CATEGORY_CODE, payload: 1});
-        dispatch({ type: GET_PAGING, payload: 1});
+        dispatch({ type: GET_CATEGORY_CODE, payload: filterNo});
+        window.localStorage.setItem("remainMoneySearch", window.localStorage.getItem("remainMoney"));
     }
 
     return(

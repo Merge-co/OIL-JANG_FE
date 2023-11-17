@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PagingBar from "../common/PagingBar";
 import { useEffect } from "react";
 import { callGetProductList } from "../../apis/ProductAPICalls";
+import { GET_SEARCH_AGAIN } from "../../modules/ProductModule";
 
 function ProductList(type) {
 
@@ -11,17 +12,12 @@ function ProductList(type) {
     const PagingInfo = useSelector(state => state.pagingReducer);
     const reset = useSelector(state => state.productReducer);
     const getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
+    const getSearchAgain = useSelector(state => state.productReducer.searchAgain);
 
     let productList = ProductInfos[0] ? ProductInfos[0].productList : "";
     let pagingBtn = ProductInfos[0] ? ProductInfos[0].pagingBtn : "";
 
     const dispatch = useDispatch();
-
-    if(window.localStorage.getItem("mergeKeys")) {
-        let b = window.localStorage.getItem("mergeKeys").split(",");
-        console.log(b);
-        console.log(b.map(b => window.localStorage.getItem(b)));
-    }
 
     useEffect(
         () => {
@@ -39,7 +35,9 @@ function ProductList(type) {
                     dispatch(callGetProductList("list"));
                     break;
             }
-        },[PagingInfo, reset, getCategoryCode]
+            dispatch({ type: GET_SEARCH_AGAIN, payload: 0});
+            console.log(111);
+        },[PagingInfo, reset.productFilter, getCategoryCode, getSearchAgain]
     );
 
     let styleObject;
@@ -65,7 +63,7 @@ function ProductList(type) {
                     productList ? productList.map(productList => <ProductItem productList={productList} type={type.type}/>) : ""
                 }
             </div>
-            <PagingBar pagingBtn={pagingBtn}/>
+            {productList ? <PagingBar pagingBtn={pagingBtn}/> : ""}
         </>
     );
 }
