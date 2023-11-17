@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     GET_REPORTS,
+    GET_PROCESSDETAIL,
     POST_REPORT
 } from '../modules/ReportModule.js'
 
@@ -21,44 +22,11 @@ export const callReportAPI = () => {
         })
             .then(response => response.json());
         console.log('[ReportAPICalls] callReportList Result : ', result);
-        dispatch({ type: GET_REPORTS, payload: result});
+        dispatch({ type: GET_REPORTS, payload: result });
     };
 }
 
-// export const callReportRegistAPI = ({ form }) => {
-//     console.log('[ReportAPICalls] callReportRegistAPI Call');
-
-//     const requestURL = `http://localhost:8000/reports/report`;
-
-//     console.log("데이터 담겨있니 ?", form.get('sellStatusCode'));
-//     return async (dispatch, getState) => {
-
-//         const result = await fetch(requestURL, {
-
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "*/*",
-//                 // 로그인 토큰 정보 
-//             },
-//             body: 
-//                 {
-//                     "reportUserNick": form.reportUserNick,
-//                     "refReportCategoryNo": form.refReportCategoryNo,
-//                     "productCode": form.productCode,
-//                     "reportComment": form.reportComment,
-//                     "sellStatusCode": form.sellStatusCode
-//                 }
-//             // body: form
-//         })
-//             .then(response => response.json());
-//         console.log('[ReportAPICalls] callReportWriteAPI RESULT : ', result);
-
-//         dispatch({ type: POST_REPORT, payload: result });
-//     }
-// }
-
-export const callReportRegistAPI = ({form}) => {
+export const callReportRegistAPI = ({ form }) => {
     const requestURL = `http://localhost:8000/reports/report`;
 
     console.log('[ReportRegist] fromData productCode : ', form.get('productCode'));
@@ -74,7 +42,34 @@ export const callReportRegistAPI = ({form}) => {
         }
 
         ).then(response => response);
-                console.log('[ReportAPICalls] callReportWriteAPI RESULT : ', result);
-                dispatch({ type: POST_REPORT, payload: result });
+        console.log('[ReportAPICalls] callReportWriteAPI RESULT : ', result);
+        dispatch({ type: POST_REPORT, payload: result });
     };
+}
+
+export const callReportDetailAPI = ({ reportNo }) => {
+  
+    console.log("[ReportAPICalls] ReportDetailAPI :",  reportNo);
+
+    const requestURL = `http://localhost:8000/reports/processDetail/${reportNo}`;
+
+    console.log('[ReportAPICall] callReportDetailAPI : ')
+
+    return async (dispatch, getState) => {
+
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*"
+            }
+        })
+            .then(response => response.json());
+
+        console.log('[ReportAPICalls] callReportDetailAPI RESULT : ', result);
+        if (result.state === 200) {
+            console.log('[ReportAPICalls] callReportDetailAPI SUCCESS');
+            dispatch({ type: GET_PROCESSDETAIL, payload: result });
+        }
+    }
 }
