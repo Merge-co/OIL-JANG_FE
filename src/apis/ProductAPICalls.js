@@ -2,10 +2,10 @@ import axios from "axios";
 import { GET_CATEGORIES } from "../modules/ProductCategoryModule";
 import { GET_PRODUCTLIST } from "../modules/ProductListModule";
 
+const token = `Bearer ${window.localStorage.getItem("userToken")}`;
+
 export const callGetProductCategory = () => {
     const requestURL = `http://localhost:8000/categories`;
-
-    const token = `Bearer ${window.localStorage.getItem("userToken")}`;
 
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
@@ -36,12 +36,22 @@ export const callGetProductList = (type) => {
     if(params.get("minPrice")) {
         requestURL += `&minPrice=${params.get("minPrice")}`;
     }
+    if(window.localStorage.getItem("remainMoneySearch") && type === "merge") {
+        if((+window.localStorage.getItem("remainMoneySearch")) >= 0) {
+            requestURL += `&maxPrice=${parseInt(+window.localStorage.getItem("remainMoney") * 1.1)}`;
+        } else {
+            requestURL += `&maxPrice=${0}`;
+        }
+    }
     if(params.get("maxPrice")) {
         requestURL += `&maxPrice=${params.get("maxPrice")}`;
     }
-    
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL).then(
+        const result = await axios.get(requestURL, {
+            headers: {
+                Authorization: token,
+            }
+        }).then(
             result => result.data.results
         );
 

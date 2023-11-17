@@ -1,6 +1,8 @@
 import ProductItemCSS from '../../styles/product/ProductItem.module.css';
 import ProductListCSS from '../../styles/product/ProductList.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
+import { useDispatch } from 'react-redux';
+import { GET_MERGE_ITEM } from '../../modules/ProductModule';
 
 function ProductItem(productList) {
     const productElement = productList.productList;
@@ -33,11 +35,11 @@ function ProductItem(productList) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
     }
 
+    const dispatch = useDispatch();
+
     const onClickHandler = () => {
         const productSerial = "product" + productElement.productCode;
-        
         window.localStorage.setItem(productSerial, JSON.stringify(productElement));
-        console.log(JSON.parse(window.localStorage.getItem(productSerial)));
         if(!window.localStorage.getItem("mergeKeys")) {
             window.localStorage.setItem("mergeKeys", productSerial);
         } else {
@@ -46,9 +48,8 @@ function ProductItem(productList) {
             mergeKeys = Array.from(new Set(mergeKeys));
             window.localStorage.setItem("mergeKeys", mergeKeys);
         }
+        dispatch({ type: GET_MERGE_ITEM, payload: 1});
     }
-    
-    
 
     return(
         <>  
