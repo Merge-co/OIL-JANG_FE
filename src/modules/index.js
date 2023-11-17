@@ -6,6 +6,7 @@ import productListReducer from './ProductListModule';
 import pagingReducer from './PagingModule';
 import mergeReducer from './MergeModule';
 import productReducer from './ProductModule';
+import messageReducer from './MessageModule';
 
 const rootReducer = combineReducers({
     productCategoryReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     reportReducer,
     pagingReducer,
     mergeReducer,
-    productReducer
+    productReducer,
+    messageReducer
 });
 export default rootReducer;
