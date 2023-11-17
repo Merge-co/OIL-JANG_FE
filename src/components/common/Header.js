@@ -25,7 +25,7 @@ function Header() {
       <div>
         <NavLink to="/merge">꾸러미</NavLink>
       </div>
-      <div>상품등록</div>
+      <div><NavLink to ="/addProduct">상품등록</NavLink></div>
       <div>마이페이지 아이콘</div>
       <div>쪽지 아이콘</div>
       {/* {isLoggedIn ? (

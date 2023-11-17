@@ -5,8 +5,10 @@ import Main from './pages/product/Main';
 import Merge from './pages/product/Merge';
 import AdminHeader from './components/common/AdminHeader';
 import Report from './pages/report/Report';
+import AddProduct from './pages/product/AddProduct';
 import Login from './pages/user/Login';
 import Test from './pages/user/Test';
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
 
           <Route index element={<Main />} />
           <Route path='merge' element={<Merge />} />
+          <Route path='addProduct' element={<AddProduct />} />
           <Route path='admin' element={<AdminHeader />} />
           <Route path='report' element={<Report />} />
           
