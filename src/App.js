@@ -7,6 +7,8 @@ import AdminHeader from './components/common/AdminHeader';
 import Report from './pages/report/Report';
 import Login from './pages/user/Login';
 import Test from './pages/user/Test';
+import ReportManagement from './pages/report/ReportManagement';
+import ProcessDetail from './pages/report/ProcessDetail';
 
 function App() {
   return (
@@ -18,15 +20,16 @@ function App() {
           <Route index element={<Main />} />
           <Route path='merge' element={<Merge />} />
           <Route path='admin' element={<AdminHeader />} />
-          <Route path='report' element={<Report />} />
-          
-          <Route path='login' element={<Login />} />
-          <Route path='test' element={<Test/>}/>
+          <Route path='/report' element={<Report />} />
+          <Route path='/reportSelect' element={<ReportManagement />} />
+          <Route path='/processDetail/:reportNo' element={<ProcessDetail />}/>
+      <Route path='login' element={<Login />} />
+      <Route path='test' element={<Test />} />
 
-        </Route>
+    </Route>
 
-      </Routes>
-    </BrowserRouter>
+      </Routes >
+    </BrowserRouter >
   );
 }
 

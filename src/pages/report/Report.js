@@ -27,7 +27,7 @@ function Report() {
             [e.target.name]: e.target.value
         });
     }
-    console.log("값제대로 나오나요 ?", form);
+
 
     const onClickExitHandle = () => {
         // X 버튼 클릭시 상품페이지로 이동
@@ -44,13 +44,15 @@ function Report() {
         formData.append("productCode", form.productCode);
         formData.append("reportComment", form.reportComment);
         formData.append("sellStatusCode", form.sellStatusCode);
-        console.log("bbbbb", formData);
-        console.log('[ReportRegist] fromData reportUserNick : ', formData.get('reportUserNick'));
-        console.log('[ReportRegist] fromData refReportCategoryNo : ', formData.get('refReportCategoryNo'));
-        console.log('[ReportRegist] fromData productCode : ', formData.get('productCode'));
-        console.log('[ReportRegist] fromData reportComment : ', formData.get('reportComment'));
-        console.log('[ReportRegist] fromData sellStatusCode : ', formData.get('sellStatusCode'));
-        console.log("aaaa", formData);
+
+        // console.log("bbbbb", formData);
+        // console.log('[ReportRegist] fromData reportUserNick : ', formData.get('reportUserNick'));
+        // console.log('[ReportRegist] fromData refReportCategoryNo : ', formData.get('refReportCategoryNo'));
+        // console.log('[ReportRegist] fromData productCode : ', formData.get('productCode'));
+        // console.log('[ReportRegist] fromData reportComment : ', formData.get('reportComment'));
+        // console.log('[ReportRegist] fromData sellStatusCode : ', formData.get('sellStatusCode'));
+        // console.log("aaaa", formData);
+
         dispatch(callReportRegistAPI({
             form: formData
         }))
@@ -68,12 +70,11 @@ function Report() {
                 <form>
                     <label>신고분류</label>
                     <select name="refReportCategoryNo" onChange={onChangeHandler}>
-                        <optgroup label="한성님 이게 제공된다구욨!">
+                            <option>선택해주세요</option>
                             <option value="1" >광고성 게시물</option>
                             <option value="2" >거래금지 품목이에요</option>
                             <option value="3" >가품, 이미테이션 제품이에요</option>
                             <option value="4" >사기가 의심돼요.</option>
-                        </optgroup>
                     </select><br />
                     <label>판매 게시글 : props 으로 받으면됩니다.</label> <br />
                     <label>신고 사유</label><br />

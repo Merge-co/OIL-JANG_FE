@@ -1,17 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callReportAPI } from "../../apis/ReportAPICalls";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function ReportManagement() {
 
 
     const dispatch = useDispatch();
     const result = useSelector(state => state.reportReducer);
-    console.log('못받아 ??',result);
+    const navigate = useNavigate();
+
+    const onClickProcessDetailHandler = (reportNo) => {
+        // 처리 상세페이지 이동
+        navigate(`/processDetail/${reportNo}`, { replace: true });
+    }
+
     useEffect(
         () => {
-            dispatch(callReportAPI());
+            dispatch(callReportAPI({ // 처리 상세 조회
+            }))
         },
         []
     );
@@ -29,18 +36,19 @@ function ReportManagement() {
                         <th>처리완료여부</th>
                     </tr>
                 </thead>
-                {result.map(report => (
-                    <tbody>
-                    <td>{report ? report.reportNo : ''}</td>
-                    <td>{report ? report.reportUserNick : ''}</td>
-                    <td>{report ? report.reportDate : ''}</td>
-                    <td>{report ? report.productCode : ''}</td>
-                    <td>{report ? report.reportCategoryCode : ''}</td>
-                    <td>{report ? report.refReportCategoryNo : ''}</td>
+                <tbody>
+                    {result && result.map((report) => (
+                        <tr key={report.reporNo}>
+                            <td>{report.reportNo}</td>
+                            <td>{report.reportUserNick}</td>
+                            <td>판매자 props</td>
+                            <td>{report.productCode.productName}</td>
+                            <button><td onClick={() => onClickProcessDetailHandler(report.reportNo)}>{report.refReportCategoryNo.reportCategoryCode}</td></button>
+                            <td>{report.sellStatusCode.sellStatus}</td>
+                        </tr>
+                    ))}
                 </tbody>
-                ))}
-                <td>{result[0].reportNo}</td>
-            </table> 
+            </table>
         </>
     )
 }
