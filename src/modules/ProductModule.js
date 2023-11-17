@@ -8,6 +8,8 @@ export const GET_RESET_FILTER = 'product/GET_RESET_FILTER';
 export const GET_RESET_PRODUCT_CATEGERY = 'product/GET_RESET_PRODUCT_CATEGERY';
 export const GET_RESET_MERGE_CATEGERY_ALL = 'product/GET_RESET_MERGE_CATEGERY';
 export const GET_CATEGORY_CODE = 'product/GET_CATEGORY_CODE';
+export const POST_PRODUCT = 'product/POST_PRODUCT';
+export const PUT_PRODUCT = 'product/PUT_PRODUCT';
 
 const actions = createActions({
     [GET_PRODUCT_FILTER]: () => {},
