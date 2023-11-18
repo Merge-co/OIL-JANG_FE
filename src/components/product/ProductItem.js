@@ -3,6 +3,7 @@ import ProductListCSS from '../../styles/product/ProductList.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useDispatch } from 'react-redux';
 import { GET_MERGE_ITEM } from '../../modules/ProductModule';
+import { useNavigate } from 'react-router-dom';
 
 function ProductItem(productList) {
     const productElement = productList.productList;
@@ -51,9 +52,15 @@ function ProductItem(productList) {
         dispatch({ type: GET_MERGE_ITEM, payload: 1});
     }
 
+    const navigate = useNavigate();
+
+    const onClickItemDetail = path => {
+        navigate(`/usedProduct/${path}`);
+    }
+
     return(
         <>  
-            {type === 'merge' ? <div className='mergeItem'>
+            <div onClick={() => onClickItemDetail(productElement.productCode)} className='mergeItem'>
                 <div className={ProductListCSS.productItem}>
                     <div src={productElement.productThumbAddr} className={ProductItemCSS.productThumb} alt=''/>
                     <div className={ProductItemCSS.productDescBox}>
@@ -63,7 +70,7 @@ function ProductItem(productList) {
                     </div>
                     {type === 'merge' ? <button onClick={() => onClickHandler()} className={`${ButtonCSS.smallBtn2} ${ProductListCSS.addItem}`}>담기</button>: ""}
                 </div>
-            </div> : ""}
+            </div>
             
         </>
     );

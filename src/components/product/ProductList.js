@@ -45,10 +45,10 @@ function ProductList(type) {
             styleObject = {width: 840, left: 50};
             break;
         case "list":
-            
+            styleObject = {width: 1000, left: 50};
             break;
         case "main":
-            
+            styleObject = {width: 840, left: 50};
             break;
         default:
             styleObject = {width: 840, left: 50};

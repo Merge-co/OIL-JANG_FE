@@ -2,10 +2,13 @@ import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN } from '../../modules/ProductModule';
+import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_MESSAGES_RESULT, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN } from '../../modules/ProductModule';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
+import { callMessagesRegistAPI } from '../../apis/ProductAPICalls';
+import { getCookie } from '../../modules/CookieModule';
+import { jwtDecode } from 'jwt-decode';
 
 function MergeBox() {
     
@@ -130,6 +133,34 @@ function MergeBox() {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
+    const sendMessagesResult = useSelector(state => state.productReducer.getMessagesResult);
+
+    const onClickSendMsg = () => {
+        if (window.localStorage.getItem("mergeKeys")) {
+            if (+window.localStorage.getItem("remainMoney") < 0) {
+                if (window.confirm("예산을 초과했습니다. 쪽지를 보내시겠습니까?")) {
+                    sendMessages();        
+                }
+            } else if (window.confirm("쪽지를 보내시겠습니까?")) {
+                sendMessages();            
+            }
+        } else {
+            alert('쪽지를 보낼 상품을 없습니다.');  
+        }
+    }
+
+    function sendMessages() {
+        if (window.localStorage.getItem("mergeKeys")) {
+            window.localStorage.getItem("mergeKeys").split(",").map(
+                mergeKey => {
+                    const productInfo = JSON.parse(window.localStorage.getItem(mergeKey));
+                    dispatch(callMessagesRegistAPI(productInfo.productCode, productInfo.refUserCode));
+                }
+            );
+        }
+        alert('판매자들에게 쪽지를 보냈습니다.');
+    }
+
     return(
         <>
             <div className={MergeBoxCSS.mergeBox0}>
@@ -153,7 +184,7 @@ function MergeBox() {
                     <MergeItemBox selectedItem={selectedItem}/>
                 ): ""}
             </div>
-            <button className={ButtonCSS.largeBtn}>쪽지 보내기</button>
+            <button onClick={onClickSendMsg} className={ButtonCSS.largeBtn}>쪽지 보내기</button>
             </div>
         </>
     );

@@ -12,6 +12,7 @@ export const GET_MERGE_ITEM = 'product/GET_MERGE_ITEM';
 export const GET_SEARCH_AGAIN = 'product/GET_SEARCH_AGAIN';
 export const POST_PRODUCT = 'product/POST_PRODUCT';
 export const PUT_PRODUCT = 'product/PUT_PRODUCT';
+export const GET_MESSAGES_RESULT = 'product/GET_MESSAGES_RESULT';
 
 
 const actions = createActions({
@@ -21,7 +22,8 @@ const actions = createActions({
     [GET_RESET_MERGE_CATEGERY_ALL]: () => {},
     [GET_CATEGORY_CODE]: () => {},
     [GET_MERGE_ITEM]: () => {},
-    [GET_SEARCH_AGAIN]: () => {}
+    [GET_SEARCH_AGAIN]: () => {},
+    [GET_MESSAGES_RESULT]: () => {}
 });
 
 const productReducer = handleActions(
@@ -53,6 +55,10 @@ const productReducer = handleActions(
         [GET_SEARCH_AGAIN]: (state, {payload}) => ({
             ...state,
             searchAgain: payload
+        }),
+        [GET_MESSAGES_RESULT]: (state, {payload}) => ({
+            ...state,
+            getMessagesResult: payload
         }),
     },
     initialState

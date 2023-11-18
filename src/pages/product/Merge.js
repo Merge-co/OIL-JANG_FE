@@ -13,15 +13,26 @@ function Merge() {
     const token = cookies.accessToken;
     window.localStorage.setItem("userToken", token);
 
-    const getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
+    let getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
+
+    const url = new URL(window.location.href);
+
+
+    let styleObject;
+
+    if(window.location.href.toString().indexOf("merge") !== -1) {
+        styleObject = {height: 1200};
+    } else {
+        styleObject = {height: 1260};
+    }
 
     return(
         <>
-            <div className={MergeLayoutCSS.mergeMain}>
+            <div className={MergeLayoutCSS.mergeMain} style={styleObject}>
                 <ProductCategory type="merge"/>
                 <MergeCategory/>
-                {getCategoryCode ? <ProductFilter/> : ""}
-                {getCategoryCode ? <ProductList type="merge"/> : ""}
+                {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductFilter/> : ""}
+                {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge"/> : ""}
                 <MergeBox/>
             </div>
         </>

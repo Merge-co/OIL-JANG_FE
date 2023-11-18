@@ -1,6 +1,9 @@
 import axios from "axios";
 import { GET_CATEGORIES } from "../modules/ProductCategoryModule";
 import { GET_PRODUCTLIST } from "../modules/ProductListModule";
+import { GET_MESSAGES_RESULT } from "../modules/ProductModule";
+import { jwtDecode } from "jwt-decode";
+import { getCookie } from "../modules/CookieModule";
 
 const token = `Bearer ${window.localStorage.getItem("userToken")}`;
 
@@ -10,7 +13,7 @@ export const callGetProductCategory = () => {
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
             headers: {
-                Authorization: token,
+                "Accept": "*/*"
             }
         }).then(
             result => result.data.results.productCategoryList
@@ -49,12 +52,34 @@ export const callGetProductList = (type) => {
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
             headers: {
-                Authorization: token,
+                "Accept": "*/*"
             }
         }).then(
             result => result.data.results
         );
 
         dispatch({ type: GET_PRODUCTLIST, payload: [result]});
+    };
+}
+
+export const callMessagesRegistAPI = (productCode, refUserCode) => {
+    let requestURL = `http://localhost:8000/messages`;
+    let date = new Date().toISOString().substring(0, 10);
+    return async (dispatch, getState) => {
+        const result = await axios.post(requestURL, {
+            msgCode: 0,
+            msgContent: "상품 구매합니다.",
+            msgDeleteInfoMsgDeleteDTO: {
+                msgDeleteCode: 1,
+                msgDeleteStatus: "N"
+            },
+            msgStatus: "N",
+            msgTime: date,
+            receiverCode: refUserCode,
+            refProductCode: productCode,
+            senderCode: jwtDecode(getCookie("accessToken")).userCode
+        }
+        ).then(response => response);
+        dispatch({ type: GET_MESSAGES_RESULT, payload: 1});
     };
 }
