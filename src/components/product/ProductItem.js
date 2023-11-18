@@ -55,7 +55,7 @@ function ProductItem(productList) {
     const navigate = useNavigate();
 
     const onClickItemDetail = path => {
-        navigate(`/usedProduct/${path}`);
+        window.open(`/usedProduct/${path}`, '_blank');
     }
 
     return(
