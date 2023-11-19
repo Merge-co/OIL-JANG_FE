@@ -5,12 +5,14 @@
   border-top: 0.75px solid #D0D0D0;
   border-left: 0.75px solid #D0D0D0;
   border-right: 0.75px solid #D0D0D0;
+  cursor: pointer;
 }
 
 .productDescBox {
   width: 220px;
   height: 60px;
   border: 0.75px solid #D0D0D0;
+  cursor: pointer;
 }
 
 .itemBoxTitle {

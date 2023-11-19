@@ -1,11 +1,7 @@
 import { useDispatch } from 'react-redux';
 import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
-import { GET_MERGE_ITEM } from '../../modules/ProductModule';
+import { GET_MERGE_ITEM, priceToString } from '../../modules/ProductModule';
 function MergeItemBox({selectedItem}) {
-    
-    function priceToString(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
-    }
 
     const dispatch = useDispatch();
 

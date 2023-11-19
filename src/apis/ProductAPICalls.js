@@ -1,11 +1,9 @@
 import axios from "axios";
 import { GET_CATEGORIES } from "../modules/ProductCategoryModule";
 import { GET_PRODUCTLIST } from "../modules/ProductListModule";
-import { GET_MESSAGES_RESULT } from "../modules/ProductModule";
+import { GET_MESSAGES_RESULT, GET_PRODUCT_DETAIL, GET_WISHLIST_DELELE_RESULT, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
-
-const token = `Bearer ${window.localStorage.getItem("userToken")}`;
 
 export const callGetProductCategory = () => {
     const requestURL = `http://localhost:8000/categories`;
@@ -81,5 +79,34 @@ export const callMessagesRegistAPI = (productCode, refUserCode) => {
         }
         ).then(response => response);
         dispatch({ type: GET_MESSAGES_RESULT, payload: 1});
+    };
+}
+
+export const callGetProductDetail = path => {
+
+    const requestURL = `http://localhost:8000/products/${path}`;
+
+    return async (dispatch, getState) => {
+        const result = await axios.get(requestURL, {
+            headers: {
+                "Accept": "*/*"
+            }
+        }).then(
+            result => result.data.results
+        );
+
+        dispatch({ type: GET_PRODUCT_DETAIL, payload: result});
+    };
+}
+
+export const callWishListRegistAPI = productCode => {
+    let requestURL = `http://localhost:8000/products/${productCode}/wishLists`;
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios.post(requestURL, {
+            userCode: jwtDecode(getCookie("accessToken")).userCode
+        }
+        ).then(response => response);
+        dispatch({ type: GET_WISHLIST_REGIST_RESULT, payload: 1});
     };
 }

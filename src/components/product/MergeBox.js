@@ -2,7 +2,7 @@ import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_MESSAGES_RESULT, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN } from '../../modules/ProductModule';
+import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_MESSAGES_RESULT, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN, priceToString } from '../../modules/ProductModule';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
@@ -128,10 +128,6 @@ function MergeBox() {
             calcMoney();
         }
       }
-
-    function priceToString(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
 
     const sendMessagesResult = useSelector(state => state.productReducer.getMessagesResult);
 
