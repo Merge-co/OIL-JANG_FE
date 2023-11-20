@@ -118,7 +118,7 @@ const productReducer = handleActions(
         }),
         [GET_WISHLIST_AGAIN]: (state, {payload}) => ({
             ...state,
-            getWishListAgain: 1
+            getWishListAgain: payload
         }),
     },
     initialState

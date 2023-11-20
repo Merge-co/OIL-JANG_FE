@@ -15,7 +15,7 @@ function MoneyFilter() {
     const dispatch = useDispatch();
 
     const onChangeHandler = e => {
-        if(e.key == 'Enter') {
+        if(e.key === 'Enter') {
             dispatch({ type: GET_MONEY_SETTING, payload: 1});
         }
         const changedMoneyValue = {

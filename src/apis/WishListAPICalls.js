@@ -20,7 +20,12 @@ export const callWishListDeleteAPI = productCode => {
 }
 
 export const callGetWishListAPI = () => {
-    const requestURL = `http://localhost:8000/users/${jwtDecode(getCookie("accessToken")).userCode}/wishLists`;
+    let requestURL = `http://localhost:8000/users/${jwtDecode(getCookie("accessToken")).userCode}/wishLists`;
+
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("page")) {
+        requestURL += `?page=${params.get("page")}`;
+    }
 
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {

@@ -119,6 +119,5 @@ export const callWishListRegistAPI = productCode => {
         }
         ).then(response => response.data.results.result);
         dispatch({ type: GET_WISHLIST_REGIST_RESULT, payload: result});
-        dispatch({ type: GET_WISHLIST_AGAIN, payload: 1});
     };
 }

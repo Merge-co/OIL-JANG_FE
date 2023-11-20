@@ -1,17 +1,18 @@
 import WishListCSS from '../../styles/wishList/WishList.module.css'
 import ButtonCSS from '../../styles/Button.module.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetWishListAPI, callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import { getCookie } from '../../modules/CookieModule';
 import PagingBar from './../../components/common/PagingBar';
-import { onClickItemDetail, priceToString } from '../../modules/ProductModule';
-import { useNavigate } from 'react-router-dom';
+import { GET_WISHLIST_AGAIN, onClickItemDetail, priceToString } from '../../modules/ProductModule';
 
 
 function WishList() {
 
     const dispatch = useDispatch();
+    const wishListReset = useSelector(state => state.productReducer.getWishListAgain);
+    const PagingInfo = useSelector(state => state.pagingReducer);
 
     useEffect(
         () => {
@@ -20,7 +21,8 @@ function WishList() {
             } else {
                 dispatch(callGetWishListAPI());
             }
-        },[]
+            dispatch({ type: GET_WISHLIST_AGAIN, payload: 0});
+        },[PagingInfo, wishListReset]
     );
 
     const getWishListResult = useSelector(state => state.wishListReducer.getWishList);
@@ -70,6 +72,7 @@ function WishList() {
         if(window.confirm("관심목록에서 삭제하시겠습니까?")) {
             dispatch(callWishListDeleteAPI(code));
             alert("관심목록에서 삭제했습니다.");
+            dispatch({ type: GET_WISHLIST_AGAIN, payload: 1});
         }
     }
 
