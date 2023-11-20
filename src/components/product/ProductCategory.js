@@ -5,14 +5,13 @@ import ProductFilterCSS from '../../styles/product/ProductFilter.module.css'
 import { useEffect, useState } from 'react';
 import ButtonCSS from '../../styles/Button.module.css';
 import { GET_MERGE_CATEGORY } from '../../modules/MergeModule';
-import { GET_CATEGORY_CODE, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN } from '../../modules/ProductModule';
+import { GET_CATEGORY_CODE, GET_MONEY_SETTING, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN } from '../../modules/ProductModule';
 import { useNavigate } from 'react-router-dom';
 import MoneyFilter from './MoneyFilter';
 
 function ProductCategory(type) {
     const [ categoryLists, setCategoryLists ] = useState([]);
 
-    console.log(categoryLists);
     const reset = useSelector(state => state.productReducer.resetProductCategory);
 
     useEffect(
@@ -55,7 +54,16 @@ function ProductCategory(type) {
         upperCategory.push(lowerCategory);
     }
 
-    
+    const getMoneySetting = useSelector(state => state.productReducer.getMoneySetting);
+
+    useEffect(
+        () => {
+            if(getMoneySetting === 1) {
+                onClickHandler();
+            }
+            dispatch({ type: GET_MONEY_SETTING, payload: 0});
+        },[getMoneySetting === 1]
+    );
 
     const dispatch = useDispatch();
     

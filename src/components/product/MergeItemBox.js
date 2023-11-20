@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
-import { GET_MERGE_ITEM, priceToString } from '../../modules/ProductModule';
+import { GET_MERGE_ITEM, onClickItemDetail, priceToString } from '../../modules/ProductModule';
 function MergeItemBox({selectedItem}) {
 
     const dispatch = useDispatch();
@@ -11,6 +11,7 @@ function MergeItemBox({selectedItem}) {
         window.localStorage.setItem("mergeKeys", changeMergeKeys);
         dispatch({ type: GET_MERGE_ITEM, payload: 1});
     }
+    console.log(selectedItem);
 
     return(
         <>
@@ -19,10 +20,10 @@ function MergeItemBox({selectedItem}) {
                     {selectedItem.categoryName}
                 </div>
                 <div className={MergeBoxCSS.selectedProductInfoBox}>
-                    <div className={MergeBoxCSS.selectedProductImg}></div>
-                    <div className={MergeBoxCSS.selectedProductInfo}>
-                    <div className={MergeBoxCSS.selectedProductTitle}>{selectedItem.productName}</div>
-                    <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>
+                    <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductImg}></div>
+                    <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductInfo}>
+                        <div className={MergeBoxCSS.selectedProductTitle}>{selectedItem.productName}</div>
+                        <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>
                     </div>
                     <img onClick={() => onClickHandler()} src="/images/mergeCancelBtn.svg" height="34px" className={MergeBoxCSS.cancelBtn} alt=""/>
                 </div>

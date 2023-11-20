@@ -16,6 +16,8 @@ export const GET_MESSAGES_RESULT = 'product/GET_MESSAGES_RESULT';
 export const GET_PRODUCT_DETAIL = 'product/GET_PRODUCT_DETAIL';
 export const GET_WISHLIST_REGIST_RESULT = 'product/GET_WISHLIST_REGIST_RESULT';
 export const GET_WISHLIST_DELELE_RESULT = 'product/GET_WISHLIST_DELELE_RESULT';
+export const GET_MONEY_SETTING = 'product/GET_MONEY_SETTING';
+export const GET_WISHLIST_AGAIN = 'product/GET_WISHLIST_AGAIN';
 
 export const priceToString = (price) => {
 	return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
@@ -44,6 +46,10 @@ export const timeForToday = (value) => {
     return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
 
+export const onClickItemDetail = path => {
+    window.open(`/usedProduct/${path}`, '_blank');
+}
+
 const actions = createActions({
     [GET_PRODUCT_FILTER]: () => {},
     [GET_RESET_FILTER]: () => {},
@@ -56,6 +62,8 @@ const actions = createActions({
     [GET_PRODUCT_DETAIL]: () => {},
     [GET_WISHLIST_REGIST_RESULT]: () => {},
     [GET_WISHLIST_DELELE_RESULT]: () => {},
+    [GET_MONEY_SETTING]: () => {},
+    [GET_WISHLIST_AGAIN]: () => {},
 });
 
 const productReducer = handleActions(
@@ -88,6 +96,10 @@ const productReducer = handleActions(
             ...state,
             searchAgain: payload
         }),
+        [GET_MONEY_SETTING]: (state, {payload}) => ({
+            ...state,
+            getMoneySetting: payload
+        }),
         [GET_MESSAGES_RESULT]: (state, {payload}) => ({
             ...state,
             getMessagesResult: payload
@@ -103,6 +115,10 @@ const productReducer = handleActions(
         [GET_WISHLIST_DELELE_RESULT]: (state, {payload}) => ({
             ...state,
             getWishListDeleteResult: payload
+        }),
+        [GET_WISHLIST_AGAIN]: (state, {payload}) => ({
+            ...state,
+            getWishListAgain: 1
         }),
     },
     initialState

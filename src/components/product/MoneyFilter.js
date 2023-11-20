@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from 'react';
 import ProductFilterCSS from '../../styles/product/ProductFilter.module.css'
+import { useDispatch } from 'react-redux';
+import { GET_MONEY_SETTING } from '../../modules/ProductModule';
 function MoneyFilter() {
 
     const [ moneyCriteria, setMoneyCriteria ] = useState({
@@ -10,10 +12,15 @@ function MoneyFilter() {
 
     const { minPriceValue, maxPriceValue } = moneyCriteria;
 
+    const dispatch = useDispatch();
+
     const onChangeHandler = e => {
+        if(e.key == 'Enter') {
+            dispatch({ type: GET_MONEY_SETTING, payload: 1});
+        }
         const changedMoneyValue = {
             ...moneyCriteria,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value.replace(/[^0-9]/g, '')
         };
         setMoneyCriteria(changedMoneyValue);
         window.localStorage.setItem("moneyCriteriaMin", changedMoneyValue.minPriceValue);
@@ -30,11 +37,11 @@ function MoneyFilter() {
     return (
         <>
             <label>
-                <input type="text" name="minPriceValue" value={minPriceValue} onChange={onChangeHandler} className={ProductFilterCSS.setMoneyFilter} placeholder="최소 가격"/>
+                <input onKeyDown={onChangeHandler} type="text" name="minPriceValue" value={minPriceValue} onChange={onChangeHandler} className={ProductFilterCSS.setMoneyFilter} placeholder="최소 가격"/>
             </label>
             <div className={ProductFilterCSS.moneyBetween}>~</div>
             <label>
-                <input type="text" name="maxPriceValue" value={maxPriceValue} onChange={onChangeHandler} className={ProductFilterCSS.setMoneyFilter} placeholder="최대 가격"/>
+                <input onKeyDown={onChangeHandler} type="text" name="maxPriceValue" value={maxPriceValue} onChange={onChangeHandler} className={ProductFilterCSS.setMoneyFilter} placeholder="최대 가격"/>
             </label>
         </>
     );

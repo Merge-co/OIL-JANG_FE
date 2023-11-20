@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
 import { callMessagesRegistAPI } from '../../apis/ProductAPICalls';
-import { getCookie } from '../../modules/CookieModule';
-import { jwtDecode } from 'jwt-decode';
 
 function MergeBox() {
     
@@ -173,7 +171,7 @@ function MergeBox() {
                 <div>선택한 품목</div><div className={MergeBoxCSS.selectedItemNum}>{selectedItemCount}개</div>
             </div>
             <div className={MergeBoxCSS.mergeBox1}>
-                <div>남은 예산</div><div className={MergeBoxCSS.remainPrice}>{priceToString(remain)}원</div>
+                <div>남은 예산</div><div className={MergeBoxCSS.remainPrice}>{priceToString(remain).replace("원","")}원</div>
             </div>
             <div className={MergeBoxCSS.mergeBox2}>
                 {selectedItem.length !==0 ? selectedItem.map(selectedItem => 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { GET_CATEGORIES } from "../modules/ProductCategoryModule";
 import { GET_PRODUCTLIST } from "../modules/ProductListModule";
-import { GET_MESSAGES_RESULT, GET_PRODUCT_DETAIL, GET_WISHLIST_DELELE_RESULT, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
+import { GET_MESSAGES_RESULT, GET_PRODUCT_DETAIL, GET_WISHLIST_AGAIN, GET_WISHLIST_DELELE_RESULT, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
 
@@ -86,10 +86,22 @@ export const callGetProductDetail = path => {
 
     const requestURL = `http://localhost:8000/products/${path}`;
 
+    let isView;
+    if(!window.localStorage.getItem(`${path}view`)) {
+        window.localStorage.setItem(`${path}view`, 1);
+        isView = "false";
+    } else {
+        isView = "true";
+    }
+
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
             headers: {
                 "Accept": "*/*"
+            },
+            params: {
+                isView: isView,
+                userCode: getCookie("accessToken") && jwtDecode(getCookie("accessToken")).userCode
             }
         }).then(
             result => result.data.results
@@ -101,12 +113,12 @@ export const callGetProductDetail = path => {
 
 export const callWishListRegistAPI = productCode => {
     let requestURL = `http://localhost:8000/products/${productCode}/wishLists`;
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
             userCode: jwtDecode(getCookie("accessToken")).userCode
         }
-        ).then(response => response);
-        dispatch({ type: GET_WISHLIST_REGIST_RESULT, payload: 1});
+        ).then(response => response.data.results.result);
+        dispatch({ type: GET_WISHLIST_REGIST_RESULT, payload: result});
+        dispatch({ type: GET_WISHLIST_AGAIN, payload: 1});
     };
 }

@@ -25,7 +25,6 @@
 }
 
 .productDirBtn {
-  cursor: pointer;
   color: #222;
 }
 
@@ -176,6 +175,8 @@
   font-weight: 500;
 }
 
-
+.homeBtnCursor {
+  cursor: pointer;
+}
 
 

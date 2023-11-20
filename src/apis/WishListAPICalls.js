@@ -1,8 +1,11 @@
+import axios from "axios";
 import { GET_WISHLIST_DELELE_RESULT } from "../modules/ProductModule";
+import { GET_WISHLIST } from "../modules/WishListModule";
+import { jwtDecode } from "jwt-decode";
+import { getCookie } from "../modules/CookieModule";
 
 export const callWishListDeleteAPI = productCode => {
-    let requestURL = `http://localhost:8000/wishLists/${wishList}`;
-    console.log(requestURL);
+    let requestURL = `http://localhost:8000/wishLists/${productCode}`;
     
     return async (dispatch, getState) => {
         const result = await axios.delete(requestURL, {
@@ -10,8 +13,23 @@ export const callWishListDeleteAPI = productCode => {
                 "Accept": "*/*"
             }
         }).then(
-            result => result.data.results.productCategoryList
+            result => result
         );
         dispatch({ type: GET_WISHLIST_DELELE_RESULT, payload: 1});
+    };
+}
+
+export const callGetWishListAPI = () => {
+    const requestURL = `http://localhost:8000/users/${jwtDecode(getCookie("accessToken")).userCode}/wishLists`;
+
+    return async (dispatch, getState) => {
+        const result = await axios.get(requestURL, {
+            headers: {
+                Authorization: `Bearer ${getCookie("accessToken")}`
+            }
+        }).then(
+            result => result.data.results
+        );
+        dispatch({ type: GET_WISHLIST, payload: result});
     };
 }
