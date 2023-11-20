@@ -10,6 +10,7 @@ import Login from './pages/user/Login';
 import Test from './pages/user/Test';
 import ReportManagement from './pages/report/ReportManagement';
 import ProcessDetail from './pages/report/ProcessDetail';
+import MessageList from './pages/message/MessageList';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path='merge' element={<Merge />} />
           <Route path='addProduct' element={<AddProduct />} />
           <Route path='admin' element={<AdminHeader />} />
+          <Route path='messageList' element={<MessageList/>} />
           <Route path='/report' element={<Report />} />
           <Route path='/reportSelect' element={<ReportManagement />} />
           <Route path='/processDetail/:reportNo' element={<ProcessDetail />}/>
