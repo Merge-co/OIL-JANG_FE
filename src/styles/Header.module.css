@@ -1,0 +1,7 @@
+.HeaderLayout {
+    position: relative;
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    min-width: 1000px;
+}
