@@ -136,6 +136,11 @@
 
 .selectedProductTitle {
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;  	
+  white-space: nowrap; 		
+  word-break:break-all;
+  width: 180px;
 }
 
 .selcetedProductPrice {

@@ -27,7 +27,7 @@ function MergeItemBox({selectedItem}) {
                     <img src={selectedItem && selectedItem.productThumbAddr} alt='상품 이미지' height="72" onError={onErrorImg}/>
                     </div>
                     <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductInfo}>
-                        <div className={MergeBoxCSS.selectedProductTitle}>{selectedItem.productName}</div>
+                        <div className={MergeBoxCSS.selectedProductTitle} title={selectedItem.productName}>{selectedItem.productName}</div>
                         <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>
                     </div>
                     <img onClick={() => onClickHandler()} src="/images/mergeCancelBtn.svg" height="34px" className={MergeBoxCSS.cancelBtn} alt=""/>

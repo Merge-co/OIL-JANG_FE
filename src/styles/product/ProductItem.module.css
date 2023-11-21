@@ -21,6 +21,11 @@
   padding-left: 10px;
   padding-top: 6.5px;
   color: #222222;
+  overflow: hidden;
+  text-overflow: ellipsis;  	
+  white-space: nowrap; 		
+  word-break:break-all;
+  width: 200px;
 }
 
 .itemBoxPrice {

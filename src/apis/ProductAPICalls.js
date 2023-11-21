@@ -62,7 +62,8 @@ export const callGetProductList = (type) => {
 
 export const callMessagesRegistAPI = (productCode, refUserCode) => {
     let requestURL = `http://localhost:8000/messages`;
-    let date = new Date().toISOString().substring(0, 10);
+    let date = new Date().toISOString().substring(0, 10); 
+
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
             msgCode: 0,
