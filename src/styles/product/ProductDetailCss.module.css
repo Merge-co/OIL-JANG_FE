@@ -1,4 +1,10 @@
 .productDetailContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.productDetailContainer {
   display: flex;
   position: relative;
   justify-content: center;

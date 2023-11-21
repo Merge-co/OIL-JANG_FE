@@ -13,8 +13,7 @@ import ProcessDetail from './pages/report/ProcessDetail';
 import UsedProduct from './pages/product/UsedProduct';
 import UsedProductDetail from './pages/product/UsedProductDetail';
 import WishList from './pages/wish/WishList';
-import MyPageHeader from './components/common/MyPageHeader';
-import MyPageLayout from './layouts/MyPageLayout';
+import SubHeaderLayout from './layouts/SubHeaderLayout';
 
 
 function App() {
@@ -30,7 +29,7 @@ function App() {
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
 
-          <Route path='myPage' element={<MyPageLayout />}>
+          <Route path='myPage' element={<SubHeaderLayout />}>
             <Route path='wishList' element={<WishList />} />
           </Route>
 
