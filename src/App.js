@@ -21,6 +21,7 @@ import WishList from './pages/wish/WishList';
 import SubHeaderLayout from './layouts/SubHeaderLayout';
 
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -39,7 +40,7 @@ function App() {
             <Route path='wishList' element={<WishList />} />
           </Route>
 
-          <Route path='admin' element={<AdminHeader />} />
+          <Route path='admin' element={<AdminNav />} />
           <Route path='messageList' element={<MessageList />} />
 
           <Route path='/report' element={<Report />} />
