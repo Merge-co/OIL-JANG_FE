@@ -1,39 +1,43 @@
 
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom';
 import{
     callMessageListAPI
 } from '../../apis/MessageAPICalls'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import PagingBar from '../../components/common/PagingBar';
+import ButtonCSS from '../../styles/Button.module.css';
+import MessageMenu from '../../components/message/MessageMenu';
 
 
-function MessageList(){
+function MessageList({isReceived}){
+
+    console.log("MessageList")
+
 
     const navigate = useNavigate();
-
+    const PagingInfo = useSelector(state => state.pagingReducer);
     const dispatch = useDispatch();
+    const params = useParams();
     const messages = useSelector(state => state.messageReducer);
     // const messageList = messages.data;
 
-    const pageInfo = messages.pageInfo
 
-    const [start, setStart] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
     const [messageList, setMessageList] = useState([]);
+    let pagingBtn = messages[0] ? messages[0].pagingBtn : "";
 
-    const pageNumber = [];
-    if(pageInfo){
-        for(let i = 1; i <= pageInfo.pageEnd; i++){
-            pageNumber.push(i);
-        }
-    }
+    const handleMessageClick = (msgCode) => {
+        navigate(`/messageDetail/${msgCode}`);
+    };
+    
+    
+
 
     useEffect(
         () => {
-            setStart((currentPage - 1) * 5);
             dispatch(callMessageListAPI({
-                userCode: 1,
+                userCode:1,
                 isReceived: true,
 
             })).then((result) => {
@@ -51,8 +55,53 @@ function MessageList(){
                 console.error('[MessageList] API call error:', error);
             })
         }
-        ,[currentPage, start, dispatch]
+        ,[PagingInfo, dispatch, isReceived]
     );
+
+    const handleMenuClick = (isReceived) => {
+        // 메뉴 클릭에 대한 동작 정의
+        if (isReceived === 'true') {
+          // 받은 쪽지함 처리
+          dispatch(callMessageListAPI({
+            userCode: 1,
+            isReceived: true,
+          })).then((result) => {
+            console.table("result : " + result);
+            if(result && result.data){
+                setMessageList([...result.data]);
+                console.table("result : " + [...result.data]);
+                console.table("messageList : " + messageList);
+                console.table("messages : " + messages);
+            }else{
+                console.error('[MessageList] API response does not contain data:', result);
+            }
+    
+        }).catch((error) => {
+            console.error('[MessageList] API call error:', error);
+        })
+    
+        } else if (isReceived === 'false') {
+          // 보낸 쪽지함 처리
+          dispatch(callMessageListAPI({
+            userCode: 1,
+            isReceived: false,
+          })).then((result) => {
+            console.table("result : " + result);
+            if(result && result.data){
+                setMessageList([...result.data]);
+                console.table("result : " + [...result.data]);
+                console.table("messageList : " + messageList);
+                console.table("messages : " + messages);
+            }else{
+                console.error('[MessageList] API response does not contain data:', result);
+            }
+    
+        }).catch((error) => {
+            console.error('[MessageList] API call error:', error);
+        })
+    };
+        }
+
 
 
 
@@ -65,9 +114,7 @@ function MessageList(){
             <div className="box1 contBox">
 
                 <div className="msgNav">
-                    <button>받은 쪽지함</button>
-                    <span> &nbsp;|&nbsp; </span>
-                    <button>보낸 쪽지함</button>
+                <MessageMenu onMenuClick={handleMenuClick} />
                 </div>
 
                 <div style={{float:'right'}}>
@@ -100,12 +147,12 @@ function MessageList(){
                             </thead>
                             <tbody>
                                 {messageList && messageList.map(message => (
-                                    <tr key={message.id}>
+                                    <tr key={message.id} onClick={() => handleMessageClick(message.msgCode)}>
                                         <td>
                                         <input type="checkbox" name="sort"/>
                                         </td>
                                         <td>{`${message.name} ${message.id}`}</td>
-                                        <td>{message.msgContnet}</td>
+                                        <td>{message.msgContent}</td>
                                         <td>{message.msgTime}</td>
                                         <td>{message.msgStatus}</td>
                                     </tr>
@@ -115,11 +162,9 @@ function MessageList(){
             
                         </table>
 
-                        <input type="submit" value="등록" className="btnMidBlk"/>
+                        <input type="submit" value="삭제" className={`${ButtonCSS.middleBtn2}`}/>
 
-                        <div className="paging clearfix">
-                             <button><i className="xi-backward"></i></button><button><i className="xi-angle-left"></i></button><button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button><i className="xi-angle-right"></i></button><button><i className="xi-forward"></i></button>
-                        </div>
+                        {messageList ? <PagingBar pagingBtn={pagingBtn}/> : ""}
           
                     </div>
           

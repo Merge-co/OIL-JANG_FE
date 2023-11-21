@@ -66,12 +66,11 @@ export const callMessageDetailAPI = ({msgCode}) => {
                 "Accept": "*/*",
             }
         })
-        .then(response => response.json());
 
         console.log('[MessageAPICalls] callMessageDetailAPI RESULT', result);
         if(result.status == 200){
             console.log('[MessageAPICalls] callMessageDetailAPI SUCCESS');
-            dispatch({type: GET_MESSAGES_MSGCODE, payload: result.data});
+            dispatch({type: GET_MESSAGES_MSGCODE, payload: result});
         }
     }
 }
@@ -83,7 +82,7 @@ export const callMessageListAPI = ({userCode, isReceived}) => {
 
     const requestURL = `http://localhost:8000/users/${userCode}/messages?isReceived=${isReceived}`;
 
-    const params = new URLSearchParams(window.location.search);
+    //const params = new URLSearchParams(window.location.search);
 
     // if(params.get("page")){
     //     requestURL += `page=${params.get("page")}`;
