@@ -17,7 +17,8 @@ function Report() {
         refReportCategoryNo: 0,
         productCode: 0,
         reportComment: '',
-        sellStatusCode: 0
+        sellStatusCode: 0,
+        processDistinction: ''
     });
 
     // form Data Set
@@ -44,6 +45,7 @@ function Report() {
         formData.append("productCode", form.productCode);
         formData.append("reportComment", form.reportComment);
         formData.append("sellStatusCode", form.sellStatusCode);
+        formData.append("processDistinction", form.processDistinction);
 
         // console.log("bbbbb", formData);
         // console.log('[ReportRegist] fromData reportUserNick : ', formData.get('reportUserNick'));
@@ -65,16 +67,17 @@ function Report() {
         <>
             <div onClick={onClickExitHandle}>X버튼</div>
             <div className={ReportCSS.modalBox}>
+                
                 <h2>신고하기</h2>
                 <hr />
                 <form>
                     <label>신고분류</label>
                     <select name="refReportCategoryNo" onChange={onChangeHandler}>
-                            <option>선택해주세요</option>
-                            <option value="1" >광고성 게시물</option>
-                            <option value="2" >거래금지 품목이에요</option>
-                            <option value="3" >가품, 이미테이션 제품이에요</option>
-                            <option value="4" >사기가 의심돼요.</option>
+                        <option>선택해주세요</option>
+                        <option value="1" >광고성 게시물</option>
+                        <option value="2" >거래금지 품목이에요</option>
+                        <option value="3" >가품, 이미테이션 제품이에요</option>
+                        <option value="4" >사기가 의심돼요.</option>
                     </select><br />
                     <label>판매 게시글 : props 으로 받으면됩니다.</label> <br />
                     <label>신고 사유</label><br />
@@ -86,6 +89,7 @@ function Report() {
                     <input type="text" name="reportUserNick" onChange={onChangeHandler} placeholder="유저닉네임" />
                     <input type="number" name="productCode" onChange={onChangeHandler} placeholder="상품코드" />
                     <input type="number" name="sellStatusCode" onChange={onChangeHandler} placeholder="상품상태코드" />
+                    <input type="hidden" name="processDistinction" value="N" onChange={onChangeHandler} placeholder="처리분류" />
                     <input type="submit" value="보내기" className={ButtonCSS.smallBtn2} onClick={onClickRegisterHandler} />
                 </form>
             </div>
