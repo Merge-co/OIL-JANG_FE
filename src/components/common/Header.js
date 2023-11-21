@@ -21,12 +21,16 @@ function Header() {
       <div>
         <NavLink to="/">HOME</NavLink>
       </div>
-      <div>중고상품</div>
+      <div>
+        <NavLink to="/usedProduct">중고상품</NavLink>
+      </div>
       <div>
         <NavLink to="/merge">꾸러미</NavLink>
       </div>
       <div><NavLink to ="/addProduct">상품등록</NavLink></div>
-      <div>마이페이지 아이콘</div>
+      <div>
+        <NavLink to="/myPage">마이페이지 아이콘</NavLink>
+      </div>
       <div>쪽지 아이콘</div>
       {/* {isLoggedIn ? (
         <NavLink to="/" onClick={Logouthandler}>

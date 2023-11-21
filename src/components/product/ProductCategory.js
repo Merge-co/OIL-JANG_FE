@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetProductCategory } from '../../apis/ProductAPICalls';
 import CategoryCSS from '../../styles/product/ProductCategory.module.css'
+import ProductFilterCSS from '../../styles/product/ProductFilter.module.css'
 import { useEffect, useState } from 'react';
 import ButtonCSS from '../../styles/Button.module.css';
 import { GET_MERGE_CATEGORY } from '../../modules/MergeModule';
-import { GET_CATEGORY_CODE, GET_RESET_MERGE_CATEGERY, GET_RESET_PRODUCT_CATEGERY } from '../../modules/ProductModule';
+import { GET_CATEGORY_CODE, GET_MONEY_SETTING, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN } from '../../modules/ProductModule';
 import { useNavigate } from 'react-router-dom';
+import MoneyFilter from './MoneyFilter';
 
 function ProductCategory(type) {
     const [ categoryLists, setCategoryLists ] = useState([]);
@@ -15,6 +17,7 @@ function ProductCategory(type) {
     useEffect(
         () => {
             dispatch(callGetProductCategory());
+            
         },[]
     );
 
@@ -50,6 +53,17 @@ function ProductCategory(type) {
         }
         upperCategory.push(lowerCategory);
     }
+
+    const getMoneySetting = useSelector(state => state.productReducer.getMoneySetting);
+
+    useEffect(
+        () => {
+            if(getMoneySetting === 1) {
+                onClickHandler();
+            }
+            dispatch({ type: GET_MONEY_SETTING, payload: 0});
+        },[getMoneySetting === 1]
+    );
 
     const dispatch = useDispatch();
     
@@ -98,14 +112,46 @@ function ProductCategory(type) {
 
     const navigate = useNavigate();
 
+    const curURL = new URL(window.location.href);
+
     const onClickHandler = () => {
         if(checkFive.length === 0) {
             alert("최소 1개의 카테고리를 선택해주세요");
+        } else if (type.type === "list") {
+            curURL.searchParams.set('categoryCode', checkFive[0].id);
+            curURL.searchParams.delete('page');
+            const minPriceValue = window.localStorage.getItem("moneyCriteriaMin");
+            const maxPriceValue = window.localStorage.getItem("moneyCriteriaMax");
+            if (maxPriceValue && minPriceValue > maxPriceValue) {
+                alert("최대금액은 최소금액보다 크거나 같아야 합니다.");
+            } else {
+                minPriceValue ? curURL.searchParams.set('minPrice', minPriceValue) : curURL.searchParams.delete('minPrice');
+                maxPriceValue ? curURL.searchParams.set('maxPrice', maxPriceValue) : curURL.searchParams.delete('maxPrice');
+            }
+            dispatch({ type: GET_CATEGORY_CODE, payload: checkFive[0].id });
+            navigate(`${curURL.search}`);
+            dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
         } else {
             dispatch({ type: GET_MERGE_CATEGORY, payload: checkFive});
             dispatch({ type: GET_CATEGORY_CODE, payload: 0});
             navigate(``);
         }
+    }
+
+    useEffect(
+        () => {
+            const url = new URL(window.location.href);
+            const categoryId = url.searchParams.get("categoryCode");
+            
+        },[]
+    );
+
+    let styleObject;
+
+    if(window.location.href.toString().indexOf("merge") !== -1) {
+        styleObject = {minWidth: 700};
+    } else {
+        styleObject = {minWidth: 937};
     }
 
     return(
@@ -116,7 +162,7 @@ function ProductCategory(type) {
                     <div className={CategoryCSS.cate1}>
                         <div className={CategoryCSS.cateUpper}>{upperCategory[0][1]}</div>
                     </div>
-                    <div className={CategoryCSS.cate2}>
+                    <div className={CategoryCSS.cate2} style={styleObject}>
                         {upperCategory.map(upperCategory => 
                             upperCategory[2] !== 0 ? <div id={upperCategory[0]} className={categoryLists.length !== 0 && categoryLists[upperCategory[0]-1].categoryChecked ? CategoryCSS.cate3Selected : CategoryCSS.cate3} onClick={() => categoryBtnHandler(upperCategory[0])}>{upperCategory[1]}</div> : ""
                         )}
@@ -125,7 +171,11 @@ function ProductCategory(type) {
                 </div>
                 )} 
 
-                <button onClick={() => onClickHandler()} className={`${ButtonCSS.smallBtn2} ${CategoryCSS.categorySearchBtn}`}>검색</button>
+                <div className={ ProductFilterCSS.listFilterBox}>
+                    {styleObject.minWidth === 937 ? <MoneyFilter/> : ""}
+                    <button onClick={() => onClickHandler()} className={`${ButtonCSS.smallBtn2} ${CategoryCSS.categorySearchBtn}`}>검색</button>
+                </div>
+                
             </div>
         </>
     );
