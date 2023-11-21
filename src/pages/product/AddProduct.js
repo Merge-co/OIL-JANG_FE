@@ -118,6 +118,7 @@ const AddProduct = () => {
         }
     };
 
+    
     const handleCancel = () => {
         setImageCount(0);
         setPriceOption('sell');

@@ -46,4 +46,5 @@ const productReducer = handleActions(
   initialState
 );
 
+
 export default productReducer;

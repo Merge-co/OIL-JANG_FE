@@ -13,6 +13,7 @@ export const callProductRegistAPI = ({ form }) => {
     wishPlaceTrade: form.wishPlaceTrade || '',
   };
     console.log(productDTO);
+    
 
   return async (dispatch, getState) => {
     const result = await fetch(requestURL, {
