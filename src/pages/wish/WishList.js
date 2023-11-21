@@ -29,8 +29,14 @@ function WishList() {
     const pagingBtn = getWishListResult && getWishListResult.pagingBtn;
     const wishList = getWishListResult && getWishListResult.wishList;
 
+    const onErrorImg = (e) => {
+        e.target.src = "/images/home.svg";
+    }
+
+    
+
     function WishListItem({wishListItem}) {
-        return (
+        return (           
             <>  
                 <div className={WishListCSS.wishListBox}>
                     <table>
@@ -51,11 +57,11 @@ function WishList() {
                             <th>&nbsp;</th>
                         </tr>
                         <tr>
-                            <td><div onClick={() => onClickItem(wishListItem.productCode)} className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`}></div></td>
+                            <td><img onClick={() => onClickItem(wishListItem.productCode)} className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src={wishListItem.proImageThumbAddr} alt="상품 이미지" onError={onErrorImg} height="152"/></td>
                             <td>{wishListItem.sellStatus}</td>
                             <td className={WishListCSS.wishListCursor} onClick={() => onClickItem(wishListItem.productCode)} >{wishListItem.productName}</td>
                             <td>{priceToString(wishListItem.productPrice)}</td>
-                            <td>{wishListItem.productDesc}</td>
+                            <td><div className={WishListCSS.productDescLeft}>{wishListItem.productDesc}</div></td>
                             <td><button onClick={() => onClickDelete(wishListItem.wishCode)} className={ButtonCSS.smallBtn2}>삭제</button></td>
                         </tr>
                     </table>

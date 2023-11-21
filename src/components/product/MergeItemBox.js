@@ -11,7 +11,10 @@ function MergeItemBox({selectedItem}) {
         window.localStorage.setItem("mergeKeys", changeMergeKeys);
         dispatch({ type: GET_MERGE_ITEM, payload: 1});
     }
-    console.log(selectedItem);
+
+    const onErrorImg = (e) => {
+        e.target.src = "/images/home.svg";
+    }
 
     return(
         <>
@@ -20,7 +23,9 @@ function MergeItemBox({selectedItem}) {
                     {selectedItem.categoryName}
                 </div>
                 <div className={MergeBoxCSS.selectedProductInfoBox}>
-                    <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductImg}></div>
+                    <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductImg}>
+                    <img src={selectedItem && selectedItem.productThumbAddr} alt='상품 이미지' height="72" onError={onErrorImg}/>
+                    </div>
                     <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductInfo}>
                         <div className={MergeBoxCSS.selectedProductTitle}>{selectedItem.productName}</div>
                         <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>

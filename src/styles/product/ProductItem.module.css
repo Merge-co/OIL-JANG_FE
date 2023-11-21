@@ -6,6 +6,8 @@
   border-left: 0.75px solid #D0D0D0;
   border-right: 0.75px solid #D0D0D0;
   cursor: pointer;
+  display: flex;
+  flex-direction: column
 }
 
 .productDescBox {

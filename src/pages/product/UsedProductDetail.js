@@ -8,6 +8,7 @@ import { GET_WISHLIST_AGAIN, priceToString, timeForToday } from '../../modules/P
 import { getCookie } from '../../modules/CookieModule';
 import { callWishListDeleteAPI } from './../../apis/WishListAPICalls';
 import { jwtDecode } from 'jwt-decode';
+import UserProductDetailImg from './UserProductDetailImg';
 
 function UsedProductDetail() {
 
@@ -18,7 +19,6 @@ function UsedProductDetail() {
     const productDetailInfos = productDetail && productDetail.productDetail[0];
     const productDetailImg = productDetail && productDetail.selectedProductDetailImg;
     const wishListRegistNo = useSelector(state => state.productReducer.getWishListRegistResult);
- 
 
     const [wishLishRegist, setWishLishRegist] = useState(0);
     const [plusMinusCount, setPlusMinusCount] = useState(0);
@@ -114,6 +114,10 @@ function UsedProductDetail() {
         alert("수정 페이지로 이동");
     }
 
+    const onErrorImg = (e) => {
+        e.target.src = "/images/home.svg";
+    }
+
     function ProductDetailInfo() {
         return (
             <>
@@ -131,7 +135,7 @@ function UsedProductDetail() {
                             </div>
                         </div>
                             <div className={ProductDetailCSS.productDetailBoth}>
-                            <div className={ProductDetailCSS.productDetailLeftImage}></div>
+                            <UserProductDetailImg productDetailImg={productDetailImg}/>
                             <div className={ProductDetailCSS.productDetailRight}>
                                 <div className={ProductDetailCSS.productDetailName}>{productDetailInfos.productName}</div>
                                 <div className={ProductDetailCSS.productDetailPriceBox}>
@@ -153,7 +157,7 @@ function UsedProductDetail() {
                                 </div>
                                 <div className={ProductDetailCSS.productDetailSellerHr}>판매자정보</div>
                                 <div className={ProductDetailCSS.sellerInfoBox}>
-                                <div className={ProductDetailCSS.sellerProfile}></div>
+                                <img src={productDetailInfos && productDetailInfos.userImageThumbAddr} alt="판매자 정보" className={ProductDetailCSS.sellerProfile} onError={onErrorImg}/>
                                 <div className={ProductDetailCSS.sellerInfo}>
                                     <div className={ProductDetailCSS.sellerName}>{productDetailInfos.nickName}</div>
                                     {/* <div className={ProductDetailCSS.otherProduct}>판매자의 다른 상품 보기</div> */}
