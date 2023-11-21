@@ -13,4 +13,5 @@ export const getCookie = (name) => {
 
 export const getCookie = (name) => {
 	return cookies.get(name); 
+
 }
