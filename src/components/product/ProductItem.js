@@ -2,38 +2,12 @@ import ProductItemCSS from '../../styles/product/ProductItem.module.css';
 import ProductListCSS from '../../styles/product/ProductList.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useDispatch } from 'react-redux';
-import { GET_MERGE_ITEM } from '../../modules/ProductModule';
+import { GET_MERGE_ITEM, onClickItemDetail, priceToString, timeForToday } from '../../modules/ProductModule';
+import { useNavigate } from 'react-router-dom';
 
 function ProductItem(productList) {
     const productElement = productList.productList;
     const type = productList.type;
-
-    function timeForToday(value) {
-        const today = new Date();
-        const timeValue = new Date(value);
-
-        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-        if (betweenTime < 1) return '방금전';
-        if (betweenTime < 60) {
-            return `${betweenTime}분전`;
-        }
-
-        const betweenTimeHour = Math.floor(betweenTime / 60);
-        if (betweenTimeHour < 24) {
-            return `${betweenTimeHour}시간전`;
-        }
-
-        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-        if (betweenTimeDay < 365) {
-            return `${betweenTimeDay}일전`;
-        }
-
-        return `${Math.floor(betweenTimeDay / 365)}년전`;
-    }
-
-    function priceToString(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
-    }
 
     const dispatch = useDispatch();
 
@@ -51,19 +25,27 @@ function ProductItem(productList) {
         dispatch({ type: GET_MERGE_ITEM, payload: 1});
     }
 
+    const navigate = useNavigate();
+
+    const onErrorImg = (e) => {
+        e.target.src = "/images/home.svg";
+    }
+
     return(
         <>  
-            {type === 'merge' ? <div className='mergeItem'>
+            <div className='mergeItem'>
                 <div className={ProductListCSS.productItem}>
-                    <div src={productElement.productThumbAddr} className={ProductItemCSS.productThumb} alt=''/>
-                    <div className={ProductItemCSS.productDescBox}>
-                        <div className={ProductItemCSS.itemBoxTitle}>{productElement.productName}</div>
+                    <div onClick={() => onClickItemDetail(productElement.productCode)} className={ProductItemCSS.productThumb}>
+                        <img src={productElement && productElement.productThumbAddr} alt='상품 이미지' height="166" onError={onErrorImg}/>
+                    </div>
+                    <div onClick={() => onClickItemDetail(productElement.productCode)} className={ProductItemCSS.productDescBox}>
+                        <div className={ProductItemCSS.itemBoxTitle} title={productElement.productName}>{productElement.productName}</div>
                         <div className={ProductItemCSS.itemBoxPrice}>{priceToString(productElement.productPrice)}</div>
                         <div className={ProductItemCSS.itemBoxDatetime}>{timeForToday(productElement.enrollDateTime)}</div>
                     </div>
                     {type === 'merge' ? <button onClick={() => onClickHandler()} className={`${ButtonCSS.smallBtn2} ${ProductListCSS.addItem}`}>담기</button>: ""}
                 </div>
-            </div> : ""}
+            </div>
             
         </>
     );

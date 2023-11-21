@@ -11,7 +11,10 @@ import Test from './pages/user/Test';
 import ReportManagement from './pages/report/ReportManagement';
 import ProcessDetail from './pages/report/ProcessDetail';
 import MessageList from './pages/message/MessageList';
-
+import UsedProduct from './pages/product/UsedProduct';
+import UsedProductDetail from './pages/product/UsedProductDetail';
+import WishList from './pages/wish/WishList';
+import SubHeaderLayout from './layouts/SubHeaderLayout';
 
 function App() {
   return (
@@ -22,18 +25,25 @@ function App() {
 
           <Route index element={<Main />} />
           <Route path='merge' element={<Merge />} />
+          <Route path='usedProduct' element={<UsedProduct />} />
+          <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
+
+          <Route path='myPage' element={<SubHeaderLayout />}>
+            <Route path='wishList' element={<WishList />} />
+          </Route>
+
           <Route path='admin' element={<AdminHeader />} />
           <Route path='messageList' element={<MessageList/>} />
           <Route path='/report' element={<Report />} />
           <Route path='/reportSelect' element={<ReportManagement />} />
-          <Route path='/processDetail/:reportNo' element={<ProcessDetail />}/>
-      <Route path='login' element={<Login />} />
-      <Route path='test' element={<Test />} />
-
-    </Route>
-
-      </Routes >
+          <Route path='/processDetail/:reportNo' element={<ProcessDetail />} />
+          
+        <Route path='login' element={<Login />} />
+        <Route path='test' element={<Test />} />
+    
+      </Route>
+    </Routes >
     </BrowserRouter >
   );
 }

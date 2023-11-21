@@ -5,23 +5,29 @@ import ProductCategory from "../../components/product/ProductCategory";
 import ProductFilter from "../../components/product/ProductFilter";
 import ProductList from "../../components/product/ProductList";
 import MergeLayoutCSS from "../../styles/product/MergeLayout.module.css";
-import { useCookies } from "react-cookie";
 
 function Merge() {
 
-    const [cookies] = useCookies(['accessToken']);
-    const token = cookies.accessToken;
-    window.localStorage.setItem("userToken", token);
+    let getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
 
-    const getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
+    const url = new URL(window.location.href);
+
+
+    let styleObject;
+
+    if(window.location.href.toString().indexOf("merge") !== -1) {
+        styleObject = {height: 1200};
+    } else {
+        styleObject = {height: 1260};
+    }
 
     return(
         <>
-            <div className={MergeLayoutCSS.mergeMain}>
+            <div className={MergeLayoutCSS.mergeMain} style={styleObject}>
                 <ProductCategory type="merge"/>
                 <MergeCategory/>
-                {getCategoryCode ? <ProductFilter/> : ""}
-                {getCategoryCode ? <ProductList type="merge"/> : ""}
+                {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductFilter/> : ""}
+                {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge"/> : ""}
                 <MergeBox/>
             </div>
         </>

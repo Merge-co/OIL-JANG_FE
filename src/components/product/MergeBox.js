@@ -2,10 +2,11 @@ import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN } from '../../modules/ProductModule';
+import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_MESSAGES_RESULT, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN, priceToString } from '../../modules/ProductModule';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
+import { callMessagesRegistAPI } from '../../apis/ProductAPICalls';
 
 function MergeBox() {
     
@@ -109,6 +110,11 @@ function MergeBox() {
         setRemain(+money - buyMoney);
         window.localStorage.setItem("remainMoneySearch", window.localStorage.getItem("remainMoney"));
         dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
+
+        const curURL = new URL(window.location.href);
+        curURL.searchParams.set('page', 1);
+        navigate(`${curURL.search}`);
+        dispatch({ type: GET_PAGING, payload: 1});
     }
 
     const onClickSetMoney = () => {
@@ -121,8 +127,32 @@ function MergeBox() {
         }
       }
 
-    function priceToString(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const sendMessagesResult = useSelector(state => state.productReducer.getMessagesResult);
+
+    const onClickSendMsg = () => {
+        if (window.localStorage.getItem("mergeKeys")) {
+            if (+window.localStorage.getItem("remainMoney") < 0) {
+                if (window.confirm("예산을 초과했습니다. 쪽지를 보내시겠습니까?")) {
+                    sendMessages();        
+                }
+            } else if (window.confirm("쪽지를 보내시겠습니까?")) {
+                sendMessages();            
+            }
+        } else {
+            alert('쪽지를 보낼 상품을 없습니다.');  
+        }
+    }
+
+    function sendMessages() {
+        if (window.localStorage.getItem("mergeKeys")) {
+            window.localStorage.getItem("mergeKeys").split(",").map(
+                mergeKey => {
+                    const productInfo = JSON.parse(window.localStorage.getItem(mergeKey));
+                    dispatch(callMessagesRegistAPI(productInfo.productCode, productInfo.refUserCode));
+                }
+            );
+        }
+        alert('판매자들에게 쪽지를 보냈습니다.');
     }
 
     return(
@@ -141,14 +171,14 @@ function MergeBox() {
                 <div>선택한 품목</div><div className={MergeBoxCSS.selectedItemNum}>{selectedItemCount}개</div>
             </div>
             <div className={MergeBoxCSS.mergeBox1}>
-                <div>남은 예산</div><div className={MergeBoxCSS.remainPrice}>{priceToString(remain)}원</div>
+                <div>남은 예산</div><div className={MergeBoxCSS.remainPrice}>{priceToString(remain).replace("원","")}원</div>
             </div>
             <div className={MergeBoxCSS.mergeBox2}>
                 {selectedItem.length !==0 ? selectedItem.map(selectedItem => 
                     <MergeItemBox selectedItem={selectedItem}/>
                 ): ""}
             </div>
-            <button className={ButtonCSS.largeBtn}>쪽지 보내기</button>
+            <button onClick={onClickSendMsg} className={ButtonCSS.largeBtn}>쪽지 보내기</button>
             </div>
         </>
     );
