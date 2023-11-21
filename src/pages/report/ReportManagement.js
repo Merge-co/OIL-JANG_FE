@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { callReportAPI } from "../../apis/ReportAPICalls";
+import { callReportManagementAPI, callSearchReportAPI } from "../../apis/ReportAPICalls";
 import { useNavigate, useParams } from "react-router-dom";
 
 function ReportManagement() {
@@ -9,15 +9,42 @@ function ReportManagement() {
     const dispatch = useDispatch();
     const result = useSelector(state => state.reportReducer);
     const navigate = useNavigate();
-
-    const onClickProcessDetailHandler = (reportNo) => {
+    
+    const onClickProcessDetailHandler = (reportNo, processDistinction) => {
         // 처리 상세페이지 이동
-        navigate(`/processDetail/${reportNo}`, { replace: true });
+
+        if (processDistinction !== "N") {
+            navigate(`/processDetail/${reportNo}`, { replace: true });
+        } else {
+            navigate(`/process/${reportNo}`, { repalce: true });
+        }
+    }
+
+    const [search, setSearch] = useState('');
+
+    // Search setting
+    const onSearchChangeHandler = (e) => {
+        setSearch(e.target.value);
+    }
+
+    const onEnterKeyHandler = (e) => {
+        if (e.key == 'Enter') {
+            console.log('Enter key', search);
+
+            navigate(`/search?value=${search}`, { replace: false });
+
+            // dispatch(callSearchReportAPI ({
+            //     search: search
+            // }));
+
+            // window.location.reload();
+        }
     }
 
     useEffect(
         () => {
-            dispatch(callReportAPI({ // 처리 상세 조회
+            dispatch(callReportManagementAPI({ // 처리 상세 조회
+
             }))
         },
         []
@@ -25,6 +52,15 @@ function ReportManagement() {
 
     return (
         <>
+        <input type="checkBox" value="Y"/>처리
+        <input type="checkBox" value="N"/>미처리
+        <input
+                    type="text"
+                    placeholder="검색"
+                    value={search}
+                    onKeyUp={onEnterKeyHandler}
+                    onChange={onSearchChangeHandler}
+                />
             <table>
                 <thead>
                     <tr>
@@ -43,8 +79,10 @@ function ReportManagement() {
                             <td>{report.reportUserNick}</td>
                             <td>판매자 props</td>
                             <td>{report.productCode.productName}</td>
-                            <button><td onClick={() => onClickProcessDetailHandler(report.reportNo)}>{report.refReportCategoryNo.reportCategoryCode}</td></button>
-                            <td>{report.sellStatusCode.sellStatus}</td>
+                            <td >{report.refReportCategoryNo.reportCategoryCode}</td>
+                            <button onClick={() => onClickProcessDetailHandler(report.reportNo, report.processDistinction)}>
+                                <td>{report.processDistinction}</td>
+                            </button>
                         </tr>
                     ))}
                 </tbody>

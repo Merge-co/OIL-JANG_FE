@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-function AdminHeader() {
+function AdminNav() {
     return (
         <>
             <h2>나는 관리자 해더 시작</h2>
@@ -14,4 +14,4 @@ function AdminHeader() {
     );
 }
 
-export default AdminHeader;
+export default AdminNav;
