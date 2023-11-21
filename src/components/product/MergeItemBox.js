@@ -1,11 +1,7 @@
 import { useDispatch } from 'react-redux';
 import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
-import { GET_MERGE_ITEM } from '../../modules/ProductModule';
+import { GET_MERGE_ITEM, onClickItemDetail, priceToString } from '../../modules/ProductModule';
 function MergeItemBox({selectedItem}) {
-    
-    function priceToString(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
-    }
 
     const dispatch = useDispatch();
 
@@ -16,6 +12,10 @@ function MergeItemBox({selectedItem}) {
         dispatch({ type: GET_MERGE_ITEM, payload: 1});
     }
 
+    const onErrorImg = (e) => {
+        e.target.src = "/images/home.svg";
+    }
+
     return(
         <>
             <div className={MergeBoxCSS.selectedItemBox}>
@@ -23,10 +23,12 @@ function MergeItemBox({selectedItem}) {
                     {selectedItem.categoryName}
                 </div>
                 <div className={MergeBoxCSS.selectedProductInfoBox}>
-                    <div className={MergeBoxCSS.selectedProductImg}></div>
-                    <div className={MergeBoxCSS.selectedProductInfo}>
-                    <div className={MergeBoxCSS.selectedProductTitle}>{selectedItem.productName}</div>
-                    <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>
+                    <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductImg}>
+                    <img src={selectedItem && selectedItem.productThumbAddr} alt='상품 이미지' height="72" onError={onErrorImg}/>
+                    </div>
+                    <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductInfo}>
+                        <div className={MergeBoxCSS.selectedProductTitle} title={selectedItem.productName}>{selectedItem.productName}</div>
+                        <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>
                     </div>
                     <img onClick={() => onClickHandler()} src="/images/mergeCancelBtn.svg" height="34px" className={MergeBoxCSS.cancelBtn} alt=""/>
                 </div>
