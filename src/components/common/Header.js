@@ -28,6 +28,10 @@ function Header() {
         <NavLink to="/merge">꾸러미</NavLink>
       </div>
       <div><NavLink to ="/addProduct">상품등록</NavLink></div>
+
+      <div>마이페이지 아이콘</div>
+      <div><NavLink to ="/messageList"> 쪽지 아이콘</NavLink></div>
+
       <div>
         <NavLink to="/myPage">마이페이지 아이콘</NavLink>
       </div>
@@ -41,7 +45,6 @@ function Header() {
           <NavLink to="/login">로그인</NavLink>
         </div>
       )} */}
-
       <div>
         <NavLink to="/" onClick={Logouthandler}>
           로그아웃
