@@ -35,7 +35,7 @@ function Header() {
       <div>
         <NavLink to="/myPage">마이페이지 아이콘</NavLink>
       </div>
-      <div>쪽지 아이콘</div>
+
       {/* {isLoggedIn ? (
         <NavLink to="/" onClick={Logouthandler}>
           로그아웃
