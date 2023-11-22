@@ -7,7 +7,7 @@ import Report from './pages/report/Report';
 import AddProduct from './pages/product/AddProduct';
 import Login from './pages/user/Login';
 import Test from './pages/user/Test';
-import ReportManagement from './pages/report/ReportManagement';
+import ReportManagement from './pages/report/ProcessManagement';
 import ProcessDetail from './pages/report/ProcessDetail';
 
 import ReportUpdate from './pages/report/ReportUpdate';
@@ -50,7 +50,7 @@ function App() {
 
           <Route path='/report' element={<Report />} />
           <Route path='search' element={<Search />} />
-          <Route path='/reportSelect' element={<ReportManagement />} />
+          <Route path='/processManagement' element={<ReportManagement />} />
           <Route path='/processDetail/:reportNo' element={<ProcessDetail />} />
 
           <Route path='/process/:reportNo' element={<ReportUpdate />} />

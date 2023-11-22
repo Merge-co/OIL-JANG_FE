@@ -9,6 +9,9 @@ import { getCookie } from '../../modules/CookieModule';
 import { callWishListDeleteAPI } from './../../apis/WishListAPICalls';
 import { jwtDecode } from 'jwt-decode';
 import UserProductDetailImg from './UserProductDetailImg';
+import ReportCss from '../../styles/report/ReportCSS.module.css'
+import Report from '../report/Report';
+import modalCSS from '../../styles/Modal.module.css'
 
 function UsedProductDetail() {
 
@@ -22,6 +25,8 @@ function UsedProductDetail() {
 
     const [wishLishRegist, setWishLishRegist] = useState(0);
     const [plusMinusCount, setPlusMinusCount] = useState(0);
+    const [modalOpen, setModalOpen] = useState(false);
+
 
     useEffect(
         () => {
@@ -73,9 +78,10 @@ function UsedProductDetail() {
         }
     }
 
+    // 모달창 노출 
     const onClickReportHandler = () => {
         if (getCookie("accessToken")) {
-            alert("신고 모달");
+            setModalOpen(true);
         } else {
             alert("신고하려면 로그인 해야 합니다.");
         }
@@ -155,7 +161,7 @@ function UsedProductDetail() {
                                 </div>
                                 <div  onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
                                     <img src="/images/reportBtn.svg" alt=""/>&nbsp;
-                                    <div className={ProductDetailCSS.reportContent}>신고하기</div>
+                                    <div className={`${ProductDetailCSS.reportContent} ${ReportCss.modalBox}`} >신고하기{modalOpen && <modalCSS setModalOpen={setModalOpen}/>}</div>
                                 </div>
                                 </div>
                                 <div className={ProductDetailCSS.productDetailSellerHr}>판매자정보</div>
@@ -182,6 +188,7 @@ function UsedProductDetail() {
                         </div>
                     </div>
                 </div>
+                {modalOpen && getCookie("accessToken") && < Report nickName={productDetailInfos.nickName} productCode={productDetailInfos.productCode} sellStatus={productDetailInfos.sellStatusCode} productName={productDetailInfos.productName} setModalOpen={setModalOpen} />}
             </>
         );
     }

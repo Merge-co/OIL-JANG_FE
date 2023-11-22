@@ -7,7 +7,7 @@ function ReportSearch({ report: { reportNo, reportUserNick, productCode, refRepo
     const onClickReportHandler = (reportNo) => {
         navigate(`/process/${reportNo}`, { replace: false });
     }
-
+    console.log('리포트서치 페이지 뭐가 잘못됐니 ? : ', reportNo, reportUserNick, productCode.productName, refReportCategoryNo.reportCategoryCode, processDistinction)
     return (
         <div
             onClick={() => onClickReportHandler(reportNo)}
