@@ -36,7 +36,7 @@ function UsedProductDetail() {
             }
         },[productDetail]
     );
-
+    
     const onClickPickHandler = () => {
         if (getCookie("accessToken")) {
             if (wishLishRegist === 0) {
@@ -49,6 +49,7 @@ function UsedProductDetail() {
                 setWishLishRegist(1);
             } else {
                 dispatch(callWishListDeleteAPI(wishListRegistNo ? wishListRegistNo : productDetail.selectedWishCode[0]));
+                
                 if(plusMinusCount === 0) {
                     setPlusMinusCount(-1);
                 } else {
@@ -85,6 +86,8 @@ function UsedProductDetail() {
     const onClickHome = () => {
         navigate(`/`);
     }
+
+    console.log(productDetail && productDetail)
 
     function Buyer() {
         return(

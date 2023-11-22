@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     justify-content: center;
+    margin-top: 0%;
 }
 
 .footerContainer {
@@ -10,7 +11,7 @@
     flex-direction: column;
     margin-top: 100px;
     width: 1150px;
-    margin-bottom: 103px;
+    margin-bottom: 30px;
 }
 
 .footerTopLine {

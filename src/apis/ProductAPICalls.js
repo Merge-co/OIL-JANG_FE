@@ -116,7 +116,7 @@ export const callWishListRegistAPI = productCode => {
     let requestURL = `http://localhost:8000/products/${productCode}/wishLists`;
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
-            userCode: jwtDecode(getCookie("accessToken")).userCode
+            refUserCode: jwtDecode(getCookie("accessToken")).userCode
         }
         ).then(response => response.data.results.result);
         dispatch({ type: GET_WISHLIST_REGIST_RESULT, payload: result});

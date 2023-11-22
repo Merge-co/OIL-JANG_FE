@@ -17,7 +17,6 @@ function ProductCategory(type) {
     useEffect(
         () => {
             dispatch(callGetProductCategory());
-            
         },[]
     );
 
@@ -66,6 +65,36 @@ function ProductCategory(type) {
     );
 
     const dispatch = useDispatch();
+
+    useEffect(
+        () => {
+            const url = new URL(window.location.href);
+            const categoryId = url.searchParams.get("categoryCode");
+            if(changeCategoryLists.length !== 0 && type.type === "list") {
+                if(categoryId) {
+                    changeCategoryLists.map(categoryList => {
+                        if(categoryList.id == categoryId) {
+                            categoryList.categoryChecked = !categoryList.categoryChecked;
+                        }
+                    });
+                    changeCategoryLists = [...changeCategoryLists];
+                    setCategoryLists(changeCategoryLists);
+                } else {
+                    changeCategoryLists.map(categoryList => {
+                        if(categoryList.id == 6) {
+                            categoryList.categoryChecked = !categoryList.categoryChecked;
+                        }
+                    });
+                    changeCategoryLists = [...changeCategoryLists];
+                    setCategoryLists(changeCategoryLists);
+                }
+            }
+        },[changeCategoryLists.length !== 0]
+    );
+
+    const navigate = useNavigate();
+
+    const curURL = new URL(window.location.href);
     
     const categoryBtnHandler = id => {
         if(categoryLists.length === 0) {
@@ -79,7 +108,6 @@ function ProductCategory(type) {
             let checkFive = changeCategoryLists.filter(category => category.categoryChecked === true);
             setCategoryLists(changeCategoryLists);
         } else {
-            
             categoryLists.map(categoryList => {
                 if(categoryList.id === id) {
                     categoryList.categoryChecked = !categoryList.categoryChecked;
@@ -108,15 +136,29 @@ function ProductCategory(type) {
                 }
             }
         }
+        if (type.type === "list") {
+            curURL.searchParams.set('categoryCode', id);
+            curURL.searchParams.delete('page');
+            const minPriceValue = window.localStorage.getItem("moneyCriteriaMin");
+            const maxPriceValue = window.localStorage.getItem("moneyCriteriaMax");
+            if (maxPriceValue && minPriceValue > maxPriceValue) {
+                alert("최대금액은 최소금액보다 크거나 같아야 합니다.");
+            } else {
+                minPriceValue ? curURL.searchParams.set('minPrice', minPriceValue) : curURL.searchParams.delete('minPrice');
+                maxPriceValue ? curURL.searchParams.set('maxPrice', maxPriceValue) : curURL.searchParams.delete('maxPrice');
+            }
+            dispatch({ type: GET_CATEGORY_CODE, payload: checkFive[0].id });
+            navigate(`${curURL.search}`);
+            dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
+        }
     }
-
-    const navigate = useNavigate();
-
-    const curURL = new URL(window.location.href);
 
     const onClickHandler = () => {
         if(checkFive.length === 0) {
             alert("최소 1개의 카테고리를 선택해주세요");
+        } else if(!window.localStorage.getItem("burget") && type.type === "merge") {
+            alert("예산을 설정해주세요");
+            dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
         } else if (type.type === "list") {
             curURL.searchParams.set('categoryCode', checkFive[0].id);
             curURL.searchParams.delete('page');
@@ -137,14 +179,6 @@ function ProductCategory(type) {
             navigate(``);
         }
     }
-
-    useEffect(
-        () => {
-            const url = new URL(window.location.href);
-            const categoryId = url.searchParams.get("categoryCode");
-            
-        },[]
-    );
 
     let styleObject;
 

@@ -15,9 +15,28 @@ function ProductFilter() {
 
     const reset = useSelector(state => state.productReducer.resetFilter);
 
+    const url = new URL(window.location.href);
+
     useEffect( 
         () => {
-            setCheckedBtn(1);
+            if(url.searchParams.get("sortCondition")) {
+                switch(url.searchParams.get("sortCondition")) {
+                    case "latest":
+                        setCheckedBtn(1);
+                        break;
+                    case "maxPrice":
+                        setCheckedBtn(2);
+                        break;
+                    case "minPrice":
+                        setCheckedBtn(3);
+                        break;
+                    default:
+                        setCheckedBtn(1);
+                        break;                        
+                }
+            } else {
+                setCheckedBtn(1);
+            }
             dispatch({ type: GET_RESET_FILTER, payload: 0});
         },[reset == 1]
     );
