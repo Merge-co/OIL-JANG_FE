@@ -1,8 +1,8 @@
 import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_MESSAGES_RESULT, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN, priceToString } from '../../modules/ProductModule';
+import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN, priceToString } from '../../modules/ProductModule';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
@@ -15,6 +15,8 @@ function MergeBox() {
     const [ selectedItemCount, setSelectedItemCount ] = useState('0');
     const [ selectedItem, setSelectedItem ] = useState([]);
 
+    const getSearchAgain = useSelector(state => state.productReducer.searchAgain);
+
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -23,8 +25,11 @@ function MergeBox() {
         setMoney(e.target.value.replace(/[^0-9]/g, ''));
     }
 
+    const usernameRef = useRef();
+
     useEffect(
         () => {
+            usernameRef.current.focus();
             if(window.localStorage.getItem("burget") == 0) {
                 setMoney("");
             } else {
@@ -34,7 +39,8 @@ function MergeBox() {
             if(window.localStorage.getItem("remainMoneySearch")) {
                 window.localStorage.setItem("remainMoneySearch", 0);
             }
-        },[]
+            dispatch({ type: GET_SEARCH_AGAIN, payload: 0});
+        },[getSearchAgain]
     );
 
     function setCalcRemain() {
@@ -74,7 +80,8 @@ function MergeBox() {
     const onClickReset = () => {
         let isReset = window.confirm('초기화하시겠습니까?');
         if(isReset) {
-            window.localStorage.setItem("burget", '0');
+            usernameRef.current.focus();
+            window.localStorage.setItem("burget", '');
             window.localStorage.setItem("remainMoney", 0);
             window.localStorage.setItem("remainMoneySearch", 0);
             if(window.localStorage.getItem("mergeKeys")) {
@@ -164,7 +171,7 @@ function MergeBox() {
             <div className={MergeBoxCSS.mergeBox1}>
                 <div className={MergeBoxCSS.setMoneyTitle}>예산 설정</div><button onClick={() => onClickSetMoney()} className={ButtonCSS.smallBtn2}>설정</button>
                 <label>
-                    <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money} placeholder="예산 설정"/>
+                    <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money} placeholder="예산 설정" ref={usernameRef}/>
                 </label>
             </div>
             <div className={MergeBoxCSS.mergeBox1}>

@@ -12,7 +12,14 @@ function PagingBar(pagingBtn) {
     const after = pageStatus ? pageStatus.after : "";
     const current = pageStatus ? pageStatus.current : "";
 
-    let numPageArr = Object.values(numPage).sort();
+    let numPageArr = Object.values(numPage).sort((a, b) => {
+        if(+a < +b) return -1;
+        if(+a > +b) return 1;
+        if(+a === +b) return 0;
+        else return -1;
+      });
+
+    console.log(numPageArr);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
