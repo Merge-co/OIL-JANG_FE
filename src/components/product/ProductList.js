@@ -5,6 +5,7 @@ import PagingBar from "../common/PagingBar";
 import { useEffect } from "react";
 import { callGetProductList } from "../../apis/ProductAPICalls";
 import { GET_SEARCH_AGAIN } from "../../modules/ProductModule";
+import { GET_PAGING } from "../../modules/PagingModule";
 
 function ProductList(type) {
 
@@ -13,6 +14,8 @@ function ProductList(type) {
     const reset = useSelector(state => state.productReducer);
     const getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
     const getSearchAgain = useSelector(state => state.productReducer.searchAgain);
+    
+    const curURL = new URL(window.location.href);
 
     let productList = ProductInfos[0] ? ProductInfos[0].productList : "";
     let pagingBtn = ProductInfos[0] ? ProductInfos[0].pagingBtn : "";
@@ -34,6 +37,9 @@ function ProductList(type) {
                 default:
                     dispatch(callGetProductList("list"));
                     break;
+            }
+            if(!curURL.searchParams.get('page')) {
+                dispatch({ type: GET_PAGING, payload: 0});
             }
             dispatch({ type: GET_SEARCH_AGAIN, payload: 0});
         },[PagingInfo, reset.productFilter, getCategoryCode, getSearchAgain]

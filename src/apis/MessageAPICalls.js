@@ -13,20 +13,34 @@ export const callMessageRegistAPI = ({form}) => {
     console.log('[MessageAPICalls] callMessageRegistAPI Call');
 
     const requestURL = `http://localhost:8000/messages`;
+    let date = new Date();
 
     return async (dispatch, getState) => {
+
         const result = await axios.post(requestURL, {
+       
+            msgCode: form.get('msgCode'),
+            msgContent: form.get('msgContent'),
+            msgStatus: "N",
+            msgTime: date,
+            refProductCode: form.get('refProductCode'),
+            senderCode: form.get('senderCode'),
+            receiverCode: form.get('receiverCode'),
+            msgDeleteInfoMsgDeleteDTO: {
+                    msgDeleteCode: 1,
+                    msgDeleteStatus: "N"
+            },
             method: "POST",
             headers: {
                 "Accept": "*/*",
+                Authorization: `Bearer ${getCookie("accessToken")}`
             },
             body: form
         })
-        .then(response => response.json());
-
         console.log('[MessageAPICalls] callMessageRegistAPI RESULT : ', result);
 
         dispatch({type: POST_MESSAGES, payload: result});
+        return result;
     }
 
 }
@@ -42,6 +56,7 @@ console.log('[MessageAPICalls] calllMessageModalAPI CALL');
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
+                Authorization: `Bearer ${getCookie("accessToken")}`
             }
         })
         .then(response => response.json());
@@ -64,14 +79,15 @@ export const callMessageDetailAPI = ({msgCode}) => {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
+                Authorization: `Bearer ${getCookie("accessToken")}`
             }
         })
-        .then(response => response.json());
 
         console.log('[MessageAPICalls] callMessageDetailAPI RESULT', result);
         if(result.status == 200){
             console.log('[MessageAPICalls] callMessageDetailAPI SUCCESS');
             dispatch({type: GET_MESSAGES_MSGCODE, payload: result.data});
+            return result;
         }
     }
 }
@@ -83,7 +99,7 @@ export const callMessageListAPI = ({userCode, isReceived}) => {
 
     const requestURL = `http://localhost:8000/users/${userCode}/messages?isReceived=${isReceived}`;
 
-    const params = new URLSearchParams(window.location.search);
+    //const params = new URLSearchParams(window.location.search);
 
     // if(params.get("page")){
     //     requestURL += `page=${params.get("page")}`;
@@ -103,12 +119,10 @@ export const callMessageListAPI = ({userCode, isReceived}) => {
                     Authorization: `Bearer ${getCookie("accessToken")}`
                 }
             })
-    
             console.log('[MessageAPICalls] callMessageListAPI RESULT', result);
             if(result.status == 200){
                 console.log('[MessageAPICalls] callMessageListAPI SUCCESS');
                 dispatch({type: GET_MESSAGES_ISRECEIVED, payload: result.data});
-                console.log("페이로드 : " + result.data)
                 return result;
             }
         }catch(error){
@@ -131,6 +145,7 @@ export const callMessageDeleteAPI = ({msgCode}) => {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
+                Authorization: `Bearer ${getCookie("accessToken")}`
             }
         })
         .then(response => response.json());
@@ -152,6 +167,7 @@ export const callMessageSearchListAPI = ({userCode, isReceived, keyword}) => {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
+                
             }
         })
        // .then(response => response.json());

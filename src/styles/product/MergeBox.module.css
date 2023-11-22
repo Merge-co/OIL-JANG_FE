@@ -82,6 +82,12 @@
   position: relative;
   top: 3px;
   text-align: right;
+  border: 1px solid #222;
+  border-radius: 5px;
+}
+
+.setMoney:focus {
+  outline: none;
 }
 
 .selectedItemNum {

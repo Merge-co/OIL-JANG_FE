@@ -20,6 +20,7 @@ import UsedProductDetail from './pages/product/UsedProductDetail';
 import WishList from './pages/wish/WishList';
 import SubHeaderLayout from './layouts/SubHeaderLayout';
 import MyProductList from './pages/product/MyProductList';
+import MessageDetail from './pages/message/MessageDetail';
 
 
 
@@ -45,6 +46,7 @@ function App() {
 
           <Route path='admin' element={<AdminNav />} />
           <Route path='messageList' element={<MessageList />} />
+          <Route path='/messageDetail/:msgCode' element={<MessageDetail/>}/>
 
           <Route path='/report' element={<Report />} />
           <Route path='search' element={<Search />} />
