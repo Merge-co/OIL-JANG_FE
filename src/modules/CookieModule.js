@@ -10,3 +10,4 @@ export const getCookie = (name) => {
    return cookies.get(name); 
    
 }
+

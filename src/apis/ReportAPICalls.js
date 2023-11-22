@@ -6,11 +6,17 @@ import {
     PUT_REPORT
 } from '../modules/ReportModule.js'
 
-export const callReportManagementAPI = () => {
+export const callReportManagementAPI = ({ currentPage }) => {
 
     console.log('[ReportAPICalls] callReportAPI Call')
 
-    const requestURL = `http://localhost:8000/reports/reportSelect`
+    let requestURL;
+
+    if (currentPage !== undefined || currentPage !== null) {
+        requestURL = `http://localhost:8000/reports/reports?offset=${currentPage}`;
+    } else {
+        requestURL = `http://localhost:8000/reports/reports`
+    }
 
     return async (dispatch, getState) => {
 
@@ -30,8 +36,8 @@ export const callReportManagementAPI = () => {
 export const callReportRegistAPI = ({ form }) => {
     const requestURL = `http://localhost:8000/reports/report`;
 
-    console.log('[ReportRegist] fromData productCode : ', form.get('productCode'));
-
+    console.log('[ReportRegist] fromData 유저닉네임 : ', form.get('reportUserNick'));
+    let distinction = "N";
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
 
@@ -40,7 +46,7 @@ export const callReportRegistAPI = ({ form }) => {
             productCode: form.get('productCode'),
             reportComment: form.get('reportComment'),
             sellStatusCode: form.get('sellStatusCode'),
-            processDistinction: form.get('processDistinction')
+            processDistinction: distinction
         }
 
         ).then(response => response);
@@ -60,7 +66,7 @@ export const callReportUpdateAPI = ({ form }) => {
         let processCode = "Y";
 
         const result = await axios.put(requestURL, {
-            reportNo : form.get('reportNo'),
+            reportNo: form.get('reportNo'),
             processDistinction: processCode,
             processComment: form.get('processComment'),
             sellStatusCode: form.get('sellStatusCode'),
@@ -99,12 +105,12 @@ export const callReportDetailAPI = ({ reportNo }) => {
     }
 }
 
-export const callSearchReportAPI = ({ search }) => {
+export const callSearchReportAPI = ({search}) => {
     console.log('[ReportAPICalls] callSearchReportAPI Call');
 
-    console.log("받아옴 ? :", search);
+    console.log("에피아이 안들어오냐 ? ? :", search);
 
-    const requestURL = `http://localhost:3000/search?value=${search}`;
+    const requestURL = `http://localhost:8000/search?s=${search}`;
 
     return async (dispatch, getState) => {
 

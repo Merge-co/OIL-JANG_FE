@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { callSearchReportAPI } from "../../apis/ReportAPICalls";
-import ReportManagement from "../report/ReportManagement";
+import ReportManagement from "./ProcessManagement";
 import ReportSearch from "./ReportSearch";
 
 function Search() {
@@ -13,7 +13,8 @@ function Search() {
     const reports = useSelector(state => state.reportReducer);
 
     const dispatch = useDispatch();
-    console.log('여기도 안들어오나 ??')
+
+    console.log('여기 오나요 ? : ' , search)
 
     useEffect(() => {
         dispatch(callSearchReportAPI({
@@ -25,7 +26,7 @@ function Search() {
     return (
         <div>
             {
-                reports.length > 0 && reports.map((report) => (<ReportSearch key={report.reportNo} report={report} />))
+                reports.length > 0 && reports.map((report) => (<ReportSearch key={report.reportUserNick} report={report} />))
             }
         </div>
     );
