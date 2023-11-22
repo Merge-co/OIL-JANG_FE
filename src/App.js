@@ -19,6 +19,7 @@ import UsedProduct from './pages/product/UsedProduct';
 import UsedProductDetail from './pages/product/UsedProductDetail';
 import WishList from './pages/wish/WishList';
 import SubHeaderLayout from './layouts/SubHeaderLayout';
+import MyProductList from './pages/product/MyProductList';
 
 
 
@@ -32,11 +33,13 @@ function App() {
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
+          
 
           <Route path='admin' element={<AdminNav />} />
 
 
           <Route path='myPage' element={<SubHeaderLayout />}>
+            <Route path='myproductlist' element={<MyProductList />} />
             <Route path='wishList' element={<WishList />} />
           </Route>
 
