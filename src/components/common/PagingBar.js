@@ -43,8 +43,8 @@ function PagingBar(pagingBtn) {
     function PagingBtnRender() {
         return (
             <>
-                <div className={PagingBarCSS.barCenter}>
-                    <div className={`${PagingBarCSS.paging}, clearfix`}>
+                <div className={`${PagingBarCSS.barCenter, PagingBarCSS.clearfix}`}>
+                    <div className={`${PagingBarCSS.paging}`}>
                         {start === 0 ? "" : ""}
                         <button onClick={() => onClickHandler(start)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-backward"></i></button>
                         <button onClick={() => onClickHandler(before)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-left"></i></button>

@@ -70,6 +70,8 @@ function Header() {
           <img src="/images/logOutIcon.svg" alt="로그아웃 이미지"/>
         </NavLink>
       </div>
+
+
     );
   }
 
@@ -81,7 +83,7 @@ function Header() {
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/report">신고하기</NavLink></div>
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/inquiry">문의관리</NavLink></div>
         <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/" onClick={Logouthandler}>
-          <img src="/images/logOutIcon.svg" alt="로그아웃 이미지"/>
+        <img src="/images/logOutIcon.svg" alt="로그아웃 이미지"/>
         </NavLink>
       </>
     );
