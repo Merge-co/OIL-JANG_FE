@@ -3,8 +3,7 @@ import { GET_WISHLIST_DELELE_RESULT } from "../modules/ProductModule";
 import { GET_WISHLIST } from "../modules/WishListModule";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
-
-const comIp = "192.168.0.6";
+import { comIp } from "./ProductAPICalls";
 
 export const callWishListDeleteAPI = productCode => {
     let requestURL = `http://${comIp}:8000/wishLists/${productCode}`;

@@ -45,10 +45,10 @@ function Header() {
         </div>
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to ="/addProduct">상품등록</NavLink></div>
         <div>
-          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/myPage"><img src="/images/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
+          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/myPage"><img src="/images/siteImage/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
         </div>
         <div>
-          <NavLink className={`${({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} ${HeaderCSS.headerMessage}`} style={{ textDecoration: "none" }} to ="/messageList"><img src="/images/messageIcon.svg" alt="쪽지 이미지"/></NavLink>
+          <NavLink className={`${({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} ${HeaderCSS.headerMessage}`} style={{ textDecoration: "none" }} to ="/messageList"><img src="/images/siteImage/messageIcon.svg" alt="쪽지 이미지"/></NavLink>
         </div>
         {headerChange === 2 ? <LogOut/>: <LogIn/>}
       </>
@@ -58,7 +58,7 @@ function Header() {
   function LogIn() {
     return(
       <div>
-        <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/login"><img src="/images/logInIcon.svg" alt="로그인 이미지"/></NavLink>
+        <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/login"><img src="/images/siteImage/logInIcon.svg" alt="로그인 이미지"/></NavLink>
       </div>
     );
   }
@@ -67,7 +67,7 @@ function Header() {
     return(
       <div>
         <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/" onClick={Logouthandler}>
-          <img src="/images/logOutIcon.svg" alt="로그아웃 이미지"/>
+          <img src="/images/siteImage/logOutIcon.svg" alt="로그아웃 이미지"/>
         </NavLink>
       </div>
 
@@ -83,7 +83,7 @@ function Header() {
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/report">신고하기</NavLink></div>
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/inquiry">문의관리</NavLink></div>
         <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/" onClick={Logouthandler}>
-        <img src="/images/logOutIcon.svg" alt="로그아웃 이미지"/>
+        <img src="/images/siteImage/logOutIcon.svg" alt="로그아웃 이미지"/>
         </NavLink>
       </>
     );
@@ -92,6 +92,11 @@ function Header() {
   return (
     <>  
       <div className={HeaderCSS.headerLayout}>
+        <div>
+          <NavLink to="/">
+            <img src="/images/siteImage/logo.svg" alt="오일장 로고" height={50} className={HeaderCSS.headerLogo} />
+          </NavLink>
+        </div>
         <div className={HeaderCSS.headerContainter}>
           {headerChange === 3 ? <AdminHeader/> : <NotLogIn/>}
           {/* <div>

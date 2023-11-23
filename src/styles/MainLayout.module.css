@@ -1,0 +1,19 @@
+.MainLayout {
+    position: relative;
+    margin: 0 auto;
+}
+
+.MainTitle {
+    position: relative;
+    color: #222;
+    font-weight: 500;
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.MainTitle img {
+    position: relative;
+    top: 5px;
+    margin-right: 5px;
+}

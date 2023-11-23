@@ -27,18 +27,14 @@ function ProductItem(productList) {
 
     const navigate = useNavigate();
 
-    const onErrorImg = (e) => {
-        e.target.src = "/images/home.svg";
-    }
-
     return(
         <>  
             <div className='mergeItem'>
                 <div className={ProductListCSS.productItem}>
-                    <div onClick={() => type === "merge" ? onClickItemDetail(productElement.productCode) : navigate(`${productElement.productCode}`)} className={ProductItemCSS.productThumb}>
-                        <img src={productElement && productElement.productThumbAddr} alt='상품 이미지' height="166" onError={onErrorImg}/>
+                    <div onClick={() => type === "merge" ? onClickItemDetail(productElement.productCode) : navigate(`/usedProduct/${productElement.productCode}`)} className={ProductItemCSS.productThumb}>
+                        <img src={productElement && productElement.productThumbAddr} alt='상품 이미지' height="166" />
                     </div>
-                    <div onClick={() => type === "merge" ? onClickItemDetail(productElement.productCode) : navigate(`${productElement.productCode}`)} className={ProductItemCSS.productDescBox}>
+                    <div onClick={() => type === "merge" ? onClickItemDetail(productElement.productCode) : navigate(`/usedProduct/${productElement.productCode}`)} className={ProductItemCSS.productDescBox}>
                         <div className={ProductItemCSS.itemBoxTitle} title={productElement.productName}>{productElement.productName}</div>
                         <div className={ProductItemCSS.itemBoxPrice}>{priceToString(productElement.productPrice)}</div>
                         <div className={ProductItemCSS.itemBoxDatetime}>{timeForToday(productElement.enrollDateTime)}</div>

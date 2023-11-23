@@ -5,7 +5,7 @@ import { GET_MESSAGES_RESULT, GET_PRODUCT_DETAIL, GET_WISHLIST_AGAIN, GET_WISHLI
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
 
-const comIp = "192.168.0.6";
+export const comIp = "localhost";
 
 export const callGetProductCategory = () => {
     const requestURL = `http://${comIp}:8000/categories`;
@@ -13,7 +13,7 @@ export const callGetProductCategory = () => {
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
             headers: {
-                "Accept": "*/*"
+                "Accept": "*/*",
             }
         }).then(
             result => result.data.results.productCategoryList
@@ -23,13 +23,17 @@ export const callGetProductCategory = () => {
     };
 }
 
-export const callGetProductList = (type) => {
+export const callGetProductList = (type, morePage) => {
     let requestURL = `http://${comIp}:8000/products?pageKind=${type}`;
 
     const params = new URLSearchParams(window.location.search);
     if(params.get("page")) {
         requestURL += `&page=${params.get("page")}`;
     }
+    if(morePage) {
+        requestURL += `&page=${morePage}`;
+    }
+
     if(params.get("categoryCode")) {
         requestURL += `&categoryCode=${params.get("categoryCode")}`;
     }
@@ -49,10 +53,11 @@ export const callGetProductList = (type) => {
     if(params.get("maxPrice")) {
         requestURL += `&maxPrice=${params.get("maxPrice")}`;
     }
+
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
             headers: {
-                "Accept": "*/*"
+                "Accept": "*/*",
             }
         }).then(
             result => result.data.results
@@ -68,6 +73,9 @@ export const callMessagesRegistAPI = (productCode, refUserCode) => {
 
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
+            headers: {
+                "Accept": "*/*",
+            },
             msgCode: 0,
             msgContent: "상품 구매합니다.",
             msgDeleteInfoMsgDeleteDTO: {
@@ -100,7 +108,7 @@ export const callGetProductDetail = path => {
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
             headers: {
-                "Accept": "*/*"
+                "Accept": "*/*",
             },
             params: {
                 isView: isView,
@@ -118,6 +126,9 @@ export const callWishListRegistAPI = productCode => {
     let requestURL = `http://${comIp}:8000/products/${productCode}/wishLists`;
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
+            headers: {
+                "Accept": "*/*",
+            },
             refUserCode: jwtDecode(getCookie("accessToken")).userCode
         }
         ).then(response => response.data.results.result);

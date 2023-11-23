@@ -19,7 +19,6 @@ function PagingBar(pagingBtn) {
         else return -1;
       });
 
-    console.log(numPageArr);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
