@@ -21,6 +21,7 @@ import WishList from './pages/wish/WishList';
 import SubHeaderLayout from './layouts/SubHeaderLayout';
 import MyProductList from './pages/product/MyProductList';
 import MessageDetail from './pages/message/MessageDetail';
+import ProductEdit from './pages/product/ProductEdit';
 
 
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
+          <Route path='productEdit' element={<ProductEdit /> } />
           
 
           <Route path='admin' element={<AdminNav />} />
