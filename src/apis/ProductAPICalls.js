@@ -5,8 +5,10 @@ import { GET_MESSAGES_RESULT, GET_PRODUCT_DETAIL, GET_WISHLIST_AGAIN, GET_WISHLI
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
 
+const comIp = "192.168.0.6";
+
 export const callGetProductCategory = () => {
-    const requestURL = `http://localhost:8000/categories`;
+    const requestURL = `http://${comIp}:8000/categories`;
 
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
@@ -22,7 +24,7 @@ export const callGetProductCategory = () => {
 }
 
 export const callGetProductList = (type) => {
-    let requestURL = `http://localhost:8000/products?pageKind=${type}`;
+    let requestURL = `http://${comIp}:8000/products?pageKind=${type}`;
 
     const params = new URLSearchParams(window.location.search);
     if(params.get("page")) {
@@ -61,7 +63,7 @@ export const callGetProductList = (type) => {
 }
 
 export const callMessagesRegistAPI = (productCode, refUserCode) => {
-    let requestURL = `http://localhost:8000/messages`;
+    let requestURL = `http://${comIp}:8000/messages`;
     let date = new Date().toISOString().substring(0, 10); 
 
     return async (dispatch, getState) => {
@@ -85,7 +87,7 @@ export const callMessagesRegistAPI = (productCode, refUserCode) => {
 
 export const callGetProductDetail = path => {
 
-    const requestURL = `http://localhost:8000/products/${path}`;
+    const requestURL = `http://${comIp}:8000/products/${path}`;
 
     let isView;
     if(!window.localStorage.getItem(`${path}view`)) {
@@ -113,7 +115,7 @@ export const callGetProductDetail = path => {
 }
 
 export const callWishListRegistAPI = productCode => {
-    let requestURL = `http://localhost:8000/products/${productCode}/wishLists`;
+    let requestURL = `http://${comIp}:8000/products/${productCode}/wishLists`;
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
             refUserCode: jwtDecode(getCookie("accessToken")).userCode

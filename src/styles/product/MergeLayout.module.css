@@ -1,9 +1,11 @@
 .mergeMain {
     position: relative;
     display: flex;
-    flex-direction: column;
-    flex-flow: column wrap;
     align-content: center;
-    width: 1400px;
+    width: 1067px;
     margin: 0 auto;
+  }
+
+  .mergeMain:nth-child(6) {
+    flex-wrap: wrap;
   }

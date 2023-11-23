@@ -1,5 +1,6 @@
 .productFilterContainer {
     position: relative;
+    display: flex;
   }
   
   .productFilter {

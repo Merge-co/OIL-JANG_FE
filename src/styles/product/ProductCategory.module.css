@@ -16,7 +16,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   width: 130px;
   height: 39px;
   background-color: #222222;
@@ -29,13 +29,13 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
 }
 
 .cate2 {
   position: relative;
   display: flex;
-  align-content: center;
+  align-items: center;
   background-color: #eee;
   min-width: 700px;
   height: 39px;
@@ -68,6 +68,7 @@
   font-size: 16px;
   color: #222;
   cursor: pointer;
+  box-sizing: unset;
 }
 
 .cate3Selected {
@@ -83,6 +84,7 @@
   color: #fff;
   cursor: pointer;
   background-color: #EF6253;
+  box-sizing: unset;
 }
 
 

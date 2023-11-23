@@ -88,7 +88,7 @@ function Header() {
       </>
     );
   }
-
+  
   return (
     <>  
       <div className={HeaderCSS.headerLayout}>
@@ -107,7 +107,7 @@ function Header() {
           로그아웃
         </NavLink>
       </div> */}
-      
+      <div className={HeaderCSS.headerMargin}></div>
     </>
   );
 }
