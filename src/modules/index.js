@@ -9,6 +9,7 @@ import productReducer from './ProductModule';
 import messageReducer from './MessageModule';
 import wishListReducer from './WishListModule';
 import userReducer from './UserModule';
+import processReducer from './ProcessModule';
 
 const rootReducer = combineReducers({
     productCategoryReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     productReducer,
     messageReducer,
     wishListReducer,
-    userReducer
+    userReducer,
+    processReducer
 });
 export default rootReducer;

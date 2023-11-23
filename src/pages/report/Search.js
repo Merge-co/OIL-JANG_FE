@@ -10,23 +10,25 @@ function Search() {
     const { search } = useLocation();
     const { value } = queryString.parse(search);
 
-    const reports = useSelector(state => state.reportReducer);
+    const reports = useSelector(state => state.reportReducer.searchReport);
+
+    console.log('검색 페이지 ',reports);
 
     const dispatch = useDispatch();
 
-    console.log('여기 오나요 ? : ' , search)
+    console.log('Search Page :' , search)
 
     useEffect(() => {
         dispatch(callSearchReportAPI({
             search: value
         }));
-    }, []
+    }, [dispatch, value]
     );
 
     return (
         <div>
             {
-                reports.length > 0 && reports.map((report) => (<ReportSearch key={report.reportUserNick} report={report} />))
+               reports && <ReportSearch report={reports} />
             }
         </div>
     );

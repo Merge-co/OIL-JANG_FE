@@ -1,32 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../styles/Button.module.css"
 import { useEffect, useState } from "react";
 import { callReportUpdateAPI, callReportDetailAPI } from "../../apis/ReportAPICalls";
 import { callMessagesRegistAPI } from "../../apis/ProductAPICalls";
-import { getCookie } from "../../modules/CookieModule";
-import modalCSS from "../../styles/Modal.module.css"
+import ModalCSS from "../../styles/Modal.module.css"
 
 function ReportUpdate({ reportNo, setModalOpen }) {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const params = useParams();
-    const processList = useSelector(state => state.reportReducer);
+    const processList = useSelector(state => state.processReducer);
     const process = processList.data;
+    const navigate = useNavigate();
 
-    console.log(setModalOpen);
+    console.log('[ReportUpdatePage] : ', reportNo);
+
     const closeModal = () => {
         setModalOpen(false);
     }
-    useEffect(
-        () => {
-            dispatch(callReportDetailAPI({ // 신고처리 상세내역
-                reportNo: params.reportNo
-            }));
-        },
-        []
-    );
+    useEffect(() => {
+        dispatch(callReportDetailAPI({ reportNo }));
+    }, [reportNo]);
 
     // 셋팅할 준비
     const [form, setForm] = useState({
@@ -47,34 +41,27 @@ function ReportUpdate({ reportNo, setModalOpen }) {
         console.log('[ReportUpdate] onClickReportUpdateHcdcdcdcdcdcdcdcdcdcdandler');
 
         const formData = new FormData();
-        formData.append("reportNo", params.reportNo);
+        formData.append("reportNo", reportNo);
         formData.append("processComment", form.processComment);
         formData.append("sellStatusCode", form.sellStatusCode);
 
         dispatch(callReportUpdateAPI({
             form: formData
         }));
-
-        navigate(`/admin`, { replace: false });
+        setModalOpen(false);
     }
-
-
-
 
     // 신고처리에 대한 쪽지 발송
     const onClickSendMsg = () => {
-
         dispatch(callMessagesRegistAPI())
-
     }
-
-
-
+    console.log('업데이트 페이지 : ', processList );
+    console.log('업데이트 페이지222333444 : ', process );
     return (
-        (process &&
-            <>
-                <div className={modalCSS.container}>
-                    <button className={modalCSS.close} onClick={closeModal}>X</button>
+        <>
+            {process && (
+                <div className={ModalCSS.container}>
+                    <button className={ModalCSS.close} onClick={closeModal}>X</button>
                     <div>신고처리</div>
                     <div>No: {process.reportNo}</div>
                     <div>접수일시 : {process.reportDate}</div>
@@ -93,10 +80,9 @@ function ReportUpdate({ reportNo, setModalOpen }) {
                     <textarea cols="40" rows="2" name="processComment" onChange={onChangeHandler}></textarea>
                     <button className={Button.smallBtn2} onClick={onClickReportUpdateHandler} >완료</button>
                 </div>
-            </>
-        )
-    );
-
+            )}
+        </>
+    )
 }
 
 export default ReportUpdate;
