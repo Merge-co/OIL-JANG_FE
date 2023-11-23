@@ -153,6 +153,7 @@ export const callMessageDeleteAPI = ({msgCode}) => {
         console.log('[MessageAPICalls] callMessageDeleteAPI RESULT', result);
         
         dispatch({type: DELETE_MESSAGES_MSGCODE, payload: result});
+        return result;
     }
 }
 

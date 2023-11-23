@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import{callMessageDetailAPI} from '../../apis/MessageAPICalls'
-import { callMessageRegistAPI } from '../../apis/MessageAPICalls';
+import { callMessageRegistAPI, callMessageListAPI } from '../../apis/MessageAPICalls';
 import {useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import ButtonCSS from '../../styles/Button.module.css';
@@ -22,8 +22,7 @@ function MessageDetail({msgCode}){
     const [replyContent, setReplyContent] = useState('');
     const [isReadOnly, setIsReadOnly] = useState(true);
 
-    const memoizedMessageMenu = useMemo(() => <MessageMenu />, []);
-
+    const [messageList, setMessageList] = useState([]);
     
         useEffect(
         () => {
@@ -60,8 +59,50 @@ function MessageDetail({msgCode}){
     );
 
 
+    
+
+        const handleMenuClick = (isReceived) => {
+            // 메뉴 클릭에 대한 동작 정의
+            if (isReceived === 'true') {
+              // 받은 쪽지함 처리
+              dispatch(callMessageListAPI({
+                userCode: 1,
+                isReceived: true,
+              })).then((result) => {
+                console.table("result : " + result);
+                if(result && result.data){
+                    setMessageList([...result.data]);
+                    navigate('/messageList');
+                }else{
+                    console.error('[MessageList] API response does not contain data:', result);
+                }
+        
+            }).catch((error) => {
+                console.error('[MessageList] API call error:', error);
+            })
+        
+            } else if (isReceived === 'false') {
+              // 보낸 쪽지함 처리
+              dispatch(callMessageListAPI({
+                userCode: 1,
+                isReceived: false,
+              })).then((result) => {
+                console.table("result : " + result);
+                if(result && result.data){
+                    setMessageList([...result.data]);
+                    navigate('/messageList')
+                }else{
+                    console.error('[MessageList] API response does not contain data:', result);
+                }
+        
+            }).catch((error) => {
+                console.error('[MessageList] API call error:', error);
+            })
+        };
+            }
 
 
+            const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
 
     const [form, setForm] = useState({
         msgCode: 0,
@@ -172,7 +213,7 @@ return(
             <input 
                 type="submit" 
                 value={isReadOnly ? '답장' : '보내기'} 
-                className={`${ButtonCSS.middleBtn2}`} 
+                className={`${ButtonCSS.middleBtn2} ${MessagDetailCSS.clearfix}`} 
                 style={{float : 'right', marginTop : '50px'}}
                 onClick={handleReplyClick}
             />
