@@ -1,10 +1,12 @@
 import axios from 'axios';
 import {
     GET_REPORTS,
-    GET_PROCESSDETAIL,
     POST_REPORT,
+    GET_SEARCH_REPORTS,
     PUT_REPORT
 } from '../modules/ReportModule.js'
+
+import { GET_PROCESSDETAIL } from '../modules/ProcessModule.js';
 
 export const callReportManagementAPI = ({ currentPage }) => {
 
@@ -74,7 +76,7 @@ export const callReportUpdateAPI = ({ form }) => {
         })
             .then(response => response);
         console.log('[ReportAPICalls] callProductUpdateAPI RESULT : ', result)
-        dispatch({ type: PUT_REPORT, payload: result });
+        // dispatch({ type: PUT_REPORT, payload: result });
     };
 }
 
@@ -84,7 +86,7 @@ export const callReportDetailAPI = ({ reportNo }) => {
 
     const requestURL = `http://localhost:8000/reports/processDetail/${reportNo}`;
 
-    console.log('[ReportAPICall] callReportDetailAPI : ')
+    console.log('[ReportAPICall] callReportDetailAPI : ', reportNo)
 
     return async (dispatch, getState) => {
 
@@ -110,7 +112,7 @@ export const callSearchReportAPI = ({search}) => {
 
     console.log("에피아이 안들어오냐 ? ? :", search);
 
-    const requestURL = `http://localhost:8000/search?s=${search}`;
+    const requestURL = `http://localhost:8000/reports/search?s=${search}`;
 
     return async (dispatch, getState) => {
 
@@ -124,7 +126,7 @@ export const callSearchReportAPI = ({search}) => {
             .then(response => response.json());
         console.log('[ReportAPICalls] callSearchReportAPI RESULT : ', result);
 
-        dispatch({ type: GET_REPORTS, payload: result });
+        dispatch({ type: GET_SEARCH_REPORTS, payload: result });
     }
 
 }

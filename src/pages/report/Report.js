@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import { callReportRegistAPI } from "../../apis/ReportAPICalls";
 import { useNavigate } from "react-router-dom";
 import ButtonCSS from '../../styles/Button.module.css'
-import ReportCSS from '../../styles/report/ReportCSS.module.css';
 import modalCSS from '../../styles/Modal.module.css'
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../modules/CookieModule";
 
 function Report({ nickName, productCode, sellStatus, productName, setModalOpen }) {
+    // nickName -> 판매자 정보 
 
     // 모달창 끄기 버튼
     const closeModal = () => {
@@ -28,9 +28,10 @@ function Report({ nickName, productCode, sellStatus, productName, setModalOpen }
         };
     }, []
     );
-    const seller = jwtDecode(getCookie("accessToken")).userName;
-    console.log('유저 정보', seller);
-    const navigate = useNavigate();
+    
+    const decodedToken = jwtDecode(getCookie('accessToken'));
+    const seller = decodedToken.nickName;
+    console.log('토큰 확인 ',jwtDecode(getCookie("accessToken")));
 
     // 리덕스를 이용하기 위한 디스 패처 셀렉터 선언
     const dispatch = useDispatch();
