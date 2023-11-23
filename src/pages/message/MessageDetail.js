@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import{callMessageDetailAPI} from '../../apis/MessageAPICalls'
 import { callMessageRegistAPI } from '../../apis/MessageAPICalls';
 import {useDispatch, useSelector } from 'react-redux';
@@ -16,12 +16,52 @@ function MessageDetail({msgCode}){
     const PagingInfo = useSelector(state => state.pagingReducer);
     const dispatch = useDispatch();
     const params = useParams();
+    const navigate = useNavigate();
 
     const [messageDetail, setMessageDetail] = useState([]);
     const [replyContent, setReplyContent] = useState('');
     const [isReadOnly, setIsReadOnly] = useState(true);
 
     const memoizedMessageMenu = useMemo(() => <MessageMenu />, []);
+
+    
+        useEffect(
+        () => {
+            dispatch(callMessageDetailAPI({
+                msgCode: params.msgCode
+            
+            })).then((result) => {
+                console.log("result============================" + result)
+                if(result && result.data) {
+                   // const iterableData = Array.isArray(result.data) ? result.data : [result.data];
+
+                   setMessageDetail([...result.data]);       
+
+                   const { refProductCode, senderCode, receiverCode } = result.data[0];
+                   console.log("result.data:" + [...result.data])
+                   console.log('===================refProductCode:' + refProductCode);
+                   console.log('===================senderCode:' + senderCode);
+                   console.log('===================senderCode:' + senderCode);
+                   setForm({
+                    ...form,
+                    refProductCode,
+                    senderCode,
+                    receiverCode,
+                   });
+
+                }else{
+                    console.log('[MessageDetail] API response does not contain data: ', result);
+
+                }
+            }).catch((error) => {
+                console.error('[MessageDetail] API call error:', error);
+            })
+        },[PagingInfo, dispatch, msgCode]
+    );
+
+
+
+
 
     const [form, setForm] = useState({
         msgCode: 0,
@@ -40,47 +80,26 @@ function MessageDetail({msgCode}){
         if(!isReadOnly){
             setReplyContent(e.target.value)
         }
+
         setForm({
             ...form,
             replyContent,
             [e.target.name]: e.target.value
         });
     }
-        useEffect(
-        () => {
-            dispatch(callMessageDetailAPI({
-                msgCode: params.msgCode
-            
-            })).then((result) => {
-                console.log("result============================" + result)
-                if(result && result.data) {
-                   // const iterableData = Array.isArray(result.data) ? result.data : [result.data];
-                    setMessageDetail([...result.data]);
-           
-                    console.log("MessageDetail==========" + messageDetail)
-                  
-                }else{
-                    console.log('[MessageDetail] API response does not contain data: ', result);
-
-                }
-            }).catch((error) => {
-                console.error('[MessageDetail] API call error:', error);
-            })
-        },[PagingInfo, dispatch, msgCode]
-    );
 
     const handleReplyClick = async () => {
 
-        // console.log("=================form0 ================" + form);
-        // console.log("msgCode: " +  form.msgCode);
-        // console.log("msgContent: " +  form.msgContent);
-        // console.log("msgStatus: " +  form.msgStatus);
-        // console.log("msgTime: " +  form.msgTime);
-        // console.log("refProductCode: " +  form.refProductCode);
-        // console.log("senderCode: " +  form.senderCode);
-        // console.log("receiverCode: " +  form.receiverCode);
-        // console.log("msgDeleteCode: " +  form.msgDeleteCode);
-        // console.log("msgDeleteStatus: " +  form.msgDeleteStatus);
+        console.log("=================form0 ================" + form);
+        console.log("msgCode: " +  form.msgCode);
+        console.log("msgContent: " +  form.msgContent);
+        console.log("msgStatus: " +  form.msgStatus);
+        console.log("msgTime: " +  form.msgTime);
+        console.log("refProductCode: " +  form.refProductCode);
+        console.log("senderCode: " +  form.senderCode);
+        console.log("receiverCode: " +  form.receiverCode);
+        console.log("msgDeleteCode: " +  form.msgDeleteCode);
+        console.log("msgDeleteStatus: " +  form.msgDeleteStatus);
 
 
         const formData = new FormData();
@@ -88,7 +107,6 @@ function MessageDetail({msgCode}){
         formData.append("msgContent", form.msgContent);
         formData.append("msgStatus", form.msgStatus);
         formData.append("msgTime", form.msgTime);
-        console.log("refProductCode================" + form.refProductCode)
         formData.append("refProductCode", form.refProductCode);
         formData.append("senderCode", form.senderCode);
         formData.append("receiverCode", form.receiverCode);
@@ -103,25 +121,16 @@ function MessageDetail({msgCode}){
             console.log(!isReadOnly)
             dispatch(callMessageRegistAPI({
                 form: formData 
-            }))
+            })).then((response) => {
+                alert('쪽지 발송을 성공했습니다!');
+                navigate(`/messageList`, {replace: false});
+            })
             setIsReadOnly(!isReadOnly);
         }
-        
 
     }
 
-  
 
-    // useEffect(
-    //     () => {
-    //         if(!isReadOnly){
-    //             dispatch(callMessageRegistAPI({
-                    
-    //             }))
-    //         }
-           
-    //     },[isReadOnly, dispatch]
-    // )
 
 return(
     <>

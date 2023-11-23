@@ -29,7 +29,7 @@ export const callMessageRegistAPI = ({form}) => {
             msgDeleteInfoMsgDeleteDTO: {
                     msgDeleteCode: 1,
                     msgDeleteStatus: "N"
-            },
+            }, 
             method: "POST",
             headers: {
                 "Accept": "*/*",
