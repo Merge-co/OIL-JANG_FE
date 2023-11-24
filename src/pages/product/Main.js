@@ -26,9 +26,12 @@ function Main() {
 
     return(
         <>
-            <ImageGallery items={images} showBullets={true} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} showNav={false} slideInterval={5000} autoPlay={true}/>
-            <div className={MainCSS.MainTitle}><img src="/images/siteImage/weeklyHot.svg"/>주간! 중고 상품</div>
-            <ProductList type="main"/>        
+        <ImageGallery items={images} showBullets={true} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} showNav={false} slideInterval={5000} autoPlay={true}/>
+            <div className={MainCSS.MainLayout}>
+                
+                <div className={MainCSS.MainTitle}><img src="/images/siteImage/weeklyHot.svg"/>주간! 중고 상품</div>
+                <ProductList type="main"/>   
+            </div>     
         </>
     );
 }
