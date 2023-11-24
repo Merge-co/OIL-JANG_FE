@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { callLogoutAPI } from "../../apis/UserAPICalls";
 import HeaderCSS from '../../styles/Header.module.css';
 import { getCookie } from './../../modules/CookieModule';
 import { jwtDecode } from "jwt-decode";
+import { decodeJwt } from "../../utils/TokenUtils";
 
 function Header() {
   const [ headerChange, setHeaderChange ] = useState(0);
@@ -30,6 +31,10 @@ function Header() {
       }
     },[isLoggedIn]
   );
+
+  const navigate = useNavigate();
+
+  const isLogin = getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0].toString().indexOf("ADMIN") !== -1;
 
   function NotLogIn() {
     return(
@@ -79,8 +84,7 @@ function Header() {
     return (
       <>
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/">HOME</NavLink></div>
-        <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/reportSelect">신고관리</NavLink></div>
-        <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/report">신고하기</NavLink></div>
+        <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/ProcessManagement">신고관리</NavLink></div>        
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/inquiry">문의관리</NavLink></div>
         <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/" onClick={Logouthandler}>
         <img src="/images/siteImage/logOutIcon.svg" alt="로그아웃 이미지"/>

@@ -9,9 +9,7 @@ import { getCookie } from '../../modules/CookieModule';
 import { callWishListDeleteAPI } from './../../apis/WishListAPICalls';
 import { jwtDecode } from 'jwt-decode';
 import UserProductDetailImg from './UserProductDetailImg';
-import ReportCss from '../../styles/report/ReportCSS.module.css'
 import Report from '../report/Report';
-import modalCSS from '../../styles/Modal.module.css'
 
 function UsedProductDetail() {
 
@@ -157,8 +155,10 @@ function UsedProductDetail() {
                                     <div className={ProductDetailCSS.productDetailWish}>찜 {productDetailInfos.wishCount + plusMinusCount}</div>
                                 </div>
                                 <div  onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
-                                    <img src="/images/siteImage/reportBtn.svg" alt=""/>&nbsp;
-                                    <div className={`${ProductDetailCSS.reportContent} ${ReportCss.modalBox}`} >신고하기{modalOpen && <modalCSS setModalOpen={setModalOpen}/>}</div>
+
+                                    <img src="/images/reportBtn.svg" alt=""/>&nbsp;
+                                    <div className={`${ProductDetailCSS.reportContent}`} >신고하기</div>
+
                                 </div>
                                 </div>
                                 <div className={ProductDetailCSS.productDetailSellerHr}>판매자정보</div>

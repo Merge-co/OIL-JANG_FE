@@ -3,7 +3,7 @@ import FooterCSS from '../../styles/Footer.module.css';
 function Footer() {
     return(
         <>
-            <div className={FooterCSS.footerLayout}>
+            <div className={`${FooterCSS.footerLayout} ${FooterCSS.clearfix}`}>
                 <div className={FooterCSS.footerContainer}>
                     <div className={FooterCSS.footerTopLine}></div>
                     <div className={FooterCSS.footerLine1}>
