@@ -16,8 +16,6 @@ function ReportSearch({ report }) {
     console.log('어떻게 가져와요 ? : ', report)
     return (
         <>
-
-
             <table>
                 <thead>
                     <tr>

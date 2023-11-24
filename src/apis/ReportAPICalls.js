@@ -31,7 +31,7 @@ export const callReportManagementAPI = ({ currentPage }) => {
         })
             .then(response => response.json());
         console.log('[ReportAPICalls] callReportList Result : ', result);
-        dispatch({ type: GET_REPORTS, payload: result });
+        dispatch({ type: GET_REPORTS, payload: result.data });
     };
 }
 
