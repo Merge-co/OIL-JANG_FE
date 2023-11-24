@@ -1,0 +1,20 @@
+.mainBanner .image-gallery-slide img {
+    width: 100%;
+}
+
+.mainBanner .image-gallery-slide .image-gallery-image {
+    height: 300px;
+    object-fit: cover;
+}
+
+.productDetailGallery .image-gallery-slide img {
+    width: 400px;
+    height: 340px;
+    object-fit: fill;
+}
+
+.productDetailGallery .image-gallery-slide .image-gallery-image {
+    width: 400px;
+    height: 340px;
+    object-fit: fill;
+}

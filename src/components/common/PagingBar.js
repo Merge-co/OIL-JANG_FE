@@ -44,10 +44,8 @@ function PagingBar(pagingBtn) {
             <>
                 <div className={`${PagingBarCSS.barCenter} ${PagingBarCSS.clearfix}`}>
                     <div className={`${PagingBarCSS.paging}`}>
-                        {start === 0 ? "" : ""}
                         <button onClick={() => onClickHandler(start)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-backward"></i></button>
                         <button onClick={() => onClickHandler(before)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-left"></i></button>
-                        
                         {numPageArr.map(val => <PagingRender val={val} current={current}/>)}
                         
                         <button onClick={() => onClickHandler(after)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-right"></i></button>
@@ -61,7 +59,7 @@ function PagingBar(pagingBtn) {
 
     return(
         <>
-            {last !== 0 ? <PagingBtnRender/> : ""}
+            {last !== 0 && last !== 1 ? <PagingBtnRender/> : ""}
         </>
     );
 }

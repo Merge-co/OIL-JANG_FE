@@ -26,13 +26,12 @@ function ProductItem(productList) {
     }
 
     const navigate = useNavigate();
-
     return(
         <>  
             <div className='mergeItem'>
                 <div className={ProductListCSS.productItem}>
                     <div onClick={() => type === "merge" ? onClickItemDetail(productElement.productCode) : navigate(`/usedProduct/${productElement.productCode}`)} className={ProductItemCSS.productThumb}>
-                        <img src={productElement && productElement.productThumbAddr} alt='상품 이미지' height="166" />
+                        <img src={productElement.productThumbAddr} alt='상품 이미지' height="166" />
                     </div>
                     <div onClick={() => type === "merge" ? onClickItemDetail(productElement.productCode) : navigate(`/usedProduct/${productElement.productCode}`)} className={ProductItemCSS.productDescBox}>
                         <div className={ProductItemCSS.itemBoxTitle} title={productElement.productName}>{productElement.productName}</div>

@@ -1,7 +1,10 @@
 .MainLayout {
     position: relative;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    min-width: 1210px;
 }
 
 .MainTitle {
@@ -17,4 +20,15 @@
     position: relative;
     top: 5px;
     margin-right: 5px;
+}
+
+.MainBannerLayout {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: -39px;
+}
+
+.MainBanner {
+    position: relative;
 }
