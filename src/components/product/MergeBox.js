@@ -22,7 +22,10 @@ function MergeBox() {
     const dispatch = useDispatch();
 
     const onChangeHandler = e => {
-        setMoney(e.target.value.replace(/[^0-9]/g, ''));
+        let money = +e.target.value.replace(/[^0-9]/g, '');
+        if(money <= 1000000000) {
+            setMoney(money);
+        }
     }
 
     const usernameRef = useRef();
@@ -166,7 +169,7 @@ function MergeBox() {
         <>
             <div className={MergeBoxCSS.mergeBox0}>
             <div onClick={() => onClickReset()} className={MergeBoxCSS.resetBox}>
-                 <img src="/images/reset.svg" alt=""/> <div className={MergeBoxCSS.resetBtn}>초기화</div>
+                 <img src="/images/siteImage/reset.svg" alt=""/> <div className={MergeBoxCSS.resetBtn}>초기화</div>
             </div>
             <div className={MergeBoxCSS.mergeBox1}>
                 <div className={MergeBoxCSS.setMoneyTitle}>예산 설정</div><button onClick={() => onClickSetMoney()} className={ButtonCSS.smallBtn2}>설정</button>

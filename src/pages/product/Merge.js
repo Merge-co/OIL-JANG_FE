@@ -15,19 +15,21 @@ function Merge() {
 
     let styleObject;
 
-    if(window.location.href.toString().indexOf("merge") !== -1) {
-        styleObject = {height: 1200};
-    } else {
-        styleObject = {height: 1260};
-    }
+    // if(window.location.href.toString().indexOf("merge") !== -1) {
+    //     styleObject = {height: 1200};
+    // } else {
+    //     styleObject = {height: 1260};
+    // }
 
     return(
         <>
             <div className={MergeLayoutCSS.mergeMain} style={styleObject}>
-                <ProductCategory type="merge"/>
-                <MergeCategory/>
-                {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductFilter/> : ""}
-                {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge"/> : ""}
+                <div>
+                    <ProductCategory type="merge"/>
+                    <MergeCategory/>
+                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductFilter/> : ""}
+                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge"/> : ""}
+                </div>
                 <MergeBox/>
             </div>
         </>

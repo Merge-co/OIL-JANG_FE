@@ -28,12 +28,7 @@ function WishList() {
     const getWishListResult = useSelector(state => state.wishListReducer.getWishList);
     const pagingBtn = getWishListResult && getWishListResult.pagingBtn;
     const wishList = getWishListResult && getWishListResult.wishList;
-
-    const onErrorImg = (e) => {
-        e.target.src = "/images/home.svg";
-    }
-
-    
+    console.log(getWishListResult);
 
     function WishListItem({wishListItem}) {
         return (           
@@ -57,7 +52,7 @@ function WishList() {
                             <th>&nbsp;</th>
                         </tr>
                         <tr>
-                            <td><img onClick={() => onClickItem(wishListItem.productCode)} className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src={wishListItem.proImageThumbAddr} alt="상품 이미지" onError={onErrorImg} height="152"/></td>
+                            <td><img onClick={() => onClickItem(wishListItem.productCode)} className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src="/images/siteImage/sample.jpg" alt="상품 이미지" width="179" height="152"/></td>
                             <td>{wishListItem.sellStatus}</td>
                             <td className={WishListCSS.wishListCursor} onClick={() => onClickItem(wishListItem.productCode)} >{wishListItem.productName}</td>
                             <td>{priceToString(wishListItem.productPrice)}</td>
@@ -69,7 +64,7 @@ function WishList() {
             </>
         );
     }
-
+    // src={wishListItem.proImageThumbAddr}
     const onClickItem = productCode => {
         onClickItemDetail(productCode);
     }

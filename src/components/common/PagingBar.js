@@ -19,7 +19,6 @@ function PagingBar(pagingBtn) {
         else return -1;
       });
 
-    console.log(numPageArr);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -43,7 +42,7 @@ function PagingBar(pagingBtn) {
     function PagingBtnRender() {
         return (
             <>
-                <div className={`${PagingBarCSS.barCenter, PagingBarCSS.clearfix}`}>
+                <div className={`${PagingBarCSS.barCenter} ${PagingBarCSS.clearfix}`}>
                     <div className={`${PagingBarCSS.paging}`}>
                         {start === 0 ? "" : ""}
                         <button onClick={() => onClickHandler(start)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-backward"></i></button>

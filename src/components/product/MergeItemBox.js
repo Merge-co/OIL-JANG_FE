@@ -12,10 +12,6 @@ function MergeItemBox({selectedItem}) {
         dispatch({ type: GET_MERGE_ITEM, payload: 1});
     }
 
-    const onErrorImg = (e) => {
-        e.target.src = "/images/home.svg";
-    }
-
     return(
         <>
             <div className={MergeBoxCSS.selectedItemBox}>
@@ -24,13 +20,13 @@ function MergeItemBox({selectedItem}) {
                 </div>
                 <div className={MergeBoxCSS.selectedProductInfoBox}>
                     <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductImg}>
-                    <img src={selectedItem && selectedItem.productThumbAddr} alt='상품 이미지' height="72" onError={onErrorImg}/>
+                    <img src={selectedItem && selectedItem.productThumbAddr} alt='상품 이미지' height="72"/>
                     </div>
                     <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductInfo}>
                         <div className={MergeBoxCSS.selectedProductTitle} title={selectedItem.productName}>{selectedItem.productName}</div>
                         <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>
                     </div>
-                    <img onClick={() => onClickHandler()} src="/images/mergeCancelBtn.svg" height="34px" className={MergeBoxCSS.cancelBtn} alt=""/>
+                    <img onClick={() => onClickHandler()} src="/images/siteImage/mergeCancelBtn.svg" height="34px" className={MergeBoxCSS.cancelBtn} alt=""/>
                 </div>
             </div>
         </>

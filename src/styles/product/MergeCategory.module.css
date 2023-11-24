@@ -2,10 +2,11 @@
     position: relative;
     display: flex;
     align-content: center;
+    margin-top: 80px;
   }
   
   .selectedCategory {
-    width: 168px;
+    width: 166px;
     height: 42px;
     display: flex;
     flex-wrap: wrap;
@@ -21,7 +22,7 @@
   }
 
   .clickedSelectedCategory {
-    width: 168px;
+    width: 166px;
     height: 42px;
     display: flex;
     flex-wrap: wrap;

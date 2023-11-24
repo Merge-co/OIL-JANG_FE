@@ -108,14 +108,21 @@ function ProductCategory(type) {
             let checkFive = changeCategoryLists.filter(category => category.categoryChecked === true);
             setCategoryLists(changeCategoryLists);
         } else {
+            let checkFive = categoryLists.filter(category => category.categoryChecked === true);
+            
             categoryLists.map(categoryList => {
-                if(categoryList.id === id) {
-                    categoryList.categoryChecked = !categoryList.categoryChecked;
+                if(categoryList.id === id) { 
+                    let listCheck = categoryList.categoryChecked && type.type === "list";
+                    if(!listCheck) {
+                        categoryList.categoryChecked = !categoryList.categoryChecked;
+                    }
                 }
             });
+
             changeCategoryLists = [...categoryLists];
             
-            let checkFive = categoryLists.filter(category => category.categoryChecked === true);
+            checkFive = categoryLists.filter(category => category.categoryChecked === true);
+
             if(checkFive.length <= 5 && type.type === "merge") {
                 setCategoryLists(changeCategoryLists);
             } else {
