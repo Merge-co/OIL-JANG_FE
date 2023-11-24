@@ -39,7 +39,9 @@ table {
 
   .text1 {
     color: #9D9D9D;
-    font-weight: unset;
+    border-top: 1px solid #9D9D9D;
+    border-bottom: 1px solid #9D9D9D;
+    padding: 2%;
   }
 
   .box1 {
