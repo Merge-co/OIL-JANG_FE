@@ -4,6 +4,7 @@ import { callReportManagementAPI, callSearchReportAPI } from "../../apis/ReportA
 import { useNavigate } from "react-router-dom";
 import ProcessDetail from "./ProcessDetail";
 import ReportUpdate from './ReportUpdate';
+import Button from '../../styles/PagingBar.module.css';
 
 
 function ProcessManagement() {
@@ -14,6 +15,8 @@ function ProcessManagement() {
     const [selectedReportNo, setSelectedReportNo] = useState(null);
     const [modalComponent, setModalComponent] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const resutList = result && result.data.content;
+    
 
 
     const onClickProcessDetailHandler = (reportNo, processDistinction) => {
@@ -25,21 +28,22 @@ function ProcessManagement() {
     const [searchResult, setSearchResult] = useState();
 
 
-    // 상태값 설정
+    // 처리 미처리 셋팅
     const [process, setProcess] = useState('');
-    
+    console.log('처리 미처리 확인 : ', searchResult);
+    console.log('처리 or 미처리 : ',process);
 
     useEffect(() => {
         if (process === 'Y') {
-            setSearchResult(result && result.filter((result) => {
-                return result.processDistinction === 'Y';
+            setSearchResult(result && resutList && resutList.filter((resutList) => {
+                return resutList.processDistinction === 'Y';
             }));
         } else {
-            setSearchResult(result && result.filter((result) => {
-                return result.processDistinction === 'N';
+            setSearchResult(result && resutList && resutList.filter((resutList) => {
+                return resutList.processDistinction === 'N';
             }));
         }
-    }, [process]);
+    }, [process, resutList]);
 
     // Search setting
     const [search, setSearch] = useState('');
@@ -51,20 +55,32 @@ function ProcessManagement() {
     const onEnterKeyHandler = (e) => {
         if (e.key == 'Enter') {
             console.log('Enter key', search);
-
-            navigate(`/search?value=${search}`, { replace: false });
-            // dispatch(callSearchReportAPI({
-            // search: search
-            // }));
+            dispatch(callSearchReportAPI({
+            search: search
+            }));
         }
     }
-    useEffect(
-        () => {
-            dispatch(callReportManagementAPI({ // 처리 상세 조회
-            }))
-        },
-        []
-    );
+    // paging setting 
+
+    const pageInfo = result && result.pageInfo;
+
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+
+    const pageNumber = [];
+
+    if (pageInfo && pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
+            pageNumber.push(i);
+        }
+    }
+    useEffect(() => {
+        setStart((currentPage - 1) * 5);
+        dispatch(callReportManagementAPI({
+            currentPage: currentPage
+        }));
+    }, [currentPage]);
 
     return (
         <>
@@ -75,7 +91,7 @@ function ProcessManagement() {
 
             <input
                 type="text"
-                placeholder="검색"
+                placeholder="신고자 이름 검색"
                 value={search}
                 onKeyUp={onEnterKeyHandler}
                 onChange={onSearchChangeHandler}
@@ -94,7 +110,7 @@ function ProcessManagement() {
                     </tr>
                 </thead>
                 <tbody>
-                    {process ? searchResult.map((report) => (
+                    {Array.isArray(process) && Array.isArray(resutList) ? searchResult.map((report) => (
                         <tr key={report.reportNo}>
                             <td>
                                 <button onClick={() =>
@@ -109,7 +125,7 @@ function ProcessManagement() {
                             <td>{report.processDistinction}</td>
                         </tr>
                     )) :
-                        (result && result.map((report) => (
+                        (Array.isArray(resutList) && resutList.map((report) => (
                             <tr key={report.reportNo}>
                                 <td>
                                     <button onClick={() =>
@@ -126,7 +142,30 @@ function ProcessManagement() {
                         )))}
                 </tbody>
             </table >
-
+            <div>
+                {Array.isArray(resutList) &&
+                    <button
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={Button.buttons}>&lt;</button>
+                }
+                {pageNumber.map((num) => (
+                    <li key={num} onClick={() => setCurrentPage(num)}>
+                        <button
+                            style={currentPage === num ? { backgroundColor: '#9b9b9b' } : null}
+                        >
+                            {num}
+                        </button>
+                    </li>
+                ))}
+                {Array.isArray(resutList) &&
+                    <button
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === pageInfo.pageEnd || pageInfo.total == 0}>
+                        &gt;
+                    </button>
+                }
+            </div>
             {modalOpen && (
                 modalComponent === 'ProcessDetail' ? (
                     <ProcessDetail reportNo={selectedReportNo} setModalOpen={setModalOpen} />
@@ -138,7 +177,5 @@ function ProcessManagement() {
         </>
     )
 }
-
-
 export default ProcessManagement;
 
