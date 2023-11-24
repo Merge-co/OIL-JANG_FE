@@ -119,7 +119,7 @@ function UsedProductDetail() {
     }
 
     const onClickEditHandler = () => {
-        alert("수정 페이지로 이동");
+        navigate(`/productEdit`)
     }
 
     function ProductDetailInfo() {
