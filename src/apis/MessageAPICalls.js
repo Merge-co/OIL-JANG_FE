@@ -148,7 +148,6 @@ export const callMessageDeleteAPI = ({msgCode}) => {
                 Authorization: `Bearer ${getCookie("accessToken")}`
             }
         })
-        .then(response => response.json());
 
         console.log('[MessageAPICalls] callMessageDeleteAPI RESULT', result);
         

@@ -99,44 +99,42 @@ function MessageList({isReceived}){
         const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
 
 
-        
-        const [isChecked, setIsChecked] = useState(false);
+
+        const [isCheckedAll, setIsCheckedAll] = useState(false);
 
         const isCheckedHandler = () => {
-            setIsChecked(!isChecked)
-            const updatedCheckedOnly = [];
-            messageList.map((message) => {
-              updatedCheckedOnly[message.msgCode] = !isChecked;
-              console.log("msgCode: " + message.msgCode)
-            });
-            return updatedCheckedOnly;
+          setIsCheckedAll((prevIsCheckedAll) => !prevIsCheckedAll);
+      
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = !isCheckedAll;
+          });
         };
-     //   console.log("isChecke : " + isChecked)
+
+        const handleCheckedOne = () => {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const areAllChecked = Array.from(checkboxes).every((checkbox) => checkbox.checked);
+
+            setIsCheckedAll(areAllChecked);
+        };
+      
         
-        const [isCheckedOnly, setIsCheckedOnly] = useState([]);
-        
-        const isCheckedOnlyHandler = (e) => {
-            const messageId = isCheckedOnly.map(
-                (todo) =>{
-                    if(todo.id === parseInt(e.target.id)){
-                        todo.isChecked = e.target.checked;
-                    }
-                    return todo;
-                }
-            )
-            console.log("e.target.id" + e.target.id)
-           
-            setIsCheckedOnly(messageId);
-            console.log("isCheckedOnly : " + setIsCheckedOnly)
-          };
         
         const onDeleteHandler = () => {
+          const checkedMessages = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'));
 
-            
-          if (isChecked === true || isCheckedOnly.length > 0) {
-            console.log(isChecked, isChecked)
-            dispatch(callMessageDeleteAPI({ msgCode: params.msgCode })).then((response) => {
-                console.log("msgCode 전송: " + params.msgCode)
+          console.log("checkedMessages========" , checkedMessages)
+
+          console.log("msgCode::::::::::::: ", checkedMessages.map((checkbox) => checkbox.id))
+          
+          if (checkedMessages.length > 0 ) {
+            const msgCode = checkedMessages.map((checkbox) => checkbox.id);
+
+            console.log("================msgCodes:" + msgCode);
+
+            dispatch(callMessageDeleteAPI({ msgCode })).then((response) => {
+                console.log("msgCode 전송: " + msgCode)
               alert("쪽지 삭제에 성공했습니다!");
               navigate(`/messageList`, { replace: false });
             });
@@ -175,23 +173,23 @@ function MessageList({isReceived}){
                         </form>
                     
                  
-                        <table>
+                        <table className={`${MessageListCSS.table}`}>
                             <thead>
-                            <tr>
+                            <tr className={`${MessageListCSS.tr}`}>
                                 <th className={`${MessageListCSS.text1}`}>
-                                <input type="checkbox" name="sort" id="sort" checked={isChecked} onChange={(e) => isCheckedHandler(e)}/>
+                                <input type="checkbox" name="sort" id="sort" checked={isCheckedAll} onChange={isCheckedHandler}/>
                                 </th>
-                                <th className={`${MessageListCSS.text1}`}>보낸사람</th>
-                                <th className={`${MessageListCSS.text1}`}>내용</th>
-                                <th className={`${MessageListCSS.text1}`}>수신일시</th>
-                                <th className={`${MessageListCSS.text1}`}>수신확인</th>
+                                <th>보낸사람</th>
+                                <th>내용</th>
+                                <th>수신일시</th>
+                                <th>수신확인</th>
                             </tr>
                             
                             </thead>
-                            <tbody className={`${MessageListCSS.msgTbody}`}>
+                            <tbody>
                                 {messageList && messageList.map(message => (
                                     <tr key={message.msgCode}>
-                                        <td><input type="checkbox" name="sort" checked={isCheckedOnly[message.msgCode]} onChange={(e) => isCheckedOnlyHandler(e)} id={message.msgCode}/></td>
+                                        <td><input type="checkbox" name="sort" id={message.msgCode} onChange={handleCheckedOne}/></td>
                                         <td>{`${message.name} ${message.id}`}</td>
                                         <td onClick={() => handleMessageClick(message.msgCode)} style={{cursor:'pointer'}} className={`${MessageListCSS.msgListHover}`}>{message.msgContent}</td>
                                         <td>{message.msgTime}</td>
