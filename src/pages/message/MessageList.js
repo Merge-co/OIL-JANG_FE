@@ -175,20 +175,20 @@ function MessageList({isReceived}){
                         </form>
                     
                  
-                        <table>
+                        <table className={`${MessageListCSS.table}`}>
                             <thead>
-                            <tr>
+                            <tr className={`${MessageListCSS.tr}`}>
                                 <th className={`${MessageListCSS.text1}`}>
                                 <input type="checkbox" name="sort" id="sort" checked={isChecked} onChange={(e) => isCheckedHandler(e)}/>
                                 </th>
-                                <th className={`${MessageListCSS.text1}`}>보낸사람</th>
-                                <th className={`${MessageListCSS.text1}`}>내용</th>
-                                <th className={`${MessageListCSS.text1}`}>수신일시</th>
-                                <th className={`${MessageListCSS.text1}`}>수신확인</th>
+                                <th>보낸사람</th>
+                                <th>내용</th>
+                                <th>수신일시</th>
+                                <th>수신확인</th>
                             </tr>
                             
                             </thead>
-                            <tbody className={`${MessageListCSS.msgTbody}`}>
+                            <tbody>
                                 {messageList && messageList.map(message => (
                                     <tr key={message.msgCode}>
                                         <td><input type="checkbox" name="sort" checked={isCheckedOnly[message.msgCode]} onChange={(e) => isCheckedOnlyHandler(e)} id={message.msgCode}/></td>
