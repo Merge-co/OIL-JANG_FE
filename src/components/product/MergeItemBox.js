@@ -20,7 +20,7 @@ function MergeItemBox({selectedItem}) {
                 </div>
                 <div className={MergeBoxCSS.selectedProductInfoBox}>
                     <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductImg}>
-                    <img src={selectedItem && selectedItem.productThumbAddr} alt='상품 이미지' height="72"/>
+                    <img src={selectedItem && selectedItem.productThumbAddr} alt='상품 이미지' width="85"/>
                     </div>
                     <div onClick={() => onClickItemDetail(selectedItem.productCode)} className={MergeBoxCSS.selectedProductInfo}>
                         <div className={MergeBoxCSS.selectedProductTitle} title={selectedItem.productName}>{selectedItem.productName}</div>

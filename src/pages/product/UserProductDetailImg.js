@@ -3,13 +3,14 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import "../../styles/product/ProductDetailImg.css";
 
 function UserProductDetailImg(productDetailImg) {
-    console.log(productDetailImg.productDetailImg.detailImg1);
+    console.log(productDetailImg);
 
-    const images = [
-        {
-            original: "/images/siteImage/sample.jpg"
-        },
-    ];
+    let imgArr = Object.entries(productDetailImg.productDetailImg).sort();
+
+    const images = [];
+    imgArr.map(img => {  
+        images.push({original: img[1]});
+    })
 
     return(
         <>

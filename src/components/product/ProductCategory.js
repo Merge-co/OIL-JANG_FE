@@ -79,15 +79,16 @@ function ProductCategory(type) {
                     });
                     changeCategoryLists = [...changeCategoryLists];
                     setCategoryLists(changeCategoryLists);
-                } else {
-                    changeCategoryLists.map(categoryList => {
-                        if(categoryList.id == 6) {
-                            categoryList.categoryChecked = !categoryList.categoryChecked;
-                        }
-                    });
-                    changeCategoryLists = [...changeCategoryLists];
-                    setCategoryLists(changeCategoryLists);
-                }
+                } 
+                // else {
+                //     changeCategoryLists.map(categoryList => {
+                //         if(categoryList.id == 6) {
+                //             categoryList.categoryChecked = !categoryList.categoryChecked;
+                //         }
+                //     });
+                //     changeCategoryLists = [...changeCategoryLists];
+                //     setCategoryLists(changeCategoryLists);
+                // }
             }
         },[changeCategoryLists.length !== 0]
     );
@@ -97,6 +98,7 @@ function ProductCategory(type) {
     const curURL = new URL(window.location.href);
     
     const categoryBtnHandler = id => {
+        let noSelect;
         if(categoryLists.length === 0) {
             changeCategoryLists.map(categoryList => {
                 if(categoryList.id === id) {
@@ -112,12 +114,21 @@ function ProductCategory(type) {
             
             categoryLists.map(categoryList => {
                 if(categoryList.id === id) { 
-                    let listCheck = categoryList.categoryChecked && type.type === "list";
-                    if(!listCheck) {
-                        categoryList.categoryChecked = !categoryList.categoryChecked;
+                    if(categoryList.categoryChecked) {
+                        noSelect = 1;
                     }
+                    categoryList.categoryChecked = !categoryList.categoryChecked;
                 }
             });
+
+            // categoryLists.map(categoryList => {
+            //     if(categoryList.id === id) { 
+            //         let listCheck = categoryList.categoryChecked && type.type === "list";
+            //         if(!listCheck) {
+            //             categoryList.categoryChecked = !categoryList.categoryChecked;
+            //         }
+            //     }
+            // });
 
             changeCategoryLists = [...categoryLists];
             
@@ -144,8 +155,6 @@ function ProductCategory(type) {
             }
         }
         if (type.type === "list") {
-            curURL.searchParams.set('categoryCode', id);
-            curURL.searchParams.delete('page');
             const minPriceValue = window.localStorage.getItem("moneyCriteriaMin");
             const maxPriceValue = window.localStorage.getItem("moneyCriteriaMax");
             if (maxPriceValue && minPriceValue > maxPriceValue) {
@@ -154,20 +163,28 @@ function ProductCategory(type) {
                 minPriceValue ? curURL.searchParams.set('minPrice', minPriceValue) : curURL.searchParams.delete('minPrice');
                 maxPriceValue ? curURL.searchParams.set('maxPrice', maxPriceValue) : curURL.searchParams.delete('maxPrice');
             }
-            dispatch({ type: GET_CATEGORY_CODE, payload: checkFive[0].id });
+            if(noSelect !== 1) {
+                curURL.searchParams.set('categoryCode', id);
+                dispatch({ type: GET_CATEGORY_CODE, payload: id });
+            } else {
+                curURL.searchParams.delete('categoryCode');
+            }
+            curURL.searchParams.delete('page');
             navigate(`${curURL.search}`);
             dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
         }
     }
 
     const onClickHandler = () => {
-        if(checkFive.length === 0) {
+        if(checkFive.length === 0 && type.type === "merge") {
             alert("최소 1개의 카테고리를 선택해주세요");
         } else if(!window.localStorage.getItem("burget") && type.type === "merge") {
             alert("예산을 설정해주세요");
             dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
         } else if (type.type === "list") {
-            curURL.searchParams.set('categoryCode', checkFive[0].id);
+            if(checkFive.length !== 0) {
+                curURL.searchParams.set('categoryCode', checkFive[0].id);
+            }
             curURL.searchParams.delete('page');
             const minPriceValue = window.localStorage.getItem("moneyCriteriaMin");
             const maxPriceValue = window.localStorage.getItem("moneyCriteriaMax");
@@ -177,7 +194,10 @@ function ProductCategory(type) {
                 minPriceValue ? curURL.searchParams.set('minPrice', minPriceValue) : curURL.searchParams.delete('minPrice');
                 maxPriceValue ? curURL.searchParams.set('maxPrice', maxPriceValue) : curURL.searchParams.delete('maxPrice');
             }
-            dispatch({ type: GET_CATEGORY_CODE, payload: checkFive[0].id });
+            if(checkFive.length !== 0) {
+                dispatch({ type: GET_CATEGORY_CODE, payload: checkFive[0].id });
+            }
+            
             navigate(`${curURL.search}`);
             dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
         } else {

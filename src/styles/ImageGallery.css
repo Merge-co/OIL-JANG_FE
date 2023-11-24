@@ -10,11 +10,11 @@
 .productDetailGallery .image-gallery-slide img {
     width: 400px;
     height: 340px;
-    object-fit: none;
+    object-fit: fill;
 }
 
 .productDetailGallery .image-gallery-slide .image-gallery-image {
     width: 400px;
     height: 340px;
-    object-fit: none;
+    object-fit: fill;
 }

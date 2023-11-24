@@ -82,6 +82,17 @@ function ProductList(type) {
         setMorePage(morePage + 1);
     }
 
+    function NoResult() {
+        
+        return(
+            <>
+                <div className={ProductListCSS.noResult}>
+                    검색 결과가 없습니다
+                </div>
+            </>
+        );
+    }
+
     return(
         <>
             <div style={styleObject} className={ProductListCSS.productList}>
@@ -89,6 +100,7 @@ function ProductList(type) {
                     productList ? productList.map(productList => <ProductItem productList={productList} type={type.type}/>) : ""
                 }
             </div>
+            {productList == "" ? <NoResult/> : ""}
             {(totalItem && productList.length === totalItem) ? "" : type.type === "main" ? <MoreBtn/> : productList ? <PagingBar pagingBtn={pagingBtn}/> : ""}
         </>
     );

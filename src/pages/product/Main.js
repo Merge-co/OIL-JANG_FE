@@ -26,6 +26,7 @@ function Main() {
 
     return(
         <>
+        <div className={MainCSS.MainLayout}>
             <div className={MainCSS.MainBannerLayout}>
                 <div>
                     <div className="mainBanner">
@@ -33,7 +34,7 @@ function Main() {
                     </div>
                 </div>
             </div>
-            <div className={MainCSS.MainLayout}>
+            
                 <div>
                     <div className={MainCSS.MainTitle}><img src="/images/siteImage/weeklyHot.svg"/>주간! 중고 상품</div>
                     <ProductList type="main"/>   

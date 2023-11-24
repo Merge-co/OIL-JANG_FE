@@ -40,3 +40,13 @@
   margin-top: 21px;
   margin-bottom: 18px;
 }
+
+.noResult {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  top: -35px;
+  color: #222;
+  font-weight: 500;
+  padding-right: 25px;
+}
