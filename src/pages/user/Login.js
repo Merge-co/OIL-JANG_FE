@@ -7,6 +7,12 @@ import userReducer, { POST_LOGIN } from "../../modules/UserModule";
 import thunk from "redux-thunk";
 import { createStore, applyMiddleware, compose } from "redux";
 import { HttpStatusCode } from "axios";
+import { Cookies } from "react-cookie";
+import { getCookie } from "../../modules/CookieModule";
+
+
+const cookies = new Cookies();
+const COOKIE_NAME = 'accessToken';
 
 function Login() {
   const composeEnhancers =
@@ -80,6 +86,31 @@ function Login() {
     //alert("존재하지 않은 아이디입니다.");
   };
 
+
+  const onClickOAuth2LoginHandler = async (provider) => {
+
+    try{
+    if(provider === "google"){
+      const clientId = '634314389152-hvham3k7rguk6i36b190d2adr0pi2ddb.apps.googleusercontent.com';
+      const redirectUri = 'http://localhost:8000/oauth2/login/google/callback';
+      const scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+
+       // 백엔드에 Google OAuth 2.0 로그인 요청
+       const authUrl  = 
+        `http://localhost:8000/oauth2/authorize/google?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}`
+     
+       const oauthWindow = window.open(authUrl, 'oauth2Login', 'width=500,height=600');
+      
+
+    }else if(provider === "naver"){
+      console.log('naver');
+    }
+  } catch(error){
+    console.error('OAuth2 Login Error:', error.message);
+    window.location.href = 'http://localhost:3000';
+  }
+} 
+
   return (
     <>
       <div>
@@ -113,8 +144,7 @@ function Login() {
           <button onClick={onClickChangePwdHandler}>비밀번호 변경</button>
         </div>
         <div>
-          <button>
-            {" "}
+        <button onClick={() => onClickOAuth2LoginHandler("google")}>
             <img src="" alt="구글 로고" />
             Google로 로그인
           </button>

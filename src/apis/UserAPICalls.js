@@ -6,6 +6,7 @@ const COOKIE_NAME = 'accessToken';
 
 export const callLoginAPI = ({form}) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/login`;
+    
 
     return async (dispatch, getState) => {
 
@@ -27,6 +28,7 @@ export const callLoginAPI = ({form}) => {
               console.log('[UserAPICalls] callLoginAPI RESULT : ', result);
 
               if (result.status === 200) {
+                cookies.set(COOKIE_NAME, result.data.accessToken, { path: '/' });
                 cookies.set(COOKIE_NAME, result.data.accessToken, { path: '/' });
               }
 
@@ -52,6 +54,17 @@ export const callLogoutAPI = () => {
 export const callJoinAPI = (userData) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/join`;
 
+    const formData = new FormData();
+  formData.append("id", userData.id);
+  formData.append("pwd", userData.pwd);
+  formData.append("nickname", userData.nickname);
+  formData.append("name", userData.name);
+  formData.append("birthDay", userData.birthYear + userData.birthMonth + userData.birthDay);
+  formData.append("gender", userData.gender);
+  formData.append("email", userData.email);
+  formData.append("agreement", userData.agreement);
+  formData.append("profileImage", userData.profile); 
+
     return async (dispatch, getState) => {
     const result = await fetch(requestURL, {
         method: "POST",
@@ -60,10 +73,7 @@ export const callJoinAPI = (userData) => {
           Accept: "*/*",
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({
-        //   id: id,
-        //   pwd: pwd,
-        }),
+        body: formData,
       });
 
   };
