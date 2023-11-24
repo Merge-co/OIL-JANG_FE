@@ -6,7 +6,6 @@ import Merge from './pages/product/Merge';
 import Report from './pages/report/Report';
 import AddProduct from './pages/product/AddProduct';
 import Login from './pages/user/Login';
-import Test from './pages/user/Test';
 import ReportManagement from './pages/report/ProcessManagement';
 import ProcessDetail from './pages/report/ProcessDetail';
 
@@ -21,6 +20,9 @@ import SubHeaderLayout from './layouts/SubHeaderLayout';
 import MyProductList from './pages/product/MyProductList';
 import MessageDetail from './pages/message/MessageDetail';
 import ProductEdit from './pages/product/ProductEdit';
+import Join from './pages/user/Join';
+import ChangePwd from './pages/user/ChangePwd';
+import FindId from './pages/user/FindId';
 
 
 
@@ -49,10 +51,10 @@ function App() {
           <Route path='/processManagement' element={<ReportManagement />} />
 
           <Route path='login' element={<Login />} />
-          <Route path='test' element={<Test />} />
+          <Route path='join' element={<Join/>}/>
+          <Route path='changePwd' element={<ChangePwd/>}/>
+          <Route path='findId' element={<FindId/>}/>
         </Route>
-        <Route path='login' element={<Login />} />
-      <Route path='test' element={<Test />} />
       </Routes >
 
     </BrowserRouter >
