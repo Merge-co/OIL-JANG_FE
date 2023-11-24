@@ -18,13 +18,17 @@ function MoneyFilter() {
         if(e.key === 'Enter') {
             dispatch({ type: GET_MONEY_SETTING, payload: 1});
         }
-        const changedMoneyValue = {
-            ...moneyCriteria,
-            [e.target.name]: e.target.value.replace(/[^0-9]/g, '')
-        };
-        setMoneyCriteria(changedMoneyValue);
-        window.localStorage.setItem("moneyCriteriaMin", changedMoneyValue.minPriceValue);
-        window.localStorage.setItem("moneyCriteriaMax", changedMoneyValue.maxPriceValue);
+
+        let money = +e.target.value.replace(/[^0-9]/g, '');
+        if(money <= 1000000000) {
+            const changedMoneyValue = {
+                ...moneyCriteria,
+                [e.target.name]: e.target.value.replace(/[^0-9]/g, '')
+            };
+            setMoneyCriteria(changedMoneyValue);
+            window.localStorage.setItem("moneyCriteriaMin", changedMoneyValue.minPriceValue);
+            window.localStorage.setItem("moneyCriteriaMax", changedMoneyValue.maxPriceValue);
+        } 
     }
 
     useEffect(

@@ -7,9 +7,13 @@ function UsedProduct() {
     return (
         <>
             <div className={MergeLayoutCSS.mergeMain}>
-                <ProductCategory type="list"/>
-                <ProductFilter/>
+                <div>
+                <div className={MergeLayoutCSS.mergeCategoryFilter}>
+                    <ProductCategory type="list"/>
+                    <ProductFilter/>
+                </div>
                 <ProductList type="list" />
+                </div>
             </div>
         </>  
     );

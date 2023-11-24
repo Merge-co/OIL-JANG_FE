@@ -1,8 +1,6 @@
 .footerLayout {
     position: relative;
-    display: flex;
     justify-content: center;
-    margin-top: 0%;
 }
 
 .footerContainer {
@@ -68,3 +66,8 @@
     font-weight: 500;
 }
 
+.clearfix:before, .clearfix:after{
+    display: block;
+    content:'';
+    clear: both;
+  }

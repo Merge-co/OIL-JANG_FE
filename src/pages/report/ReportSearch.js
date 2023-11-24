@@ -1,17 +1,23 @@
 import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../modules/CookieModule";
+import { jwtDecode } from "jwt-decode";
 
-function ReportSearch({ report: { reportNo, reportUserNick, productCode, refReportCategoryNo, processDistinction } }) {
+function ReportSearch({ report }) {
 
     const navigate = useNavigate();
 
+    const decodedToken = jwtDecode(getCookie('accessToken'));
+    const seller = decodedToken.nickName;
+    const reportList = report.data;
+
+
     const onClickReportHandler = (reportNo) => {
-        navigate(`/process/${reportNo}`, { replace: false });
     }
-    console.log('리포트서치 페이지 뭐가 잘못됐니 ? : ', reportNo, reportUserNick, productCode.productName, refReportCategoryNo.reportCategoryCode, processDistinction)
+    console.log('어떻게 가져와요 ? : ', report)
     return (
-        <div
-            onClick={() => onClickReportHandler(reportNo)}
-        >
+        <>
+
+
             <table>
                 <thead>
                     <tr>
@@ -24,17 +30,20 @@ function ReportSearch({ report: { reportNo, reportUserNick, productCode, refRepo
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{reportNo}</td>
-                        <td>{reportUserNick}</td>
-                        <td>판매자 props</td>
-                        <td>{productCode.productName}</td>
-                        <td>{refReportCategoryNo.reportCategoryCode}</td>
-                        <td>{processDistinction}</td>
-                    </tr>
+                    {reportList.map((r) =>
+                            <tr>
+                                <td > {r.reportNo}</td>
+                                <td>{r.reportUserNick}</td>
+                                <td>{seller}</td>
+                                <td>{r.productCode.productName}</td>
+                                <td>{r.refReportCategoryNo.reportCategoryCode}</td>
+                                <td>{r.processDistinction}</td>
+                            </tr>
+                    )}
                 </tbody>
             </table>
-        </div >
+        </>
+
 
     );
 }

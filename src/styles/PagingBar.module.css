@@ -10,30 +10,30 @@
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .paging{
+    display: flex;
     width: 100%;
-    margin-top: 250px;
+    justify-content: center;
     text-align: center;
   }
   
   .buttons{
     cursor: pointer;
-    padding:1% 1.5%;;
     background-color: #ffffff;
     border: 1px solid #C7C6C6;
     color: #C7C6C6;
     cursor: pointer;
-  }
-  
-  .buttons{
     border-right: none ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .lastButton{
     cursor: pointer;
-    padding:1% 1.5%;;
     background-color: #ffffff;
     border: 1px solid #C7C6C6;
     color: #C7C6C6;
@@ -52,20 +52,28 @@
   
   .buttons:active{
     background-color: #222222;
-    color: #ffffff
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .lastButton:active{
     background-color: #222222;
-    color: #ffffff
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .btnDisabled {
     cursor: pointer;
-    padding:1% 1.5%;;
     background-color: #ffffff;
     background-color: #222222;
     color: #ffffff;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   

@@ -9,9 +9,7 @@ import { getCookie } from '../../modules/CookieModule';
 import { callWishListDeleteAPI } from './../../apis/WishListAPICalls';
 import { jwtDecode } from 'jwt-decode';
 import UserProductDetailImg from './UserProductDetailImg';
-import ReportCss from '../../styles/report/ReportCSS.module.css'
 import Report from '../report/Report';
-import modalCSS from '../../styles/Modal.module.css'
 
 function UsedProductDetail() {
 
@@ -27,7 +25,6 @@ function UsedProductDetail() {
     const [plusMinusCount, setPlusMinusCount] = useState(0);
     const [modalOpen, setModalOpen] = useState(false);
 
-
     useEffect(
         () => {
             dispatch(callGetProductDetail(params.productCode));
@@ -37,7 +34,9 @@ function UsedProductDetail() {
     useEffect(
         () => {
             if(productDetail && productDetail.selectedWishCode) {
-                setWishLishRegist(productDetail.selectedWishCode[0] ? 1 : 0);
+                setWishLishRegist(1);
+            } else {
+                setWishLishRegist(0);
             }
         },[productDetail]
     );
@@ -123,10 +122,6 @@ function UsedProductDetail() {
         navigate(`/productEdit`)
     }
 
-    const onErrorImg = (e) => {
-        e.target.src = "/images/home.svg";
-    }
-
     function ProductDetailInfo() {
         return (
             <>
@@ -135,11 +130,11 @@ function UsedProductDetail() {
                         <div className={ProductDetailCSS.productDetailBox}>
                             <div className={ProductDetailCSS.productDirBox}>
                             <img onClick={() => onClickHome()} className={`${ProductDetailCSS.homeBtnCursor} ${ProductDetailCSS.productDirBtn}`}
-                            src="/images/home.svg" height="24" alt=""/><div className={ProductDetailCSS.productDir1}>
+                            src="/images/siteImage/home.svg" height="24" alt=""/><div className={ProductDetailCSS.productDir1}>
                             <div className={ProductDetailCSS.productDirBtn}>&nbsp;홈&nbsp;</div>
-                            <img className={ProductDetailCSS.productDir1} src="/images/categoryArrow.svg" height="15" alt=""/>
+                            <img className={ProductDetailCSS.productDir1} src="/images/siteImage/categoryArrow.svg" height="15" alt=""/>
                                     <div className={ProductDetailCSS.productDirBtn}>&nbsp;{productDetailInfos.upperCategoryName}&nbsp;</div>
-                            <img className={ProductDetailCSS.productDir1} src="/images/categoryArrow.svg" height="15" alt=""/>
+                            <img className={ProductDetailCSS.productDir1} src="/images/siteImage/categoryArrow.svg" height="15" alt=""/>
                             <div className={ProductDetailCSS.productDirBtn}>&nbsp;{productDetailInfos.categoryName}&nbsp;</div>
                             </div>
                         </div>
@@ -160,13 +155,15 @@ function UsedProductDetail() {
                                     <div className={ProductDetailCSS.productDetailWish}>찜 {productDetailInfos.wishCount + plusMinusCount}</div>
                                 </div>
                                 <div  onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
+
                                     <img src="/images/reportBtn.svg" alt=""/>&nbsp;
-                                    <div className={`${ProductDetailCSS.reportContent} ${ReportCss.modalBox}`} >신고하기{modalOpen && <modalCSS setModalOpen={setModalOpen}/>}</div>
+                                    <div className={`${ProductDetailCSS.reportContent}`} >신고하기</div>
+
                                 </div>
                                 </div>
                                 <div className={ProductDetailCSS.productDetailSellerHr}>판매자정보</div>
                                 <div className={ProductDetailCSS.sellerInfoBox}>
-                                <img src={productDetailInfos && productDetailInfos.userImageThumbAddr} alt="판매자 정보" className={ProductDetailCSS.sellerProfile} onError={onErrorImg}/>
+                                <img src={productDetailInfos && productDetailInfos.userImageThumbAddr} alt="판매자 정보" className={ProductDetailCSS.sellerProfile} />
                                 <div className={ProductDetailCSS.sellerInfo}>
                                     <div className={ProductDetailCSS.sellerName}>{productDetailInfos.nickName}</div>
                                     {/* <div className={ProductDetailCSS.otherProduct}>판매자의 다른 상품 보기</div> */}
