@@ -13,7 +13,9 @@ function UserProductDetailImg(productDetailImg) {
 
     return(
         <>
-            <ImageGallery items={images} showBullets={true} showFullscreenButton={false} showPlayButton={false} showThumbnails={false}/>
+            <div className="productDetailGallery">
+                <ImageGallery items={images} showBullets={true} showFullscreenButton={false} showPlayButton={false} showThumbnails={false}/>
+            </div>
         </>
     );
 }

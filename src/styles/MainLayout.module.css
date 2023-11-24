@@ -18,3 +18,14 @@
     top: 5px;
     margin-right: 5px;
 }
+
+.MainBannerLayout {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: -14px;
+}
+
+.MainBanner {
+    position: relative;
+}
