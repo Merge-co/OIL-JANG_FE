@@ -36,8 +36,8 @@ function ProductCategory(type) {
     let upperCategory = [];
         
     let upperCategoryCount = 0;
-    for(let category of productCategories) {
-        if(category.upperCategoryCode === 0) {
+    for (let category of productCategories) {
+        if(category.upperCategoryCode === null) {
             upperCategoryCount++;
         }
         changeCategoryLists.push({ id: category.categoryCode, categoryName: category.categoryName, categoryChecked: false });
@@ -219,13 +219,13 @@ function ProductCategory(type) {
         <>
             <div className={CategoryCSS.cateAll}>
                 {upperCategory.map(upperCategory => 
-                    <div className={CategoryCSS.cate0}>
+                    <div key={"upperCategory" + upperCategory[0][0]} className={CategoryCSS.cate0}>
                     <div className={CategoryCSS.cate1}>
                         <div className={CategoryCSS.cateUpper}>{upperCategory[0][1]}</div>
                     </div>
                     <div className={CategoryCSS.cate2} style={styleObject}>
                         {upperCategory.map(upperCategory => 
-                            upperCategory[2] !== 0 ? <div id={upperCategory[0]} className={categoryLists.length !== 0 && categoryLists[upperCategory[0]-1].categoryChecked ? CategoryCSS.cate3Selected : CategoryCSS.cate3} onClick={() => categoryBtnHandler(upperCategory[0])}>{upperCategory[1]}</div> : ""
+                            upperCategory[2] !== null ? <div key={"categoryCode" + upperCategory[0]} id={upperCategory[0]} className={categoryLists.length !== 0 && categoryLists[upperCategory[0]-1].categoryChecked ? CategoryCSS.cate3Selected : CategoryCSS.cate3} onClick={() => categoryBtnHandler(upperCategory[0])}>{upperCategory[1]}</div> : ""
                         )}
                         
                     </div>

@@ -52,11 +52,12 @@ function WishList() {
                             <th>&nbsp;</th>
                         </tr>
                         <tr>
-                            <td><img onClick={() => onClickItem(wishListItem.productCode)} className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src="/images/siteImage/sample.jpg" alt="상품 이미지" width="179" height="152"/></td>
-                            <td>{wishListItem.sellStatus}</td>
-                            <td className={WishListCSS.wishListCursor} onClick={() => onClickItem(wishListItem.productCode)} >{wishListItem.productName}</td>
-                            <td>{priceToString(wishListItem.productPrice)}</td>
-                            <td><div className={WishListCSS.productDescLeft}>{wishListItem.productDesc}</div></td>
+                            {console.log(wishListItem)}
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><img className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src={wishListItem.proImageThumbAddr} alt="상품 이미지" width="179" height="152"/></td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.sellStatus}</td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.productName}</td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{priceToString(wishListItem.productPrice)}</td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><div className={WishListCSS.productDescLeft}>{wishListItem.productDesc}</div></td>
                             <td><button onClick={() => onClickDelete(wishListItem.wishCode)} className={ButtonCSS.smallBtn2}>삭제</button></td>
                         </tr>
                     </table>

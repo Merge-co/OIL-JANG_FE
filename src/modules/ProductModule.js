@@ -18,6 +18,8 @@ export const GET_WISHLIST_REGIST_RESULT = 'product/GET_WISHLIST_REGIST_RESULT';
 export const GET_WISHLIST_DELELE_RESULT = 'product/GET_WISHLIST_DELELE_RESULT';
 export const GET_MONEY_SETTING = 'product/GET_MONEY_SETTING';
 export const GET_WISHLIST_AGAIN = 'product/GET_WISHLIST_AGAIN';
+export const GET_PRODUCT_DELETE_RUSULT = 'product/GET_PRODUCT_DELETE_RUSULT';
+
 
 export const priceToString = (price) => {
 	return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
@@ -64,6 +66,7 @@ const actions = createActions({
     [GET_WISHLIST_DELELE_RESULT]: () => {},
     [GET_MONEY_SETTING]: () => {},
     [GET_WISHLIST_AGAIN]: () => {},
+    [GET_PRODUCT_DELETE_RUSULT]: () => {},
 });
 
 const productReducer = handleActions(
@@ -119,6 +122,10 @@ const productReducer = handleActions(
         [GET_WISHLIST_AGAIN]: (state, {payload}) => ({
             ...state,
             getWishListAgain: payload
+        }),
+        [GET_PRODUCT_DELETE_RUSULT]: (state, {payload}) => ({
+            ...state,
+            getProductDeleteResult: payload
         }),
     },
     initialState

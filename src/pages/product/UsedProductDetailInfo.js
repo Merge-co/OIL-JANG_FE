@@ -5,12 +5,13 @@ import { getCookie } from '../../modules/CookieModule';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { callWishListRegistAPI } from '../../apis/ProductAPICalls';
+import { callProductDeleteAPI, callWishListRegistAPI } from '../../apis/ProductAPICalls';
 import { useState } from 'react';
 import { callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import { useEffect } from 'react';
+import Report from '../report/Report';
 
-function UsedProductDetailInfo({productDetailInfos, setModalOpen, wishLishRegisted, productDetail}) {
+function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDetail}) {
     const [wishLishRegist, setWishLishRegist] = useState(productDetail.selectedWishCode ? 1 : 0);
 
     const onClickReportHandler = () => {
@@ -21,12 +22,14 @@ function UsedProductDetailInfo({productDetailInfos, setModalOpen, wishLishRegist
         }
     }
 
+    const [modalOpen, setModalOpen] = useState(false);
+
     console.log(productDetail);
 
     function Buyer() {
         return(
             <>
-                <button onClick={onClickPickHandler} className={wishLishRegist === 1 ? ButtonCSS.middleBtn1 : ButtonCSS.middleBtn2}>{wishLishRegist === 1 ? "찜해제" : "찜하기"}</button>
+                <button onClick={onClickPickHandler} className={wishLishRegist === 1 ? ButtonCSS.middleBtn2 : ButtonCSS.middleBtn1}>{wishLishRegist === 1 ? "❤️ 찜해제" : "🤍 찜하기"}</button>
                 <button onClick={() => onClickSendMessageHandler()} className={ButtonCSS.middleBtn3}>쪽지 보내기</button>
             </>
         );
@@ -52,7 +55,9 @@ function UsedProductDetailInfo({productDetailInfos, setModalOpen, wishLishRegist
     }
 
     const onClickRemoveHandler = () => {
-        if(window.confirm("상품을 삭제하시겠습니까?")) {
+        if (window.confirm("상품을 삭제하시겠습니까?")) {
+            dispatch(callProductDeleteAPI(params.productCode));
+            navigate(`/usedProduct`);
             alert("상품을 삭제했습니다.");
         }
     }
@@ -132,6 +137,7 @@ function UsedProductDetailInfo({productDetailInfos, setModalOpen, wishLishRegist
                     {getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode === productDetailInfos.refUserCode) ? <Seller/> : <Buyer/>}
                 </div>
             </div>
+            {modalOpen && getCookie("accessToken") && <Report nickName={productDetailInfos.nickName} productCode={productDetailInfos.productCode} sellStatus={productDetailInfos.sellStatusCode} productName={productDetailInfos.productName} setModalOpen={setModalOpen} />}
         </>
     );
 }

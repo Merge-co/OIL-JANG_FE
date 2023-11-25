@@ -22,7 +22,7 @@ function UsedProductDetail() {
     const productDetailImg = productDetail && productDetail.selectedProductDetailImg;
 
     // let wishLishRegist = 0;
-    const [modalOpen, setModalOpen] = useState(false);
+    
 
     useEffect(
         () => {
@@ -65,7 +65,7 @@ function UsedProductDetail() {
                             </div>
                             <div className={ProductDetailCSS.productDetailBoth}>
                                 <UserProductDetailImg productDetailImg={productDetailImg}/>
-                                <UsedProductDetailInfo productDetailInfos={productDetailInfos} setModalOpen={setModalOpen} productDetail={productDetail}/>
+                                <UsedProductDetailInfo productDetailInfos={productDetailInfos} productDetail={productDetail}/>
                             </div>
                             <div className={ProductDetailCSS.productInfoAndPlace}>
                                 <div className={ProductDetailCSS.productDetailInfoTitle}>상품 정보</div>
@@ -76,7 +76,7 @@ function UsedProductDetail() {
                         </div>
                     </div>
                 </div>
-                {modalOpen && getCookie("accessToken") && < Report nickName={productDetailInfos.nickName} productCode={productDetailInfos.productCode} sellStatus={productDetailInfos.sellStatusCode} productName={productDetailInfos.productName} setModalOpen={setModalOpen} />}
+                
             </>
         );
     }
