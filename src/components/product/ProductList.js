@@ -28,6 +28,7 @@ function ProductList(type) {
 
     useEffect(
         () => {
+            window.history.scrollRestoration = "auto";
             switch(type.type) {
                 case "merge":
                     dispatch(callGetProductList("merge"));
@@ -124,12 +125,13 @@ function ProductList(type) {
             paramCheck3 = true;
         }
         // console.log(paramCheck3);
-        paramCheckAll = paramCheck1 && paramCheck2 && paramCheck3;
+        paramCheckAll = paramCheck1;
     }
 
     return(
         <>
-            {paramCheckAll && <ProductListResult/>}
+            { console.log(121)}
+            {(paramCheckAll || type.type != "merge") && <ProductListResult/>}
         </>
     );
 }

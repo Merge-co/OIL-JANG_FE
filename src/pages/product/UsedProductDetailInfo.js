@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { callProductDeleteAPI, callWishListRegistAPI } from '../../apis/ProductAPICalls';
 import { useState } from 'react';
 import { callWishListDeleteAPI } from '../../apis/WishListAPICalls';
-import { useEffect } from 'react';
 import Report from '../report/Report';
 
 function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDetail}) {
@@ -23,8 +22,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     }
 
     const [modalOpen, setModalOpen] = useState(false);
-
-    console.log(productDetail);
 
     function Buyer() {
         return(
@@ -73,7 +70,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     const params = useParams();
 
     const wishListRegistNo = useSelector(state => state.productReducer.getWishListRegistResult);
-    console.log(wishLishRegist);
 
     const onClickPickHandler = () => {
         if (getCookie("accessToken")) {

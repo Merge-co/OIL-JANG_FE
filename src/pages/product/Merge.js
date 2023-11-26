@@ -20,7 +20,7 @@ function Merge() {
                     <ProductCategory type="merge"/>
                     <MergeCategory />
                     {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductFilter/> : ""}
-                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge"/> : ""}
+                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge" /> : !window.localStorage.getItem("mergeGuide") && <img src="/images/siteImage/mergeGuide.svg" alt="꾸러미 가이드"/>}
                 </div>
                 <MergeBox/>
             </div>

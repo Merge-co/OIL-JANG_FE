@@ -7,12 +7,18 @@
     margin: 0 auto;
   }
 
-.mergeMain:nth-child(6) {
+/* .mergeMain:nth-child(6) {
   flex-wrap: wrap;
-}
+} */
 
 .mergeCategoryFilter {
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+.MergeGuide {
+  position: relative;
+  font-size: 28px;
+  font-weight: 500;
 }
