@@ -36,7 +36,7 @@ function App() {
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
-          <Route path='productEdit' element={<ProductEdit /> } />
+          <Route path='productEdit/:productCode' element={<ProductEdit /> } />
 
           <Route path='myPage' element={<SubHeaderLayout />}>
             <Route path='myproductlist' element={<MyProductList />} />
