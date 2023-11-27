@@ -2,92 +2,66 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { callProductEditAPI } from '../../apis/ProductEditAPICalls';
 import ProductList from '../../components/product/ProductList';
+import { useLocation } from "react-router";
+import { useNavigate, useParams } from 'react-router-dom';
 
-function ProductEdit({ productCode }) {
-    console.log('Received productCode:', productCode);
+function ProductEdit() {
     const [productName, setProductName] = useState('');
-    const [productThumbAddr, setProductThumbAddr] = useState([]);
     const [refCategoryCode, setRefCategoryCode] = useState('');
-    const [price, setPriceOption] = useState('sell');
+    const [price, setPrice] = useState('');
     const [productDesc, setProductDesc] = useState('');
     const [wishPlaceTrade, setWishPlaceTrade] = useState('');
+    const { productCode } = useParams();
 
+    const params = useParams();
+    console.log('Received productCode', params.productCode);
 
 
     useEffect(() => {
         const fetchProductInfo = async () => {
             try {
-                console.log("김민범");
-                if (productCode) {
-                    const response = await axios.get(`http://localhost:8000/products/${productCode}`);
-                    const productData = response.data;
+                const response = await axios.get(`http://localhost:8000/products/${productCode}`);
+                const productData = response.data.results.productDetail[0];
 
-                    setProductName(productData.productName);
-                    setProductThumbAddr(productData.productThumbAddr);
-                    setRefCategoryCode(productData.refCategoryCode);
-                    setPriceOption(productData.price);
-                    setProductDesc(productData.productDesc);
-                    setWishPlaceTrade(productData.wishPlaceTrade);
-                    // console.log("강한성");
-                    // console.log('API Response:', response.data);
-                    // const fetchedProductName = response.data.productName;
-                    // setProductName(fetchedProductName);
-                }
+                setProductName(productData.productName);
+                setRefCategoryCode(productData.refCategoryCode);
+                setPrice(productData.productPrice.toString());
+                setProductDesc(productData.productDesc);
+                setWishPlaceTrade(productData.wishPlaceTrade);
+
+                console.log('API Response:', productData);
             } catch (error) {
                 console.error('상품 정보를 가져오는 도중 에러 발생: ', error);
             }
         };
-
-        if (productCode) {
-            fetchProductInfo();
-        }
+        fetchProductInfo();
     }, [productCode]);
 
 
     const handleProductUpdate = async () => {
-
-        if (!productCode) {
+        if (!params.productCode) {
             console.error('Product code is missing.');
             return;
         }
+    
         const updatedFields = {
-            // productCode,
             productName,
-            productThumbAddr,
             refCategoryCode,
             price,
             productDesc,
-            wishPlaceTrade
-        };
-
-        try {
-            const response = await axios.put(
-                `http://localhost:8000/products/${productCode}`,
-                {
-                    productName: productName,
-                    productThumbAddr: productThumbAddr,
-                    refCategoryCode: refCategoryCode,
-                    price: price,
-                    productDesc: productDesc,
-                    wishPlaceTrade: wishPlaceTrade
-                },
-                updatedFields, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            });
-
-            console.log('상품 수정 완료:', response.data);
+            wishPlaceTrade,
+          };
+    
+          try {
+            // API 호출 방식 수정
+            await callProductEditAPI({ productCode: params.productCode, updatedFields });
+      
+            console.log('상품 수정 완료');
             // 상품 수정 완료 후 필요한 작업 수행
-        } catch (error) {
+          } catch (error) {
             console.error('상품 수정 중 에러 발생:', error);
-        }
-
-        // callProductEditAPI({ productCode, updatedFields });
-
-    };
-
+          }
+        };
     const categoryOptions = [
         { code: 1, label: "카테고리를 선택해주세요" },
         { code: 6, label: "블라우스" },
@@ -200,11 +174,14 @@ function ProductEdit({ productCode }) {
                     id="price"
                     className="input_box"
                     placeholder="가격을 입력하세요"
-                    disabled
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    disabled={price === 'share'} // 나눔하기 버튼 클릭 시 입력란 비활성화
                 />
-                <span id="priceInfo" style={{ display: 'none' }}>
+                <span id="priceInfo" style={{ display: price === 'share' ? 'inline' : 'none' }}>
                     나눔입니다
                 </span>
+
             </div>
             <div className="explanation">
                 <label htmlFor="product_description" className="font_all">
@@ -214,6 +191,8 @@ function ProductEdit({ productCode }) {
                     name="product_description"
                     id="product_description"
                     placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록, 자세한 정보와 다양한 각도의 상품 사진을 올려주세요. * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
+                    value={productDesc}
+                    onChange={(e) => setProductDesc(e.target.value)}
                 ></textarea>
                 <br />
                 <p>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
@@ -228,6 +207,8 @@ function ProductEdit({ productCode }) {
                     id="product_description"
                     className="input_box"
                     placeholder="위치 작성"
+                    value={wishPlaceTrade}
+                    onChange={(e) => setWishPlaceTrade(e.target.value)}
                 ></textarea>
                 <hr />
             </div>
