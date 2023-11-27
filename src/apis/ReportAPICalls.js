@@ -39,7 +39,7 @@ export const callReportRegistAPI = ({ form }) => {
     const requestURL = `http://localhost:8000/reports/report`;
 
     console.log('[ReportRegist] fromData 유저닉네임 : ', form.get('reportUserNick'));
-    let distinction = "N";
+    let distinction = "미처리";
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {
 
@@ -65,7 +65,7 @@ export const callReportUpdateAPI = ({ form }) => {
     return async (dispatch, getStatus) => {
 
         let date = new Date();
-        let processCode = "Y";
+        let processCode = "처리";
 
         const result = await axios.put(requestURL, {
             reportNo: form.get('reportNo'),
