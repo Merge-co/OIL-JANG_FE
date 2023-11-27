@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { callReportUpdateAPI, callReportDetailAPI } from "../../apis/ReportAPICalls";
 import { callMessagesRegistAPI } from "../../apis/ProductAPICalls";
 import ModalCSS from "../../styles/Modal.module.css"
+import { getCookie } from "../../modules/CookieModule";
 
 function ReportUpdate({ reportNo, setModalOpen }) {
 
@@ -38,7 +39,7 @@ function ReportUpdate({ reportNo, setModalOpen }) {
     }
 
     const onClickReportUpdateHandler = () => {
-        console.log('[ReportUpdate] onClickReportUpdateHcdcdcdcdcdcdcdcdcdcdandler');
+        console.log('[ReportUpdate] onClickReportUpdateHdandler');
 
         const formData = new FormData();
         formData.append("reportNo", reportNo);
@@ -52,11 +53,17 @@ function ReportUpdate({ reportNo, setModalOpen }) {
     }
 
     // 신고처리에 대한 쪽지 발송
-    const onClickSendMsg = () => {
-        dispatch(callMessagesRegistAPI())
+    const onClickSendMessageHandler = () => {
+        if (getCookie("accessToken")) {
+            alert("신고처리에 대한 내용이 판매자에게 전송되었씁니다.");
+        }
     }
-    console.log('업데이트 페이지 : ', processList );
-    console.log('업데이트 페이지222333444 : ', process );
+    const sendMSG = {
+        advertising : "광고성 컨테츠로 인해 삭제되었습니다.",
+        prohibitedItem :"거래 금지 품목으로 인해 삭제되었습니다.",
+        counterfeit:"가품, 이미테이션 제품으로 인해 삭제되었습니다.",
+        fraud :"사기글 의심으로 인해 삭제되었습니다."
+    }
     return (
         <>
             {process && (
@@ -78,7 +85,7 @@ function ReportUpdate({ reportNo, setModalOpen }) {
                         <option value={3}>반려</option>
                     </select>
                     <textarea cols="40" rows="2" name="processComment" onChange={onChangeHandler}></textarea>
-                    <button className={Button.smallBtn2} onClick={onClickReportUpdateHandler} >완료</button>
+                    <button className={Button.smallBtn2} onClick={() => {onClickReportUpdateHandler(); onClickSendMessageHandler(sendMSG[process.refReportCategoryNo.reportCategoryCode])}} >완료</button>
                 </div>
             )}
         </>

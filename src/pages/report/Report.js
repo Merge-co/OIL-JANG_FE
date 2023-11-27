@@ -16,22 +16,26 @@ function Report({ nickName, productCode, sellStatus, productName, setModalOpen }
     };
     // 모달 외부 클릭시 끄기
     // Modal창을 useRef 관리
-    const modalRef = useRef<HTMLDivElement>(null);
+    const modalRef = useRef < HTMLDivElement > (null);
 
     useEffect(() => {
         // 이벤트 핸들러 함수
-        const handler = () => {
+        const handler = (e) => {
             // mousedown 이벤트가 발생한 영역이 모달칭이 아닐 때, 모달창 제거 
-            if(modalRef.current && !modalRef.current.contains(Event.target)){
-                setModalOpen(false)
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                closeModal();
             }
         };
+        document.addEventListener("mousedown", handler);
+        return () => {
+            document.removeEventListener("mousedown", handler);
+        }
     }, []
     );
-    
+
     const decodedToken = jwtDecode(getCookie('accessToken'));
     const seller = decodedToken.nickName;
-    console.log('토큰 확인 ',jwtDecode(getCookie("accessToken")));
+    console.log('토큰 확인 ', jwtDecode(getCookie("accessToken")));
 
     // 리덕스를 이용하기 위한 디스 패처 셀렉터 선언
     const dispatch = useDispatch();
@@ -58,6 +62,12 @@ function Report({ nickName, productCode, sellStatus, productName, setModalOpen }
     const onClickRegisterHandler = () => {
         console.log('[ReportRegisteration] onClickReportRegisterationHandler')
 
+        if (reportForm.refReportCategoryNo === 0) {
+            alert('신고분류를 선택해주세요');
+            return;
+        }
+
+
         const formData = new FormData();
 
         formData.append("reportUserNick", reportForm.reportUserNick);
@@ -75,9 +85,10 @@ function Report({ nickName, productCode, sellStatus, productName, setModalOpen }
         // console.log("aaaa", formData);
         dispatch(callReportRegistAPI({
             form: formData
-        }))
+        }));
         alert('신고 접수가 완료되었습니다.')
         setModalOpen(false)
+        // window.location.reload();
     }
     return (
         <>

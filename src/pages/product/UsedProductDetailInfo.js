@@ -128,6 +128,7 @@ function UsedProductDetailInfo({productDetailInfos, setModalOpen, wishLishRegist
                         {/* <div className={ProductDetailCSS.otherProduct}>판매자의 다른 상품 보기</div> */}
                     </div>
                 </div>
+                
                 <div className={ProductDetailCSS.detailBtn}>
                     {getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode === productDetailInfos.refUserCode) ? <Seller/> : <Buyer/>}
                 </div>
