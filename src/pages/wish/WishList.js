@@ -6,6 +6,7 @@ import { callGetWishListAPI, callWishListDeleteAPI } from '../../apis/WishListAP
 import { getCookie } from '../../modules/CookieModule';
 import PagingBar from './../../components/common/PagingBar';
 import { GET_WISHLIST_AGAIN, onClickItemDetail, priceToString } from '../../modules/ProductModule';
+import { useParams } from 'react-router-dom';
 
 
 function WishList() {
@@ -13,6 +14,7 @@ function WishList() {
     const dispatch = useDispatch();
     const wishListReset = useSelector(state => state.productReducer.getWishListAgain);
     const PagingInfo = useSelector(state => state.pagingReducer);
+    const params = useParams();
 
     useEffect(
         () => {
@@ -28,7 +30,6 @@ function WishList() {
     const getWishListResult = useSelector(state => state.wishListReducer.getWishList);
     const pagingBtn = getWishListResult && getWishListResult.pagingBtn;
     const wishList = getWishListResult && getWishListResult.wishList;
-    console.log(getWishListResult);
 
     function WishListItem({wishListItem}) {
         return (           
@@ -52,11 +53,11 @@ function WishList() {
                             <th>&nbsp;</th>
                         </tr>
                         <tr>
-                            <td><img onClick={() => onClickItem(wishListItem.productCode)} className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src="/images/siteImage/sample.jpg" alt="상품 이미지" width="179" height="152"/></td>
-                            <td>{wishListItem.sellStatus}</td>
-                            <td className={WishListCSS.wishListCursor} onClick={() => onClickItem(wishListItem.productCode)} >{wishListItem.productName}</td>
-                            <td>{priceToString(wishListItem.productPrice)}</td>
-                            <td><div className={WishListCSS.productDescLeft}>{wishListItem.productDesc}</div></td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><img className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src={wishListItem.proImageThumbAddr} alt="상품 이미지" width="179" height="152"/></td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.sellStatus}</td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.productName}</td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{priceToString(wishListItem.productPrice)}</td>
+                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><div className={WishListCSS.productDescLeft}>{wishListItem.productDesc}</div></td>
                             <td><button onClick={() => onClickDelete(wishListItem.wishCode)} className={ButtonCSS.smallBtn2}>삭제</button></td>
                         </tr>
                     </table>
@@ -84,6 +85,7 @@ function WishList() {
                 {wishList && wishList.map(
                     wishListItem => <WishListItem wishListItem={wishListItem}/>
                 )}
+                {(wishList && wishList.length == 0) && <div className={WishListCSS.noResult}>찜한 상품이 없습니다</div>}
                 <PagingBar pagingBtn={pagingBtn} />
             </div>
         </>  

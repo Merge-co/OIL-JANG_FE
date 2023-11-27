@@ -3,7 +3,6 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import "../../styles/product/ProductDetailImg.css";
 
 function UserProductDetailImg(productDetailImg) {
-    console.log(productDetailImg);
 
     let imgArr = Object.entries(productDetailImg.productDetailImg).sort();
 

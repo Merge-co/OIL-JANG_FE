@@ -41,13 +41,14 @@ function MergeCategory() {
         navigate(`${curURL.search}`);
         dispatch({ type: GET_CATEGORY_CODE, payload: filterNo});
         window.localStorage.setItem("remainMoneySearch", window.localStorage.getItem("remainMoney"));
+        window.localStorage.setItem("mergeGuide", 1);
     }
 
     return(
         <>
             <div className={MergeCategoryCSS.selectedCategories}>
                 {mergeCategory.map(
-                    category => <div onClick={() => onClickHandler(category.id)} className={mergeCategoryBtn === category.id ? MergeCategoryCSS.clickedSelectedCategory : MergeCategoryCSS.selectedCategory}>{category.categoryName}</div>
+                    category => <div key={"MergeCategoryId" + category.id} onClick={() => onClickHandler(category.id)} className={mergeCategoryBtn === category.id ? MergeCategoryCSS.clickedSelectedCategory : MergeCategoryCSS.selectedCategory}>{category.categoryName}</div>
                 )}
             </div>
         </>

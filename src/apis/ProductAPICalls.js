@@ -1,7 +1,7 @@
 import axios from "axios";
 import { GET_CATEGORIES } from "../modules/ProductCategoryModule";
 import { GET_PRODUCTLIST } from "../modules/ProductListModule";
-import { GET_MESSAGES_RESULT, GET_PRODUCT_DETAIL, GET_WISHLIST_AGAIN, GET_WISHLIST_DELELE_RESULT, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
+import { GET_MESSAGES_RESULT, GET_PRODUCT_DELETE_RUSULT, GET_PRODUCT_DETAIL, GET_WISHLIST_AGAIN, GET_WISHLIST_DELELE_RESULT, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
 
@@ -63,7 +63,7 @@ export const callGetProductList = (type, morePage) => {
             result => result.data.results
         );
 
-        dispatch({ type: GET_PRODUCTLIST, payload: [result]});
+        dispatch({ type: GET_PRODUCTLIST, payload: [result, requestURL]});
     };
 }
 
@@ -119,6 +119,19 @@ export const callGetProductDetail = path => {
         );
 
         dispatch({ type: GET_PRODUCT_DETAIL, payload: result});
+    };
+}
+
+export const callProductDeleteAPI = productCode => {
+    let requestURL = `http://${comIp}:8000/products/${productCode}`;
+    return async (dispatch, getState) => {
+        const result = await axios.delete(requestURL, {
+            headers: {
+                "Accept": "*/*",
+            }
+        }
+        ).then(response => response);
+        dispatch({ type: GET_PRODUCT_DELETE_RUSULT, payload: result});
     };
 }
 
