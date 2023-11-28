@@ -6,6 +6,7 @@ import ButtonCSS from '../../styles/Button.module.css'
 import modalCSS from '../../styles/Modal.module.css'
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../modules/CookieModule";
+import ReportRegistCSS from '../../styles/report/reportRegist.module.css';
 
 function Report({ nickName, productCode, sellStatus, productName, setModalOpen }) {
     // nickName -> 판매자 정보 
@@ -92,30 +93,37 @@ function Report({ nickName, productCode, sellStatus, productName, setModalOpen }
     }
     return (
         <>
+            <div className={modalCSS.overlay}></div>
             <div className={modalCSS.container}>
-                <button onClick={closeModal} className={modalCSS.close}>X</button>
-                <div>
-                    <h2>신고하기</h2>
-                    <hr />
-                    <label>신고분류</label>
-                    <select name="refReportCategoryNo" onChange={onChangeHandler}>
-                        <option>선택해주세요.</option>
-                        <option value={1}>광고성 컨텐츠에요</option>
-                        <option value={2}>거래 금지 품목이에요</option>
-                        <option value={3}>가품, 이미테이션제품이에요</option>
-                        <option value={4}>사기가의심돼요</option>
-                    </select>
-
-                    <div>판매게시글 : {productName}</div>
-
-                    <div>신고사유</div>
-                    <textarea
-                        name="reportComment"
-                        onChange={onChangeHandler}
-                        cols={40}
-                        rows={5}
-                        placeholder="신고 내용을 직접 작성해주세요. &#13;자세하게 적어주시면 신고처리에 큰 도움이 됩니다." />
-                    <button className={ButtonCSS.smallBtn2} onClick={onClickRegisterHandler}>보내기</button>
+                <div className={modalCSS.innerContainer}>
+                    <div onClick={closeModal} className={modalCSS.close}>X</div>
+                    <div>
+                        <h2 className={modalCSS.modalTitle}>신고하기</h2>
+                        <div className={modalCSS.reportBox} >
+                            <div className={ReportRegistCSS.processCategory}>
+                                <div>신고분류</div>
+                                <select name="refReportCategoryNo" onChange={onChangeHandler} className={`${modalCSS.selectBox}`}>
+                                    <option>선택해주세요.</option>
+                                    <option value={1}>광고성 컨텐츠에요</option>
+                                    <option value={2}>거래 금지 품목이에요</option>
+                                    <option value={3}>가품, 이미테이션제품이에요</option>
+                                    <option value={4}>사기가의심돼요</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>판매게시글 : {productName}</div>
+                        <div>신고사유</div>
+                        <textarea
+                            className={ReportRegistCSS.textarea}
+                            name="reportComment"
+                            onChange={onChangeHandler}
+                            cols={40}
+                            rows={5}
+                            placeholder="신고 내용을 직접 작성해주세요. &#13;자세하게 적어주시면 신고처리에 큰 도움이 됩니다." />
+                        <div >
+                            <button className={`${ButtonCSS.smallBtn2} `} onClick={onClickRegisterHandler}>보내기</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
