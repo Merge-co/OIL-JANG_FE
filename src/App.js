@@ -7,7 +7,6 @@ import Report from './pages/report/Report';
 import AddProduct from './pages/product/AddProduct';
 import Login from './pages/user/Login';
 import ReportManagement from './pages/report/ProcessManagement';
-
 import MessageList from './pages/message/MessageList';
 import UsedProduct from './pages/product/UsedProduct';
 import UsedProductDetail from './pages/product/UsedProductDetail';

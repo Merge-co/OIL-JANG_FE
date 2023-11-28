@@ -6,20 +6,47 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { callProductDeleteAPI, callWishListRegistAPI } from '../../apis/ProductAPICalls';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import Report from '../report/Report';
+import MessageModal from '../message/MessagModal';
+import { callMessageModalAPI } from '../../apis/MessageAPICalls';
 
 function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDetail}) {
     const [wishLishRegist, setWishLishRegist] = useState(productDetail.selectedWishCode ? 1 : 0);
 
+
+    const [modalType, setModalType] = useState("");
+
+    useEffect(() => {
+        console.log("modalType updated:", modalType);
+    }, [modalType]);
+    
+
     const onClickReportHandler = () => {
         if (getCookie("accessToken")) {
+            setModalType('report');
             setModalOpen(true);
+            console.log("report: " + modalType, getCookie("accessToken") )
         } else {
             alert("신고하려면 로그인 해야 합니다.");
         }
     }
+
+
+    const onClickSendMessageHandler = () => {
+        if (getCookie("accessToken")) {
+            setModalType('message');
+            setModalOpen(true);
+            dispatch(callMessageModalAPI)
+            console.log("성공하면 찍힙니다")
+            console.log("message: " + modalType,getCookie("accessToken") )
+        } else {
+            alert("쪽지를 보내려면 로그인 해야 합니다.");
+        }
+    }
+
+
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -41,15 +68,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         );
     }
 
-    const onClickSendMessageHandler = () => {
-        if (getCookie("accessToken")) {
-            if(window.confirm("판매자에게 쪽지를 보내시겠습니까?")) {
-                alert("쪽지 모달 + 판매자에게 쪽지를 보냈습니다.");
-            }
-        } else {
-            alert("쪽지를 보내려면 로그인 해야 합니다.");
-        }
-    }
 
     const onClickRemoveHandler = () => {
         if (window.confirm("상품을 삭제하시겠습니까?")) {
@@ -63,7 +81,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     const dispatch = useDispatch();
 
     const onClickEditHandler = () => {
-        navigate(`/productEdit`)
+        navigate(`/productEdit/${params.productCode}`)
     }
 
     const [plusMinusCount, setPlusMinusCount] = useState(0);
@@ -134,7 +152,8 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                     {getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode === productDetailInfos.refUserCode) ? <Seller/> : <Buyer/>}
                 </div>
             </div>
-            {modalOpen && getCookie("accessToken") && <Report nickName={productDetailInfos.nickName} productCode={productDetailInfos.productCode} sellStatus={productDetailInfos.sellStatusCode} productName={productDetailInfos.productName} setModalOpen={setModalOpen} />}
+            {modalType === 'report' && modalOpen && getCookie("accessToken") && <Report nickName={productDetailInfos.nickName} productCode={productDetailInfos.productCode} sellStatus={productDetailInfos.sellStatusCode} productName={productDetailInfos.productName} setModalOpen={setModalOpen} />}
+            {modalType === 'message' && modalOpen && getCookie("accessToken") && <MessageModal setModalOpen={setModalOpen}/>}
         </>
     );
 }

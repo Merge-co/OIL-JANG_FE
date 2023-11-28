@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { callReportManagementAPI, callSearchReportAPI } from "../../apis/ReportAPICalls";
+import { callReportManagementAPI } from "../../apis/ReportAPICalls";
 import ProcessDetail from "./ProcessDetail";
 import ReportUpdate from './ReportUpdate';
 import PagingBtn from '../../styles/PagingBar.module.css';
 import ManagementCSS from '../../styles/report/processManagement.module.css';
+import { useParams } from "react-router-dom";
 function ProcessManagement() {
 
     const dispatch = useDispatch();
@@ -12,31 +13,27 @@ function ProcessManagement() {
     const [selectedReportNo, setSelectedReportNo] = useState(null);
     const [modalComponent, setModalComponent] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
-    const resutList = result && result.data.content;
+    const resultList = result && result.data.content;
+    
+
+
 
     const onClickProcessDetailHandler = (reportNo, processDistinction) => {
         // 처리 상세페이지 이동
-        console.log('모달이 열리지 않는이유 ? : ', modalOpen);
         setSelectedReportNo(reportNo)
         setModalOpen(true)
-        setModalComponent(processDistinction === "Y" ? 'ProcessDetail' : 'ReportUpdate');
+        setModalComponent(processDistinction === "처리" ? 'ProcessDetail' : 'ReportUpdate');
     }
-    const [searchResult, setSearchResult] = useState();
+
     // 처리 미처리 셋팅
     const [process, setProcess] = useState('');
+    console.log('process 버튼 : ', process);
+
     useEffect(() => {
-        if (process === '처리') {
-            const filteredResults = result && resutList && resutList.filter((resutList) => {
-                return resutList.processDistinction === '처리';
-            });
-            setSearchResult(filteredResults);
-        } else {
-            const filteredResults = result && resutList && resutList.filter((resutList) => {
-                return resutList.processDistinction === '미처리';
-            });
-            setSearchResult(filteredResults);
-        }
-    }, [process, resutList]);
+        dispatch(callReportManagementAPI({
+            process: process
+        }));
+    }, [process]);
 
     // Search setting
     const [search, setSearch] = useState('');
@@ -46,15 +43,15 @@ function ProcessManagement() {
     const onEnterKeyHandler = (e) => {
         if (e.key == 'Enter') {
             console.log('Enter key', search);
-            dispatch(callSearchReportAPI({
+            dispatch(callReportManagementAPI({
                 search: search
             }));
         }
     }
-    const onClickSearchHandler = (e) => {
-        dispatch(callSearchReportAPI({
-            search: search
-        }));
+    const onClickSearchHandler = () => {
+        // dispatch(callReportManagementAPI({
+        //     search: search
+        // }));
     }
     // paging setting 
     const pageInfo = result && result.pageInfo;
@@ -78,6 +75,9 @@ function ProcessManagement() {
     function truncateText(text, maxLength) {
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     }
+
+    console.log('ProcessManagement : ' ,resultList );
+
     return (
         <>
             <div className={`${ManagementCSS.box1} ${ManagementCSS.contBox}`}>
@@ -89,8 +89,9 @@ function ProcessManagement() {
                 <div className={`${ManagementCSS.reportSearchBox}`}>
                     <div className={`${ManagementCSS.searchBox}`} >
                         <div className={`${ManagementCSS.reportNav}`}>
-                            <button onClick={() => setProcess('처리')}>처리</button>
-                            <button onClick={() => setProcess('미처리')}>미처리</button>
+                            <button style={{ cursor: "pointer" }} onClick={() => setProcess('처리')}>처리</button>
+                            <span style={{ color: '#9D9D9D' }}> | </span>
+                            <button style={{ cursor: "pointer" }} onClick={() => setProcess('미처리')}>미처리</button>
                         </div>
                     </div>
                     <div className={`${ManagementCSS.searchBox}`} >
@@ -118,19 +119,9 @@ function ProcessManagement() {
                         </tr>
                     </thead>
                     <tbody>
-                        {Array.isArray(process) && Array.isArray(resutList) ? searchResult.map((report) => (
-                            <tr key={report.reportNo} className={`${ManagementCSS.reportListHover}`} onClick={() => onClickProcessDetailHandler(report.reportNo, report.processDistinction)} style={{ cursor: 'pointer' }}>
-                                <td>{report.reportNo}</td>
-                                <td>{truncateText(report.reportUserNick, 5)}</td>
-                                <td>{report.nickName}</td>
-                                <td>{truncateText(report.productName, 7)}</td>
-                                <td>{truncateText(report.reportCategoryCode, 10)}</td>
-                                <td>{report.processDistinction}</td>
-                            </tr>
-                        )) :
-                            (Array.isArray(resutList) && resutList.map((report) => (
-                                <tr key={report.reportNo} onClick={() =>
-                                    onClickProcessDetailHandler(report.reportNo, report.processDistinction)} style={{ cursor: 'pointer' }} className={`${ManagementCSS.reportListHover} `}>
+                        {Array.isArray(resultList) ?
+                            resultList.map((report) => (
+                                <tr key={report.reportNo} className={`${ManagementCSS.reportListHover}`} onClick={() => onClickProcessDetailHandler(report.reportNo, report.processDistinction)} style={{ cursor: 'pointer' }}>
                                     <td>{report.reportNo}</td>
                                     <td>{truncateText(report.reportUserNick, 5)}</td>
                                     <td>{report.nickName}</td>
@@ -138,19 +129,32 @@ function ProcessManagement() {
                                     <td>{truncateText(report.reportCategoryCode, 10)}</td>
                                     <td>{report.processDistinction}</td>
                                 </tr>
-                            )))}
+                            )) :
+                            (
+                                Array.isArray(resultList) && resultList.map((report) => (
+                                    <tr key={report.reportNo} onClick={() =>
+                                        onClickProcessDetailHandler(report.reportNo, report.processDistinction)} style={{ cursor: 'pointer' }} className={`${ManagementCSS.reportListHover} `}>
+                                        <td>{report.reportNo}</td>
+                                        <td>{truncateText(report.reportUserNick, 5)}</td>
+                                        <td>{report.nickName}</td>
+                                        <td>{truncateText(report.productName, 7)}</td>
+                                        <td>{truncateText(report.reportCategoryCode, 10)}</td>
+                                        <td>{report.processDistinction}</td>
+                                    </tr>
+                                ))
+                            )}
                     </tbody>
                 </table >
                 <div className={PagingBtn.btnDisabled}
                     style={{ background: 'none' }}>
-                    {Array.isArray(resutList) &&
+                    {Array.isArray(resultList) &&
                         <button
                             onClick={() => setCurrentPage(1)}
                             disabled={currentPage === 1}
                             className={PagingBtn.arrowBtn}>&lt;&lt;</button>
                     }
                     <div className={PagingBtn.btnDisabled}>
-                        {Array.isArray(resutList) &&
+                        {Array.isArray(resultList) &&
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}
                                 disabled={currentPage === 1}
@@ -166,7 +170,7 @@ function ProcessManagement() {
                                 </button>
                             </li>
                         ))}
-                        {Array.isArray(resutList) &&
+                        {Array.isArray(resultList) &&
                             <button
                                 className={PagingBtn.arrowBtn}
                                 onClick={() => setCurrentPage(currentPage + 1)}
@@ -175,7 +179,7 @@ function ProcessManagement() {
                             </button>
                         }
                         <div className={PagingBtn.btnDisabled}>
-                            {Array.isArray(resutList) &&
+                            {Array.isArray(resultList) &&
                                 <button
                                     onClick={() => setCurrentPage(pageInfo.pageEnd)}
                                     disabled={currentPage === pageInfo.pageEnd || pageInfo.total == 0}
@@ -189,7 +193,7 @@ function ProcessManagement() {
                 modalComponent === 'ProcessDetail' ? (
                     <ProcessDetail reportNo={selectedReportNo} setModalOpen={setModalOpen} />
                 ) : (
-                    <ReportUpdate reportNo={selectedReportNo} setModalOpen={setModalOpen}  />
+                    <ReportUpdate reportNo={selectedReportNo} setModalOpen={setModalOpen} />
                 )
             )
             }

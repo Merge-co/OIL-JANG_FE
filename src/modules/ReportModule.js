@@ -7,16 +7,19 @@ export const GET_REPORT = 'report/GET_REPORT';
 export const GET_REPORTS = 'report/GET_REPORTS';
 export const PUT_REPORT = 'report_PUT_REPORT';
 export const POST_REPORT = 'report/PUT_REPORT';
-export const GET_SEARCH_REPORTS = 'report/GET_SEARCH_REPORTS';
+// export const GET_SEARCH_REPORTS = 'report/GET_SEARCH_REPORTS';
+export const GET_PROCESSED = 'report/GET_PROCESSED';
 
 
 const actions = createActions({
     [GET_REPORT]: () => { },
     [GET_REPORTS]: () => { },
     [PUT_REPORT]: () => { },
-    [GET_SEARCH_REPORTS]: () => { },
-    [POST_REPORT]: () => { }
+    // [GET_SEARCH_REPORTS]: () => { },
+    [POST_REPORT]: () => { },
+    [GET_PROCESSED]: () => { }   
 });
+
 
 // reducer
 const reportReducer = handleActions(
@@ -37,10 +40,15 @@ const reportReducer = handleActions(
             ...state,
             insertReport: payload
         }),
-        [GET_SEARCH_REPORTS]: (state, { payload }) => ({
+        // [GET_SEARCH_REPORTS]: (state, { payload }) => ({
+        //     ...state,
+        //     searchReport: payload
+        // }),
+        [GET_PROCESSED]: (state, {payload}) => ({
             ...state,
-            searchReport: payload
+            getProcessed: payload
         })
+        
     },
     initialState
 );
