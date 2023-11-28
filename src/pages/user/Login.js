@@ -25,7 +25,7 @@ function Login() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const loginUser = useSelector((state) => state);
+  const loginUser = useSelector((state) => state.userReducer);
 
   console.log("loginUser", loginUser);
   console.log(
@@ -152,11 +152,6 @@ function Login() {
           <button>
             <img src="" alt="네이버 로고" />
             Naver로 로그인
-          </button>
-          <br />
-          <button>
-            <img src="" alt="kakao 로고" />
-            Kakao로 로그인
           </button>
           <br />
         </div>
