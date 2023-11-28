@@ -2,36 +2,57 @@ import axios from 'axios';
 import {
     GET_REPORTS,
     POST_REPORT,
-    GET_SEARCH_REPORTS,
-    PUT_REPORT
 } from '../modules/ReportModule.js'
 
 import { GET_PROCESSDETAIL } from '../modules/ProcessModule.js';
 
-export const callReportManagementAPI = ({ currentPage }) => {
+export const callReportManagementAPI = ({ currentPage, search, process }) => {
 
     console.log('[ReportAPICalls] callReportAPI Call')
+    console.log('1############### 찍힘 ?')
+    console.log('currentPage', currentPage);
+    console.log('search', search);
+    console.log('process', process);
 
-    let requestURL;
+    let requestURL = `http://localhost:8000/reports/reports?offset=${currentPage}`;
 
-    if (currentPage !== undefined || currentPage !== null) {
-        requestURL = `http://localhost:8000/reports/reports?offset=${currentPage}`;
-    } else {
-        requestURL = `http://localhost:8000/reports/reports`
+    console.log('2############### 찍힘 ?', requestURL);
+
+    if (search) {
+        // 검색 할 경우
+        requestURL += `&s=${search}`;
+        if (process) {
+            // 처리 미처리 상태
+            requestURL += `&p=${process}`;
+        } else {
+            //전체조회
+            requestURL += `&p=all&s=all`;
+            if (currentPage !== undefined || currentPage !== null) {
+                //페이징 처리
+                requestURL += `?offset=${currentPage}`;
+            }
+        }
     }
 
     return async (dispatch, getState) => {
-
-        const result = await fetch(requestURL, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*"
+        try {
+            const response = await fetch(requestURL, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                }
+            });
+            if (!response.ok) {
+                throw new Error('문제가 발생해쒀어ㅓㅓㅓ!!!!!')
             }
-        })
-            .then(response => response.json());
-        console.log('[ReportAPICalls] callReportList Result : ', result);
-        dispatch({ type: GET_REPORTS, payload: result.data });
+
+            const result = await response.json();
+            console.log('[ReportAPICalls] callReportList Result : ', result);
+            dispatch({type: GET_REPORTS , payload : result.data});
+        } catch (error) {
+            console.error('[ReportAPICalls] Error fetching data:', error);
+        }
     };
 }
 
@@ -41,6 +62,7 @@ export const callReportRegistAPI = ({ form }) => {
     console.log('[ReportRegist] fromData 유저닉네임 : ', form.get('reportUserNick'));
     let distinction = "미처리";
     return async (dispatch, getState) => {
+
         const result = await axios.post(requestURL, {
 
             reportUserNick: form.get('reportUserNick'),
@@ -82,8 +104,6 @@ export const callReportUpdateAPI = ({ form }) => {
 
 export const callReportDetailAPI = ({ reportNo }) => {
 
-    console.log("[ReportAPICalls] ReportDetailAPI :", reportNo);
-
     const requestURL = `http://localhost:8000/reports/processDetail/${reportNo}`;
 
     console.log('[ReportAPICall] callReportDetailAPI : ', reportNo)
@@ -107,26 +127,27 @@ export const callReportDetailAPI = ({ reportNo }) => {
     }
 }
 
-export const callSearchReportAPI = ({search}) => {
-    console.log('[ReportAPICalls] callSearchReportAPI Call');
+// export const callSearchReportAPI = ({ search, process }) => {
+//     console.log('[ReportAPICalls] callSearchReportAPI Call');
 
-    console.log("에피아이 안들어오냐 ? ? :", search);
+//     let requestURL = `http://localhost:8000/reports/search?s=${search}`;
 
-    const requestURL = `http://localhost:8000/reports/search?s=${search}`;
+//     if (process) {
+//         requestURL += `&p=${process}`;
+//     }
 
-    return async (dispatch, getState) => {
+//     return async (dispatch, getState) => {
 
-        const result = await fetch(requestURL, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*"
-            }
-        })
-            .then(response => response.json());
-        console.log('[ReportAPICalls] callSearchReportAPI RESULT : ', result);
+//         const result = await fetch(requestURL, {
+//             method: "GET",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Accept": "*/*"
+//             }
+//         })
+//             .then(response => response.json());
+//         console.log('[ReportAPICalls] callSearchReportAPI RESULT : ', result);
 
-        dispatch({ type: GET_SEARCH_REPORTS, payload: result });
-    }
-
-}
+//         dispatch({ type: GET_REPORTS, payload: result });
+//     }
+// }
