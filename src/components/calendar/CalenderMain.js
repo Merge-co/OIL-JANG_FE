@@ -7,12 +7,17 @@ import Toolbar from './CalendarHeader';
 import '../../styles/calendar/Calendar.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import ButtonCSS from '../../styles/Button.module.css';
+import { useRef } from 'react';
 
 const MyCalendar = () => {
+
     const [myEvents, setEvents] = useState([]);
     const [tempEvent, setTempEvent] = useState([]);
     const [newAgenda, setNewAgenda] = useState(false);
     const [showAgenda, setShowAgenda] = useState(-1);
+
+    const inputFocus1 = useRef(null);
+    const inputFocus2 = useRef(null);
 
     const handleSelectSlot = useCallback(
         ({ end, action },) => {
@@ -21,8 +26,6 @@ const MyCalendar = () => {
                     setTempEvent(end);
                     setShowAgenda(-1);
                     setNewAgenda(true);
-                } else {
-                    alert("오늘 이후 날짜만 선택 가능합니다")
                 }
             }
         },
@@ -35,9 +38,9 @@ const MyCalendar = () => {
         let endDatePlus0 = new Date(tempEvent.toISOString().substring(0,10));
         let endDatePlus1 = new Date(endDatePlus0.setDate(endDatePlus0.getDate()));
 
-        const onChangeHandler = e => {
+        const onChangeHandler = useCallback(e => {
             setAgendaInput(e.target.value);
-        }
+        },[]);
 
         const onClickSave = () => {
             let blank_pattern = /^\s+|\s+$/g;
@@ -56,10 +59,16 @@ const MyCalendar = () => {
         }
 
         const onChangeEndDate = e => {
-            let endDatePlus0C = new Date(e.target.value);
-            let endDatePlus1C = new Date(endDatePlus0C.setDate(endDatePlus0C.getDate()));
-            setEndDate(endDatePlus1C);
+            // let endDatePlus0C = new Date(e.target.value);
+            // let endDatePlus1C = new Date(endDatePlus0C.setDate(endDatePlus0C.getDate()));
+            setEndDate(new Date(new Date(e.target.value).setDate(new Date(e.target.value).getDate())));
         }
+
+        useEffect(
+            () => {
+                inputFocus1.current.focus();
+            },[]
+        );
 
         return(
             <>  
@@ -70,7 +79,7 @@ const MyCalendar = () => {
                     
                     <div className='modalContent'>
                         <div>제목 및 날짜 추가</div>
-                        <TextareaAutosize className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}  placeholder='내용을 입력하세요' maxlength={100}/>
+                        <TextareaAutosize className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}  placeholder='내용을 입력하세요' maxLength={100} ref={inputFocus1}/>
                         <input type='date' onChange={onChangeEndDate} defaultValue={endDatePlus1.toISOString().substring(0,10)} min={new Date().toISOString().substring(0, 10)}/>
                     </div>
 
@@ -90,24 +99,25 @@ const MyCalendar = () => {
     )
 
     function Agenda() {
-        const [agendaInput, setAgendaInput] = useState('');
+        const [agendaInput2, setAgendaInput2] = useState('');
 
-        const onChangeHandler = e => {
-            setAgendaInput(e.target.value);
-        }
+        const onChangeHandler2 = useCallback(e => {
+            setAgendaInput2(e.target.value);
+        },[]);
 
         useEffect(
             () => {
-                setAgendaInput(myEvents[showAgenda].title);
+                inputFocus2.current.focus();
+                setAgendaInput2(myEvents[showAgenda].title);
             },[]
         )
 
         const modifyAgenda = () => {
             let blank_pattern = /^\s+|\s+$/g;
-            if(agendaInput.replace(blank_pattern, "") !== "") {
+            if(agendaInput2.replace(blank_pattern, "") !== "") {
                 myEvents[showAgenda].start = new Date(endDate);
                 myEvents[showAgenda].end = new Date(endDate);
-                myEvents[showAgenda].title = agendaInput;
+                myEvents[showAgenda].title = agendaInput2;
                 setShowAgenda(-1);
             } else {
                 alert("내용을 입력하세요");
@@ -130,9 +140,9 @@ const MyCalendar = () => {
         const [endDate, setEndDate] = useState(endDatePlus0);
 
         const onChangeEndDate = e => {
-            let endDatePlus0C = new Date(e.target.value);
-            let endDatePlus1C = new Date(endDatePlus0C.setDate(endDatePlus0C.getDate()));
-            setEndDate(endDatePlus1C);
+            // let endDatePlus0C = new Date(e.target.value);
+            // let endDatePlus1C = new Date(endDatePlus0C.setDate(endDatePlus0C.getDate()));
+            setEndDate(new Date(new Date(e.target.value).setDate(new Date(e.target.value).getDate())));
         }
 
         return(
@@ -143,7 +153,7 @@ const MyCalendar = () => {
                     </div>
                     <div className='modalContent'>
                         <div>제목 및 날짜 수정</div>
-                        <TextareaAutosize className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} maxlength={100}/>
+                        <TextareaAutosize className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2}/>
                         <input type='date' onChange={onChangeEndDate} defaultValue={endDatePlus1.toISOString().substring(0,10)} min={new Date().toISOString().substring(0, 10)}/>
                     </div>
                     <div className='modifyOrDelete'>
