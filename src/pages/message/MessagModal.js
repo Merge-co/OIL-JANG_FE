@@ -1,4 +1,5 @@
-import ModalCSS from '../../styles/message/Modal.module.css';
+import ModalCSS from '../../styles/Modal.module.css';
+import ButtonCSS from '../../styles/Button.module.css'
 
 
 
@@ -14,7 +15,7 @@ function MessageModal({setModalOpen}){
     return(
 
         <>
-            <div style={{position: 'relative'}}>
+            <div>
           
             
                 <div className={`${ModalCSS.modalBg}`}></div>

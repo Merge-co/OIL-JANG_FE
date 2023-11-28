@@ -6,6 +6,8 @@ import { useEffect, useMemo, useState } from 'react';
 import ButtonCSS from '../../styles/Button.module.css';
 import MessageMenu from '../../components/message/MessageMenu';
 import MessagDetailCSS from '../../styles/message/MessageDetail.module.css'
+import { getCookie } from '../../modules/CookieModule';
+import { jwtDecode } from 'jwt-decode';
 
 
 
@@ -24,6 +26,11 @@ function MessageDetail({msgCode}){
 
     const [messageList, setMessageList] = useState([]);
     
+    let [inputCount, setInputCount] = useState(0);
+
+
+
+
         useEffect(
         () => {
             dispatch(callMessageDetailAPI({
@@ -66,12 +73,12 @@ function MessageDetail({msgCode}){
             if (isReceived === 'true') {
               // 받은 쪽지함 처리
               dispatch(callMessageListAPI({
-                userCode: 1,
+                userCode: jwtDecode(getCookie("accessToken")).userCode,
                 isReceived: true,
               })).then((result) => {
                 console.table("result : " + result);
                 if(result && result.data){
-                    setMessageList([...result.data]);
+                    setMessageList([result.data.results]);
                     navigate('/messageList');
                 }else{
                     console.error('[MessageList] API response does not contain data:', result);
@@ -84,12 +91,12 @@ function MessageDetail({msgCode}){
             } else if (isReceived === 'false') {
               // 보낸 쪽지함 처리
               dispatch(callMessageListAPI({
-                userCode: 1,
+                userCode: jwtDecode(getCookie("accessToken")).userCode,
                 isReceived: false,
               })).then((result) => {
                 console.table("result : " + result);
                 if(result && result.data){
-                    setMessageList([...result.data]);
+                    setMessageList([result.data.results]);
                     navigate('/messageList')
                 }else{
                     console.error('[MessageList] API response does not contain data:', result);
@@ -102,7 +109,7 @@ function MessageDetail({msgCode}){
             }
 
 
-            const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
+    const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
 
     const [form, setForm] = useState({
         msgCode: 0,
@@ -118,8 +125,11 @@ function MessageDetail({msgCode}){
 
 
     const onChangeHandler = (e) => {
+
+        const inputValue = e.target.value;
+
         if(!isReadOnly){
-            setReplyContent(e.target.value)
+            setReplyContent(inputValue)
         }
 
         setForm({
@@ -127,9 +137,16 @@ function MessageDetail({msgCode}){
             replyContent,
             [e.target.name]: e.target.value
         });
+
+        setInputCount(e.target.value.length);
     }
+    
 
     const handleReplyClick = async () => {
+
+        if(!isReadOnly && !form.msgContent.trim()){
+            return;
+        }
 
         console.log("=================form0 ================" + form);
         console.log("msgCode: " +  form.msgCode);
@@ -142,6 +159,7 @@ function MessageDetail({msgCode}){
         console.log("msgDeleteCode: " +  form.msgDeleteCode);
         console.log("msgDeleteStatus: " +  form.msgDeleteStatus);
 
+ 
 
         const formData = new FormData();
         formData.append("msgCode", form.msgCode);
@@ -169,6 +187,7 @@ function MessageDetail({msgCode}){
             setIsReadOnly(!isReadOnly);
         }
 
+
     }
 
 
@@ -187,7 +206,7 @@ return(
                 <ul key={messageDetail[0].msgCode}>
                 <li>보낸 사람 &nbsp;&nbsp;&nbsp;&nbsp;<span>{`${messageDetail[0].name} ${messageDetail[0].id}`}</span></li>
                 <li>수신 일시 &nbsp;&nbsp;&nbsp;&nbsp;<span>{messageDetail[0].msgTime}</span></li>
-                <li>게시글 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{`${messageDetail[0].productName || ''} ${messageDetail[0].productDesc || ''}`}</span></li>
+                <li>게시글 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{`${messageDetail[0].productName || ''} ${messageDetail[0].productDesc || ''}`}</span></li>
                 </ul>
             )}
         </div>
@@ -195,18 +214,23 @@ return(
 
             {messageDetail && messageDetail[0] && ( 
             <div className={`${MessagDetailCSS.textAreaBox}`}>
-                <div key={messageDetail.msgCode} className={`${MessagDetailCSS.titleMid}`} style={{marginBottom : '10px'}}>내용</div>
+                <div key={messageDetail.msgCode} className={`${MessagDetailCSS.titleMid}`} style={{margin : '10px 0', fontWeight: '600'}}>내용</div>
                 <textarea 
                     style={{color : '#9D9D9D', border: isReadOnly ? 'none' : '1px solid #ccc'}} 
                     className={`${MessagDetailCSS.textArea}`}
-                    placeholder="내용을 입력해주세요(최대 1500자)"
+                    placeholder="내용을 입력해주세요(최대 1000자)"
                     value={isReadOnly ? messageDetail[0].msgContent : replyContent}
                     onChange={onChangeHandler}
                     readOnly={isReadOnly}
                     name='msgContent'
+                    maxLength={1000}
                     >
                     {/* {messageDetail[0].msgContent} */}
                 </textarea>
+                <p style={{color: '#9D9D9D', fontSize:'0.95rem', display: isReadOnly ? 'none' : 'block'}}>
+                    <span>{inputCount}</span>
+                    <span> / 1000 자</span>
+                </p>
             </div>
             )}
 
@@ -214,8 +238,15 @@ return(
                 type="submit" 
                 value={isReadOnly ? '답장' : '보내기'} 
                 className={`${ButtonCSS.middleBtn2} ${MessagDetailCSS.clearfix}`} 
-                style={{float : 'right', marginTop : '50px'}}
+                style={{float : 'right',
+                        marginTop : '50px', 
+                        backgroundColor: !isReadOnly && !form.msgContent.trim() ? '#d3d3d3' : '',
+                        cursor:!isReadOnly && !form.msgContent.trim() ? 'default' : 'pointer',
+                    }}
                 onClick={handleReplyClick}
+                disabled={!isReadOnly && !form.msgContent.trim()} 
+                title={!isReadOnly && !form.msgContent.trim() ? '내용을 입력해주세요' : ''}
+                
             />
           </div>
 

@@ -51,11 +51,14 @@ hr{
     font-size: 1.5rem;
     border-bottom: 1px solid #222222;
     padding-bottom: 5px;
+    width: 70%;
+    margin: 0 auto;
   }
   
   
   .msgNav{
-    width: 100%;
+    width: 70%;
+    margin: 0 auto;
     margin-bottom: 10%;
   }
   
@@ -81,8 +84,10 @@ hr{
 
 .msgInfo ul li {
     margin-bottom: 3%;
+    font-weight: 600;
   }
   
   .msgInfo ul li span{
     color: #9D9D9D;
+    font-weight: 400;
   }
