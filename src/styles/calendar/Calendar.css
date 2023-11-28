@@ -1,0 +1,132 @@
+.myCalendarContainter {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+/* 캘린더 디자인 */
+.rbc-button-link{
+    pointer-events: none;
+    color: #222;
+    font-size: 22px;
+    font-weight: 500;
+    user-select: none;
+}
+
+.rbc-show-more {
+    pointer-events: visible;
+}
+
+.rbc-header {
+    color: #222;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.rbc-btn-group button {
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.rbc-event {
+    -webkit-user-drag: none;
+}
+
+.rbc-date-cell {
+    text-align: center;
+}
+
+.rbc-overlay {
+    width: 100px;
+}
+
+/* 캘린더 색상 */
+
+.rbc-selected-cell {
+    background-color: transparent;
+}
+
+.rbc-day-bg {
+    background-color: #fff;
+}
+
+.rbc-today {
+    background-color: #eaf6ff;
+}
+
+.rbc-off-range-bg {
+    background-color: #ddd;
+}
+
+/* 모달 및 입력 디자인 */
+
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.agendaTextarea {
+    resize: none;
+    color: #222;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.calendarModal {
+    position: relative;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #222;
+    font-weight: 500;
+    font-size: 22px;
+    z-index: 10;
+    background-color: #fff;
+    left: 270px;
+    bottom: 465px;
+}
+
+.modalTitle {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    height: 25px;
+    background-color: #d9d9d9;
+    border-radius: 5px 5px 0px 0px;
+
+}
+
+.rightCalcel {
+    position: relative;
+    right: 7px;
+    background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
+}
+
+.saveModal {
+    position: relative;
+    display: flex;
+    margin-top: 5px;
+    justify-content: right;
+}
+
+.saveBtn {
+    position: relative;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.modifyOrDelete {
+    position: relative;
+    display: flex;
+    justify-content: right;
+    gap: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+}
+
+.modalContent {
+    position: relative;
+    left: 5px;
+}
