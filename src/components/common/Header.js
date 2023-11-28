@@ -35,6 +35,9 @@ function Header() {
   const navigate = useNavigate();
 
   const isLogin = getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0].toString().indexOf("ADMIN") !== -1;
+  const isUserLogin = getCookie("accessToken")
+  console.log('isLogin',isLogin);
+  console.log('isUserLogin',isUserLogin);
 
   function NotLogIn() {
     return(
@@ -50,23 +53,23 @@ function Header() {
         </div>
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to ="/addProduct">상품등록</NavLink></div>
         <div>
-          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/myPage"><img src="/images/siteImage/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
+          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to= {(isUserLogin !== null && isUserLogin !== undefined) ? "/myInfo" : "/login" }><img src="/images/siteImage/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
         </div>
         <div>
-          <NavLink className={`${({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} ${HeaderCSS.headerMessage}`} style={{ textDecoration: "none" }} to ="/messageList"><img src="/images/siteImage/messageIcon.svg" alt="쪽지 이미지"/></NavLink>
+          <NavLink className={`${({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} ${HeaderCSS.headerMessage}`} style={{ textDecoration: "none" }} to= {(isUserLogin !== null && isUserLogin !== undefined) ? "/messageList" : "/login" }><img src="/images/siteImage/messageIcon.svg" alt="쪽지 이미지"/></NavLink>
         </div>
-        {headerChange === 2 ? <LogOut/>: <LogIn/>}
+        {headerChange === 2 ? <LogOut/>:""}
       </>
     );
   }
 
-  function LogIn() {
-    return(
-      <div>
-        <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/login"><img src="/images/siteImage/logInIcon.svg" alt="로그인 이미지"/></NavLink>
-      </div>
-    );
-  }
+  // function LogIn() {
+  //   return(
+  //     <div>
+  //       <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/login"><img src="/images/siteImage/logInIcon.svg" alt="로그인 이미지"/></NavLink>
+  //     </div>
+  //   );
+  // }
 
   function LogOut() {
     return(

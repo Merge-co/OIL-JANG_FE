@@ -1,86 +1,231 @@
-import{ POST_LOGIN,POST_JOIN,GET_USERS } from '../modules/UserModule';
+import { POST_LOGIN, POST_JOIN, GET_USERS ,DELETE_USERS,POST_USERS} from "../modules/UserModule";
 import { Cookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
+import { getCookie } from "../modules/CookieModule";
+
+
+import axios from "axios";
 
 const cookies = new Cookies();
-const COOKIE_NAME = 'accessToken';
+const COOKIE_NAME = "accessToken";
 
-export const callLoginAPI = ({form}) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/login`;
-    
 
-    return async (dispatch, getState) => {
+export const callLoginAPI = ({ form }) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/login`;
 
-        try {
-            const result = await fetch(requestURL, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "*/*",
-                  "Access-Control-Allow-Origin": "*",
-                },
-                body: JSON.stringify({
-                  id: form.id,
-                  pwd: form.pwd,
-                })
-              })
-              .then(response => response.json());
-
-              console.log('[UserAPICalls] callLoginAPI RESULT : ', result);
-
-              if (result.status === 200) {
-                cookies.set(COOKIE_NAME, result.data.accessToken, { path: '/' });
-                cookies.set(COOKIE_NAME, result.data.accessToken, { path: '/' });
-              }
-
-              dispatch({type: POST_LOGIN, payload: result});
-            
-        } catch (error) {
-            console.error('[UserAPICalls] callLoginAPI Error:', error.message);            
-        }
-        
-    };
-};
-
-export const callLogoutAPI = () => {
-
-    return (dispatch) => {
-        cookies.remove(COOKIE_NAME, { path: '/' });
-    
-        dispatch({ type: POST_LOGIN, payload: '' });
-        console.log('[UserAPICalls] callLogoutAPI RESULT : SUCCESS');
-      };
-};
-
-export const callJoinAPI = (userData) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/join`;
-
-    const formData = new FormData();
-  formData.append("id", userData.id);
-  formData.append("pwd", userData.pwd);
-  formData.append("nickname", userData.nickname);
-  formData.append("name", userData.name);
-  formData.append("birthDay", userData.birthYear + userData.birthMonth + userData.birthDay);
-  formData.append("gender", userData.gender);
-  formData.append("email", userData.email);
-  formData.append("agreement", userData.agreement);
-  formData.append("profileImage", userData.profile); 
-
-    return async (dispatch, getState) => {
-    const result = await fetch(requestURL, {
+  return async (dispatch, getState) => {
+    try {
+      const result = await fetch(requestURL, {
         method: "POST",
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Accept: "*/*",
           "Access-Control-Allow-Origin": "*",
         },
-        body: formData,
-      });
+        body: JSON.stringify({
+          id: form.id,
+          pwd: form.pwd,
+        }),
+      }).then((response) => response.json());
 
+      console.log("[UserAPICalls] callLoginAPI RESULT : ", result);
+
+      if (result.status === 200) {
+        cookies.set(COOKIE_NAME, result.data.accessToken, { path: "/" });
+        cookies.set(COOKIE_NAME, result.data.accessToken, { path: "/" });
+      }
+
+      dispatch({ type: POST_LOGIN, payload: result });
+    } catch (error) {
+      console.error("[UserAPICalls] callLoginAPI Error:", error.message);
+    }
   };
 };
-  
-  export const callGetUserAPI = () => {
-    // 사용자 목록 가져오기 API 호출 및 로직 작성
+
+export const callLogoutAPI = () => {
+  return (dispatch) => {
+    cookies.remove(COOKIE_NAME, { path: "/" });
+
+    dispatch({ type: POST_LOGIN, payload: "" });
+    console.log("[UserAPICalls] callLogoutAPI RESULT : SUCCESS");
   };
+};
+
+export const callJoinAPI = ({ userData }) => {
+  console.log("userData", userData);
+
+  return async (dispatch) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/join`;
 
 
+    console.log("userData", userData);
+
+    const formData = new FormData();
+    formData.append("id", userData.id);
+    console.log("id", userData.id);
+    formData.append("pwd", userData.pwd);
+    console.log("pwd", userData.pwd);
+    formData.append("nickname", userData.nickname);
+    console.log("nickname", userData.nickname);
+    formData.append("name", userData.name);
+    console.log("name", userData.name);
+    formData.append(
+      "birthDate",
+      userData.birthYear + userData.birthMonth + userData.birthDay
+    );
+    console.log(
+      "birthDate",
+      userData.birthYear + userData.birthMonth + userData.birthDay
+    );
+    formData.append("gender", userData.gender);
+    console.log("gender", userData.gender);
+    formData.append("email", userData.email);
+    console.log("email", userData.email);
+    formData.append("phone", userData.phone);
+    console.log("phone", userData.phone);
+    //formData.append("verifyStatus", userData.verifyStatus);
+    formData.append("imageFile", userData.imageFile);
+    console.log("imageFile", userData.imageFile);
+
+    console.log("formData", formData);
+
+    try {
+      const response = await fetch(requestURL, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+      const data = await response.json();
+
+      dispatch({ type: POST_JOIN, payload: data });
+    } catch (error) {
+      console.error("API 호출 중 오류 발생:", error);
+      dispatch({ type: "JOIN_FAILURE", payload: error });
+    }
+  };
+};
+
+export const callGetUserAPI = () => {
+  
+  const userCode = jwtDecode(getCookie("accessToken")).userCode;
+  const userCodeConvertInt = parseInt(userCode, 10);
+  console.log('jwtDecode userCode',userCode);
+  console.log('jwtDecode userCodeConvertInt',userCodeConvertInt);
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/users/${userCodeConvertInt}`;
+
+  console.log('requestURL',requestURL);
+
+  return async (dispatch,getState) => {
+
+  console.log('Authorization',`Bearer ${getCookie("accessToken")}` );
+
+  const response = await axios.get(requestURL, {
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "*/*",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${getCookie("accessToken")}`,
+    },
+  })
+  .then((data) => {
+    dispatch({ type: GET_USERS, payload: data });
+  })
+  .catch((error) => {
+    console.error('API 호출 중 오류 발생:', error);
+    dispatch({ type: 'USERS_FAILURE', payload: error });
+  });
+
+};
+};
+
+
+
+export const callDeleteUserAPI = () => {
+  const userCode = jwtDecode(getCookie("accessToken")).userCode;
+  const userCodeConvertInt = parseInt(userCode, 10);
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/users/${userCodeConvertInt}`;
+
+  console.log('requestURL',requestURL);
+
+  return async (dispatch,getState) => {
+
+  console.log('Authorization',`Bearer ${getCookie("accessToken")}` );
+
+  const response = await axios.delete(requestURL, {
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "*/*",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${getCookie("accessToken")}`,
+    },
+  })
+  .then((data) => {
+    dispatch({ type: DELETE_USERS, payload: data });
+  })
+  .catch((error) => {
+    console.error('API 호출 중 오류 발생:', error);
+    dispatch({ type: 'USERS_FAILURE', payload: error });
+  });
+
+};
+  
+};
+
+
+
+export const callUpdateUserAPI = ({ updatedData }) => {
+  const userCode = jwtDecode(getCookie("accessToken")).userCode;
+  const userCodeConvertInt = parseInt(userCode, 10);
+
+  console.log('userCode',userCode);
+  console.log('userCodeConvertInt',userCodeConvertInt);
+
+
+  return async (dispatch) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/users/${userCodeConvertInt}`;
+
+    console.log('requestURL : ',requestURL);
+  
+    console.log("userData", updatedData);
+
+
+    const formData = new FormData();
+    formData.append("profileImage", updatedData.profileImage);
+    console.log("profileImage", updatedData.profileImage);
+    formData.append("nickname", updatedData.nickname);
+    console.log("nickname", updatedData.nickname);
+    formData.append("newPassword", updatedData.newPassword);
+    console.log("newPassword", updatedData.newPassword);
+    formData.append("newPasswordConfirm", updatedData.newPasswordConfirm);
+    console.log("newPasswordConfirm", updatedData.newPasswordConfirm);
+   
+    console.log("formData", formData.append);
+
+    try {
+      const response = await fetch(requestURL, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${getCookie("accessToken")}`,
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+       
+        dispatch({ type: POST_USERS, payload: data });
+
+      } else {
+        
+        dispatch({ type: "POST_USERS_FAILURE", payload: data });
+      }
+
+    } catch (error) {
+      console.error("API 호출 중 오류 발생:", error);
+      dispatch({ type: "POST_USERS_FAILURE", payload: error });
+    }
+  };
+  
+}
