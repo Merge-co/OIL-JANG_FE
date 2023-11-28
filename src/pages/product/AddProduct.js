@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { callProductRegistAPI } from '../../apis/SellingAPICalls';
 import { jwtDecode } from 'jwt-decode';
 import { getCookie } from '../../modules/CookieModule';
+// import { useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
     const dispatch = useDispatch();
@@ -83,6 +84,41 @@ const AddProduct = () => {
         formData.append('sellStatusCode', refUserCode);
 
 
+        if (!productName || productName.trim() === '') {
+            alert('상품명을 입력해주세요.');
+            return;
+        }
+
+        if (images.length < 1) {
+            alert('최소 1장의 이미지를 올려주세요.'); // 이미지가 업로드되지 않은 경우 알림 표시
+            return;
+        }
+        if (images.length > MAX_IMAGES) {
+            alert(`더 이상 ${MAX_IMAGES}개 이상의 이미지를 업로드할 수 없습니다.`);
+            return;
+        }
+
+        if (!refCategoryCode) {
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
+        // if (!price || price.trim() === '') {
+        //     alert('가격을 입력해주세요.');
+        //     return;
+        // }
+
+        if (!productDesc || productDesc.trim() === '') {
+            alert('상품 설명을 입력해주세요.');
+            return;
+        }
+
+        if (!wishPlaceTrade || wishPlaceTrade.trim() === '') {
+            alert('거래 희망 장소를 입력해주세요.');
+            return;
+        }
+
+
         // 나머지 form 데이터 추가
         // formData.append("다른필드명", form.다른필드명);
         // 콘솔에 FormData를 API 호출 직전에 로그로 출력
@@ -110,6 +146,10 @@ const AddProduct = () => {
                 setProductName('');
                 setProductDesc('');
                 setRefCategoryCode(null);
+                window.navigator.vibrate(200);
+                if (window.alert('상품이 등록되었습니다. 메인페이지로 이동합니다')) {
+                    window.location.href = '/';
+                }
             } else {
                 console.error('상품 등록에 실패했습니다.', response.data);
             }
@@ -118,7 +158,7 @@ const AddProduct = () => {
         }
     };
 
-    
+
     const handleCancel = () => {
         setImageCount(0);
         setPriceOption('sell');
@@ -296,7 +336,7 @@ const AddProduct = () => {
                         onChange={handlePriceChange}
                     />
                     <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
-                        
+
                     </span>
                 </div>
                 <div className="explanation">
