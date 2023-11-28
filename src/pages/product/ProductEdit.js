@@ -5,28 +5,34 @@ import ProductList from '../../components/product/ProductList';
 import { useLocation } from "react-router";
 import { useNavigate, useParams } from 'react-router-dom';
 
+
 function ProductEdit() {
     const [productName, setProductName] = useState('');
     const [refCategoryCode, setRefCategoryCode] = useState('');
+    const [priceOption, setPriceOption] = useState('sell');
     const [price, setPrice] = useState('');
     const [productDesc, setProductDesc] = useState('');
     const [wishPlaceTrade, setWishPlaceTrade] = useState('');
+    const [imageURL, setImageURL] = useState(null);
+
     const { productCode } = useParams();
+    const navigate = useNavigate();
+
 
     const params = useParams();
     console.log('Received productCode', params.productCode);
 
 
     useEffect(() => {
-        const fetchProductInfo = async () => {
+        const fetchProductName = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/products/${productCode}`);
                 const productData = response.data.results.productDetail[0];
 
-                setProductName(productData.productName);
-                setRefCategoryCode(productData.refCategoryCode);
                 setPrice(productData.productPrice.toString());
                 setProductDesc(productData.productDesc);
+                setProductName(productData.productName);
+                setRefCategoryCode(productData.refCategoryCode);
                 setWishPlaceTrade(productData.wishPlaceTrade);
 
                 console.log('API Response:', productData);
@@ -34,34 +40,66 @@ function ProductEdit() {
                 console.error('상품 정보를 가져오는 도중 에러 발생: ', error);
             }
         };
-        fetchProductInfo();
-    }, [productCode]);
+        fetchProductName();
+    }, []);
+
+
+    const handlePriceOptionChange = (option) => {
+        setPriceOption(option);
+        setPrice(option === 'share' ? '' : price);
+    };
+
+    const handlePriceChange = (event) => {
+        setPrice(event.target.value);
+    };
 
 
     const handleProductUpdate = async () => {
+        console.log('productName:', productName);
+        console.log('refCategoryCode:', refCategoryCode);
+        console.log('price:', price);
+        console.log('productDesc:', productDesc);
+        console.log('wishPlaceTrade:', wishPlaceTrade);
+
         if (!params.productCode) {
             console.error('Product code is missing.');
             return;
         }
-    
+
         const updatedFields = {
-            productName,
-            refCategoryCode,
-            price,
-            productDesc,
-            wishPlaceTrade,
-          };
-    
-          try {
-            // API 호출 방식 수정
-            await callProductEditAPI({ productCode: params.productCode, updatedFields });
-      
-            console.log('상품 수정 완료');
-            // 상품 수정 완료 후 필요한 작업 수행
-          } catch (error) {
-            console.error('상품 수정 중 에러 발생:', error);
-          }
+            price: parseFloat(price) || 0, // price가 NaN이면 0으로 설정
+            productDesc: productDesc || '', // productDesc가 undefined이면 빈 문자열로 설정
+            productName: productName || '', // productName이 undefined이면 빈 문자열로 설정
+            refCategoryCode: refCategoryCode || '', // refCategoryCode가 undefined이면 빈 문자열로 설정
+            wishPlaceTrade: wishPlaceTrade || '',
         };
+        console.log('Product Code:', params.productCode);
+        console.log('Updated Fields:', updatedFields);
+
+
+
+        try {
+            await callProductEditAPI(params.productCode, updatedFields);
+            console.log('Received productCode:', productCode);
+            console.log('Received updatedFields:', updatedFields);
+            console.log('상품 수정 완료');
+            alert('상품 수정이 완료되었습니다. 메인페이지로 이동합니다.')
+            navigate('/');
+        } catch (error) {
+            console.error('상품 수정 중 에러 발생:', error);
+        }
+    };
+
+    const handleCancel = () => {
+        const confirmCancel = window.confirm('상품 수정을 취소하시겠습니까?');
+        if (confirmCancel) {
+            navigate(-1);
+        }
+        
+    };
+
+
+
     const categoryOptions = [
         { code: 1, label: "카테고리를 선택해주세요" },
         { code: 6, label: "블라우스" },
@@ -114,12 +152,12 @@ function ProductEdit() {
                         />
                         <br />
                         <div className="count_flex">
-                            <label htmlFor="image_upload" className="font_all">
+                            {/* <label htmlFor="image_upload" className="font_all">
                                 이미지 첨부*
-                            </label>
-                            <div className="image-count">(0/5)</div>
+                            </label> */}
+                            {/* <div className="image-count">(0/5)</div> */}
 
-                            <div className="image-preview-container">
+                            {/* <div className="image-preview-container">
                                 <label className="custom-file-upload">
                                     <input
                                         type="file"
@@ -131,7 +169,7 @@ function ProductEdit() {
                                     />
                                     +
                                 </label>
-                            </div>
+                            </div> */}
                             <div>
                                 <select
                                     name="ref_category_code"
@@ -158,11 +196,24 @@ function ProductEdit() {
                     <label className="font_all">가격 설정 *</label>
                     <div className="btn_two">
                         <label className="custom-radio">
-                            <input type="radio" name="price_option" value="sell" required />
+                            <input type="radio"
+                                name="price_option"
+                                value="sell"
+                                required
+                                checked={priceOption === 'sell'} // 추가된 부분
+                                onChange={() => handlePriceOptionChange('sell')}
+                            />
                             판매하기
                         </label>
                         <label className="custom-radio">
-                            <input type="radio" name="price_option" value="share" required />
+                            <input
+                                type="radio"
+                                name="price_option"
+                                value="share"
+                                required
+                                checked={priceOption === 'share'} // 추가된 부분
+                                onChange={() => handlePriceOptionChange('share')}
+                            />
                             나눔하기
                         </label>
                     </div>
@@ -173,13 +224,13 @@ function ProductEdit() {
                     name="price"
                     id="price"
                     className="input_box"
-                    placeholder="가격을 입력하세요"
+                    placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
+                    disabled={priceOption === 'share'} // 나눔하기 버튼 클릭 시 입력란 비활성화
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    disabled={price === 'share'} // 나눔하기 버튼 클릭 시 입력란 비활성화
                 />
-                <span id="priceInfo" style={{ display: price === 'share' ? 'inline' : 'none' }}>
-                    나눔입니다
+                <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
+
                 </span>
 
             </div>
@@ -214,8 +265,8 @@ function ProductEdit() {
             </div>
             <div className="btn_send">
                 <div className="btn_all">
-                    <button>수정</button>
-                    <button>취소</button>
+                    <button onClick={handleProductUpdate}>수정</button>
+                    <button onClick={handleCancel}>취소</button>
                 </div>
             </div>
         </>

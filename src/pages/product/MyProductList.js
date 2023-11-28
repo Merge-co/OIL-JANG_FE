@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { onClickItemDetail } from '../../modules/ProductModule';
 import PagingBar from '../../components/common/PagingBar';
 
+
 function MyProductList() {
     const dispatch = useDispatch();
     const [myProductList, setMyProductList] = useState([]);
@@ -19,7 +20,7 @@ function MyProductList() {
         const updatedStatus = event.target.value;
         try {
             // 서버에 판매 상태 업데이트 요청
-            // callUpdateSellStatusAPI(code, updatedStatus);
+            // callUpdateSellStatusAPICalls(code, updatedStatus);
 
 
             const updatedProductList = myProductList.sellingList.map(product =>
