@@ -27,7 +27,7 @@ html,body{
     display: flex;
     flex-direction: column;
     margin-top: 103px;
-    width: 1150px;
+    width: 70%;
     margin-bottom: 30px;
 }
 
