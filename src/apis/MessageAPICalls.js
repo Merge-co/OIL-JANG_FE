@@ -8,6 +8,7 @@ import{
     GET_MESSAGES_KEYWORD
 } from '../modules/MessageModule.js';
 import { getCookie } from '../modules/CookieModule.js';
+import { jwtDecode } from 'jwt-decode';
 
 export const callMessageRegistAPI = ({form}) => {
     console.log('[MessageAPICalls] callMessageRegistAPI Call');
@@ -93,20 +94,24 @@ export const callMessageDetailAPI = ({msgCode}) => {
 }
 
 
-export const callMessageListAPI = ({userCode, isReceived}) => {
+export const callMessageListAPI = ({userCode, isReceived, page, keyword}) => {
     console.log('[MessageAPICalls] callMessageListAPI CALL');
 
 
-    const requestURL = `http://localhost:8000/users/${userCode}/messages?isReceived=${isReceived}`;
+    let requestURL = `http://localhost:8000/users/${userCode}/messages?isReceived=${isReceived}`;
 
-    //const params = new URLSearchParams(window.location.search);
+  
 
-    // if(params.get("page")){
-    //     requestURL += `page=${params.get("page")}`;
-    // }
-    // if(params.get("isReceived")){
-    //     requestURL += `&isReceived=${params.get("isReceived")}`;
-    // }
+    const params = new URLSearchParams(window.location.search);
+    console.log("222 : " + page)
+
+    if(params.get("page")){
+        requestURL += `&page=${params.get("page")}`;
+    }
+
+    if(params.get("keyword")){
+        requestURL += `&keyword=${params.get("keyword")}`;
+    }
 
     
     return async (dispatch, getState) => {
@@ -117,12 +122,13 @@ export const callMessageListAPI = ({userCode, isReceived}) => {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
                     Authorization: `Bearer ${getCookie("accessToken")}`
-                }
+                },
+                
             })
             console.log('[MessageAPICalls] callMessageListAPI RESULT', result);
             if(result.status == 200){
                 console.log('[MessageAPICalls] callMessageListAPI SUCCESS');
-                dispatch({type: GET_MESSAGES_ISRECEIVED, payload: result.data});
+                dispatch({type: GET_MESSAGES_ISRECEIVED, payload: result, requestURL});
                 return result;
             }
         }catch(error){
@@ -156,27 +162,27 @@ export const callMessageDeleteAPI = ({msgCode}) => {
     }
 }
 
-export const callMessageSearchListAPI = ({userCode, isReceived, keyword}) => {
-    console.log('[MessageAPICalls] callMessageSearchListAPI CALL');
+// export const callMessageSearchListAPI = ({userCode, isReceived, keyword}) => {
+//     console.log('[MessageAPICalls] callMessageSearchListAPI CALL');
 
-    const requestURL = `http://localhost:8000/users/${userCode}/messages/search?isReceived=${isReceived}&keyword=${keyword}`;
+//     const requestURL = `http://localhost:8000/users/${userCode}/messages/search?isReceived=${isReceived}&keyword=${keyword}`;
 
-    return async(dispatch, getState) => {
-        const result = await axios.get(requestURL, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*",
+//     return async(dispatch, getState) => {
+//         const result = await axios.get(requestURL, {
+//             method: "GET",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Accept": "*/*",
                 
-            }
-        })
-       // .then(response => response.json());
+//             }
+//         })
+//        // .then(response => response.json());
 
-        console.log('[MessageAPICalls] callMessageSearchListAPI RESULT', result);
+//         console.log('[MessageAPICalls] callMessageSearchListAPI RESULT', result);
 
-        if(result.status == 200){
-            console.log('[MessageAPICalls] callMessageSearchListAPI SUCCESS');
-            dispatch({type: GET_MESSAGES_KEYWORD, payload: result.data});
-        }
-    }
-}
+//         if(result.status == 200){
+//             console.log('[MessageAPICalls] callMessageSearchListAPI SUCCESS');
+//             dispatch({type: GET_MESSAGES_KEYWORD, payload: result.data});
+//         }
+//     }
+//}
