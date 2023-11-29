@@ -8,6 +8,9 @@ import '../../styles/myCalendar/MyCalendar.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { callGetMyCalendarContentAPI, callMyCalendarDeleteAPI, callMyCalendarModifyAPI, callMyCalendarRegistAPI } from '../../apis/MyCalendarAPICalls';
+import ModalCSS from '../../styles/Modal.module.css';
 
 const MyCalendar = () => {
 
@@ -15,6 +18,24 @@ const MyCalendar = () => {
     const [tempEvent, setTempEvent] = useState([]);
     const [newAgenda, setNewAgenda] = useState(false);
     const [showAgenda, setShowAgenda] = useState(-1);
+
+    const myCalendarContent = useSelector(state => state.myCalendarReducer.getCalendarContent);
+    const dispatch = useDispatch();
+
+    useEffect(
+        () => {
+            dispatch(callGetMyCalendarContentAPI());
+        },[]
+    )
+
+    
+    useEffect(
+        () => {
+            let tempEvent = []
+            myCalendarContent && myCalendarContent.map(content => tempEvent[content.myCalendarCode] = ({id: content.myCalendarCode, start: new Date(content.calendarDate), end: new Date(content.calendarDate), title: content.calendarContent, allDay: true}));
+            setEvents(tempEvent);
+        },[myCalendarContent]
+    )
 
     const inputFocus1 = useRef(null);
     const inputFocus2 = useRef(null);
@@ -30,7 +51,6 @@ const MyCalendar = () => {
             }
         }
     }
-   
     function NewAgendaTemplate() {
         const [agendaInput, setAgendaInput] = useState('');
 
@@ -44,7 +64,8 @@ const MyCalendar = () => {
         const onClickSave = () => {
             let blank_pattern = /^\s+|\s+$/g;
             if(agendaInput.replace(blank_pattern, "") !== "") {
-                setEvents((prev) => [...prev, { start: endDate, end: endDate, title: agendaInput, allDay: true, id: myEvents.length }]);
+                dispatch(callMyCalendarRegistAPI(agendaInput, endDate.toISOString().substring(0, 10)));
+                setEvents((prev) => [...prev, { start: endDate, end: endDate, title: agendaInput, allDay: true, id: myEvents.length}]);
                 setNewAgenda(false);
             } else {
                 alert("내용을 입력하세요");
@@ -77,7 +98,7 @@ const MyCalendar = () => {
                     
                     <div className='modalContent'>
                         <div>제목 및 날짜 추가</div>
-                        <TextareaAutosize className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}  placeholder='내용을 입력하세요' maxLength={100} ref={inputFocus1}/>
+                        <TextareaAutosize className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}   spellcheck={false} maxLength={100} ref={inputFocus1}/>
                         <input type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={endDatePlus1.toISOString().substring(0,10)} min={new Date().toISOString().substring(0, 10)}/>
                     </div>
 
@@ -113,6 +134,7 @@ const MyCalendar = () => {
         const modifyAgenda = () => {
             let blank_pattern = /^\s+|\s+$/g;
             if(agendaInput2.replace(blank_pattern, "") !== "") {
+                dispatch(callMyCalendarModifyAPI(agendaInput2, endDate.toISOString().substring(0, 10), showAgenda));
                 myEvents[showAgenda].start = new Date(endDate);
                 myEvents[showAgenda].end = new Date(endDate);
                 myEvents[showAgenda].title = agendaInput2;
@@ -125,6 +147,7 @@ const MyCalendar = () => {
         }
     
         const deleteAgenda = () => {
+            dispatch(callMyCalendarDeleteAPI(showAgenda));
             delete myEvents[showAgenda];
             setShowAgenda(-1);
         }
@@ -150,7 +173,7 @@ const MyCalendar = () => {
                     </div>
                     <div className='modalContent'>
                         <div>제목 및 날짜 수정</div>
-                        <TextareaAutosize className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2} placeholder='내용을 입력하세요'/>
+                        <TextareaAutosize className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2} spellCheck={false}/>
                         <input type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={endDatePlus1.toISOString().substring(0,10)} min={new Date().toISOString().substring(0, 10)}/>
                     </div>
                     <div className='modifyOrDelete'>
@@ -168,7 +191,7 @@ const MyCalendar = () => {
 
     return (
         <>
-            <div style={{ width: 840, height: 730 }}>
+            <div style={{ width: 500, height: 500 }}>
                 <Calendar
                     localizer={localizer}
                     events={myEvents}
@@ -192,9 +215,15 @@ const MyCalendar = () => {
 function MyCalendarMain() {
     return(
         <>  
-            <div className='myCalendarContainter'>
+            <div className={ModalCSS.modalBg}></div>
+            <div className={ModalCSS.modal}>
                 <MyCalendar/>
             </div>
+                
+            
+
+                
+
         </>
     );
 }
