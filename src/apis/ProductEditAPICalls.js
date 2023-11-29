@@ -7,12 +7,12 @@ export const callProductEditAPI = (productCode, updatedFields) => {
       productName: updatedFields.productName,
       // productThumbAddr: updatedFields.productThumbAddr,
       refCategoryCode: updatedFields.refCategoryCode,
-      price: updatedFields.price,
-      productDesc: updatedFields.productDesc || '',
-      wishPlaceTrade: updatedFields.wishPlaceTrade || '',
+      productPrice: updatedFields.productPrice,
+      productDesc: updatedFields.productDesc,
+      wishPlaceTrade: updatedFields.wishPlaceTrade,
     };
     
-    console.log(productDTO);
+    console.log("ㄱㅇㄱㅇㄱㅇ",productDTO);
     
     const response = fetch(requestURL, {
       method: 'PUT', // PUT 메서드 사용
@@ -28,28 +28,6 @@ export const callProductEditAPI = (productCode, updatedFields) => {
   
         const result = await response.json();
         console.log('[ProductEditAPICalls] callProductEditAPI RESULT:', result);
-      
-
-      // try {
-      //   const response = await fetch(requestURL, {
-      //     method: 'PUT', // PUT 메서드 사용
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'Accept': '*/*',
-      //       'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken'),
-      //     },
-      //     body: JSON.stringify(productDTO),
-      //   });
-  
-      //   if (!response.ok) {
-      //     throw new Error('상품 수정에 실패했습니다.');
-      //   }
-  
-      //   const result = await response.json();
-      //   console.log('[ProductEditAPICalls] callProductEditAPI RESULT:', result);
-      // } catch (error) {
-      //   console.error('[ProductEditAPICalls] 상품 수정 API 호출 중 에러:', error);
-      // }
     };
   };
   

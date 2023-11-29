@@ -18,18 +18,24 @@ function MyProductList() {
 
     const onChangeSellStatus = async (code, event) => {
         const updatedStatus = event.target.value;
-        try {
-            // 서버에 판매 상태 업데이트 요청
-            // callUpdateSellStatusAPICalls(code, updatedStatus);
+        const confirmMessage = `판매 상태를 변경하시겠습니까?`;
 
+        if (window.confirm(confirmMessage)) {
+            try {
+                // 서버에 판매 상태 업데이트 요청
+                // callUpdateSellStatusAPICalls(code, updatedStatus);
+                const updatedProductList = myProductList.sellingList.map(product =>
+                    product.productCode === code ? { ...product, sellStatus: updatedStatus } : product
+                    );
+                    setMyProductList({ ...myProductList, sellingList: updatedProductList });
+                } catch (error) {
+                // 오류 처리
+            }
 
-            const updatedProductList = myProductList.sellingList.map(product =>
-                product.productCode === code ? { ...product, sellStatus: updatedStatus } : product
-            );
-            setMyProductList({ ...myProductList, sellingList: updatedProductList });
-        } catch (error) {
-            // 오류 처리
+        } else {
+
         }
+
     };
 
     useEffect(() => {

@@ -10,10 +10,9 @@ function ProductEdit() {
     const [productName, setProductName] = useState('');
     const [refCategoryCode, setRefCategoryCode] = useState('');
     const [priceOption, setPriceOption] = useState('sell');
-    const [price, setPrice] = useState('');
+    const [productPrice, setproductPrice] = useState('');
     const [productDesc, setProductDesc] = useState('');
     const [wishPlaceTrade, setWishPlaceTrade] = useState('');
-    const [imageURL, setImageURL] = useState(null);
 
     const { productCode } = useParams();
     const navigate = useNavigate();
@@ -29,7 +28,7 @@ function ProductEdit() {
                 const response = await axios.get(`http://localhost:8000/products/${productCode}`);
                 const productData = response.data.results.productDetail[0];
 
-                setPrice(productData.productPrice.toString());
+                setproductPrice(productData.productPrice.toString());
                 setProductDesc(productData.productDesc);
                 setProductName(productData.productName);
                 setRefCategoryCode(productData.refCategoryCode);
@@ -45,19 +44,19 @@ function ProductEdit() {
 
 
     const handlePriceOptionChange = (option) => {
-        setPriceOption(option);
-        setPrice(option === 'share' ? '' : price);
+        setproductPrice(option);
+        setPriceOption(option === 'share' ? '' : productPrice);
     };
 
     const handlePriceChange = (event) => {
-        setPrice(event.target.value);
+        setproductPrice(event.target.value);
     };
 
 
     const handleProductUpdate = async () => {
         console.log('productName:', productName);
         console.log('refCategoryCode:', refCategoryCode);
-        console.log('price:', price);
+        console.log('productPrice:', productPrice);
         console.log('productDesc:', productDesc);
         console.log('wishPlaceTrade:', wishPlaceTrade);
 
@@ -67,9 +66,9 @@ function ProductEdit() {
         }
 
         const updatedFields = {
-            price: parseFloat(price) || 0, // price가 NaN이면 0으로 설정
             productDesc: productDesc || '', // productDesc가 undefined이면 빈 문자열로 설정
             productName: productName || '', // productName이 undefined이면 빈 문자열로 설정
+            productPrice: productPrice || '', // price가 NaN이면 0으로 설정
             refCategoryCode: refCategoryCode || '', // refCategoryCode가 undefined이면 빈 문자열로 설정
             wishPlaceTrade: wishPlaceTrade || '',
         };
@@ -95,7 +94,7 @@ function ProductEdit() {
         if (confirmCancel) {
             navigate(-1);
         }
-        
+
     };
 
 
@@ -152,24 +151,6 @@ function ProductEdit() {
                         />
                         <br />
                         <div className="count_flex">
-                            {/* <label htmlFor="image_upload" className="font_all">
-                                이미지 첨부*
-                            </label> */}
-                            {/* <div className="image-count">(0/5)</div> */}
-
-                            {/* <div className="image-preview-container">
-                                <label className="custom-file-upload">
-                                    <input
-                                        type="file"
-                                        className="img_all"
-                                        name="image_upload[]"
-                                        id="image_upload"
-                                        multiple
-                                        required
-                                    />
-                                    +
-                                </label>
-                            </div> */}
                             <div>
                                 <select
                                     name="ref_category_code"
@@ -198,7 +179,7 @@ function ProductEdit() {
                         <label className="custom-radio">
                             <input type="radio"
                                 name="price_option"
-                                value="sell"
+                                value={productPrice}
                                 required
                                 checked={priceOption === 'sell'} // 추가된 부분
                                 onChange={() => handlePriceOptionChange('sell')}
@@ -225,10 +206,11 @@ function ProductEdit() {
                     id="price"
                     className="input_box"
                     placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
-                    disabled={priceOption === 'share'} // 나눔하기 버튼 클릭 시 입력란 비활성화
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    disabled={priceOption === 'share'}
+                    value={productPrice}
+                    onChange={(e) => setproductPrice(e.target.value)}
                 />
+
                 <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
 
                 </span>
@@ -250,13 +232,12 @@ function ProductEdit() {
                 <hr />
             </div>
             <div className="location">
-                <label htmlFor="product_description" className="font_all">
+                <label htmlFor="wish_place_to_trade" className="font_all">
                     거래희망 장소*
                 </label>
                 <textarea
-                    name="product_description"
-                    id="product_description"
-                    className="input_box"
+                    name="wish_place_to_trade"
+                    id="wish_place_to_trade"
                     placeholder="위치 작성"
                     value={wishPlaceTrade}
                     onChange={(e) => setWishPlaceTrade(e.target.value)}
