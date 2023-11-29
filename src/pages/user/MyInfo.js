@@ -1,10 +1,10 @@
 import { callGetUserAPI } from "../../apis/UserAPICalls";
-import Certification from "../../components/user/Certification";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import WithdrawButton from "../../components/user/WithdrawButton";
 import ProductDetailCSS from '../../styles/product/ProductDetailCss.module.css';
+import CheckMyPwd from "../../components/user/CheckMyPwd";
 
 
 function MyInfo() {
@@ -13,11 +13,22 @@ function MyInfo() {
   const navigate = useNavigate();
   const userDetail = user.data;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+
   console.log('user',user);
   console.log('userDetail',userDetail);
 
   const onClickBackHandler = () => {
-    // 돌아가기 클릭시 메인 페이지로 이동
     navigate(-1);
   };
 
@@ -33,7 +44,6 @@ function MyInfo() {
   },[user.data])
 
   if (user.loading) {
-    // 로딩 중일 때의 UI 표시
     return <p>Loading...</p>;
   }
 
@@ -51,7 +61,7 @@ function MyInfo() {
 
 
   const onClickEditHandler = () => {
-    navigate("/editMyInfo", { replace: true })
+    openModal();
   };
   
 
@@ -66,7 +76,7 @@ function MyInfo() {
            
            <div className={ProductDetailCSS.sellerInfoBox}>
               
-                <img src={userImageThumbAddr} className={ProductDetailCSS.sellerProfile}/>
+                <img src={userDetail.userImageThumbAddr} className={ProductDetailCSS.sellerProfile}/>
 
               <div className={ProductDetailCSS.sellerInfo}>
                 <div className={ProductDetailCSS.sellerName}>
@@ -74,10 +84,12 @@ function MyInfo() {
                 </div>
                 </div>
                 </div>
-           
-            <Certification /> 
+            <CheckMyPwd 
+              isOpen={isModalOpen}
+              closeModal={closeModal}
+              userDetail={userDetail} 
+              />
             <button onClick={onClickEditHandler}>수정하기</button>
-            <br />
             <hr />
             <div>
               <label>이름</label>

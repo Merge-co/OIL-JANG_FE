@@ -1,21 +1,17 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState } from 'react';
 
-  function Certification() {
+  function Certification({ userData, onCertificationSuccess }) {
+    const [certificationSuccess, setCertificationSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
 
     useEffect(() => {
         // 동적으로 스크립트 추가
         const script = document.createElement('script');
         script.src = 'https://cdn.iamport.kr/v1/iamport.js';
         script.async = true;
-    
-        // 스크립트 로드가 완료된 후의 콜백
-        script.onload = () => {
-          // 이제 IMP 객체를 사용할 수 있음
-          const { IMP } = window;
-          if (IMP) {
-            IMP.init('imp28746505');
-          }
-        };
+        script.crossorigin = 'anonymous';
+        script.defer = true;
     
         // 스크립트를 문서에 추가
         document.body.appendChild(script);
@@ -30,41 +26,57 @@ import React, {useEffect} from 'react';
     function onClickCertification() {
       /* 1. 가맹점 식별하기 */
       const { IMP } = window;
+
+      if (!userData.name || !userData.phone) {
+        setErrorMessage('이름과 핸드폰 번호를 입력하세요.');
+        return;
+      }else{
+        setErrorMessage('');
+      }
+
+
       if (IMP) {
       IMP.init('imp28746505');
 
       /* 2. 본인인증 데이터 정의하기 */
       const data = {
-        company: 'localhost:3000',                   // 회사명 또는 URL
-        carrier: 'SKT',                              // 통신사
-        name: '홍길동',                                // 이름
-        phone: '01012341234'                        // 전화번호
+        name: userData.name,
+        phone: userData.phone                     
       };
 
       /* 4. 본인인증 창 호출하기 */
-      IMP.certification(data, callback);
-    }
+      IMP.certification(data, (response) => {
+        handleCertificationCallback(response);
+      });
+      }
 
     /* 3. 콜백 함수 정의하기 */
-    function callback(response) {
+    function handleCertificationCallback(response) {
+      console.log('IAMport Certification Response:', response);
       const {
         success,
-        error_msg
-       
+        error_msg,
       } = response;
 
       if (success) {
-        alert('본인인증 성공');
+
+        alert('인증 성공');
+        setCertificationSuccess(true);
+        onCertificationSuccess();
+       
+
       } else {
-        alert(`본인인증 실패: ${error_msg}`);
+        alert(`인증 실패: ${error_msg}`);
       }
     }
 }
 
     return (
-     
-      <button onClick={onClickCertification}>본인인증 하기</button>
-      
+     <>
+      <button onClick={onClickCertification}>간편인증 하기</button><br/>
+      {certificationSuccess && <p>인증이 완료되었습니다.</p>}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      </>
     );
   }
 
