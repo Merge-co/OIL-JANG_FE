@@ -130,7 +130,6 @@ function ProductList(type) {
 
     return(
         <>
-            { console.log(121)}
             {(paramCheckAll || type.type != "merge") && <ProductListResult/>}
         </>
     );
