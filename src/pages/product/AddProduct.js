@@ -4,7 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { callProductRegistAPI } from '../../apis/SellingAPICalls';
 import { jwtDecode } from 'jwt-decode';
 import { getCookie } from '../../modules/CookieModule';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+// import AddProductCss from '../../styles/product/AddProduct.module.css'
+import '../../styles/product/AddProduct.css'
 
 const AddProduct = () => {
     const dispatch = useDispatch();
@@ -17,6 +19,10 @@ const AddProduct = () => {
     const [productThumbAddr, setProductThumbAddr] = useState(null);
     const [productDesc, setProductDesc] = useState(null);
     const [wishPlaceTrade, setWishPlaceTrade] = useState(null);
+
+
+
+    const navigate = useNavigate();
 
 
     const MAX_IMAGES = 5;
@@ -147,8 +153,8 @@ const AddProduct = () => {
                 setProductDesc('');
                 setRefCategoryCode(null);
                 window.navigator.vibrate(200);
-                if (window.alert('상품이 등록되었습니다. 메인페이지로 이동합니다')) {
-                    window.location.href = '/';
+                if (window.confirm('상품이 등록되었습니다. 메인페이지로 이동합니다')) {
+                    navigate('/');
                 }
             } else {
                 console.error('상품 등록에 실패했습니다.', response.data);
@@ -167,6 +173,8 @@ const AddProduct = () => {
         setProductName('');
         setProductDesc('');
         setRefCategoryCode(24);
+
+        navigate(-1);
     };
 
     const onChangeHandler = (e) => {
@@ -243,12 +251,13 @@ const AddProduct = () => {
                     />
                     <br />
                     <div className="count_flex">
-                        <label htmlFor="image_upload" className="font_all">
+                        <label htmlFor="image_upload" >
                             이미지 첨부*
                         </label>
-                        <div className="image-count">{`(${imageCount}/${MAX_IMAGES})`}</div>
-                        <div className="image-preview-container">
-                            <label className="custom-file-upload">
+                        <div>{`(${imageCount}/${MAX_IMAGES})`}</div>
+                        <div className="image-upload-container">
+                            <div className='img-flex'>
+                            <label className="custom_file_upload">
                                 <input
                                     type="file"
                                     className="custom-file-input"
@@ -260,6 +269,24 @@ const AddProduct = () => {
                                 />
                                 +
                             </label>
+                            <div className="image-preview">
+                                {images.map((image, index) => (
+                                    <div key={index} className="image-preview-item">
+                                        <img
+                                            src={URL.createObjectURL(image)}
+                                            alt={`Uploaded Image ${index}`}
+                                            style={{ width: '180px', height: '180px' }}
+                                        />
+                                        <button
+
+                                            onClick={() => handleDeleteImage(index)}
+                                        >
+                                            X
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                            </div>
                             <div>
                                 <select
                                     name="ref_category_code"
@@ -276,31 +303,14 @@ const AddProduct = () => {
                                 </select>
                             </div>
                         </div>
-                        <div className="image-preview-container">
-                            {images.map((image, index) => (
-                                <div key={index} className="image-preview">
-                                    <img
-                                        className="image-item"
-                                        src={URL.createObjectURL(image)}
-                                        alt="Uploaded Image"
-                                    />
-                                    <button
-                                        className="delete-image"
-                                        onClick={() => handleDeleteImage(index)}
-                                    >
-                                        X
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </div>
                 <hr />
-                <div className="pricing">
-                    <div className="sell_h1">
-                        <label className="font_all">가격 설정 *</label>
-                        <div className="btn_two">
-                            <label className="custom-radio">
+                <div>
+                    <div>
+                        <label className="sell_h1">가격 설정 *</label>
+                        <div>
+                            <label>
                                 <input
                                     type="radio"
                                     name="price_option"
@@ -311,7 +321,7 @@ const AddProduct = () => {
                                 />
                                 판매하기
                             </label>
-                            <label className="custom-radio">
+                            <label>
                                 <input
                                     type="radio"
                                     name="price_option"
@@ -329,7 +339,7 @@ const AddProduct = () => {
                         type="number"
                         name="price"
                         id="price"
-                        className="input_box"
+
                         placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
                         disabled={priceOption === 'share'}
                         value={price}
@@ -339,8 +349,8 @@ const AddProduct = () => {
 
                     </span>
                 </div>
-                <div className="explanation">
-                    <label htmlFor="product_description" className="font_all">
+                <div>
+                    <label htmlFor="product_description">
                         상품 설명*
                     </label>
                     <textarea
@@ -354,21 +364,21 @@ const AddProduct = () => {
                     <p>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
                     <hr />
                 </div>
-                <div className="location">
-                    <label htmlFor="product_description" className="font_all">
+                <div>
+                    <label htmlFor="wish_place_to_trade">
                         거래희망 장소*
                     </label>
                     <textarea
                         name="wishPlaceTrade"
                         id="wish"
-                        className="input_box"
+
                         placeholder="위치 작성"
                         onChange={handleWish}
                     ></textarea>
                     <hr />
                 </div>
-                <div className="btn_send">
-                    <div className="btn_all">
+                <div>
+                    <div>
                         <button onClick={handleFormSubmit}>등록</button>
                         <button onClick={handleCancel}>취소</button>
                     </div>
