@@ -46,27 +46,28 @@ export const callMessageRegistAPI = ({form}) => {
 
 }
 
-export const callMessageModalAPI = () => {
-console.log('[MessageAPICalls] calllMessageModalAPI CALL');
+// export const callMessageModalAPI = ({userCode, productCode}) => {
+// console.log('[MessageAPICalls] calllMessageModalAPI CALL');
 
-    const requestURL = `http://localhost:8000/messages`;
+//     const requestURL = `http://localhost:8000/users/${userCode}/products/${productCode}/messages`;
 
-    return async (dispatch, getState) => {
-        const result = await axios.get(requestURL, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*",
-                Authorization: `Bearer ${getCookie("accessToken")}`
-            }
-        })
-        .then(response => response.json());
+//     return async (dispatch, getState) => {
+//         const result = await axios.get(requestURL, {
+//             method: "GET",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Accept": "*/*",
+//                 Authorization: `Bearer ${getCookie("accessToken")}`
+//             }
+//         })
+        
 
-        console.log('[MessageAPICalls] callMessageModalAPI RESULT : ', result);
+//         console.log('[MessageAPICalls] callMessageModalAPI RESULT : ', result);
 
-        dispatch({type: GET_MESSAGES, payload: result});
-    }
-}
+//         dispatch({type: GET_MESSAGES, payload: result});
+//         return result;
+//     }
+// }
 
 
 export const callMessageDetailAPI = ({msgCode}) => {

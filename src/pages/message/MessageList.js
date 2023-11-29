@@ -17,6 +17,7 @@ import { getCookie } from '../../modules/CookieModule';
 
 function MessageList({isReceived, keyword, page}){
 
+    console.log("MessageList컴포넌트")
 
     const navigate = useNavigate();
     const PagingInfo = useSelector(state => state.pagingReducer);
@@ -49,7 +50,7 @@ function MessageList({isReceived, keyword, page}){
         () => {
             dispatch(callMessageListAPI({
                 userCode: jwtDecode(getCookie("accessToken")).userCode,
-                isReceived: true,
+                isReceived: isReceived,
                 page: page,
                 keyword: keyword,
             })).then((result) => {
@@ -71,17 +72,20 @@ function MessageList({isReceived, keyword, page}){
         }
         ,[PagingInfo, dispatch, isReceived, page, keyword]
     );
-
+    console.log('isReceived1!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
     console.log('messageList:==========================', messageList);
+
+
 
 
     const handleMenuClick = useCallback((isReceived) => {
             // 메뉴 클릭에 대한 동작 정의
-            if (isReceived === 'true') {
+            if (isReceived === true) {
+
                 // 받은 쪽지함 처리
                 dispatch(callMessageListAPI({
                 userCode: jwtDecode(getCookie("accessToken")).userCode,
-                isReceived: true,
+                isReceived: isReceived,
                 page: page,
                 keyword: keyword,
                 })).then((result) => {
@@ -99,7 +103,10 @@ function MessageList({isReceived, keyword, page}){
                 console.error('[MessageList] API call error:', error);
             })
 
-            } else if (isReceived === 'false') {
+            console.log('isReceived2!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
+
+            } else if (isReceived === false) {
+            
                 // 보낸 쪽지함 처리
                 dispatch(callMessageListAPI({
                 userCode: jwtDecode(getCookie("accessToken")).userCode,
@@ -117,6 +124,8 @@ function MessageList({isReceived, keyword, page}){
                     console.error('[MessageList] API response does not contain data:', result);
                 }
 
+                console.log('isReceived3!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
+
             }).catch((error) => {
                 console.error('[MessageList] API call error:', error);
             })
@@ -126,7 +135,6 @@ function MessageList({isReceived, keyword, page}){
         
 
         const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
-
 
 
         const [isCheckedAll, setIsCheckedAll] = useState(false);
@@ -174,7 +182,7 @@ function MessageList({isReceived, keyword, page}){
           }
         };
 
-  ;
+  
 
 
 
@@ -186,7 +194,7 @@ function MessageList({isReceived, keyword, page}){
             </div>
             <div className={`${MessageListCSS.box1} ${MessageListCSS.contBox}`}>
 
-                <div className={`${MessageListCSS.msgNav}`}>
+                <div style={{width: '80%', margin: '0 auto'}}>
                {memoizedMessageMenu}
                 </div>
 
@@ -207,9 +215,10 @@ function MessageList({isReceived, keyword, page}){
                             <thead>
                             <tr className={`${MessageListCSS.tr}`}>
                                 <th className={`${MessageListCSS.text1}`}>
-                                <input type="checkbox" name="sort" id="sort" checked={isCheckedAll} onChange={isCheckedHandler}/>
+                                    <input type="checkbox" name="sort" id="sort" checked={isCheckedAll} onChange={isCheckedHandler}/>
                                 </th>
-                                <th>보낸사람</th>
+                                {console.log("isReceived " + isReceived)}
+                                <th>{isReceived !== undefined ? (isReceived ? '보낸사람' : '받은사람') : '사람 정보 없음'}</th>
                                 <th>내용</th>
                                 <th>수신일시</th>
                                 <th>수신확인</th>
@@ -220,7 +229,7 @@ function MessageList({isReceived, keyword, page}){
                                 {messageList && messageList[0].msgList.map(message => (
                                     <tr key={message.msgCode}>
                                         <td><input type="checkbox" name="sort" id={message.msgCode} onChange={handleCheckedOne}/></td>
-                                        <td>{`${message.name} ${message.id}`}</td>
+                                        <td>{`${message.name} (${message.id})`}</td>
                                         <td onClick={() => handleMessageClick(message.msgCode)} style={{cursor:'pointer'}} className={`${MessageListCSS.msgListHover}`}>
                                             {message.msgContent.length > 10 ? `${message.msgContent.substring(0,10)}...` : message.msgContent}
                                         </td>
