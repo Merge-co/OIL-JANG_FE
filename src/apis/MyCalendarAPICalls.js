@@ -1,7 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
-import { GET_CALENDAR_CONTENT, GET_CALENDAR_DELETE, GET_CALENDAR_MODIFY, GET_CALENDAR_REGIST } from "../modules/MyCalendarModule";
+import { GET_CALENDAR_CONTENT } from "../modules/MyCalendarModule";
 
 export const comIp = "localhost";
 

@@ -191,7 +191,7 @@ const MyCalendar = () => {
 
     return (
         <>
-            <div style={{ width: 500, height: 500 }}>
+            <div style={{ width: 840, height: 730 }}>
                 <Calendar
                     localizer={localizer}
                     events={myEvents}
@@ -215,15 +215,9 @@ const MyCalendar = () => {
 function MyCalendarMain() {
     return(
         <>  
-            <div className={ModalCSS.modalBg}></div>
-            <div className={ModalCSS.modal}>
+            <div className='myCalendarContainter'>
                 <MyCalendar/>
             </div>
-                
-            
-
-                
-
         </>
     );
 }
