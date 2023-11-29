@@ -1,4 +1,4 @@
-export default function CalendarHeader(props) {
+export default function MyCalendarHeader(props) {
     const {
       date,
     } = props;

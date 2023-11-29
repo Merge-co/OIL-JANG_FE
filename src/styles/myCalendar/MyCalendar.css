@@ -67,10 +67,26 @@ textarea {
 }
 
 .agendaTextarea {
+    position: relative;
     resize: none;
     color: #222;
     font-size: 22px;
     font-weight: 500;
+    margin-top: 15px;
+}
+
+.inputDateBig {
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: inherit;
+    margin-top: 15px;
+}
+
+.dateBtnOneRow {
+    position: relative;
+    display: flex;
+    padding-bottom: 10px;
 }
 
 .calendarModal {
@@ -129,4 +145,5 @@ textarea {
 .modalContent {
     position: relative;
     left: 5px;
+    margin-top: 20px;
 }
