@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import Report from '../report/Report';
 import MessageModal from '../message/MessagModal';
-import { callMessageModalAPI } from '../../apis/MessageAPICalls';
+
 
 function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDetail}) {
     const [wishLishRegist, setWishLishRegist] = useState(productDetail.selectedWishCode ? 1 : 0);
@@ -38,7 +38,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         if (getCookie("accessToken")) {
             setModalType('message');
             setModalOpen(true);
-            dispatch(callMessageModalAPI)
             console.log("성공하면 찍힙니다")
             console.log("message: " + modalType,getCookie("accessToken") )
         } else {
@@ -134,10 +133,10 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                         <div>&nbsp;·&nbsp;</div>
                         <div className={ProductDetailCSS.productDetailWish}>찜 {productDetailInfos.wishCount + plusMinusCount}</div>
                     </div>
-                    <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
+                    {(jwtDecode(getCookie("accessToken")).userCode !== productDetailInfos.refUserCode) ? <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
                         <img src="/images/siteImage/reportBtn.svg" alt=""/>&nbsp;
                         <div className={`${ProductDetailCSS.reportContent}`} >신고하기</div>
-                    </div>
+                    </div> : ""}
                 </div>
                 <div className={ProductDetailCSS.productDetailSellerHr}>판매자정보</div>
                 <div className={ProductDetailCSS.sellerInfoBox}>

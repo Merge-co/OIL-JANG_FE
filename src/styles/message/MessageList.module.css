@@ -73,9 +73,8 @@ input:focus, select:focus, textarea:focus{
   }
 
 .msgNav{
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 10%;
+    width: 100%;
+    margin: 0 auto 10%;
   }
   
   .msgNav span {
@@ -93,6 +92,10 @@ input:focus, select:focus, textarea:focus{
   .msgNav button:focus{
     color: #222222;
     background-color: #ffffff;
+  }
+
+  .activeButton{
+    color: #222222;
   }
 
   .msgListHover:hover{
