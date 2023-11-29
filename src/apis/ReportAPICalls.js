@@ -2,36 +2,27 @@ import axios from 'axios';
 import {
     GET_REPORTS,
     POST_REPORT,
+    POST_PROCESSED_MESSAGES
 } from '../modules/ReportModule.js'
 
 import { GET_PROCESSDETAIL } from '../modules/ProcessModule.js';
+import { current } from '@reduxjs/toolkit';
 
 export const callReportManagementAPI = ({ currentPage, search, process }) => {
 
     console.log('[ReportAPICalls] callReportAPI Call')
-    console.log('1############### 찍힘 ?')
-    console.log('currentPage', currentPage);
-    console.log('search', search);
-    console.log('process', process);
 
-    let requestURL = `http://localhost:8000/reports/reports?offset=${currentPage}`;
 
-    console.log('2############### 찍힘 ?', requestURL);
+    let requestURL = `http://localhost:8000/reports/reports`;
 
-    if (search) {
-        // 검색 할 경우
-        requestURL += `&s=${search}`;
-        if (process) {
-            // 처리 미처리 상태
-            requestURL += `&p=${process}`;
-        } else {
-            //전체조회
-            requestURL += `&p=all&s=all`;
-            if (currentPage !== undefined || currentPage !== null) {
-                //페이징 처리
-                requestURL += `?offset=${currentPage}`;
-            }
-        }
+    if (search && search !== 'all') {
+        requestURL += `?s=${search}`;
+    }
+    if (process && process !== 'all') {
+        requestURL += `?p=${process}`;
+    }
+    if (currentPage !== undefined && currentPage !== null) {
+        requestURL += `?offset=${currentPage}`;
     }
 
     return async (dispatch, getState) => {
@@ -49,7 +40,8 @@ export const callReportManagementAPI = ({ currentPage, search, process }) => {
 
             const result = await response.json();
             console.log('[ReportAPICalls] callReportList Result : ', result);
-            dispatch({type: GET_REPORTS , payload : result.data});
+            dispatch({ type: GET_REPORTS, payload: result.data });
+            console.log('[ReportAPICalls] callReportDetailAPI SUCCESS');
         } catch (error) {
             console.error('[ReportAPICalls] Error fetching data:', error);
         }
@@ -126,28 +118,39 @@ export const callReportDetailAPI = ({ reportNo }) => {
         }
     }
 }
+export const callProcessedMessageAPI = ({ message, refUserCode, productCode }) => {
 
-// export const callSearchReportAPI = ({ search, process }) => {
-//     console.log('[ReportAPICalls] callSearchReportAPI Call');
+    console.log('[ReportAPICalls] callProcessMessageAPI')
 
-//     let requestURL = `http://localhost:8000/reports/search?s=${search}`;
+    let requestURL = `http://localhost:8000/messages`;
+    let date = new Date().toISOString().substring(0, 10);
 
-//     if (process) {
-//         requestURL += `&p=${process}`;
-//     }
+    console.log('MessageAPI 메세지내용 전송 :', message);
+    console.log('MessageAPI 유저코드 전송 :', refUserCode);
+    console.log('MessageAPI 상품코드 전송 :', productCode);
 
-//     return async (dispatch, getState) => {
+    return async (dispatch, getState) => {
 
-//         const result = await fetch(requestURL, {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "*/*"
-//             }
-//         })
-//             .then(response => response.json());
-//         console.log('[ReportAPICalls] callSearchReportAPI RESULT : ', result);
+        const result = await axios.post(requestURL, {
 
-//         dispatch({ type: GET_REPORTS, payload: result });
-//     }
-// }
+            headers: {
+                "Accept": "*/*",
+            },
+            "msgCode": 0,
+            "msgContent": message,
+            "msgDeleteInfoMsgDeleteDTO": {
+                "msgDeleteCode": 1,
+                "msgDeleteStatus": "N"
+            },
+            "msgStatus": "N",
+            "msgTime": date,
+            "receiverCode": refUserCode,
+            "refProductCode": productCode,
+            "senderCode": 4
+
+        }).then(response => response);
+        dispatch({ type: POST_PROCESSED_MESSAGES, payload: result });
+        console.log('[ReportAPICalls] callProcessedMessageAPI SUCCESS');
+    };
+}
+

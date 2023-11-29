@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callReportDetailAPI } from "../../apis/ReportAPICalls";
 import ModalCSS from '../../styles/Modal.module.css';
+import ReportCSS from '../../styles/report/Report.module.css'
 
 function ProcessDetail({ reportNo, setModalOpen }) {
 
@@ -21,25 +22,29 @@ function ProcessDetail({ reportNo, setModalOpen }) {
 
     return (
         <>
+            <div className={`${ModalCSS.modalBg}`}></div>
             {process &&
-                <div className={ModalCSS.container}>
-                    <button className={ModalCSS.close} onClick={closeModal}>X</button>
-                    <div>
-                        <div>신고처리</div>
-                        <div>No : {process.reportNo}</div>
-                        <div>접수일시 : {process.reportDate}</div>
-                        <hr />
+                <div className={ModalCSS.modal}>
+                    <div className={ModalCSS.modalBox}>
+                        <button className={`${ModalCSS.modalClose}`} onClick={closeModal}><i className="xi-close-thin xi-2x"></i></button>
                         <div>
-                            <div>신고분류 : {process.reportCategoryCode}</div>
-                            <div>판매게시글 : {process.productCode.productName}</div>
-                            <div>처리일시 : {process.processDate}</div>
-                            <div>신고처리 결과 : </div>
-                            <div>신고사유 </div>
-                            <hr />
-                            <div>{process.reportComment}</div>
-                            <div>신고처리내용 : { process.sellStatusCode.sellStatus} </div>
-                            <hr />
-                            <div>{process.processComment}</div>
+                            <h4 className={ModalCSS.modalTitle} style={{ display: "flex", justifyContent: "space-between" }}>신고처리
+                                <div className={ReportCSS.processTitle}>
+                                    <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>No: {process.reportNo}</span>
+                                    <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>|</span>
+                                    <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>접수일시 : {process.reportDate}</span>
+                                </div>
+                            </h4>
+                            <div>
+                                <div style={{ marginBottom: "3%" }}>신고분류 : {process.refReportCategoryNo.reportCategoryCode}</div>
+                                <div style={{ marginBottom: "3%" }}>판매게시글 : {process.productCode.productName}</div>
+                                <div style={{ marginBottom: "3%" }}>처리일시 : {process.processDate}</div>
+                                <div>신고처리 결과 : {process.sellStatusCode.sellStatus}</div>
+                                <div className={ReportCSS.processTitleSub}>신고사유</div>
+                                <div>{process.reportComment}</div>
+                                <div className={ReportCSS.processTitleSub}>신고처리내용</div>
+                                <div>{process.processComment}</div>
+                            </div>
                         </div>
                     </div>
                 </div>}

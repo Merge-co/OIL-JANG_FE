@@ -1,14 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { callReportRegistAPI } from "../../apis/ReportAPICalls";
-import { useNavigate } from "react-router-dom";
 import ButtonCSS from '../../styles/Button.module.css'
-import modalCSS from '../../styles/Modal.module.css'
+import ModalCSS from '../../styles/Modal.module.css'
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../modules/CookieModule";
-import ReportRegistCSS from '../../styles/report/reportRegist.module.css';
+import ReportCSS from '../../styles/report/Report.module.css';
 
-function Report({ nickName, productCode, sellStatus, productName, setModalOpen }) {
+function Report({refUserCode, productCode, sellStatus, productName, setModalOpen }) {
     // nickName -> 판매자 정보 
 
     // 모달창 끄기 버튼
@@ -89,21 +88,20 @@ function Report({ nickName, productCode, sellStatus, productName, setModalOpen }
         }));
         alert('신고 접수가 완료되었습니다.')
         setModalOpen(false)
-        // window.location.reload();
     }
     return (
         <>
-            <div className={modalCSS.overlay}></div>
-            <div className={modalCSS.container}>
-                <div className={modalCSS.innerContainer}>
-                    <div onClick={closeModal} className={modalCSS.close}>X</div>
-                    <div>
-                        <h2 className={modalCSS.modalTitle}>신고하기</h2>
-                        <div className={modalCSS.reportBox} >
-                            <div className={ReportRegistCSS.processCategory}>
-                                <div>신고분류</div>
-                                <select name="refReportCategoryNo" onChange={onChangeHandler} className={`${modalCSS.selectBox}`}>
-                                    <option>선택해주세요.</option>
+            <div className={ModalCSS.modalBg}></div>
+            <div className={ModalCSS.modal}>
+                <div className={ModalCSS.modalBox}>
+                    <button className={`${ModalCSS.modalClose}`} onClick={closeModal}><i className="xi-close-thin xi-2x"></i></button>
+                    <h4 className={ModalCSS.modalTitle} style={{ display: "flex", justifyContent: "space-between" }}>신고처리</h4>
+                    <div className={ModalCSS.reportBox} >
+                        <div className={`${ModalCSS.modalContent}`}>
+                            <div style={{ justifyContent: "space-between", display: "flex" }}>
+                                <div style={{ display: "flex", marginBottom: "3%" }}>신고분류</div>
+                                <select name="refReportCategoryNo" onChange={onChangeHandler} className={ReportCSS.search} style={{ padding: "5px", width: "40%" }}>
+                                    <option disabled hidden="hidden" selected>선택해주세요.</option>
                                     <option value={1}>광고성 컨텐츠에요</option>
                                     <option value={2}>거래 금지 품목이에요</option>
                                     <option value={3}>가품, 이미테이션제품이에요</option>
@@ -111,14 +109,15 @@ function Report({ nickName, productCode, sellStatus, productName, setModalOpen }
                                 </select>
                             </div>
                         </div>
-                        <div>판매게시글 : {productName}</div>
-                        <div>신고사유</div>
+                        <ul>
+                            <li>판매게시글 <span>{productName}</span></li>
+                            <div>신고사유</div>
+                        </ul>
                         <textarea
-                            className={ReportRegistCSS.textarea}
+                            className={ReportCSS.textarea}
                             name="reportComment"
                             onChange={onChangeHandler}
-                            cols={40}
-                            rows={5}
+                            style={{ width: '100%', padding: "2%", height: "100px" }}
                             placeholder="신고 내용을 직접 작성해주세요. &#13;자세하게 적어주시면 신고처리에 큰 도움이 됩니다." />
                         <div >
                             <button className={`${ButtonCSS.smallBtn2} `} onClick={onClickRegisterHandler}>보내기</button>
