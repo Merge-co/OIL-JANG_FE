@@ -28,11 +28,18 @@ export const callLoginAPI = ({ form }) => {
         }),
       }).then((response) => response.json());
 
-      console.log("[UserAPICalls] callLoginAPI RESULT : ", result);
+      console.log('result : ',result);
+
+      console.log("[UserAPICalls] callLoginAPI RESULT : ", result.failType);
 
       if (result.status === 200) {
         cookies.set(COOKIE_NAME, result.data.accessToken, { path: "/" });
         cookies.set(COOKIE_NAME, result.data.accessToken, { path: "/" });
+        alert("로그인 완료")
+      }else if(result.failType ==="아이디 또는 비밀번호가 틀립니다."){
+        alert("아이디 또는 비밀번호가 틀립니다.")
+      }else if(result.failType ==="예상치 못한 오류입니다. 관리자에게 문의하세요..."){
+        alert("존재하지 않은 계정입니다.")
       }
 
       dispatch({ type: POST_LOGIN, payload: result });
@@ -70,12 +77,10 @@ export const callJoinAPI = ({ userData }) => {
     formData.append("name", userData.name);
     console.log("name", userData.name);
     formData.append(
-      "birthDate",
-      userData.birthYear + userData.birthMonth + userData.birthDay
+      "birthDate",userData.birthDate
     );
     console.log(
-      "birthDate",
-      userData.birthYear + userData.birthMonth + userData.birthDay
+      "birthDate",userData.birthDate
     );
     formData.append("gender", userData.gender);
     console.log("gender", userData.gender);
@@ -228,4 +233,66 @@ export const callUpdateUserAPI = ({ updatedData }) => {
     }
   };
   
+}
+
+
+
+
+export const callDuplicatedUserIdAPI = ( id ) => {
+
+  console.log('callDuplicatedUserIdAPI start');
+  console.log('callDuplicatedUserIdAPI id',id);
+
+
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/users/checkId`;
+
+  return async (dispatch) => {
+
+    try {
+    const response = await axios.get(requestURL,{
+      "params":{id: id},
+      "headers": {
+        "Accept": "*/*",
+        "Access-Control-Allow-Origin": "*",
+      }
+    });
+
+    return response;
+
+  }catch(error){
+    console.error("Error in callDuplicatedUserIdAPI:", error);
+    dispatch({
+      type: 'DUPLICATE_USER_ID_FAILURE', 
+      payload: { isUnique: false },
+    });
+  }
+}
+
+
+}
+export const callDuplicatedNicknameAPI = ( nickname ) => {
+
+  console.log('callDuplicatedNicknameAPI start');
+  console.log('callDuplicatedNicknameAPI nickname',nickname);
+
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/users/checkNickname?nickname=${nickname}`;
+
+  return async (dispatch) => {
+
+    try {
+    const response = await axios.get(requestURL);
+    console.log("Response Status:", response.status);
+
+
+    return response;
+
+  }catch(error){
+    console.error("Error in callDuplicatedNicknameAPI:", error);
+    dispatch({
+      type: 'DUPLICATE_NICKNAME_FAILURE', 
+      payload: { isUnique: false },
+    });
+  }
+}
+
 }

@@ -3,12 +3,12 @@ import Certification from"../../components/user/Certification";
 function FindId() {
   return (
     <>
-      <div class="login-wrapper">
+      <div >
         <h1>아이디 찾기</h1>
-        <div class="login-item">
+        <div >
           <label>휴대전화</label>
           <br />
-          <div class="input-with-button">
+          <div>
             <Certification />
           </div>
           <button>아이디 찾기</button>

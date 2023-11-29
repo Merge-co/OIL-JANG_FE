@@ -3,29 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { callLoginAPI } from "../../apis/UserAPICalls";
-import userReducer, { POST_LOGIN } from "../../modules/UserModule";
+import userReducer from "../../modules/UserModule";
 import thunk from "redux-thunk";
 import { createStore, applyMiddleware, compose } from "redux";
-import { HttpStatusCode } from "axios";
-import { Cookies } from "react-cookie";
-import { getCookie } from "../../modules/CookieModule";
-
-
-const cookies = new Cookies();
-const COOKIE_NAME = 'accessToken';
 
 function Login() {
-  const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = createStore(
-    userReducer,
-    composeEnhancers(applyMiddleware(thunk))
-  );
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  
   const loginUser = useSelector((state) => state.userReducer);
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const [form, setForm] = useState({
+    id: "",
+    pwd: "",
+  });
+
+  
+  
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!passwordVisibility);
+  };
+
+
+  
 
   console.log("loginUser", loginUser);
   console.log(
@@ -33,10 +33,7 @@ function Login() {
     useSelector((state) => state)
   );
 
-  const [form, setForm] = useState({
-    id: "",
-    pwd: "",
-  });
+ 
 
   useEffect(() => {
     if (loginUser.status === 200) {
@@ -65,25 +62,18 @@ function Login() {
     navigate("/search_id", { replace: true });
   };
 
-  const onClickChangePwdHandler = () => {
+  const onClickChangePwdHandler =   () => {
     navigate("/change_pwd", { replace: true });
   };
 
-  const onClickLoginHandler = () => {
-    dispatch(
-      callLoginAPI({
-        form: form,
-      })
-    );
-
-    alert("로그인 완료");
-      navigate("/", { replace: true });
-
-    // if (HttpStatusCode === 200) {
-    //   alert("로그인 완료");
-    //   navigate("/", { replace: true });
-    // }
-    //alert("존재하지 않은 아이디입니다.");
+  const onClickLoginHandler = async() => {
+    try {
+      await dispatch(callLoginAPI({ form: form }));
+  
+      window.location.reload();
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
 
@@ -129,11 +119,14 @@ function Login() {
           <label>비밀번호</label>
           <br />
           <input
-            type="password"
+            type={passwordVisibility ? "text" : "password"}
             name="pwd"
             placeholder="PWD"
             onChange={onChangeHandler}
           />
+          <button onClick={togglePasswordVisibility}>
+            {passwordVisibility ? "Hide" : "Show"} Password
+          </button>
           <br />
 
           <button onClick={onClickLoginHandler}>로그인</button>
