@@ -4,6 +4,7 @@ import { callProductEditAPI } from '../../apis/ProductEditAPICalls';
 import ProductList from '../../components/product/ProductList';
 import { useLocation } from "react-router";
 import { useNavigate, useParams } from 'react-router-dom';
+import '../../styles/product/ProductEdit.css'
 
 
 function ProductEdit() {
@@ -133,7 +134,7 @@ function ProductEdit() {
     return (
         <>
             <div>
-                <div>
+                <div className='addDiv'>
                     <h3>상품수정</h3>
                     <hr />
                     <div>
@@ -150,34 +151,36 @@ function ProductEdit() {
                             required
                         />
                         <br />
-                        <div className="count_flex">
-                            <div>
-                                <select
-                                    name="ref_category_code"
-                                    id="ref_category_code"
-                                    className="input_box"
-                                    value={refCategoryCode}
-                                    onChange={(e) => setRefCategoryCode(e.target.value)}
-                                    required
-                                >
-                                    <option value="" disabled>카테고리를 선택하세요</option>
-                                    {categoryOptions.map((category) => (
-                                        <option key={category.code} value={category.code}>{category.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="image-preview-container"></div>
+                        <div className='Category'>
+                            <label htmlFor="ref_category" id="ref_category" className="font_all">
+                                카테고리 *
+                            </label>
+                            <select
+                                name="ref_category_code"
+                                id="ref_category_code"
+                                className="EditCategory"
+                                value={refCategoryCode}
+                                onChange={(e) => setRefCategoryCode(e.target.value)}
+                                required
+                            >
+                                <option value="" disabled>카테고리를 선택하세요</option>
+                                {categoryOptions.map((category) => (
+                                    <option key={category.code} value={category.code}>{category.label}</option>
+                                ))}
+                            </select>
                         </div>
+                        <div className="image-preview-container"></div>
                     </div>
-                    <hr />
                 </div>
+                <hr />
             </div>
             <div className="pricing">
                 <div className="sell_h1">
                     <label className="font_all">가격 설정 *</label>
                     <div className="btn_two">
-                        <label className="custom-radio">
-                            <input type="radio"
+                    <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
+                            <input
+                                type="radio"
                                 name="price_option"
                                 value={productPrice}
                                 required
@@ -186,7 +189,7 @@ function ProductEdit() {
                             />
                             판매하기
                         </label>
-                        <label className="custom-radio">
+                        <label className='custom-radio' style={{ backgroundColor: priceOption === 'share' ? '#222222' : '#C7C6C6' }}>
                             <input
                                 type="radio"
                                 name="price_option"
@@ -246,8 +249,8 @@ function ProductEdit() {
             </div>
             <div className="btn_send">
                 <div className="btn_all">
-                    <button onClick={handleProductUpdate}>수정</button>
-                    <button onClick={handleCancel}>취소</button>
+                    <button className='editbtn' onClick={handleProductUpdate}>수정</button>
+                    <button className='editcancle' onClick={handleCancel}>취소</button>
                 </div>
             </div>
         </>
