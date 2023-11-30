@@ -31,13 +31,13 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path='merge' element={<AuthCheck component={<Merge />} require="User" />}/>
+          <Route path='merge' element={<AuthCheck component={<Merge />} require="NoAdmin" />}/>
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
           <Route path='productEdit/:productCode' element={<ProductEdit /> } />
 
-          <Route path='/' element={<SubHeaderLayout />}>
+          <Route path='/' element={<AuthCheck component={<SubHeaderLayout />} require="User" />}>
             <Route path='myproductlist' element={<MyProductList />} />
             <Route path='wishList' element={<WishList />} />
             <Route path='myInfo' index element={<MyInfo/>}></Route>

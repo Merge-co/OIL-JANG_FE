@@ -17,6 +17,10 @@ function AuthCheck({component: Component, require: Reqiure}) {
             return (
                 !getCookie("accessToken") ? <Navigate to= '/login'/> : Component
             )
+        case "NoAdmin" :
+            return (
+                getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN" ? <Navigate to= '/' {...alert("접근할 수 없는 페이지입니다.")} /> : Component
+            )
         default:
             break;
     }
