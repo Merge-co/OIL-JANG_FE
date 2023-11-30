@@ -7,6 +7,7 @@ import Toolbar from './MyCalendarHeader';
 import '../../styles/myCalendar/MyCalendar.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import ButtonCSS from '../../styles/Button.module.css';
+import '../../styles/myCalendar/MyCalendarAside.css';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetMyCalendarContentAPI, callMyCalendarDeleteAPI, callMyCalendarModifyAPI, callMyCalendarRegistAPI } from '../../apis/MyCalendarAPICalls';
@@ -66,6 +67,18 @@ const MyCalendar = ({type}) => {
             setShowAgenda(event.id);
         },[]
     )
+
+    // 840 * 730 사이즈용 (메인)
+    function MyCalendarAside() {
+        return(
+            <>
+                <div className='MyCalendarAsideLayout'>오른쪽에 붙을 내용</div>
+            </>
+        );
+    }
+
+    // 500 * 500 사이즈용 (모달)
+
 
     function NewAgendaTemplate() {
         const [agendaInput, setAgendaInput] = useState('');
@@ -165,7 +178,7 @@ const MyCalendar = ({type}) => {
         const onCalcel = () => {
             setShowAgenda(-1);
         }
-        console.log(myEvents.filter(content => content.id == showAgenda));
+
         let endDatePlus0 = new Date(myEvents.filter(content => content.id == showAgenda)[0].end.toISOString().substring(0,10));
         let endDatePlus1 = new Date(endDatePlus0.setDate(endDatePlus0.getDate()));
 
@@ -214,6 +227,7 @@ const MyCalendar = ({type}) => {
 
     return (
         <>
+            {type === "main" && <MyCalendarAside/>}
             <div style={styleObj}>
                 <Calendar
                     localizer={localizer}
@@ -227,10 +241,9 @@ const MyCalendar = ({type}) => {
                         toolbar: Toolbar,
                     }}
                 />
-                {showAgenda !== -1 && <Agenda/>}
-                {newAgenda && <NewAgendaTemplate/>}
+                {type !== "main" && showAgenda !== -1 && <Agenda/>}
+                {type !== "main" && newAgenda && <NewAgendaTemplate/>}
             </div>
-            
         </>
     )
 }
@@ -241,6 +254,7 @@ function MyCalendarMain() {
             <div className='myCalendarContainter'>
                 <MyCalendar type="main"/>
             </div>
+            
         </>
     );
 }

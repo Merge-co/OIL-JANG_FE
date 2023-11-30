@@ -1,7 +1,7 @@
 import ProductDetailCSS from '../../styles/product/ProductDetailCss.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callGetProductDetail, callWishListRegistAPI } from '../../apis/ProductAPICalls';
+import { callGetProductDetail } from '../../apis/ProductAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserProductDetailImg from './UserProductDetailImg';
 import UsedProductDetailInfo from './UsedProductDetailInfo';

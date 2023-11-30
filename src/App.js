@@ -31,7 +31,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path='merge' element={<AuthCheck component={<Merge />} />}/>
+          <Route path='merge' element={<AuthCheck component={<Merge />} require="User" />}/>
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
