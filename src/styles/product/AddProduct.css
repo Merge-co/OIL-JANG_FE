@@ -1,3 +1,8 @@
+.addDiv {
+    width: 80%;
+    margin: 0 auto;
+}
+
 h3 {
     font-size: 22pt;
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
@@ -12,28 +17,79 @@ h3 {
 
 .input_box {
     width: 430px;
-    height: 35px;
+    height: 40px;
     border-radius: 5px;
     border: solid 1px #C7C6C6;
     margin: 15px 120px 35px;
+    padding: 10px;
+}
+
+.custom-file-input {
+    display: none;
 }
 
 .sell_h1 {
     display: flex;
 }
 
+.CategoryBox {}
+
+.PriceBox {
+    width: 430px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #C7C6C6;
+    margin: 0px 190px 80px;
+    padding: 10px;
+}
+
+.description {
+    width: 850px;
+    height: 350px;
+    border-radius: 5px;
+    border: solid 1px #C7C6C6;
+    margin-top: 68px;
+    padding: 10px;
+    resize: none;
+}
+
+.product_box {
+    display: flex;
+    justify-content: space-start;
+}
+
+.product_description {
+    font-size: 16pt;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    color: #222222;
+    margin: 88px 95px 0px 0px;
+}
+
+.WishPlace {
+    width: 850px;
+    height: 45px;
+    border-radius: 5px;
+    border: solid 1px #C7C6C6;
+    margin: 0px 58px;
+    padding: 10px;
+    resize: none;
+}
+
 .custom_file_upload {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #9D9D9D;
-    color: #fff;
+    background-color: #fff;
+    color: #222222;
+    border: solid 1px black;
     border-radius: 5px;
     cursor: pointer;
     width: 180px;
     height: 180px;
     text-align: center;
     line-height: 180px;
-    margin: 0px 50px 25px
+    margin: 0px 50px 25px;
+    font-size: 35px;
+
 }
 
 /*이미지 업로드*/
@@ -49,19 +105,24 @@ h3 {
     overflow: hidden;
     /* 넘치는 이미지를 숨깁니다. */
 }
+
 .count_flex {
     display: flex;
 
 }
+
 .image-upload-container {
     /* display: flex;
     flex-direction: column; */
-    margin-left: 20px; /* 원하는 만큼 간격 조정 */
+    margin-left: 20px;
+    /* 원하는 만큼 간격 조정 */
 }
-.img-flex{
+
+.img-flex {
     width: 100%;
     display: flex;
 }
+
 .image-preview {
     display: flex;
     flex-wrap: wrap;
@@ -73,16 +134,19 @@ h3 {
     flex-wrap: wrap;
     gap: 10px;
 }
+
 .image-preview-item {
     position: relative;
     width: 180px;
     height: 180px;
 }
+
 .image-preview-item img {
     width: 180px;
     height: 180px;
     object-fit: cover;
 }
+
 .image-preview-item button {
     position: absolute;
     top: 0px;
@@ -117,6 +181,15 @@ h3 {
     position: absolute;
 }
 
+.category_box {
+    width: 430px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #C7C6C6;
+    margin: 15px 100px 35px;
+    padding: 10px;
+}
+
 /*이미지 업로드끝*/
 .btn_two {
     margin-left: 10px;
@@ -127,6 +200,17 @@ h3 {
     /* 파일 입력 필드 숨김 */
 }
 
+.price {
+    font-size: 16pt;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    color: #222222;
+    margin: 57px 0px
+}
+
+.radiobtn {
+    margin: 0px 70px;
+}
+
 /* 라디오 버튼 숨기기 */
 input[type="radio"] {
     display: none;
@@ -134,14 +218,10 @@ input[type="radio"] {
 
 /* 사용자 지정 라디오 버튼 스타일 */
 .custom-radio {
-    position: relative;
+    /* position: relative; */
     display: inline-block;
     width: 125px;
     height: 45px;
-    border: 2px solid #C7C6C6;
-    /* 기본 경계선 색상 */
-    background-color: #222222;
-    /* 기본 배경색 */
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
@@ -150,7 +230,51 @@ input[type="radio"] {
     /* 텍스트 색상 */
     font-weight: bold;
     /* 폰트 굵기 */
+    margin: 57px 20px 0px;
 }
-div#spin{
+
+div#spin {
     display: none;
+}
+
+.danger {
+    text-align: right;
+    margin: 13px 110px 30px 0px;
+}
+
+.place {
+    display: flex;
+    margin-top: 50px;
+}
+
+.placeFont {
+    font-size: 16pt;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    color: #222222;
+}
+
+.addbtn {
+    width: 160px;
+    height: 56px;
+    background-color: #EF6253;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #ffffff;
+    margin: 0px 18px;
+}
+
+.canclebtn {
+    width: 160px;
+    height: 56px;
+    background-color: #222222;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #ffffff;
+    margin: 0px 18px;
+}
+
+.btnAll {
+    margin-top: 69px;
+    float: right;
+    margin-right: 60px;
 }

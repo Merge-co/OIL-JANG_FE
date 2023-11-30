@@ -5,8 +5,8 @@ import { callProductRegistAPI } from '../../apis/SellingAPICalls';
 import { jwtDecode } from 'jwt-decode';
 import { getCookie } from '../../modules/CookieModule';
 import { useNavigate } from 'react-router-dom';
-// import AddProductCss from '../../styles/product/AddProduct.module.css'
 import '../../styles/product/AddProduct.css'
+import { priceToString } from '../../modules/ProductModule';
 
 const AddProduct = () => {
     const dispatch = useDispatch();
@@ -44,8 +44,21 @@ const AddProduct = () => {
     };
 
     const handlePriceChange = (event) => {
-        setPrice(event.target.value);
+        if (priceOption === 'sell') {
+            const inputValue = event.target.value;
+            const numericValue = inputValue.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+
+
+            if (numericValue > 1000000000) {
+                alert('10억 이상의 값은 입력할 수 없습니다.');
+                return;
+            }
+
+            setPrice(numericValue);
+        }
     };
+
+
 
     const handleImageUpload = (event) => {
         const selectedImages = event.target.files;
@@ -232,7 +245,7 @@ const AddProduct = () => {
 
     return (
         <>
-            <div>
+            <div className='addDiv'>
                 <h3>상품등록</h3>
                 <hr />
                 <div>
@@ -257,62 +270,67 @@ const AddProduct = () => {
                         <div>{`(${imageCount}/${MAX_IMAGES})`}</div>
                         <div className="image-upload-container">
                             <div className='img-flex'>
-                            <label className="custom_file_upload">
-                                <input
-                                    type="file"
-                                    className="custom-file-input"
-                                    name="image_upload[]"
-                                    id="image_upload"
-                                    multiple
-                                    required
-                                    onChange={handleImageUpload}
-                                />
-                                +
-                            </label>
-                            <div className="image-preview">
-                                {images.map((image, index) => (
-                                    <div key={index} className="image-preview-item">
-                                        <img
-                                            src={URL.createObjectURL(image)}
-                                            alt={`Uploaded Image ${index}`}
-                                            style={{ width: '180px', height: '180px' }}
-                                        />
-                                        <button
+                                <label className="custom_file_upload">
+                                    <input
+                                        type="file"
+                                        className="custom-file-input"
+                                        name="image_upload[]"
+                                        id="image_upload"
+                                        multiple
+                                        required
+                                        onChange={handleImageUpload}
+                                    />
+                                    +
+                                </label>
+                                <div className="image-preview">
+                                    {images.map((image, index) => (
+                                        <div key={index} className="image-preview-item">
+                                            <img
+                                                src={URL.createObjectURL(image)}
+                                                alt={`Uploaded Image ${index}`}
+                                                style={{ width: '180px', height: '180px' }}
+                                            />
+                                            <button
 
-                                            onClick={() => handleDeleteImage(index)}
-                                        >
-                                            X
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                            </div>
-                            <div>
-                                <select
-                                    name="ref_category_code"
-                                    id="ref_category_code"
-                                    className="input_box"
-                                    value={refCategoryCode}
-                                    onChange={(e) => setRefCategoryCode(e.target.value)}
-                                    required
-                                >
-                                    <option value="" disabled>카테고리를 선택하세요</option>
-                                    {categoryOptions.map((category) => (
-                                        <option key={category.code} value={category.code}>{category.label}</option>
+                                                onClick={() => handleDeleteImage(index)}
+                                            >
+                                                X
+                                            </button>
+                                        </div>
                                     ))}
-                                </select>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div className='CategoryBox'>
+                        <label htmlFor="ref_category" id="ref_category" className="font_all">
+                            카테고리 *
+                        </label>
+                        <select
+                            name="ref_category_code"
+                            id="ref_category_code"
+                            className="category_box"
+                            value={refCategoryCode}
+                            onChange={(e) => setRefCategoryCode(e.target.value)}
+                            required
+                        >
+                            <option value="" disabled>카테고리를 선택하세요</option>
+                            {categoryOptions.map((category) => (
+                                <option key={category.code} value={category.code}>{category.label}</option>
+                            ))}
+                        </select>
+                    </div>
+
                 </div>
                 <hr />
                 <div>
-                    <div>
-                        <label className="sell_h1">가격 설정 *</label>
-                        <div>
-                            <label>
+                    <div className="sell_h1">
+                        <label className='price'>가격 설정 *</label>
+                        <div className='radiobtn'>
+                            <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
                                 <input
                                     type="radio"
+                                    id='select'
                                     name="price_option"
                                     value="sell"
                                     required
@@ -321,9 +339,10 @@ const AddProduct = () => {
                                 />
                                 판매하기
                             </label>
-                            <label>
+                            <label className='custom-radio' style={{ backgroundColor: priceOption === 'share' ? '#222222' : '#C7C6C6' }}>
                                 <input
                                     type="radio"
+                                    id='select2'
                                     name="price_option"
                                     value="share"
                                     required
@@ -336,51 +355,54 @@ const AddProduct = () => {
                     </div>
                     <br />
                     <input
-                        type="number"
+                        type="text"
                         name="price"
                         id="price"
-
+                        className='PriceBox'
                         placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
                         disabled={priceOption === 'share'}
-                        value={price}
+                        value={priceToString(price)}
                         onChange={handlePriceChange}
                     />
                     <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
-
                     </span>
-                </div>
-                <div>
-                    <label htmlFor="product_description">
-                        상품 설명*
-                    </label>
-                    <textarea
-                        name="product_description"
-                        id="product_description"
-                        placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록, 자세한 정보와 다양한 각도의 상품 사진을 올려주세요.
-            * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
-                        onChange={handleDescriptionChange}
-                    ></textarea>
-                    <br />
-                    <p>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
                     <hr />
                 </div>
                 <div>
-                    <label htmlFor="wish_place_to_trade">
+                    <div className='product_box'>
+                        <h3 htmlFor="product_description" className='product_description'>
+                            상품 설명*
+                        </h3>
+                        <textarea
+                            name="product_description"
+                            id="product_description"
+                            className='description'
+                            placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록,자세한 정보와 다양한 각도의 상품 사진을 올려주세요.
+            * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
+                            onChange={handleDescriptionChange}
+                        ></textarea>
+                    </div>
+                    <br />
+                    <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
+                    <hr />
+                </div>
+                <div className='place'>
+                    <label htmlFor="wish_place_to_trade" className='placeFont'>
                         거래희망 장소*
                     </label>
                     <textarea
                         name="wishPlaceTrade"
                         id="wish"
-
+                        className='WishPlace'
                         placeholder="위치 작성"
                         onChange={handleWish}
                     ></textarea>
                     <hr />
                 </div>
                 <div>
-                    <div>
-                        <button onClick={handleFormSubmit}>등록</button>
-                        <button onClick={handleCancel}>취소</button>
+                    <div className='btnAll'>
+                        <button className='addbtn' onClick={handleFormSubmit}>등록</button>
+                        <button className='canclebtn' onClick={handleCancel}>취소</button>
                     </div>
                 </div>
             </div>
