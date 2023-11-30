@@ -73,6 +73,8 @@ const MyCalendar = ({type}) => {
 
     // 840 * 730 사이즈용 (메인)
     function MyCalendarAside() {
+        const [selectDate, setSelectDate] = useState(new Date().toISOString().substring(0, 10));
+
         function NewAgendaToMain() {
             const [agendaInput, setAgendaInput] = useState('');
     
@@ -205,22 +207,21 @@ const MyCalendar = ({type}) => {
             <>
                 <div className='MyCalendarAsideLayout'>
                     <div className='bigDate'>
-                        {getDate(new Date().toISOString().substring(0, 10))}<br/>
+                        {getDate(selectDate)}<br/>
                     </div>
                     <div className='smallWeek'>
-                        {getDayOfWeek(new Date().toISOString().substring(0, 10))}
+                        {getDayOfWeek(selectDate)}
                     </div>
 
                     <div className='eventList'>
                         <div>일정 목록</div>
-                        {myEvents.filter(con => con.end.toISOString().substring(0, 10) === "2023-11-30").map(con =>
+                        {myEvents.filter(con => con.end.toISOString().substring(0, 10) === selectDate).map(con =>
                             <div onClick={() => { setShowAgenda(con.id); setNewAgenda(false); }}>
                                 <div>- {con.title}</div>
                             </div>
                         )}
                     </div>
-                    
-                    
+
                     {showAgenda !==-1 && <AgendaToMain/>}
                     {newAgenda && <NewAgendaToMain/>}
                 </div>
@@ -365,13 +366,13 @@ const MyCalendar = ({type}) => {
 
     switch(type) {
         case "main":
-            styleObj = { width: 840, height: 730 };
+            styleObj = { minWidth: 840, height: 730 };
             break;
         case "modal":
-            styleObj = { width: 500, height: 500 };
+            styleObj = { minWidth: 500, height: 500 };
             break;
         default:
-            styleObj = { width: 500, height: 500 };
+            styleObj = { minWidth: 500, height: 500 };
             break;
     }
 
@@ -384,8 +385,8 @@ const MyCalendar = ({type}) => {
                     events={myEvents}
                     onSelectEvent={handleSelectEvent}
                     onSelectSlot={handleSelectSlot}
-                    selectable={true}
-                    longPressThreshold={20} 
+                    selectable='ignoreEvents'
+                    longPressThreshold={0} 
                     popup
                     components={{
                         toolbar: Toolbar,
@@ -402,7 +403,7 @@ function MyCalendarMain() {
     return(
         <>  
             <div className='myCalendarContainter'>
-                <MyCalendar type="main"/>
+                <MyCalendar type="main" />
             </div>
             
         </>

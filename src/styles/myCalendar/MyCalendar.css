@@ -5,6 +5,10 @@
 }
 
 /* 캘린더 디자인 */
+.rbc-calendar {
+    -webkit-user-drag: none;
+}
+
 .rbc-button-link{
     pointer-events: none;
     color: #222;
