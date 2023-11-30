@@ -2,14 +2,11 @@
     position: relative;
     top: 45px;
     min-width: 300px;
-    max-width: 300px;
     height: 685px;
     border: 1px solid #ddd;
     border-right: none;
     background-color: #EF6253;
     user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
 }
 
 .bigDate {
@@ -46,6 +43,15 @@
 .mainEdit {
     position: relative;
     left: 5px;
+    margin-bottom: 3px;
+}
+
+.eventListTitle {
+    position: relative;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+    left: 5px;
 }
 
 .eventList {
@@ -53,7 +59,6 @@
     font-size: 22px;
     font-weight: 500;
     color: #fff;
-    left: 5px;
-    height: 220px;
+    height: 136px;
     overflow: auto;
 }

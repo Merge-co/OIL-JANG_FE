@@ -4,6 +4,13 @@
     justify-content: center;
 }
 
+.myCalendarWidth {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 1140px;
+}
+
 /* 캘린더 디자인 */
 .rbc-calendar {
     -webkit-user-drag: none;
@@ -77,6 +84,7 @@ textarea {
     font-size: 22px;
     font-weight: 500;
     margin-top: 15px;
+    height: 83px;
 }
 
 .inputDateBig {
