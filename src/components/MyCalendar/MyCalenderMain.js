@@ -10,7 +10,7 @@ import ButtonCSS from '../../styles/Button.module.css';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetMyCalendarContentAPI, callMyCalendarDeleteAPI, callMyCalendarModifyAPI, callMyCalendarRegistAPI } from '../../apis/MyCalendarAPICalls';
-import ModalCSS from '../../styles/Modal.module.css';
+import { compareSync } from 'bcryptjs';
 
 const MyCalendar = () => {
 
@@ -20,6 +20,7 @@ const MyCalendar = () => {
     const [showAgenda, setShowAgenda] = useState(-1);
 
     const myCalendarContent = useSelector(state => state.myCalendarReducer.getCalendarContent);
+    const registCalendarContent = useSelector(state => state.myCalendarReducer.getCalendarRegist);
     const dispatch = useDispatch();
 
     useEffect(
@@ -27,14 +28,22 @@ const MyCalendar = () => {
             dispatch(callGetMyCalendarContentAPI());
         },[]
     )
-
     
     useEffect(
         () => {
-            let tempEvent = []
-            myCalendarContent && myCalendarContent.map(content => tempEvent[content.myCalendarCode] = ({id: content.myCalendarCode, start: new Date(content.calendarDate), end: new Date(content.calendarDate), title: content.calendarContent, allDay: true}));
+            let tempEvent = [];
+            myCalendarContent && myCalendarContent.map(content => tempEvent.push({id: content.myCalendarCode, start: new Date(content.calendarDate), end: new Date(content.calendarDate), title: content.calendarContent, allDay: true}));
             setEvents(tempEvent);
         },[myCalendarContent]
+    )
+
+    useEffect(
+        () => {
+            let content = registCalendarContent;
+            if(content) {
+                setEvents(prev => [...prev, {id: content.myCalendarCode, start: new Date(content.calendarDate), end: new Date(content.calendarDate), title: content.calendarContent, allDay: true}]);
+            }
+        },[registCalendarContent]
     )
 
     const inputFocus1 = useRef(null);
@@ -51,6 +60,16 @@ const MyCalendar = () => {
             }
         }
     }
+
+    const handleSelectEvent = useCallback(
+        (event) => {
+            setNewAgenda(false);
+            setShowAgenda(event.id);
+        },[]
+    )
+
+    console.log(myEvents);
+
     function NewAgendaTemplate() {
         const [agendaInput, setAgendaInput] = useState('');
 
@@ -65,7 +84,7 @@ const MyCalendar = () => {
             let blank_pattern = /^\s+|\s+$/g;
             if(agendaInput.replace(blank_pattern, "") !== "") {
                 dispatch(callMyCalendarRegistAPI(agendaInput, endDate.toISOString().substring(0, 10)));
-                setEvents((prev) => [...prev, { start: endDate, end: endDate, title: agendaInput, allDay: true, id: myEvents.length}]);
+                // setEvents((prev) => [...prev, { start: endDate, end: endDate, title: agendaInput, allDay: true, id: myEvents.length}])
                 setNewAgenda(false);
             } else {
                 alert("내용을 입력하세요");
@@ -98,7 +117,7 @@ const MyCalendar = () => {
                     
                     <div className='modalContent'>
                         <div>제목 및 날짜 추가</div>
-                        <TextareaAutosize className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}   spellcheck={false} maxLength={100} ref={inputFocus1}/>
+                        <TextareaAutosize className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}   spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>
                         <input type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={endDatePlus1.toISOString().substring(0,10)} min={new Date().toISOString().substring(0, 10)}/>
                     </div>
 
@@ -110,12 +129,7 @@ const MyCalendar = () => {
         );
     }
     
-    const handleSelectEvent = useCallback(
-        (event) => {
-            setNewAgenda(false);
-            setShowAgenda(event.id);
-        },[]
-    )
+   
 
     function Agenda() {
         const [agendaInput2, setAgendaInput2] = useState('');
@@ -127,7 +141,7 @@ const MyCalendar = () => {
         useEffect(
             () => {
                 inputFocus2.current.focus();
-                setAgendaInput2(myEvents[showAgenda].title);
+                setAgendaInput2(myEvents.filter(content => content.id == showAgenda)[0].title);
             },[]
         )
 
@@ -135,9 +149,9 @@ const MyCalendar = () => {
             let blank_pattern = /^\s+|\s+$/g;
             if(agendaInput2.replace(blank_pattern, "") !== "") {
                 dispatch(callMyCalendarModifyAPI(agendaInput2, endDate.toISOString().substring(0, 10), showAgenda));
-                myEvents[showAgenda].start = new Date(endDate);
-                myEvents[showAgenda].end = new Date(endDate);
-                myEvents[showAgenda].title = agendaInput2;
+                myEvents.filter(content => content.id == showAgenda)[0].start = new Date(endDate);
+                myEvents.filter(content => content.id == showAgenda)[0].end = new Date(endDate);
+                myEvents.filter(content => content.id == showAgenda)[0].title = agendaInput2;
                 setShowAgenda(-1);
             } else {
                 alert("내용을 입력하세요");
@@ -148,15 +162,16 @@ const MyCalendar = () => {
     
         const deleteAgenda = () => {
             dispatch(callMyCalendarDeleteAPI(showAgenda));
-            delete myEvents[showAgenda];
+            let temp = myEvents.filter(content => content.id != showAgenda);
+            setEvents(temp);
             setShowAgenda(-1);
         }
 
         const onCalcel = () => {
             setShowAgenda(-1);
         }
-
-        let endDatePlus0 = new Date(myEvents[showAgenda].end.toISOString().substring(0,10));
+        console.log(myEvents.filter(content => content.id == showAgenda));
+        let endDatePlus0 = new Date(myEvents.filter(content => content.id == showAgenda)[0].end.toISOString().substring(0,10));
         let endDatePlus1 = new Date(endDatePlus0.setDate(endDatePlus0.getDate()));
 
         const [endDate, setEndDate] = useState(endDatePlus0);
@@ -173,7 +188,7 @@ const MyCalendar = () => {
                     </div>
                     <div className='modalContent'>
                         <div>제목 및 날짜 수정</div>
-                        <TextareaAutosize className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2} spellCheck={false}/>
+                        <TextareaAutosize className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2} spellCheck={false} placeholder="내용을 입력하세요"/>
                         <input type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={endDatePlus1.toISOString().substring(0,10)} min={new Date().toISOString().substring(0, 10)}/>
                     </div>
                     <div className='modifyOrDelete'>

@@ -1,7 +1,8 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
-import { GET_CALENDAR_CONTENT } from "../modules/MyCalendarModule";
+import { GET_CALENDAR_CONTENT, GET_CALENDAR_REGIST } from "../modules/MyCalendarModule";
+import { compareSync } from "bcryptjs";
 
 export const comIp = "localhost";
 
@@ -35,7 +36,7 @@ export const callMyCalendarRegistAPI = (calendarContent, calendarDate) => {
             calendarDate: calendarDate
         }
         ).then(response => response);
-        // dispatch({ type: GET_CALENDAR_REGIST, payload: result});
+        dispatch({ type: GET_CALENDAR_REGIST, payload: result.data.results.result});
     };
 }
 

@@ -5,7 +5,7 @@ import ProductCategory from "../../components/product/ProductCategory";
 import ProductFilter from "../../components/product/ProductFilter";
 import ProductList from "../../components/product/ProductList";
 import MergeLayoutCSS from "../../styles/product/MergeLayout.module.css";
-import MyCalendar from "../MyCalendar/MyCalendar";
+
 
 function Merge() {
 
@@ -25,7 +25,6 @@ function Merge() {
                 </div>
                 <MergeBox/>
             </div>
-            <MyCalendar/>
         </>
     );
 }
