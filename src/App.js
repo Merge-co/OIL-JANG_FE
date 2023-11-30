@@ -20,6 +20,8 @@ import ChangePwd from './pages/user/ChangePwd';
 import FindId from './pages/user/FindId';
 import MyInfo from './pages/user/MyInfo';
 import EditMyInfo from './pages/user/EditMyInfo';
+import MyCalendar from './pages/myCalendar/MyCalendar';
+import AuthCheck from './AuthCheck';
 
 
 
@@ -29,7 +31,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path='merge' element={<Merge />} />
+          <Route path='merge' element={<AuthCheck component={<Merge />} />}/>
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
@@ -39,6 +41,7 @@ function App() {
             <Route path='myproductlist' element={<MyProductList />} />
             <Route path='wishList' element={<WishList />} />
             <Route path='myInfo' index element={<MyInfo/>}></Route>
+            <Route path='myCalendar' element={<MyCalendar/>}/>
             <Route path='editMyInfo' element={<EditMyInfo/>}/>
           </Route>
 

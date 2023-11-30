@@ -10,9 +10,8 @@ import ButtonCSS from '../../styles/Button.module.css';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetMyCalendarContentAPI, callMyCalendarDeleteAPI, callMyCalendarModifyAPI, callMyCalendarRegistAPI } from '../../apis/MyCalendarAPICalls';
-import { compareSync } from 'bcryptjs';
 
-const MyCalendar = () => {
+const MyCalendar = ({type}) => {
 
     const [myEvents, setEvents] = useState([]);
     const [tempEvent, setTempEvent] = useState([]);
@@ -22,6 +21,9 @@ const MyCalendar = () => {
     const myCalendarContent = useSelector(state => state.myCalendarReducer.getCalendarContent);
     const registCalendarContent = useSelector(state => state.myCalendarReducer.getCalendarRegist);
     const dispatch = useDispatch();
+
+    const inputFocus1 = useRef(null);
+    const inputFocus2 = useRef(null);
 
     useEffect(
         () => {
@@ -46,9 +48,6 @@ const MyCalendar = () => {
         },[registCalendarContent]
     )
 
-    const inputFocus1 = useRef(null);
-    const inputFocus2 = useRef(null);
-
     const handleSelectSlot = ({ end, action }) => {
         if(action === "click") {
             if(end.toISOString().substring(0, 10) >= new Date().toISOString().substring(0, 10)) {
@@ -67,8 +66,6 @@ const MyCalendar = () => {
             setShowAgenda(event.id);
         },[]
     )
-
-    console.log(myEvents);
 
     function NewAgendaTemplate() {
         const [agendaInput, setAgendaInput] = useState('');
@@ -128,8 +125,6 @@ const MyCalendar = () => {
             </>
         );
     }
-    
-   
 
     function Agenda() {
         const [agendaInput2, setAgendaInput2] = useState('');
@@ -195,7 +190,6 @@ const MyCalendar = () => {
                         <button onClick={modifyAgenda} className={ButtonCSS.smallBtn2}>수정</button>
                         <button onClick={deleteAgenda} className={ButtonCSS.smallBtn3}>삭제</button>
                     </div>
-                    
                 </div>
             </>
         );
@@ -204,9 +198,23 @@ const MyCalendar = () => {
     moment.locale('ko-KR');
     const localizer = momentLocalizer(moment);
 
+    let styleObj;
+
+    switch(type) {
+        case "main":
+            styleObj = { width: 840, height: 730 };
+            break;
+        case "modal":
+            styleObj = { width: 500, height: 500 };
+            break;
+        default:
+            styleObj = { width: 500, height: 500 };
+            break;
+    }
+
     return (
         <>
-            <div style={{ width: 840, height: 730 }}>
+            <div style={styleObj}>
                 <Calendar
                     localizer={localizer}
                     events={myEvents}
@@ -231,7 +239,7 @@ function MyCalendarMain() {
     return(
         <>  
             <div className='myCalendarContainter'>
-                <MyCalendar/>
+                <MyCalendar type="main"/>
             </div>
         </>
     );
