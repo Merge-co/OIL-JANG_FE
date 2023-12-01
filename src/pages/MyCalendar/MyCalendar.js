@@ -1,4 +1,4 @@
-import MyCalendarMain from "../../components/MyCalendar/MyCalenderMain";
+import MyCalendarMain from "../../components/myCalendar/MyCalenderMain";
 
 function MyCalendar() {
     return(

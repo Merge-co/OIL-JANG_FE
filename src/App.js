@@ -29,9 +29,6 @@ import MyCalendar from './pages/myCalendar/MyCalendar';
 import AuthCheck from './AuthCheck';
 import InquiryDetail from './pages/inquery/InquiryDetail';
 
-
-
-
 function App() {
   return (
     <BrowserRouter>
@@ -47,9 +44,12 @@ function App() {
           <Route path='/' element={<AuthCheck component={<SubHeaderLayout />} require="User" />}>
             <Route path='myproductlist' element={<MyProductList />} />
             <Route path='wishList' element={<WishList />} />
-            <Route path='myInfo' index element={<MyInfo/>}></Route>
+            <Route path='myInfo' index element={<AuthCheck component={<MyInfo/>} require="User" />}></Route>
             <Route path='myCalendar' element={<MyCalendar/>}/>
             <Route path='editMyInfo' element={<EditMyInfo/>}/>
+            <Route path='inquiry' element={<InquiryList/>}/>
+            <Route path='inquiryDetail' element={<InquiryDetail/>}/>
+            <Route path='inquiryDetail/:inqCode' element={<InquiryDetail/>}/>
           </Route>
 
             <Route path='/' element={<Message />}>
@@ -69,11 +69,7 @@ function App() {
           <Route path='searchId' element={<FindId/>}/>
           <Route path='error' element={<Error/>}/>
           <Route path='changePwd' element={<ChangePwd/>}/>
-
-
-          <Route path='inquiry' element={<InquiryList/>}/>
-          <Route path='inquiryDetail' element={<InquiryDetail/>}/>
-          <Route path='inquiryDetail/:inqCode' element={<InquiryDetail/>}/>
+          
         </Route>
         
       </Routes >

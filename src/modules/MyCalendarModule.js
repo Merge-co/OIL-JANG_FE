@@ -16,6 +16,11 @@ export function timestamp(date){
     return today.toISOString().replace('T', ' ').substring(0, 19);
 }
 
+export function timeString(time) {
+    console.log(`${"" + time[0]}:${"" + time[1]}`)
+    return `${time[0] < 10 ? "0" + time[0] : time[0]}:${time[1] < 10 ? "0" + time[1] : time[1]}`
+}
+
 const actions = createActions({
     [GET_CALENDAR_CONTENT]: () => {},
     [GET_CALENDAR_REGIST]: () => {},

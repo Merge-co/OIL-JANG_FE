@@ -3,7 +3,8 @@
 }
 
 .mainBanner .image-gallery-slide .image-gallery-image {
-    height: 300px;
+    min-height: 305px;
+    max-height: 305px;
     object-fit: cover;
 }
 

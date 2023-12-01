@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { callLogoutAPI } from "../../apis/UserAPICalls";
 import HeaderCSS from '../../styles/Header.module.css';
 import { getCookie } from './../../modules/CookieModule';
 import { jwtDecode } from "jwt-decode";
-import { decodeJwt } from "../../utils/TokenUtils";
 
 function Header() {
   const [ headerChange, setHeaderChange ] = useState(0);
@@ -32,12 +31,7 @@ function Header() {
     },[isLoggedIn]
   );
 
-  const navigate = useNavigate();
-
-  const isLogin = getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0].toString().indexOf("ADMIN") !== -1;
   const isUserLogin = getCookie("accessToken")
-  console.log('isLogin',isLogin);
-  console.log('isUserLogin',isUserLogin);
 
   function NotLogIn() {
     return(
@@ -53,7 +47,7 @@ function Header() {
         </div>
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to ="/addProduct">상품등록</NavLink></div>
         <div>
-          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to= {(isUserLogin !== null && isUserLogin !== undefined) ? "/myInfo" : "/login" }><img src="/images/siteImage/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
+          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to= "/myInfo"><img src="/images/siteImage/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
         </div>
         <div>
           <NavLink className={`${({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} ${HeaderCSS.headerMessage}`} style={{ textDecoration: "none" }} to= {(isUserLogin !== null && isUserLogin !== undefined) ? "/messageList" : "/login" }><img src="/images/siteImage/messageIcon.svg" alt="쪽지 이미지"/></NavLink>
@@ -78,7 +72,6 @@ function Header() {
           <img src="/images/siteImage/logOutIcon.svg" alt="로그아웃 이미지"/>
         </NavLink>
       </div>
-
 
     );
   }

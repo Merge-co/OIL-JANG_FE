@@ -36,7 +36,7 @@ function Login() {
   useEffect(() => {
     const isUserLogin = getCookie("accessToken")
    
-     if (loginUser.status === 200) {
+     if (isUserLogin) {
       console.log("[Login] Login SUCCESS {}", loginUser);
       navigate("/", { replace: true });
     } else if(isUserLogin){
