@@ -54,7 +54,7 @@ const AddProduct = () => {
                 return;
             }
 
-            setPrice(numericValue);
+            setPrice(numericValue || null);
         }
     };
 
@@ -361,7 +361,7 @@ const AddProduct = () => {
                         className='PriceBox'
                         placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
                         disabled={priceOption === 'share'}
-                        value={priceToString(price)}
+                        value={price !== '' ? priceToString(price) : ''}
                         onChange={handlePriceChange}
                     />
                     <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
