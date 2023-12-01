@@ -23,6 +23,11 @@ import EditMyInfo from './pages/user/EditMyInfo';
 import Error from './components/common/Error';
 import Result from './components/user/Result';
 import FindPwd from './pages/user/FindPwd';
+import Message from './components/message/Message';
+import InquiryList from './pages/inquery/InquiryList';
+import MyCalendar from './pages/myCalendar/MyCalendar';
+import AuthCheck from './AuthCheck';
+
 
 
 
@@ -32,21 +37,27 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path='merge' element={<Merge />} />
+          <Route path='merge' element={<AuthCheck component={<Merge />} require="NoAdmin" />}/>
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
           <Route path='addProduct' element={<AddProduct />} />
           <Route path='productEdit/:productCode' element={<ProductEdit /> } />
 
-          <Route path='/' element={<SubHeaderLayout />}>
+          <Route path='/' element={<AuthCheck component={<SubHeaderLayout />} require="User" />}>
             <Route path='myproductlist' element={<MyProductList />} />
             <Route path='wishList' element={<WishList />} />
             <Route path='myInfo' index element={<MyInfo/>}></Route>
+            <Route path='myCalendar' element={<MyCalendar/>}/>
             <Route path='editMyInfo' element={<EditMyInfo/>}/>
           </Route>
 
-          <Route path='messageList' element={<MessageList />} />
-          <Route path='/messageDetail/:msgCode' element={<MessageDetail/>}/>
+            <Route path='/' element={<Message />}>
+             <Route path='messageList' element={<MessageList />} />
+            </Route>
+            <Route path='messageDetail/:msgCode' element={<MessageDetail/>}/>
+ 
+
+
 
           <Route path='/report' element={<Report />} />
           <Route path='/processManagement' element={<ReportManagement />} />
@@ -56,7 +67,12 @@ function App() {
           <Route path='searchPwd' element={<FindPwd/>}/>
           <Route path='searchId' element={<FindId/>}/>
           <Route path='error' element={<Error/>}/>
+          <Route path='changePwd' element={<ChangePwd/>}/>
+
+
+          <Route path='inquiry' element={<InquiryList/>}/>
         </Route>
+        
       </Routes >
 
     </BrowserRouter >

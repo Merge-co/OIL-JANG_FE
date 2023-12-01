@@ -133,7 +133,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                         <div>&nbsp;·&nbsp;</div>
                         <div className={ProductDetailCSS.productDetailWish}>찜 {productDetailInfos.wishCount + plusMinusCount}</div>
                     </div>
-                    {(jwtDecode(getCookie("accessToken")).userCode !== productDetailInfos.refUserCode) ? <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
+                    {getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode !== productDetailInfos.refUserCode) ? <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
                         <img src="/images/siteImage/reportBtn.svg" alt=""/>&nbsp;
                         <div className={`${ProductDetailCSS.reportContent}`} >신고하기</div>
                     </div> : ""}
