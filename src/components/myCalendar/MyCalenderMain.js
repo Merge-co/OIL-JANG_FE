@@ -99,7 +99,7 @@ const MyCalendar = ({type}) => {
     
             const [endDate, setEndDate] = useState(selectDate.substring(0, 10));
             const [selectTime, setSeleteTime] = useState(timestamp(new Date()).substring(11,16));
-    
+            console.log(timestamp(new Date()).substring(11, 16));
             const onChangeEndDate = e => {
                 setEndDate(e.target.value);
             }
@@ -121,7 +121,7 @@ const MyCalendar = ({type}) => {
                             <div className='mainCalendarTitle'>일정 추가</div>
                             <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}   spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>
                             <input disabled type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate} min={timestamp(new Date()).substring(0, 10)}/>
-                            <input type='time' Value={timeString(selectTime)} onChange={onChangeTime} className='inputDateBig' />
+                            <input type='time' value={timeString(selectTime)} onChange={onChangeTime} className='inputDateBig' />
                         </div>
     
                         <div className='saveModal'>
