@@ -29,7 +29,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
             setModalOpen(true);
             console.log("report: " + modalType, getCookie("accessToken") )
         } else {
-            alert("신고하려면 로그인 해야 합니다.");
+            navigate(`/login`);
         }
     }
 
@@ -133,7 +133,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                         <div>&nbsp;·&nbsp;</div>
                         <div className={ProductDetailCSS.productDetailWish}>찜 {productDetailInfos.wishCount + plusMinusCount}</div>
                     </div>
-                    {getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode !== productDetailInfos.refUserCode) ? <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
+                    {!getCookie("accessToken") || getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode !== productDetailInfos.refUserCode) ? <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
                         <img src="/images/siteImage/reportBtn.svg" alt=""/>&nbsp;
                         <div className={`${ProductDetailCSS.reportContent}`} >신고하기</div>
                     </div> : ""}
