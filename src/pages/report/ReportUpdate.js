@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../../styles/Button.module.css"
 import { useEffect, useState } from "react";
-import { callReportUpdateAPI, callReportDetailAPI, callProcessedMessageAPI } from "../../apis/ReportAPICalls";
+import { callReportUpdateAPI, callReportDetailAPI, callProcessedMessageAPI, callCompanionMessageAPI } from "../../apis/ReportAPICalls";
 import ModalCSS from "../../styles/Modal.module.css"
 import ReportCSS from "../../styles/report/Report.module.css"
 
@@ -38,13 +38,14 @@ function ReportUpdate({ reportNo, setModalOpen }) {
         });
     }
 
-    const onClickReportUpdateHandler = (reportCategoryCode, refUserCode, productCode, reportUserNick) => {
+    const onClickReportUpdateHandler = (reportCategoryCode, refUserCode, productCode, reportUserCode) => {
         console.log('[ReportUpdate] onClickReportUpdateHdandler');
 
         const formData = new FormData();
         formData.append("reportNo", reportNo);
         formData.append("processComment", form.processComment);
         formData.append("sellStatusCode", form.sellStatusCode);
+
 
         if (formData.get('sellStatusCode') === '0') {
             console.log('폼데이터 : ', formData.get('sellStatusCode'))
@@ -61,9 +62,8 @@ function ReportUpdate({ reportNo, setModalOpen }) {
 
         if (formData.get('sellStatusCode') === "3") {
             onClickSendMessageHandler(reportCategoryCode, refUserCode, productCode);
-        } else if (formData.get('sellStatusCode') === "4") {
-            console.log('일단 여기로 온다')
-            onClickCompanionHandler(reportUserNick, productCode);
+        } else if (formData.get('sellStatusCode') === "1") {
+            onClickCompanionHandler(reportUserCode, productCode);
         } else {
             console.error("Errer");
         }
@@ -72,13 +72,14 @@ function ReportUpdate({ reportNo, setModalOpen }) {
     }
     //반려처리에 대한 쪽지 발송 
 
-    const onClickCompanionHandler = (reportUserNick, productCode ) => {
+    const onClickCompanionHandler = (reportUserCode, productCode ) => {
 
-        let message = '안녕하세요. \n접수해주신 신고는 신고내용에 부적합으로 신고 처리가 반려되었습니다.';
-       
-        dispatch(callProcessedMessageAPI ({
+        let message = '안녕하세요. \n접수해주신 신고는 타당하지 못하여 부적합으로 신고 처리가 반려되었습니다.';
+        console.log('신고유저 코드 12222222221', reportUserCode);
+
+        dispatch(callCompanionMessageAPI ({
             message : message,
-            refUserCode :reportUserNick,
+            reportUserCode :reportUserCode,
             productCode : productCode
         }));
         alert("처리완료 \n 처리 내용 구매자에게 쪽지 전송하였습니다.");
@@ -98,7 +99,7 @@ function ReportUpdate({ reportNo, setModalOpen }) {
         } else if (reportCategoryCode === '사기가 의심돼요') {
             message = '사기글 의심으로 인해 삭제되었습니다.'
         }
-
+        console.log('refUserCode', refUserCode);
         dispatch(callProcessedMessageAPI({
             message: message,
             refUserCode: refUserCode,
@@ -129,7 +130,7 @@ function ReportUpdate({ reportNo, setModalOpen }) {
                             <select name="sellStatusCode" onChange={onChangeHandler} style={{ display: "flex" }} className={ReportCSS.search}>
                                 <option selected disabled hidden="hidden">선택하세요.</option>
                                 <option value={3}>게시글삭제</option>
-                                <option value={4}>반려</option>
+                                <option value={1}>반려</option>
                             </select>
                         </div>
                         <textarea
@@ -142,7 +143,7 @@ function ReportUpdate({ reportNo, setModalOpen }) {
                             <button
                                 className={Button.smallBtn2}
                                 onClick={() => {
-                                    onClickReportUpdateHandler(process.refReportCategoryNo.reportCategoryCode, process.productCode.refUserCode, process.productCode.productCode, process.reportUserNick);
+                                    onClickReportUpdateHandler(process.refReportCategoryNo.reportCategoryCode, process.productCode.refUserCode, process.productCode.productCode, process.reportUserCode);
                                 }}
                             >완료</button>
                         </div>

@@ -51,12 +51,11 @@ export const callReportManagementAPI = ({ currentPage, search, process }) => {
 export const callReportRegistAPI = ({ form }) => {
     const requestURL = `http://localhost:8000/reports/report`;
 
-    console.log('[ReportRegist] fromData 유저닉네임 : ', form.get('reportUserNick'));
     let distinction = "미처리";
     return async (dispatch, getState) => {
 
         const result = await axios.post(requestURL, {
-
+            reportUserCode : form.get('reportUserCode'),
             reportUserNick: form.get('reportUserNick'),
             refReportCategoryNo: form.get('refReportCategoryNo'),
             productCode: form.get('productCode'),
@@ -118,16 +117,16 @@ export const callReportDetailAPI = ({ reportNo }) => {
         }
     }
 }
+
+export const callProcessingDetailAPI = ({reportNo, userCode}) => {
+    const requestURL = `http://localhost:8000/reports/processingDetail/${reportNo}`
+}
 export const callProcessedMessageAPI = ({ message, refUserCode, productCode }) => {
 
     console.log('[ReportAPICalls] callProcessMessageAPI')
 
     let requestURL = `http://localhost:8000/messages`;
     let date = new Date().toISOString().substring(0, 10);
-
-    console.log('MessageAPI 메세지내용 전송 :', message);
-    console.log('MessageAPI 유저코드 전송 :', refUserCode);
-    console.log('MessageAPI 상품코드 전송 :', productCode);
 
     return async (dispatch, getState) => {
 
@@ -154,3 +153,35 @@ export const callProcessedMessageAPI = ({ message, refUserCode, productCode }) =
     };
 }
 
+export const callCompanionMessageAPI = ({ message, reportUserCode, productCode }) => {
+
+    console.log('[ReportAPICalls] callProcessMessageAPI')
+
+    console.log('반려 API :' , reportUserCode);
+    let requestURL = `http://localhost:8000/messages`;
+    let date = new Date().toISOString().substring(0, 10);
+
+    return async (dispatch, getState) => {
+
+        const result = await axios.post(requestURL, {
+
+            headers: {
+                "Accept": "*/*",
+            },
+            "msgCode": 0,
+            "msgContent": message,
+            "msgDeleteInfoMsgDeleteDTO": {
+                "msgDeleteCode": 1,
+                "msgDeleteStatus": "N"
+            },
+            "msgStatus": "N",
+            "msgTime": date,
+            "receiverCode": reportUserCode,
+            "refProductCode": productCode,
+            "senderCode": 4
+
+        }).then(response => response);
+        dispatch({ type: POST_PROCESSED_MESSAGES, payload: result });
+        console.log('[ReportAPICalls] callProcessedMessageAPI SUCCESS');
+    };
+}

@@ -35,6 +35,7 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
 
     const decodedToken = jwtDecode(getCookie('accessToken'));
     const seller = decodedToken.nickName;
+    const sellerCode = decodedToken.userCode;
     console.log('토큰 확인 ', jwtDecode(getCookie("accessToken")));
 
     // 리덕스를 이용하기 위한 디스 패처 셀렉터 선언
@@ -42,6 +43,7 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
 
     const [reportForm, setReportForm] = useState({
         // reportUserNick: nickName,
+        reportUserCode: sellerCode,
         reportUserNick: seller,
         refReportCategoryNo: 0,
         productCode: productCode,
@@ -70,6 +72,7 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
 
         const formData = new FormData();
 
+        formData.append('reportUserCode', reportForm.reportUserCode);
         formData.append("reportUserNick", reportForm.reportUserNick);
         formData.append("refReportCategoryNo", reportForm.refReportCategoryNo);
         formData.append("productCode", reportForm.productCode);
@@ -115,7 +118,7 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
                         </ul>
                         <textarea
                             className={ReportCSS.textarea}
-                            name="reportComment"
+                            name="reportComment"             
                             onChange={onChangeHandler}
                             style={{ width: '100%', padding: "2%", height: "100px" }}
                             placeholder="신고 내용을 직접 작성해주세요. &#13;자세하게 적어주시면 신고처리에 큰 도움이 됩니다." />
