@@ -8,7 +8,9 @@
 }
 
 /* btn모음 */
-
+.descBox{
+    display: flex;
+}
 /* 라디오 버튼 숨기기 */
 input[type="radio"] {
     display: none;
@@ -47,4 +49,28 @@ input[type="radio"] {
     border-radius: 5px;
     color: #ffffff;
     font-size: 16px;
+}
+.btn_all{
+    float: right;
+    margin-top: 69px;
+    margin-right: 60px;
+}
+.price_font{
+    font-size: 16pt;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    color: #222222;
+}
+/* .PriceBox{
+    margin: 15px 120px 35px;
+} */
+.pricebtn{
+    margin: 0px 77px;
+}
+.shareBox{
+    width: 430px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #C7C6C6;
+    margin: 15px 195px 35px;
+    padding: 10px;
 }

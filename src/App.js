@@ -27,6 +27,7 @@ import Message from './components/message/Message';
 import InquiryList from './pages/inquery/InquiryList';
 import MyCalendar from './pages/myCalendar/MyCalendar';
 import AuthCheck from './AuthCheck';
+import InquiryDetail from './pages/inquery/InquiryDetail';
 
 function App() {
   return (
@@ -47,6 +48,8 @@ function App() {
             <Route path='myCalendar' element={<MyCalendar/>}/>
             <Route path='editMyInfo' element={<EditMyInfo/>}/>
             <Route path='inquiry' element={<InquiryList/>}/>
+            <Route path='inquiryDetail' element={<InquiryDetail/>}/>
+            <Route path='inquiryDetail/:inqCode' element={<InquiryDetail/>}/>
           </Route>
 
             <Route path='/' element={<Message />}>
@@ -66,8 +69,6 @@ function App() {
           <Route path='searchId' element={<FindId/>}/>
           <Route path='error' element={<Error/>}/>
           <Route path='changePwd' element={<ChangePwd/>}/>
-
-
           
         </Route>
         

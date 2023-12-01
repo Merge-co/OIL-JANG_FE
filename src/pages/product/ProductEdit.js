@@ -133,8 +133,8 @@ function ProductEdit() {
 
     return (
         <>
-            <div>
-                <div className='addDiv'>
+            <div className='addDiv'>
+                <div>
                     <h3>상품수정</h3>
                     <hr />
                     <div>
@@ -171,18 +171,18 @@ function ProductEdit() {
                         </div>
                         <div className="image-preview-container"></div>
                     </div>
-                </div>
+
                 <hr />
             </div>
             <div className="pricing">
                 <div className="sell_h1">
                     <label className="font_all">가격 설정 *</label>
-                    <div className="btn_two">
-                    <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
+                    <div className="pricebtn">
+                        <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
                             <input
                                 type="radio"
                                 name="price_option"
-                                value={productPrice}
+                                value="sell"
                                 required
                                 checked={priceOption === 'sell'} // 추가된 부분
                                 onChange={() => handlePriceOptionChange('sell')}
@@ -207,7 +207,7 @@ function ProductEdit() {
                     type="number"
                     name="price"
                     id="price"
-                    className="input_box"
+                    className="shareBox"
                     placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
                     disabled={priceOption === 'share'}
                     value={productPrice}
@@ -217,25 +217,29 @@ function ProductEdit() {
                 <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
 
                 </span>
-
+                <hr />
             </div>
-            <div className="explanation">
-                <label htmlFor="product_description" className="font_all">
+            <div></div>
+            <div className='product_box'>
+                <div className='descBox'>
+                <h3 htmlFor="product_description" className='product_description'>
                     상품 설명*
-                </label>
+                </h3>
                 <textarea
                     name="product_description"
                     id="product_description"
+                    className='description'
                     placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록, 자세한 정보와 다양한 각도의 상품 사진을 올려주세요. * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
                     value={productDesc}
                     onChange={(e) => setProductDesc(e.target.value)}
                 ></textarea>
                 <br />
-                <p>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
-                <hr />
+                </div>
             </div>
-            <div className="location">
-                <label htmlFor="wish_place_to_trade" className="font_all">
+            <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
+            <hr />
+            <div className='place'>
+                <label htmlFor="wish_place_to_trade" className='placeFont'>
                     거래희망 장소*
                 </label>
                 <textarea
@@ -252,6 +256,7 @@ function ProductEdit() {
                     <button className='editbtn' onClick={handleProductUpdate}>수정</button>
                     <button className='editcancle' onClick={handleCancel}>취소</button>
                 </div>
+            </div>
             </div>
         </>
     );
