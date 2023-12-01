@@ -40,18 +40,23 @@ import React, {useEffect,useState } from 'react';
 
       /* 2. 본인인증 데이터 정의하기 */
       const data = {
+        pg:`1111111111.A010002002`,
+        merchant_uid: `mid_${new Date().getTime()}`,
         name: userData.name,
         phone: userData.phone                     
       };
 
+      console.log('data',data.name);
+      console.log('data',data.phone);
+      console.log('data',data);
+
       /* 4. 본인인증 창 호출하기 */
-      IMP.certification(data, (response) => {
-        handleCertificationCallback(response);
-      });
+      IMP.certification(data, handleCertificationCallback);
       }
 
     /* 3. 콜백 함수 정의하기 */
     function handleCertificationCallback(response) {
+      console.log('handleCertificationCallback called');
       console.log('IAMport Certification Response:', response);
       const {
         success,
