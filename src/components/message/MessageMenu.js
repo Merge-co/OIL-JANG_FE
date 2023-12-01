@@ -9,9 +9,12 @@ function MessageMenu({onMenuClick}) {
 
     return(
         <>
-            <div className={`${MessageListCSS.msgNav}`}>
+            <div 
+            className={`${MessageListCSS.msgNav}`}
+            style={{width: '65%', margin: '0 auto', position:'relative', top:'100px', left:"0px"}}            >
                 <button 
                 onClick={() => onMenuClick(true)}
+                style={{}}
                 >
                     받은 쪽지함
                 </button>

@@ -68,48 +68,48 @@ function MessageDetail({msgCode}){
 
     
 
-        const handleMenuClick = (isReceived) => {
-            // 메뉴 클릭에 대한 동작 정의
-            if (isReceived === 'true') {
-              // 받은 쪽지함 처리
-              dispatch(callMessageListAPI({
-                userCode: jwtDecode(getCookie("accessToken")).userCode,
-                isReceived: true,
-              })).then((result) => {
-                console.table("result : " + result);
-                if(result && result.data){
-                    setMessageList([result.data.results]);
-                    navigate('/messageList');
-                }else{
-                    console.error('[MessageList] API response does not contain data:', result);
-                }
+    //     const handleMenuClick = (isReceived) => {
+    //         // 메뉴 클릭에 대한 동작 정의
+    //         if (isReceived === 'true') {
+    //           // 받은 쪽지함 처리
+    //           dispatch(callMessageListAPI({
+    //             userCode: jwtDecode(getCookie("accessToken")).userCode,
+    //             isReceived: true,
+    //           })).then((result) => {
+    //             console.table("result : " + result);
+    //             if(result && result.data){
+    //                 setMessageList([result.data.results]);
+    //                 navigate('/messageList');
+    //             }else{
+    //                 console.error('[MessageList] API response does not contain data:', result);
+    //             }
         
-            }).catch((error) => {
-                console.error('[MessageList] API call error:', error);
-            })
+    //         }).catch((error) => {
+    //             console.error('[MessageList] API call error:', error);
+    //         })
         
-            } else if (isReceived === 'false') {
-              // 보낸 쪽지함 처리
-              dispatch(callMessageListAPI({
-                userCode: jwtDecode(getCookie("accessToken")).userCode,
-                isReceived: false,
-              })).then((result) => {
-                console.table("result : " + result);
-                if(result && result.data){
-                    setMessageList([result.data.results]);
-                    navigate('/messageList')
-                }else{
-                    console.error('[MessageList] API response does not contain data:', result);
-                }
+    //         } else if (isReceived === 'false') {
+    //           // 보낸 쪽지함 처리
+    //           dispatch(callMessageListAPI({
+    //             userCode: jwtDecode(getCookie("accessToken")).userCode,
+    //             isReceived: false,
+    //           })).then((result) => {
+    //             console.table("result : " + result);
+    //             if(result && result.data){
+    //                 setMessageList([result.data.results]);
+    //                 navigate('/messageList')
+    //             }else{
+    //                 console.error('[MessageList] API response does not contain data:', result);
+    //             }
         
-            }).catch((error) => {
-                console.error('[MessageList] API call error:', error);
-            })
-        };
-            }
+    //         }).catch((error) => {
+    //             console.error('[MessageList] API call error:', error);
+    //         })
+    //     };
+    //         }
 
 
-    const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
+    // const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
 
     const [form, setForm] = useState({
         msgCode: 0,
@@ -196,9 +196,9 @@ return(
     <>
         <div className={`${MessagDetailCSS.msgDetail}`}>
             <h3 className={`${MessagDetailCSS.pageTitle}`}>쪽지함</h3>
-            <div className={`${MessagDetailCSS.msgNav}`} style={{marginTop: '5%'}}>
+            {/* <div className={`${MessagDetailCSS.msgNav}`} style={{marginTop: '5%'}}>
                  {memoizedMessageMenu}
-            </div>
+            </div> */}
          <div className={`${MessagDetailCSS.contBox}`}>
 
          <div className={`${MessagDetailCSS.msgInfo}`}>

@@ -46,28 +46,6 @@ export const callMessageRegistAPI = ({form}) => {
 
 }
 
-// export const callMessageModalAPI = ({userCode, productCode}) => {
-// console.log('[MessageAPICalls] calllMessageModalAPI CALL');
-
-//     const requestURL = `http://localhost:8000/users/${userCode}/products/${productCode}/messages`;
-
-//     return async (dispatch, getState) => {
-//         const result = await axios.get(requestURL, {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "*/*",
-//                 Authorization: `Bearer ${getCookie("accessToken")}`
-//             }
-//         })
-        
-
-//         console.log('[MessageAPICalls] callMessageModalAPI RESULT : ', result);
-
-//         dispatch({type: GET_MESSAGES, payload: result});
-//         return result;
-//     }
-// }
 
 
 export const callMessageDetailAPI = ({msgCode}) => {
@@ -163,27 +141,3 @@ export const callMessageDeleteAPI = ({msgCode}) => {
     }
 }
 
-// export const callMessageSearchListAPI = ({userCode, isReceived, keyword}) => {
-//     console.log('[MessageAPICalls] callMessageSearchListAPI CALL');
-
-//     const requestURL = `http://localhost:8000/users/${userCode}/messages/search?isReceived=${isReceived}&keyword=${keyword}`;
-
-//     return async(dispatch, getState) => {
-//         const result = await axios.get(requestURL, {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "*/*",
-                
-//             }
-//         })
-//        // .then(response => response.json());
-
-//         console.log('[MessageAPICalls] callMessageSearchListAPI RESULT', result);
-
-//         if(result.status == 200){
-//             console.log('[MessageAPICalls] callMessageSearchListAPI SUCCESS');
-//             dispatch({type: GET_MESSAGES_KEYWORD, payload: result.data});
-//         }
-//     }
-//}

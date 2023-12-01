@@ -11,6 +11,8 @@ import wishListReducer from './WishListModule';
 import userReducer from './UserModule';
 import processReducer from './ProcessModule';
 import myCalendarReducer from './MyCalendarModule';
+import inquiryReducer from './InquiryModule';
+import inquiryCategoryReducer from './InquiryCategoryModule';
 
 const rootReducer = combineReducers({
     productCategoryReducer,
@@ -23,6 +25,8 @@ const rootReducer = combineReducers({
     wishListReducer,
     userReducer,
     processReducer,
-    myCalendarReducer
+    myCalendarReducer,
+    inquiryReducer,
+    inquiryCategoryReducer
 });
 export default rootReducer;
