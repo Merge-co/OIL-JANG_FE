@@ -16,7 +16,7 @@ import { jwtDecode } from "jwt-decode";
 export const callGetInquiryCategory = () => {
 
     console.log('[InquiryAPICalls] callGetInquiryCategory Call');
-    const requestURL = `http://localhost:8000/inquiries/categories`;
+    let requestURL = `http://localhost:8000/inquiries/categories`;
 
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
@@ -39,7 +39,7 @@ export const callGetInquiryCategory = () => {
 export const callInquiryRegistAPI = ({form}) => {
     console.log('[InquiryAPICalls] callInquiryRegistAPI call');
 
-    const requestURL = `http://localhost:8000/inquiries`;
+    let requestURL = `http://localhost:8000/inquiries`;
     let date = new Date();
 
     return async (dispatch, getState) => {
@@ -74,7 +74,7 @@ export const callInquiryRegistAPI = ({form}) => {
 export const callInquiryDetailAPI = ({inqCode}) => {
     console.log('[InquiryAPICalls] callInquiryDetailAPI Call');
 
-    const requestURL = `http://localhost:8000/inquiries/${inqCode}`;
+    let requestURL = `http://localhost:8000/inquiries/${inqCode}`;
 
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
@@ -96,16 +96,24 @@ export const callInquiryDetailAPI = ({inqCode}) => {
 }
 
 
-export const callInquiryListAPI = ({userCode, page, role, keyword}) => {
+export const callInquiryListAPI = ({userCode, inqCateCode, inqStatus, page, role, keyword}) => {
     console.log('[InquiryAPICalls] callInquiryListAPI Call');
 
-    const requestURL = `http://localhost:8000/users/${userCode}/inquiries`;
+    let requestURL = `http://localhost:8000/users/${userCode}/inquiries?`;
     
     const params = new URLSearchParams(window.location.search);
 
     
     if(params.get("page")){
         requestURL += `&page=${params.get("page")}`;
+    }
+
+    if(params.get("inqCateCode")){
+        requestURL += `&inqCateCode=${params.get("inqCateCode")}&keyword=${params.get("keyword")}`;
+    }
+
+    if(params.get("inqStatus")){
+        requestURL += `&inqStatus=${params.get("inqStatus")}&keyword=${params.get("keyword")}`;
     }
 
     if(params.get("keyword")){
@@ -138,96 +146,96 @@ export const callInquiryListAPI = ({userCode, page, role, keyword}) => {
 }
 
 
-export const callInquiryCategoryListAPI = ({userCode, page, role, inqCateCode}) => {
-    console.log('[InquiryAPICalls] callInquiryCategoryListAPI Call');
+// export const callInquiryCategoryListAPI = ({userCode, page, role, inqCateCode}) => {
+//     console.log('[InquiryAPICalls] callInquiryCategoryListAPI Call');
 
-    const requestURL = `http://localhost:8000/users/${userCode}/inquiries/categories/${inqCateCode}`;
+//     const requestURL = `http://localhost:8000/users/${userCode}/inquiries/categories/${inqCateCode}`;
     
-    const params = new URLSearchParams(window.location.search);
+//     const params = new URLSearchParams(window.location.search);
 
     
-    if(params.get("page")){
-        requestURL += `&page=${params.get("page")}`;
-    }
+//     if(params.get("page")){
+//         requestURL += `&page=${params.get("page")}`;
+//     }
 
-    if(params.get("keyword")){
-        requestURL += `&keyword=${params.get("keyword")}`;
-    }
+//     if(params.get("keyword")){
+//         requestURL += `&keyword=${params.get("keyword")}`;
+//     }
     
-    return async (dispatch, getState) => {
-        try{
-            const result = await axios.get(requestURL, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "*/*",
-                    Authorization: `Bearer ${getCookie("accessToken")}`
-                },
+//     return async (dispatch, getState) => {
+//         try{
+//             const result = await axios.get(requestURL, {
+//                 method: "GET",
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                     "Accept": "*/*",
+//                     Authorization: `Bearer ${getCookie("accessToken")}`
+//                 },
                 
-            })
-            console.log('[InquiryAPICalls] callInquiryCategoryListAPI RESULT', result);
-            if(result.status == 200){
-                console.log('[InquiryAPICalls] callInquiryCategoryListAPI SUCCESS');
-                dispatch({type: GET_INQUIRIES_INQCATECODE, payload: result, requestURL});
-                return result;
-            }
-        }catch(error){
-            console.error('[InquiryAPICalls] callInquiryCategoryListAPI ERROR', error);
-            return error;
-        }
+//             })
+//             console.log('[InquiryAPICalls] callInquiryCategoryListAPI RESULT', result);
+//             if(result.status == 200){
+//                 console.log('[InquiryAPICalls] callInquiryCategoryListAPI SUCCESS');
+//                 dispatch({type: GET_INQUIRIES_INQCATECODE, payload: result, requestURL});
+//                 return result;
+//             }
+//         }catch(error){
+//             console.error('[InquiryAPICalls] callInquiryCategoryListAPI ERROR', error);
+//             return error;
+//         }
       
-    }
-}
+//     }
+// }
 
 
 
 
-export const callInquiryStatusListAPI = ({userCode, page, role, inqStatus}) => {
-    console.log('[InquiryAPICalls] callInquiryStatusListAPI Call');
+// export const callInquiryStatusListAPI = ({userCode, page, role, inqStatus}) => {
+//     console.log('[InquiryAPICalls] callInquiryStatusListAPI Call');
 
-    const requestURL = `http://localhost:8000/users/${userCode}/inquiries/status/${inqStatus}`;
+//     const requestURL = `http://localhost:8000/users/${userCode}/inquiries/status/${inqStatus}`;
     
-    const params = new URLSearchParams(window.location.search);
+//     const params = new URLSearchParams(window.location.search);
 
     
-    if(params.get("page")){
-        requestURL += `&page=${params.get("page")}`;
-    }
+//     if(params.get("page")){
+//         requestURL += `&page=${params.get("page")}`;
+//     }
 
-    if(params.get("keyword")){
-        requestURL += `&keyword=${params.get("keyword")}`;
-    }
+//     if(params.get("keyword")){
+//         requestURL += `&keyword=${params.get("keyword")}`;
+//     }
     
-    return async (dispatch, getState) => {
-        try{
-            const result = await axios.get(requestURL, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "*/*",
-                    Authorization: `Bearer ${getCookie("accessToken")}`
-                },
+//     return async (dispatch, getState) => {
+//         try{
+//             const result = await axios.get(requestURL, {
+//                 method: "GET",
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                     "Accept": "*/*",
+//                     Authorization: `Bearer ${getCookie("accessToken")}`
+//                 },
                 
-            })
-            console.log('[InquiryAPICalls] callInquiryStatusListAPI RESULT', result);
-            if(result.status == 200){
-                console.log('[InquiryAPICalls] callInquiryStatusListAPI SUCCESS');
-                dispatch({type: GET_INQUIRIES_INQSTATUS, payload: result, requestURL});
-                return result;
-            }
-        }catch(error){
-            console.error('[InquiryAPICalls] callInquiryStatusListAPI ERROR', error);
-            return error;
-        }
+//             })
+//             console.log('[InquiryAPICalls] callInquiryStatusListAPI RESULT', result);
+//             if(result.status == 200){
+//                 console.log('[InquiryAPICalls] callInquiryStatusListAPI SUCCESS');
+//                 dispatch({type: GET_INQUIRIES_INQSTATUS, payload: result, requestURL});
+//                 return result;
+//             }
+//         }catch(error){
+//             console.error('[InquiryAPICalls] callInquiryStatusListAPI ERROR', error);
+//             return error;
+//         }
       
-    }
-}
+//     }
+// }
 
 
 export const callInquiryModifyAPI = ({userCode, inqCode}) => {
     console.log('[InquiryAPICalls] callInquiryModifyAPI Call');
 
-    const requestURL = `http://localhost:8000/users/${userCode}/inquiries/${inqCode}`;
+    let requestURL = `http://localhost:8000/users/${userCode}/inquiries/${inqCode}`;
 
     return async(dispatch, getState) => {
         const result = await axios.put(requestURL, {
@@ -252,7 +260,7 @@ export const callInquiryModifyAPI = ({userCode, inqCode}) => {
 export const callInquiryDeleteAPI = ({userCode, inqCode}) => {
     console.log('[InquiryAPICalls] callInquiryDeleteAPI Call');
 
-    const requestURL = `http://localhost:8000/users/${userCode}/inquiries/${inqCode}`;
+    let requestURL = `http://localhost:8000/users/${userCode}/inquiries/${inqCode}`;
 
     return async(dispatch, getState) => {
             const result = await axios.delete(requestURL, {
