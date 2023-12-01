@@ -11,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../modules/CookieModule";
 import { GET_PAGING } from "../../modules/PagingModule";
 
-function InquiryList({page, role, keyword}) {
+function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
 
     const navigate = useNavigate();
     const PagingInfo = useSelector(state => state.pagingReducer);
@@ -21,13 +21,31 @@ function InquiryList({page, role, keyword}) {
 
     const [inqList, setInqList] = useState();
 
+    let pagingBtn = inqList && inqList[0].pagingBtn;
+       // console.log("2" + JSON.stringify(pagingBtn))
+    let totalInq = inqList && inqList[0].totalInq;
+    console.log("inqList ==================" + inqList)
 
+    const onRegistHandler = () => {
+        navigate(`/inquiryDetail`);
+    }
+
+    const onInqDetailHandler = (inqCode) => {
+        navigate(`/inquiryDetail/${inqCode}`);
+    }
+
+    const onDeleteHandler = ({inqCode, userCode}) => {
+
+    }
 
     useEffect(
         () => {
             dispatch(callInquiryListAPI({
                 userCode: jwtDecode(getCookie("accessToken")).userCode,
+                inqCateCode: params.inqCateCode,
+                inqStatus: params.inqStatus,
                 page: page,
+                role: jwtDecode(getCookie("accessToken")).Role[0],
                 keyword: keyword,
             })).then((result) => {
                 if(result && result.data){
@@ -43,6 +61,8 @@ function InquiryList({page, role, keyword}) {
             })
         }, [PagingInfo, dispatch, page, keyword]
     )
+
+
 
     return (
         
@@ -66,7 +86,7 @@ function InquiryList({page, role, keyword}) {
                                     <option value="이름">이름</option>
                                     <option value="이름">분류</option>
                                 </select>
-                                <input type="search" placeholder="검색" className={`${MessageListCSS.searchInput}`} style={{width: '60%'}}/>
+                                <input type="search" placeholder="검색" className={`${MessageListCSS.searchInput}`} style={{width: '60%'}} name="keyword" defaultValue={keyword}/>
                                 <input type="submit" value="검색" className={`${MessageListCSS.searchBtn}`} style={{cursor:'pointer'}}/>
                             </form>
                         </div>
@@ -78,40 +98,46 @@ function InquiryList({page, role, keyword}) {
                                         <input type="checkbox" name="sort" id="sort"/>
                                     </th>
                                     <th>분류</th>
-                                    <th>보낸사람</th>
+                                    <th
+                                       style={{display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_USER' ? 'none' : 'inline'}}
+                                    >문의자</th>
                                     <th>제목</th>
                                     <th>문의일시</th>
                                     <th>답변여부</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="sort"/>
+                            {inqList && inqList[0].inqSelectListDTOList.map(inquiry => (
+                                <tr key={inquiry.inqCode}>
+                                    <td><input type="checkbox" id={inquiry.inqCode}/></td>
+                                    <td>{`${inquiry.inqCateName}`}</td>
+                                    <td
+                                        style={{display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_USER' ? 'none' : 'inline'}}
+                                    >
+                                        {`${inquiry.name} (${inquiry.id})`}
                                     </td>
-                                    <td>시스템 문의</td>
-                                    <td>이소망(dlthak***)</td>
-                                    <td>이게 대체 어떻게 된...</td>
-                                    <td>2023-10-19 17:22</td>
-                                    <td>완료</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="sort"/>
+                                    <td
+                                        style={{cursor:'pointer'}} className={`${MessageListCSS.msgListHover}`}
+                                        onClick={() => onInqDetailHandler(inqList.inqCode)}
+                                    >
+                                         {inquiry.inqTitle.length > 10 ? `${inquiry.inqTitle.substring(0,10)}...` : inquiry.inqTitle}  
                                     </td>
-                                    <td>이의제기</td>
-                                    <td>이소망(dlthak***)</td>
-                                    <td>저기요 대답하세요</td>
-                                    <td>2023-10-19 17:22</td>
-                                    <td>처리중</td>
+                                    <td>{`${inquiry.inqTime}`}</td>
+                                    <td>{`${inquiry.inqStatus}`}</td>
                                 </tr>
+                               
+                            ))}
+                               
                             </tbody>
                         </table>
             
-                        <input type="submit" value="등록" className={`${ButtonCSS.middleBtn2}`} style={{float: 'right'}}/>
+                        <div  style={{float: 'right'}}>
+                            <input type="submit" value="등록" className={`${ButtonCSS.middleBtn2}`}  onClick={() => onRegistHandler()}/>
+                            <input type="submit" value="삭제" className={`${ButtonCSS.middleBtn2}`} style={{marginLeft: '10px'}}  onClick={() => onDeleteHandler()}/>
+                        </div>
+                       
 
+                        {(totalInq && inqList.length === totalInq) ? "" : inqList ? <PagingBar pagingBtn={pagingBtn}/> : ""}
                         
             </div>
             

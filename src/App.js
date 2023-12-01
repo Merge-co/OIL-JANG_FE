@@ -27,6 +27,7 @@ import Message from './components/message/Message';
 import InquiryList from './pages/inquery/InquiryList';
 import MyCalendar from './pages/myCalendar/MyCalendar';
 import AuthCheck from './AuthCheck';
+import InquiryDetail from './pages/inquery/InquiryDetail';
 
 
 
@@ -71,6 +72,8 @@ function App() {
 
 
           <Route path='inquiry' element={<InquiryList/>}/>
+          <Route path='inquiryDetail' element={<InquiryDetail/>}/>
+          <Route path='inquiryDetail/:inqCode' element={<InquiryDetail/>}/>
         </Route>
         
       </Routes >
