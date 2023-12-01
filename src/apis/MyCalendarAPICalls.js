@@ -23,7 +23,7 @@ export const callGetMyCalendarContentAPI = () => {
     };
 }
 
-export const callMyCalendarRegistAPI = (calendarContent, calendarDate) => {
+export const callMyCalendarRegistAPI = (calendarContent, calendarDate, calendarTime = "05:00") => {
     let requestURL = `http://${comIp}:8000/myCalendar`;
 
     return async (dispatch, getState) => {
@@ -33,14 +33,15 @@ export const callMyCalendarRegistAPI = (calendarContent, calendarDate) => {
             },
             refUserCode: jwtDecode(getCookie("accessToken")).userCode,
             calendarContent: calendarContent,
-            calendarDate: calendarDate
+            calendarDate: calendarDate,
+            calendarTime: calendarTime
         }
         ).then(response => response);
         dispatch({ type: GET_CALENDAR_REGIST, payload: result.data.results.result});
     };
 }
 
-export const callMyCalendarModifyAPI = (calendarContent, calendarDate, myCalendarCode) => {
+export const callMyCalendarModifyAPI = (calendarContent, calendarDate, myCalendarCode, calendarTime = "05:00") => {
     let requestURL = `http://${comIp}:8000/myCalendar/${myCalendarCode}`;
 
     return async (dispatch, getState) => {
@@ -51,6 +52,7 @@ export const callMyCalendarModifyAPI = (calendarContent, calendarDate, myCalenda
             myCalendarCode: myCalendarCode,
             calendarContent: calendarContent,
             calendarDate: calendarDate,
+            calendarTime: calendarTime
         }
         ).then(response => response);
         // dispatch({ type: GET_CALENDAR_MODIFY, payload: result});

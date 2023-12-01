@@ -28,9 +28,6 @@ import InquiryList from './pages/inquery/InquiryList';
 import MyCalendar from './pages/myCalendar/MyCalendar';
 import AuthCheck from './AuthCheck';
 
-
-
-
 function App() {
   return (
     <BrowserRouter>
@@ -46,7 +43,7 @@ function App() {
           <Route path='/' element={<AuthCheck component={<SubHeaderLayout />} require="User" />}>
             <Route path='myproductlist' element={<MyProductList />} />
             <Route path='wishList' element={<WishList />} />
-            <Route path='myInfo' index element={<MyInfo/>}></Route>
+            <Route path='myInfo' index element={<AuthCheck component={<MyInfo/>} require="User" />}></Route>
             <Route path='myCalendar' element={<MyCalendar/>}/>
             <Route path='editMyInfo' element={<EditMyInfo/>}/>
             <Route path='inquiry' element={<InquiryList/>}/>
