@@ -207,17 +207,9 @@ function EditMyInfo() {
 
 
 
-  const userImageThumbAddr = userDetail?.data?.userImageThumbAddr?.replace("D:\\OIL-JANG_FE\\public", "") || "";
-
-
-console.log("userDetail:", userDetail);
-console.log("userDetail.data:", userDetail.data);
-console.log("userImageThumbAddr:", userImageThumbAddr);
-
-const userImageThumbAddr2 =
-  userDetail?.data?.userImageThumbAddr?.replace("D:/OIL-JANG_FE/public", "") || "";
-console.log("userImageThumbAddr2 : ", userImageThumbAddr2);
-console.log("userImageThumbAddr2 : ", userImageThumbAddr2);
+ 
+  const userImageThumbAddr = userDetail.data.userImageThumbAddr.replace('C:\\OIL-JANG_FE\\public', '');
+  console.log('userImageThumbAddr',userImageThumbAddr);
 
   const onClickBackHandler = () => {
     
@@ -270,7 +262,7 @@ const checkNicknameUniqueness = async (nickname) => {
 
           <div className={ProductDetailCSS.sellerInfoBox}>
             <img
-              src={userDetail.userImageThumbAddr}
+              src={userImageThumbAddr}
               className={ProductDetailCSS.sellerProfile}
             />
             <div className={ProductDetailCSS.sellerInfo}></div>

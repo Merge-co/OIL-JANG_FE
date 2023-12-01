@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { callLoginAPI } from "../../apis/UserAPICalls";
 import { getCookie } from './../../modules/CookieModule';
+import UserLayoutCSS from '../../styles/user/UserLayout.module.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash,faEye } from "@fortawesome/free-solid-svg-icons";
+
+
 
 
 function Login() {
@@ -51,18 +56,6 @@ function Login() {
       ...form,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const onClickJoinHandler = () => {
-    navigate("/join", { replace: true });
-  };
-
-  const onClickFindIdHandler = () => {
-    navigate("/searchId", { replace: true });
-  };
-
-  const onClickChangePwdHandler =   () => {
-    navigate("/searchPwd", { replace: true });
   };
 
   const onClickLoginHandler = async() => {
@@ -114,51 +107,62 @@ function Login() {
 
   return (
     <>
-      <div>
-        <h1>로그인</h1>
+      <div className={UserLayoutCSS.container}>
         <div>
-          <label>아이디</label>
-          <br />
+        <h3>로그인</h3>
+        </div>
+        <div>
+          <div className={UserLayoutCSS.pwd_show_btn_input}>
           <input
             type="text"
             name="id"
             placeholder="ID"
             onChange={onChangeHandler}
+            className={UserLayoutCSS.input_id}
           />
-          <br />
-
-          <label>비밀번호</label>
-          <br />
+          </div>
+         <div className={UserLayoutCSS.pwd_show_btn_input}>
           <input
             type={passwordVisibility ? "text" : "password"}
             name="pwd"
             placeholder="PWD"
             onChange={onChangeHandler}
+            className={UserLayoutCSS.input_pwd}
           />
-          <button onClick={togglePasswordVisibility}>
-            {passwordVisibility ? "Hide" : "Show"} Password
+          <button className={UserLayoutCSS.show_btn} onClick={togglePasswordVisibility}>
+            {passwordVisibility ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
           </button>
+          </div>
           <br />
 
-          <button onClick={onClickLoginHandler}>로그인</button>
+          <div className={UserLayoutCSS.login_btn_container}>
+          <button className={UserLayoutCSS.signin__btn}  onClick={onClickLoginHandler}>로그인</button>
+          </div>
         </div>
-        <div>
-          <button onClick={onClickJoinHandler}>회원가입</button>
-          <button onClick={onClickFindIdHandler}>아이디 찾기</button>
-          <button onClick={onClickChangePwdHandler}>비밀번호 변경</button>
+        <div className={UserLayoutCSS.login_btn_container}>
+        <div className={UserLayoutCSS.nav_links}>
+          <a href="/join">회원가입</a>
+          <h5>|</h5>
+          <a href="/searchId">아이디 찾기</a>
+          <h5>|</h5>
+          <a href="/searchPwd">비밀번호 찾기</a>
         </div>
-        <div>
-        <button onClick={() => onClickOAuth2LoginHandler("google")}>
-            <img src="" alt="구글 로고" />
-            Google로 로그인
+        </div>
+        <div className={UserLayoutCSS.text_space}>
+        또는
+        </div>
+        <div className={UserLayoutCSS.social_btn_img}>
+        <button className={UserLayoutCSS.social__google_btn} onClick={() => onClickOAuth2LoginHandler("google")}>
+            Google 로그인
           </button>
-          <br />
-          <button onClick={() => onClickOAuth2LoginHandler("naver")}  >
-            <img src="" alt="네이버 로고" />
-            Naver로 로그인
+          <img className={UserLayoutCSS.log_img} src="/images/social/google.png" alt="구글 로고" />
+          </div>
+          <div className={UserLayoutCSS.social_btn_img}>
+          <button className={UserLayoutCSS.social__naver_btn} onClick={() => onClickOAuth2LoginHandler("naver")}  >
+           Naver 로그인
           </button>
-          <br />
-        </div>
+          <img className={UserLayoutCSS.log_img} src="/images/social/naver.png" alt="네이버 로고" />
+          </div>
       </div>
     </>
   );

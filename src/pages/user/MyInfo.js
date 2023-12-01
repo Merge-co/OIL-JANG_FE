@@ -62,12 +62,9 @@ function MyInfo() {
     return <p>No user data available.</p>;
   }
 
-  const userImageThumbAddr = userDetail.data.userImageThumbAddr.replace('D:\\OIL-JANG_FE\\public', '');
-  console.log('userImageThumbAddr : ',userImageThumbAddr);
+  const userImageThumbAddr = userDetail.data.userImageThumbAddr.replace('C:\\OIL-JANG_FE\\public', '');
+  console.log('userImageThumbAddr',userImageThumbAddr);
 
-
-  const userImageThumbAddr2 = userDetail.data.userImageThumbAddr.replace('D:/OIL-JANG_FE/public', '');
-  console.log('userImageThumbAddr2 : ',userImageThumbAddr2);
 
 
   const onClickEditHandler = () => {
@@ -92,7 +89,7 @@ function MyInfo() {
            
            <div className={ProductDetailCSS.sellerInfoBox}>
               
-                <img src={userDetail.userImageThumbAddr} className={ProductDetailCSS.sellerProfile}/>
+                <img src={userImageThumbAddr} className={ProductDetailCSS.sellerProfile}/>
 
               <div className={ProductDetailCSS.sellerInfo}>
                 <div className={ProductDetailCSS.sellerName}>

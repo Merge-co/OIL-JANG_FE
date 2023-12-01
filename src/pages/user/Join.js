@@ -10,6 +10,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import UserLayoutCSS from "../../styles/user/UserLayout.module.css";
+import UserJoinCSS from "../../styles/user/UserJoin.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 function Join() {
   const navigate = useNavigate();
@@ -82,7 +86,7 @@ function Join() {
       name !== "" &&
       birthDate !== "" &&
       gender !== "" &&
-      phone !== "" 
+      phone !== "";
 
     if (!isImageUploaded) {
       setValidationMessage("프로필 이미지를 선택해주세요.");
@@ -92,7 +96,7 @@ function Join() {
       setNicknameUniquenessMessage("닉네임을 입력해주세요.");
       console.log("닉네임을 입력해주세요.");
       return false;
-    } else if (!isNicknameUniqueness){
+    } else if (!isNicknameUniqueness) {
       setNicknameUniquenessMessage("닉네임 중복확인을 해주세요.");
       console.log("닉네임 중복확인을 해주세요.");
       return false;
@@ -116,25 +120,23 @@ function Join() {
       setPasswordMatchMessage("비밀번호가 일치하지 않습니다.");
       console.log("비밀번호가 일치하지 않습니다.");
       return false;
-    }  else if(!name){
+    } else if (!name) {
       setNameValidationMessage("이름을 입력해주세요.");
-      console.log('이름을 입력해주세요.');
+      console.log("이름을 입력해주세요.");
       return false;
-    } else if(!birthDate){
+    } else if (!birthDate) {
       setBirthdateValidationMessage("생년월일을 입력해주세요.");
       console.log("생년월일을 입력해주세요.");
       return false;
-    } else if(!isGenderSelected){
+    } else if (!isGenderSelected) {
       setGenderValidationMessage("성별을 선택해주세요.");
       console.log("성별을 선택해주세요.");
       return false;
-    } else if(!phone){
+    } else if (!phone) {
       setPhoneValidationMessage("핸드폰번호를 입력해주세요.");
-      console.log('핸드폰번호를 입력해주세요.');
+      console.log("핸드폰번호를 입력해주세요.");
     } else if (!isCertificationCompleted) {
-      alert(
-        "본인 인증이 완료되지 않았습니다. 인증을 완료해주세요."
-      );
+      alert("본인 인증이 완료되지 않았습니다. 인증을 완료해주세요.");
       console.log("본인 인증이 완료되지 않았습니다. 인증을 완료해주세요.");
       return false;
     } else if (!isAgreemanetChecked) {
@@ -169,11 +171,11 @@ function Join() {
 
     if (name === "pwd") {
       const isPwdValid = validatePassword(value);
-      console.log('isPwdValid onchage',isPwdValid);
-      if (!isPwdValid && (userData.pwd !== '')) {
-        console.log('8~16자 영문 대 소문자, 숫자 특수문자를 사용하세요.');
+      console.log("isPwdValid onchage", isPwdValid);
+      if (!isPwdValid && userData.pwd !== "") {
+        console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
         setRealTimePasswordValidation(
-          "8~16자 영문 대 소문자, 숫자 특수문자를 사용하세요."
+          "8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)"
         );
       } else {
         setRealTimePasswordValidation("");
@@ -232,7 +234,7 @@ function Join() {
     }
 
     if (name === "gender" && value !== "") {
-      console.log('IsGenderSelected',isGenderSelected);
+      console.log("IsGenderSelected", isGenderSelected);
       setIsGenderSelected(true);
     }
 
@@ -241,11 +243,7 @@ function Join() {
       value = numericValue.slice(0, 13);
       setFormattedPhone(value);
     }
-
-
   };
-
-  
 
   const onClickJoinHandler = () => {
     if (
@@ -268,12 +266,12 @@ function Join() {
   };
 
   const validatePassword = (password) => {
-    console.log('validatePassword');
+    console.log("validatePassword");
     const isPwdValid =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%^&*()-_+=]{8,16}$/.test(
         password
       );
-      console.log('isPwdValid',isPwdValid);
+    console.log("isPwdValid", isPwdValid);
     return isPwdValid;
   };
 
@@ -414,182 +412,234 @@ function Join() {
 
   return (
     <>
-      <div>
-        <h1>회원 가입</h1>
+      <div className={UserLayoutCSS.container}>
+        <div>
+          <h3>회원 가입</h3>
+        </div>
         <div>
           <div>
-            <label>프로필 선택*</label>
-            <br />
-            <img src="" alt="" />
-            <label>
+            <div>
+              <label>프로필 선택*</label>
+              <br />
               <img src="" alt="" />
-            </label>
-            <input
-              type="file"
-              name="imageFile"
-              accept="image/*"
-              onChange={onChangeHandler}
-              required
-            />
-            {!isImageUploaded && <h4>{validationMessage}</h4>}
-          </div>
-          <label>닉네임*</label>
-          <div>
-            <input
-              type="text"
-              placeholder="2~10자 영문 대 소문자, 숫자, 한글을 사용하세요.(공백 제외)"
-              name="nickname"
-              onChange={onChangeHandler}
-              disabled={isNicknameUniqueness}
-              required
-            />
-            <button
-              onClick={() =>
-                isNicknameValid && checkNicknameUniqueness(userData.nickname)
-              }
-              disabled={isNicknameUniqueness || !userData.nickname}
-            >
-              중복 확인
-            </button>
-            {!userData.nickname && <h4>{nicknameUniquenessMessage}</h4>}
+              <label>
+                <img src="" alt="" />
+              </label>
+              <input
+                type="file"
+                name="imageFile"
+                accept="image/*"
+                onChange={onChangeHandler}
+                required
+              />
+            </div>
+            <div>{!isImageUploaded && <p>{validationMessage}</p>}</div>
+            <br/>
+            <label for="nickname">닉네임*</label>
+            <div className={UserJoinCSS.input_nickname_check_btn}>
+              <input
+                type="text"
+                placeholder="2~10자 영문 대 소문자, 숫자, 한글을 사용하세요.(공백 제외)"
+                id="nickname"
+                name="nickname"
+                onChange={onChangeHandler}
+                disabled={isNicknameUniqueness}
+                required
+                className={UserLayoutCSS.input_pwd}
+              />
+              <button
+                className={UserJoinCSS.check_btnn}
+                onClick={() =>
+                  isNicknameValid && checkNicknameUniqueness(userData.nickname)
+                }
+                disabled={isNicknameUniqueness || !userData.nickname}
+              >
+                <h5>중복확인</h5>
+              </button>
+            </div>
+            <div>
+              {!userData.nickname && <p>{nicknameUniquenessMessage}</p>}
+            </div>
+            <br/>
+            <label for="id">ID*</label>
+            <div className={UserJoinCSS.input_nickname_check_btn}>
+              <input
+                type="text"
+                placeholder="ID를 입력하세요."
+                id="id"
+                name="id"
+                onChange={onChangeHandler}
+                disabled={isIdUniqueness}
+                required
+                className={UserLayoutCSS.input_pwd}
+              />
+              <button
+                className={UserJoinCSS.check_btnn}
+                onClick={() => isIdValid && checkIdUniqueness(userData.id)}
+                disabled={isIdUniqueness || !userData.id}
+              >
+                <h5>중복 확인</h5>
+              </button>
+            </div>
+
+            {idUniquenessMessage && <p>{idUniquenessMessage}</p>}
             <br />
-          </div>
-          <label>ID*</label>
-          <br />
-          <div>
+            <label for="pwd">비밀번호*</label>
+            <div className={UserJoinCSS.input_nickname_check_btn}>
+              <input
+                type={passwordVisibility ? "text" : "password"}
+                placeholder="비밀번호를 입력해주세요."
+                id="pwd"
+                name="pwd"
+                onChange={onChangeHandler}
+                required
+                className={UserLayoutCSS.input_pwd}
+              />
+              <button
+                className={UserLayoutCSS.show_btn}
+                onClick={togglePasswordVisibility}
+              >
+                {passwordVisibility ? (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                ) : (
+                  <FontAwesomeIcon icon={faEye} />
+                )}
+              </button>
+            </div>
+            {realTimePasswordValidation && <p>{realTimePasswordValidation}</p>}
+            <br />
+            <label for="confirmPwd">비밀번호 확인*</label>
+            <div className={UserJoinCSS.input_nickname_check_btn}>
+              <input
+                type={passwordConfirmVisibility ? "text" : "password"}
+                placeholder="비밀번호를 다시 입력하세요."
+                id="confirmPwd"
+                name="confirmPwd"
+                onChange={onChangeHandler}
+                className={UserLayoutCSS.input_pwd}
+                required
+              />
+              <button
+                className={UserLayoutCSS.show_btn}
+                onClick={togglePasswordConfirmVisibility}
+              >
+                {passwordConfirmVisibility ? (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                ) : (
+                  <FontAwesomeIcon icon={faEye} />
+                )}
+              </button>
+            </div>
+            <div>
+              {(passwordMatchMessage || !userData.confirmPwd) && (
+                <p>{passwordMatchMessage}</p>
+              )}
+            </div>
+            <br />
+            <label for="name">이름*</label>
+            <div className={UserJoinCSS.input_nickname_check_btn}>
             <input
               type="text"
-              placeholder="ID를 입력하세요."
-              name="id"
+              className={UserLayoutCSS.input_pwd}
+              for="name"
+              placeholder="이름을 입력하세요."
+              name="name"
               onChange={onChangeHandler}
-              disabled={isIdUniqueness}
               required
             />
-            <button
-              onClick={() => isIdValid && checkIdUniqueness(userData.id)}
-              disabled={isIdUniqueness || !userData.id}
-            >
-              중복 확인
-            </button>
-          </div>
-          {idUniquenessMessage && <h4>{idUniquenessMessage}</h4>}
-          <br />
-          <label>비밀번호*</label>
-          <br />
-          <input
-            type={passwordVisibility ? "text" : "password"}
-            placeholder="비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)를 사용하여야 합니다."
-            name="pwd"
-            onChange={onChangeHandler}
-            required
-          />
-          <button onClick={togglePasswordVisibility}>
-            {passwordVisibility ? "Hide" : "Show"} Password
-          </button>
-          
-          {realTimePasswordValidation && (
-            <h4>{realTimePasswordValidation}</h4>
-          )}
-          <br />
-          <label>비밀번호 확인*</label>
-          <br />
-          <input
-            type={passwordConfirmVisibility ? "text" : "password"}
-            placeholder="비밀번호를 다시 입력하세요."
-            name="confirmPwd"
-            onChange={onChangeHandler}
-            required
-          />
-          <button onClick={togglePasswordConfirmVisibility}>
-            {passwordConfirmVisibility ? "Hide" : "Show"} Password
-          </button>
-          {(passwordMatchMessage || !userData.confirmPwd) && <h4>{passwordMatchMessage}</h4>}
-          <br />
-          <label>이름*</label>
-          <br />
-          <input
-            type="text"
-            placeholder="이름을 입력하세요."
-            name="name"
-            onChange={onChangeHandler}
-            required
-          />
-          { !userData.name  && <h4>{nameValidationMessage}</h4>}
-          <br />
-          <label>생년월일*</label>
-          <br />
-          <div>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => {
-                setSelectedDate(date);
-                onChangeBirthdateHandler(date);
-              }}
-              dateFormat="yyyyMMdd"
-              placeholderText="날짜를 선택해주세요."
-              showYearDropdown
-              scrollableYearDropdown
-              yearDropdownItemNumber={70}
-              name="birthDate"
-            />
-            { (!isBirthdateValid || !userData.birthDate) && <p>{birthdateValidationMessage}</p>}
-          </div>
-          <label>성별*</label>
-          <br />
-          <div>
-          <select name="gender" value={userData.gender} onChange={onChangeHandler} required>
-              <option  value="" disabled hidden="hidden">
-                성별
-              </option>
-              <option value={"남"}>남</option>
-              <option value={"여"}>여</option>
-            </select>
-          </div>
-          {!isGenderSelected && (
-            <p style={{ color: "red" }}>{genderValidationMessage}</p>
-          )}
-          <br />
-          <label>핸드폰 번호*</label>
-          <br />
-          <input
-            type="text"
-            placeholder="휴대폰번호를 입력하세요."
-            name="phone"
-            value={formattedPhone}
-            onChange={onChangeHandler}
-            maxLength={13}
-            required
-          />
-          <Certification
-            userData={userData}
-            onCertificationSuccess={handleCertificationSuccess}
-          />
-          {!userData.phone && <h4>{phoneValidationMessage}</h4>}
-          <br />
-          <label>
-            Email<small>(선택사항)</small>
-          </label>
-          <br />
-          <input
-            type="text"
-            placeholder="선택 입력"
-            name="email"
-            onChange={onChangeHandler}
-          />
-          <br />
-          <div>
+            </div>
+            {!userData.name && <p>{nameValidationMessage}</p>}
+            <br />
+            <label for="birthDate">생년월일*</label>
+            <br />
+            <div>
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => {
+                  setSelectedDate(date);
+                  onChangeBirthdateHandler(date);
+                }}
+                dateFormat="yyyyMMdd"
+                placeholderText="날짜를 선택해주세요."
+                showYearDropdown
+                scrollableYearDropdown
+                yearDropdownItemNumber={70}
+                id="birthDate"
+                name="birthDate"
+              />
+              {(!isBirthdateValid || !userData.birthDate) && (
+                <p>{birthdateValidationMessage}</p>
+              )}
+            </div>
+            <label for="gender">성별*</label>
+            <br />
+            <div>
+              <select
+              id="gender"
+                name="gender"
+                value={userData.gender}
+                onChange={onChangeHandler}
+                required
+              >
+                <option value="" disabled hidden="hidden">
+                  성별
+                </option>
+                <option value={"남"}>남</option>
+                <option value={"여"}>여</option>
+              </select>
+            </div>
+            {!isGenderSelected && (
+              <p style={{ color: "red" }}>{genderValidationMessage}</p>
+            )}
+            <br />
+            <label for="phone">핸드폰 번호*</label>
+            <div className={UserJoinCSS.input_nickname_check_btn}>
             <input
-              type="checkbox"
-              name="agreement"
-              checked={isAgreemanetChecked}
-              onChange={agreementChangeHandler}
+              type="text"
+              placeholder="휴대폰번호를 입력하세요."
+              id="phone"
+              name="phone"
+              value={formattedPhone}
+              onChange={onChangeHandler}
+              className={UserLayoutCSS.input_pwd}
+              maxLength={13}
+              required
             />
-            <label>OilJang의 서비스 약관에 동의합니다.</label>
-            <a href="">약관 보기</a>
+            <Certification
+              userData={userData}
+              onCertificationSuccess={handleCertificationSuccess}
+            />
+            </div>
+            {!userData.phone && <p>{phoneValidationMessage}</p>}
+            <br />
+            <label for="email">
+              Email<small>(선택사항)</small>
+            </label>
+            <br />
+            <div className={UserLayoutCSS.input_pwd}>           
+            <input
+              type="text"
+              placeholder="선택 입력"
+              id="email"
+              name="email"
+              onChange={onChangeHandler}
+            />
+            </div>
+            <br />
+            <div>
+              <input
+                type="checkbox"
+                name="agreement"
+                checked={isAgreemanetChecked}
+                onChange={agreementChangeHandler}
+              />
+              <label>OilJang의 서비스 약관에 동의합니다.</label>
+              <a href="">약관 보기</a>
+            </div>
+            <br />
+            <button onClick={onClickJoinHandler}>회원 가입</button>
+            <button onClick={onClickBackHandler}>뒤로 가기</button>
           </div>
-          <br />
-          <button onClick={onClickJoinHandler}>회원 가입</button>
-          <button onClick={onClickBackHandler}>뒤로 가기</button>
         </div>
       </div>
     </>
