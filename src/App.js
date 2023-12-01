@@ -49,6 +49,7 @@ function App() {
             <Route path='myInfo' index element={<MyInfo/>}></Route>
             <Route path='myCalendar' element={<MyCalendar/>}/>
             <Route path='editMyInfo' element={<EditMyInfo/>}/>
+            <Route path='inquiry' element={<InquiryList/>}/>
           </Route>
 
             <Route path='/' element={<Message />}>
@@ -70,7 +71,7 @@ function App() {
           <Route path='changePwd' element={<ChangePwd/>}/>
 
 
-          <Route path='inquiry' element={<InquiryList/>}/>
+          
         </Route>
         
       </Routes >
