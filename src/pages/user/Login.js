@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import { callLoginAPI } from "../../apis/UserAPICalls";
-import userReducer from "../../modules/UserModule";
-import thunk from "redux-thunk";
-import { createStore, applyMiddleware, compose } from "redux";
+import { getCookie } from './../../modules/CookieModule';
+
 
 function Login() {
   const navigate = useNavigate();
@@ -36,16 +34,17 @@ function Login() {
  
 
   useEffect(() => {
-    if (loginUser.status === 200) {
+    const isUserLogin = getCookie("accessToken")
+   
+     if (loginUser.status === 200) {
       console.log("[Login] Login SUCCESS {}", loginUser);
       navigate("/", { replace: true });
+    } else if(isUserLogin){
+      navigate("/error", { replace: true });
     }
-  }, [loginUser]);
 
-  if (loginUser.length > 0) {
-    console.log("[Login] Login is already authenticated by the server");
-    return <Navigate to="/" />;
-  }
+
+  }, [loginUser]);
 
   const onChangeHandler = (e) => {
     setForm({
@@ -59,11 +58,11 @@ function Login() {
   };
 
   const onClickFindIdHandler = () => {
-    navigate("/search_id", { replace: true });
+    navigate("/searchId", { replace: true });
   };
 
   const onClickChangePwdHandler =   () => {
-    navigate("/change_pwd", { replace: true });
+    navigate("/searchPwd", { replace: true });
   };
 
   const onClickLoginHandler = async() => {
@@ -93,6 +92,18 @@ function Login() {
       
 
     }else if(provider === "naver"){
+
+      const clientId = 'Z3HB6zpnYOQfQxAReRdR';
+      const redirectUri = 'http://localhost:8000/oauth2/login/naver/callback';
+      const scope = 'name nickname email mobile gender birthyear birthday';
+
+
+      const authUrl =
+        `http://localhost:8000/oauth2/authorize/naver?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}`;
+
+
+        const oauthWindow = window.open(authUrl, 'oauth2Login', 'width=500,height=600');
+
       console.log('naver');
     }
   } catch(error){
@@ -142,7 +153,7 @@ function Login() {
             Google로 로그인
           </button>
           <br />
-          <button>
+          <button onClick={() => onClickOAuth2LoginHandler("naver")}  >
             <img src="" alt="네이버 로고" />
             Naver로 로그인
           </button>

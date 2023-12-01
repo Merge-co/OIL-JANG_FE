@@ -264,7 +264,7 @@ function Join() {
   };
 
   const onClickBackHandler = () => {
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
 
   const validatePassword = (password) => {
@@ -538,7 +538,7 @@ function Join() {
           <br />
           <div>
           <select name="gender" value={userData.gender} onChange={onChangeHandler} required>
-              <option selected value="" disabled hidden="hidden" defaultValue="">
+              <option  value="" disabled hidden="hidden">
                 성별
               </option>
               <option value={"남"}>남</option>

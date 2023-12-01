@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import bcrypt from 'bcryptjs';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-
-function CheckMyPwd({ isOpen, closeModal, userDetail}) {
-
-  const navigate = useNavigate();
+function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
 
   const [password, setPassword] = useState('');
-  const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
 
 
   const submitHandler = (e) => {
@@ -22,8 +17,8 @@ function CheckMyPwd({ isOpen, closeModal, userDetail}) {
       const isCorrect = bcrypt.compareSync(password, storedEncryptedPassword);
 
       if (isCorrect) {
+        onPasswordValidated(true);
         closeModal();
-        navigate("/editMyInfo");
       } else {
         alert('Incorrect password. Please try again.');
       }

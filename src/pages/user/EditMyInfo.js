@@ -1,17 +1,19 @@
-import { callUpdateUserAPI } from "../../apis/UserAPICalls";
+import { callUpdateUserAPI,callGetUserAPI } from "../../apis/UserAPICalls";
 import {
   callDuplicatedNicknameAPI,
 } from "../../apis/UserAPICalls";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import ProductDetailCSS from "../../styles/product/ProductDetailCss.module.css";
 
 function EditMyInfo() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
-  const userDetail = user && user.data ? user.data : {};
+  const location = useLocation();
+  const userDetail = user && user.data ? user.data : { data: {} };
+  const isPasswordValidated = location.state?.isPasswordValidated || false;
 
   const [isNicknameUniqueness, setIsNicknameUniqueness] = useState(false);
   const [isNicknameValid, setIsNicknameValid] = useState(true);
@@ -28,12 +30,18 @@ function EditMyInfo() {
     const [initialUserData, setInitialUserData] = useState({});
 
 
-
-
-
   console.log("user", user);
 
   console.log("userDetail", userDetail);
+
+  useEffect(() => {
+    console.log('Is password validated:', isPasswordValidated);
+
+    if (!isPasswordValidated) {
+      navigate("/error");
+    }
+  }, [isPasswordValidated]);
+
 
   const [userData, setUserData] = useState({
     profileImage: null,
@@ -41,6 +49,8 @@ function EditMyInfo() {
     newPassword: "",
     newPasswordConfirm: "",
   });
+
+  
 
   const onClickCompleteHandler = () => {
 
@@ -53,21 +63,17 @@ function EditMyInfo() {
     ) {
       alert("변경된 내용이 없습니다.");
       return;
-    }
-
-    if (userData.nickname && !isNicknameUniqueness) {
+    }else if (userData.nickname && !isNicknameUniqueness) {
       alert("닉네임 중복 확인을 해주세요.");
       return;
-    }
-
-
-    if (!userData.newPassword && !userData.newPasswordConfirm) {
-      if(!isPasswordMatch){
+    }else if (!isPwdValid && userDetail.data.enrollType === 'NORMAL') {
+        alert("옳지 않은 형식의 비밀번호입니다.");
+        return;
+    } else if ((userData.newPassword || userData.newPasswordConfirm) &&
+    !isPasswordMatch && userDetail.data.enrollType === 'NORMAL') {
         alert("비밀번호가 일치하지 않습니다.");
         return;
-      }
     }
-
     
     const updatedData = {
       profileImage: userData.profileImage,
@@ -75,6 +81,11 @@ function EditMyInfo() {
       newPassword: userData.newPassword,
       newPasswordConfirm: userData.newPasswordConfirm,
     };
+
+    if (userDetail.data.enrollType !== "NORMAL") {
+      delete updatedData.newPassword;
+      delete updatedData.newPasswordConfirm;
+    }
 
     console.log("userData.profileImage : ", userData.profileImage);
     console.log("userData.profileImage : ", userData.nickname);
@@ -84,14 +95,31 @@ function EditMyInfo() {
     console.log("updatedData : ", updatedData);
 
     dispatch(callUpdateUserAPI({ updatedData }));
+
+    navigate("/myInfo");
+
+    window.location.reload();
    
   };
 
   useEffect(() => {
+    dispatch(callGetUserAPI());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (userDetail) {
-      setInitialUserData({ ...userDetail.data });
+      const isDataModified =
+        userDetail.data &&
+        Object.keys(userDetail.data).some(
+          (key) => userDetail.data[key] !== initialUserData[key]
+        );
+  
+      if (isDataModified) {
+        setInitialUserData({ ...userDetail.data });
+      }
     }
-  }, [userDetail]);
+  }, [userDetail, initialUserData]);
+
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -179,18 +207,17 @@ function EditMyInfo() {
 
 
 
-  const userImageThumbAddr = userDetail.data.userImageThumbAddr.replace(
-    "D:\\OIL-JANG_FE\\public",
-    ""
-  );
+  const userImageThumbAddr = userDetail?.data?.userImageThumbAddr?.replace("D:\\OIL-JANG_FE\\public", "") || "";
 
-  console.log("userImageThumbAddr : ", userImageThumbAddr);
 
-  const userImageThumbAddr2 = userDetail.data.userImageThumbAddr.replace(
-    "D:/OIL-JANG_FE/public",
-    ""
-  );
-  console.log("userImageThumbAddr2 : ", userImageThumbAddr2);
+console.log("userDetail:", userDetail);
+console.log("userDetail.data:", userDetail.data);
+console.log("userImageThumbAddr:", userImageThumbAddr);
+
+const userImageThumbAddr2 =
+  userDetail?.data?.userImageThumbAddr?.replace("D:/OIL-JANG_FE/public", "") || "";
+console.log("userImageThumbAddr2 : ", userImageThumbAddr2);
+console.log("userImageThumbAddr2 : ", userImageThumbAddr2);
 
   const onClickBackHandler = () => {
     
@@ -235,16 +262,15 @@ const checkNicknameUniqueness = async (nickname) => {
 };
 
 
-
   return (
     <>
-      {userDetail && (
+      {userDetail && userDetail.data && (
         <div>
           <h1>내정보 수정</h1>
 
           <div className={ProductDetailCSS.sellerInfoBox}>
             <img
-              src={userImageThumbAddr}
+              src={userDetail.userImageThumbAddr}
               className={ProductDetailCSS.sellerProfile}
             />
             <div className={ProductDetailCSS.sellerInfo}></div>
@@ -279,50 +305,68 @@ const checkNicknameUniqueness = async (nickname) => {
             <br />
             <input type="text" placeholder={userDetail.data.id} readOnly />
             <br />
-            <label>변경할 비밀번호</label>
-            <br />
-            <input
-            type={passwordVisibility ? "text" : "password"}
-            placeholder="영문,숫자,특수문자 포함 8-16자"
-              onChange={onChangeHandler}
-              name="newPassword"
-            />
-            <button onClick={togglePasswordVisibility}>
-            {passwordVisibility ? "Hide" : "Show"} Password
-          </button>
-          {realTimePasswordValidation && (
-            <h4>{realTimePasswordValidation}</h4>
-          )}
-            <br />
-            <label>변경할 비밀번호 확인</label>
-            <br />
-            <input
-            type={passwordConfirmVisibility ? "text" : "password"}
-            placeholder="작성한 비밀번호를 다시 입력해주세요."
-              name="newPasswordConfirm"
-              onChange={onChangeHandler}
-            />
-           <button onClick={togglePasswordConfirmVisibility}>
-            {passwordConfirmVisibility ? "Hide" : "Show"} Password
-          </button>
-          {(passwordMatchMessage) && <h4>{passwordMatchMessage}</h4>}
+            {userDetail.data.enrollType !== 'GOOGLE' && (
+              <>
+                <label>변경할 비밀번호</label>
+                <br />
+                <input
+                  type={passwordVisibility ? "text" : "password"}
+                  placeholder="영문,숫자,특수문자 포함 8-16자"
+                  onChange={onChangeHandler}
+                  name="newPassword"
+                />
+                <button onClick={togglePasswordVisibility}>
+                  {passwordVisibility ? "Hide" : "Show"} Password
+                </button>
+                {realTimePasswordValidation && (
+                  <h4>{realTimePasswordValidation}</h4>
+                )}
+                <br />
+                <label>변경할 비밀번호 확인</label>
+                <br />
+                <input
+                  type={passwordConfirmVisibility ? "text" : "password"}
+                  placeholder="작성한 비밀번호를 다시 입력해주세요."
+                  name="newPasswordConfirm"
+                  onChange={onChangeHandler}
+                />
+                <button onClick={togglePasswordConfirmVisibility}>
+                  {passwordConfirmVisibility ? "Hide" : "Show"} Password
+                </button>
+                {passwordMatchMessage && <h4>{passwordMatchMessage}</h4>}
+                <br />
+              </>
+            )}
             <br />
             <label>이름</label>
             <br />
             <input type="text" value={userDetail.data.name} readOnly />
             <br />
+            {userDetail.data.enrollType === 'NORMAL' && (
+              <>
             <label>생년월일</label>
             <br />
             <input type="text" value={userDetail.data.birthDate} readOnly />
             <br />
+            </>
+            )}
             <label>이메일 주소</label>
             <br />
             <input type="text" value={userDetail.data.email} readOnly />
             <br />
-            <label>휴대폰 번호</label>
-            <br />
-            <input type="text" value={userDetail.data.phone} readOnly />
-            <br />
+            {userDetail.data.enrollType === 'NORMAL' && (
+              <>
+                <label>휴대폰 번호</label>
+                <br />
+                <input
+                  type="text"
+                  placeholder={userDetail.data.phone}
+                  onChange={onChangeHandler}
+                  name="phone"
+                />
+                <br />
+              </>
+            )}
             <div>
               <button onClick={onClickCompleteHandler}>완료</button>
               <button onClick={onClickBackHandler}>취소</button>

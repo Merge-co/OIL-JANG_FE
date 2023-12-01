@@ -1,7 +1,7 @@
 import { callGetUserAPI } from "../../apis/UserAPICalls";
 import { useEffect,useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector} from "react-redux";
+import { useNavigate,useLocation } from "react-router-dom";
 import WithdrawButton from "../../components/user/WithdrawButton";
 import ProductDetailCSS from '../../styles/product/ProductDetailCss.module.css';
 import CheckMyPwd from "../../components/user/CheckMyPwd";
@@ -14,6 +14,7 @@ function MyInfo() {
   const userDetail = user.data;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPasswordValidated, setIsPasswordValidated] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,6 +22,16 @@ function MyInfo() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const onPasswordValidated = (isValid) => {
+    console.log('Password validated:', isValid);
+    if (isValid) {
+      setIsPasswordValidated(true);
+      navigate("/editMyInfo", { state: { isPasswordValidated: true } });
+    } else {
+      console.log("Incorrect password");
+    }
   };
 
 
@@ -48,7 +59,6 @@ function MyInfo() {
   }
 
   if (!user.data) {
-    // 데이터가 없을 때의 UI 표시
     return <p>No user data available.</p>;
   }
 
@@ -61,7 +71,13 @@ function MyInfo() {
 
 
   const onClickEditHandler = () => {
-    openModal();
+    console.log('userDetail.data.EnrollType',userDetail.data.enrollType);
+    console.log('EnrollType check',userDetail.data.enrollType === "GOOGLE");
+    if (userDetail.data && userDetail.data.enrollType !== "NORMAL") {
+      navigate("/editMyInfo", { state: { isPasswordValidated: true } });
+    } else {
+      openModal();
+    }
   };
   
 
@@ -88,6 +104,7 @@ function MyInfo() {
               isOpen={isModalOpen}
               closeModal={closeModal}
               userDetail={userDetail} 
+              onPasswordValidated={onPasswordValidated}
               />
             <button onClick={onClickEditHandler}>수정하기</button>
             <hr />
@@ -96,17 +113,26 @@ function MyInfo() {
               <br />
               <input type="text" value={userDetail.data.name || ''} readOnly />
               <br />
+              {console.log('userDetail.data.enrollType',(userDetail.data.enrollType) !== "GOOGLE")}
+              {userDetail.data.enrollType === "NORMAL" &&(
+              <>
               <label>생년월일</label>
               <br />
               <input type="text" value={userDetail.data.birthDate || ''} readOnly />
               <br />
+              </>
+              )}
               <label>이메일 주소</label>
               <br />
               <input type="text" value={userDetail.data.email || ''} readOnly />
               <br />
+              { userDetail.data.enrollType === "NORMAL" &&(
+                <>
               <label>휴대폰 번호</label>
               <br />
               <input type="text" value={userDetail.data.phone || ''} readOnly />
+              </>
+              )}
               <WithdrawButton/>
               <button onClick={onClickBackHandler}>뒤로가기</button>
             </div>

@@ -20,6 +20,9 @@ import ChangePwd from './pages/user/ChangePwd';
 import FindId from './pages/user/FindId';
 import MyInfo from './pages/user/MyInfo';
 import EditMyInfo from './pages/user/EditMyInfo';
+import Error from './components/common/Error';
+import Result from './components/user/Result';
+import FindPwd from './pages/user/FindPwd';
 import Message from './components/message/Message';
 import InquiryList from './pages/inquery/InquiryList';
 import MyCalendar from './pages/myCalendar/MyCalendar';
@@ -61,8 +64,10 @@ function App() {
 
           <Route path='login' element={<Login />} />
           <Route path='join' element={<Join/>}/>
+          <Route path='searchPwd' element={<FindPwd/>}/>
+          <Route path='searchId' element={<FindId/>}/>
+          <Route path='error' element={<Error/>}/>
           <Route path='changePwd' element={<ChangePwd/>}/>
-          <Route path='findId' element={<FindId/>}/>
 
 
           <Route path='inquiry' element={<InquiryList/>}/>
