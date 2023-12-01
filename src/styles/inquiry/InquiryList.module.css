@@ -1,0 +1,31 @@
+.table {
+    border-collapse: collapse; /* 테이블 안쪽 중복되는줄 병합 */
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    margin-bottom: 5%;
+  }
+
+
+.table th, .table td {
+    border-top: 1px solid #9D9D9D;
+    padding: 20px 10px; /* 게시글 안쪽 간격 */
+    border-bottom: 1px solid #9D9D9D;
+    font-size: 16px;
+    padding: 2%;
+    width: 10%;
+  }
+
+.contBox{
+    width: 40%;
+    /* margin: 5% auto 0; */
+}
+  
+
+.box2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }

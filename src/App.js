@@ -20,6 +20,8 @@ import ChangePwd from './pages/user/ChangePwd';
 import FindId from './pages/user/FindId';
 import MyInfo from './pages/user/MyInfo';
 import EditMyInfo from './pages/user/EditMyInfo';
+import Message from './components/message/Message';
+import InquiryList from './pages/inquery/InquiryList';
 
 
 
@@ -42,8 +44,13 @@ function App() {
             <Route path='editMyInfo' element={<EditMyInfo/>}/>
           </Route>
 
-          <Route path='messageList' element={<MessageList />} />
-          <Route path='/messageDetail/:msgCode' element={<MessageDetail/>}/>
+            <Route path='/' element={<Message />}>
+             <Route path='messageList' element={<MessageList />} />
+            </Route>
+            <Route path='messageDetail/:msgCode' element={<MessageDetail/>}/>
+ 
+
+
 
           <Route path='/report' element={<Report />} />
           <Route path='/processManagement' element={<ReportManagement />} />
@@ -52,7 +59,11 @@ function App() {
           <Route path='join' element={<Join/>}/>
           <Route path='changePwd' element={<ChangePwd/>}/>
           <Route path='findId' element={<FindId/>}/>
+
+
+          <Route path='inquiry' element={<InquiryList/>}/>
         </Route>
+        
       </Routes >
 
     </BrowserRouter >

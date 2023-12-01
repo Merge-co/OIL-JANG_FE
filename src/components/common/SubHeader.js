@@ -18,7 +18,7 @@ function SubHeader() {
                         <NavLink className={({isActive}) => isActive? SubHeaderCSS.subHeaderBorderActive : SubHeaderCSS.subHeaderBorder} to="/wishList" style={{ textDecoration: "none" }}><div>관심목록</div></NavLink>
                     </div>
                     <div className={SubHeaderCSS.subHeaderItem}>
-                        <NavLink className={({isActive}) => isActive? SubHeaderCSS.subHeaderBorderActive : SubHeaderCSS.subHeaderBorder} to="/wishList1" style={{ textDecoration: "none" }}><div>1:1 문의</div></NavLink>
+                        <NavLink className={({isActive}) => isActive? SubHeaderCSS.subHeaderBorderActive : SubHeaderCSS.subHeaderBorder} to="/inquiry" style={{ textDecoration: "none" }}><div>1:1 문의</div></NavLink>
                     </div>
                 </div>
             </div>

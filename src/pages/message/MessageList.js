@@ -23,38 +23,43 @@ function MessageList({isReceived, keyword, page}){
     const PagingInfo = useSelector(state => state.pagingReducer);
     const dispatch = useDispatch();
     const params = useParams();
-    //const {page, keyword} = params;
-    //const messages = useSelector(state => state.messageReducer);
-   // const messageList = messages.data;
-
-   const curURL = new URL(window.location.href);
+    const curURL = new URL(window.location.href);
 
 
     const [messageList, setMessageList] = useState();
+
     let msgList = messageList && messageList[0].msgList;
-    console.log("1" + JSON.stringify(msgList))
+    //console.log("1" + JSON.stringify(msgList))
+
     let pagingBtn = messageList && messageList[0].pagingBtn;
-    console.log("2" + JSON.stringify(pagingBtn))
+   // console.log("2" + JSON.stringify(pagingBtn))
+    
     let totalMsg = messageList && messageList[0].totalMsg;
     console.log("pagingBtn ==================" + pagingBtn)
     console.log("messageList ==================" + messageList)
 
+
+
+
     const handleMessageClick = (msgCode) => {
-        navigate(`/messageDetail/${msgCode}`);
+        navigate(`messageDetail/${msgCode}`);
     };
     
-    
+
+
 
 
     useEffect(
+
         () => {
+
             dispatch(callMessageListAPI({
                 userCode: jwtDecode(getCookie("accessToken")).userCode,
                 isReceived: isReceived,
                 page: page,
                 keyword: keyword,
             })).then((result) => {
-                console.log("page============"+page)
+                console.log("page============"+ page)
 
                 console.table("result : " + result);
                 if(result && result.data){
@@ -78,63 +83,64 @@ function MessageList({isReceived, keyword, page}){
 
 
 
-    const handleMenuClick = useCallback((isReceived) => {
-            // 메뉴 클릭에 대한 동작 정의
-            if (isReceived === true) {
 
-                // 받은 쪽지함 처리
-                dispatch(callMessageListAPI({
-                userCode: jwtDecode(getCookie("accessToken")).userCode,
-                isReceived: isReceived,
-                page: page,
-                keyword: keyword,
-                })).then((result) => {
-                console.table("result : " + result);
-                if(result && result.data){
-                    setMessageList([result.data.results]);
-                    if(!curURL.searchParams.get('page')){
-                        dispatch({type: GET_PAGING, payload: 0});
-                    }
-                }else{
-                    console.error('[MessageList] API response does not contain data:', result);
-                }
+    // const handleMenuClick = useCallback((isReceived) => {
+    //     // 메뉴 클릭에 대한 동작 정의
+    //     if (isReceived === true) {
 
-            }).catch((error) => {
-                console.error('[MessageList] API call error:', error);
-            })
+    //         // 받은 쪽지함 처리
+    //         dispatch(callMessageListAPI({
+    //         userCode: jwtDecode(getCookie("accessToken")).userCode,
+    //         isReceived: true,
+    //         page: page,
+    //         keyword: keyword,
+    //         })).then((result) => {
+    //         console.table("result : " + result);
+    //         if(result && result.data){
+    //             setMessageList([result.data.results]);
+    //             if(!curURL.searchParams.get('page')){
+    //                 dispatch({type: GET_PAGING, payload: 0});
+    //             }
+    //         }else{
+    //             console.error('[MessageList] API response does not contain data:', result);
+    //         }
 
-            console.log('isReceived2!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
+    //     }).catch((error) => {
+    //         console.error('[MessageList] API call error:', error);
+    //     })
 
-            } else if (isReceived === false) {
-            
-                // 보낸 쪽지함 처리
-                dispatch(callMessageListAPI({
-                userCode: jwtDecode(getCookie("accessToken")).userCode,
-                isReceived: false,
-                page: page,
-                keyword: keyword,
-                })).then((result) => {
-                console.table("result : " + result);
-                if(result && result.data){
-                    setMessageList([result.data.results]);
-                    if(!curURL.searchParams.get('page')){
-                        dispatch({type: GET_PAGING, payload: 0});
-                    }
-                }else{
-                    console.error('[MessageList] API response does not contain data:', result);
-                }
+    //     console.log('isReceived2!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
 
-                console.log('isReceived3!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
-
-            }).catch((error) => {
-                console.error('[MessageList] API call error:', error);
-            })
-            };
-                }, [PagingInfo, dispatch, isReceived, page, keyword]); 
+    //     } else if (isReceived === false) {
         
+    //         // 보낸 쪽지함 처리
+    //         dispatch(callMessageListAPI({
+    //         userCode: jwtDecode(getCookie("accessToken")).userCode,
+    //         isReceived: false,
+    //         page: page,
+    //         keyword: keyword,
+    //         })).then((result) => {
+    //         console.table("result : " + result);
+    //         if(result && result.data){
+    //             setMessageList([result.data.results]);
+    //             if(!curURL.searchParams.get('page')){
+    //                 dispatch({type: GET_PAGING, payload: 0});
+    //             }
+    //         }else{
+    //             console.error('[MessageList] API response does not contain data:', result);
+    //         }
+
+    //         console.log('isReceived3!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
+
+    //     }).catch((error) => {
+    //         console.error('[MessageList] API call error:', error);
+    //     })
+    //     };
+    //         }, [PagingInfo, dispatch, isReceived, page, keyword]); 
+    
         
 
-        const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
+    //     const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
 
 
         const [isCheckedAll, setIsCheckedAll] = useState(false);
@@ -170,20 +176,30 @@ function MessageList({isReceived, keyword, page}){
 
             console.log("================msgCodes:" + msgCode);
 
-            dispatch(callMessageDeleteAPI({ msgCode })).then((response) => {
-                console.log("msgCode 전송: " + msgCode)
-              alert("쪽지 삭제에 성공했습니다!");
-              navigate(`/messageList`, { replace: false });
-              window.location.reload();
+        //     dispatch(callMessageDeleteAPI({ msgCode })).then((response) => {
+        //         console.log("msgCode 전송: " + msgCode)
+        //       alert("쪽지 삭제에 성공했습니다!");
+        //       navigate(`/messageList`, { replace: false });
+        //       window.location.reload();
+        //     });
+        //   } else {
+        //     alert("삭제할 쪽지를 선택해주세요");
+        //   }
+
+        
+        Promise.all(msgCode.map(msgCode => dispatch(callMessageDeleteAPI({ msgCode }))))
+            .then((responses) => {
+                alert("쪽지 삭제에 성공했습니다!");
+                navigate(`/messageList`, { replace: false });
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error("다중 삭제 중 오류 발생:", error);
             });
-          } else {
-            alert("삭제할 쪽지를 선택해주세요");
-
-          }
+    } else {
+        alert("삭제할 쪽지를 선택해주세요");
+    }
         };
-
-  
-
 
 
     return (
@@ -194,9 +210,11 @@ function MessageList({isReceived, keyword, page}){
             </div>
             <div className={`${MessageListCSS.box1} ${MessageListCSS.contBox}`}>
 
-                <div style={{width: '80%', margin: '0 auto'}}>
-               {memoizedMessageMenu}
-                </div>
+            {/* <div>
+            {memoizedMessageMenu}
+            </div> */}
+            
+
 
                 <div style={{width: '80%', margin: '0 auto'}}>
                     <div>

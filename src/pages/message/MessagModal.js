@@ -81,7 +81,7 @@ function MessageModal({setModalOpen}){
         formData.append("receiverCode", form.receiverCode);
         formData.append("msgDeleteCode", form.msgDeleteCode);
         formData.append("msgDeleteStatus", form.msgDeleteStatus);
-console.log("formData : " + formData)
+        console.log("formData : " + formData)
         if(!form.msgContent.trim()){
             return;
         }else{
@@ -157,7 +157,7 @@ console.log("formData : " + formData)
                     </div>
                 </div>
             
-            
+
             </div>
         </>
        
