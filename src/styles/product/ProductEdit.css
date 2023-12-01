@@ -1,0 +1,50 @@
+.EditCategory{
+    width: 430px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #C7C6C6;
+    margin: 15px 100px 35px;
+    padding: 10px;
+}
+
+/* btn모음 */
+
+/* 라디오 버튼 숨기기 */
+input[type="radio"] {
+    display: none;
+}
+
+/* 사용자 지정 라디오 버튼 스타일 */
+.custom-radio {
+    /* position: relative; */
+    display: inline-block;
+    width: 125px;
+    height: 45px;
+    border-radius: 5px;
+    background-color: #222222;
+    cursor: pointer;
+    text-align: center;
+    line-height: 45px;
+    color: #fff;
+    /* 텍스트 색상 */
+    font-weight: bold;
+    /* 폰트 굵기 */
+    margin: 57px 20px 0px;
+}
+
+.editbtn{
+    width: 160px;
+    height: 56px;
+    background-color: #EF6253;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+}
+.editcancle{
+    width: 160px;
+    height: 56px;
+    background-color: #222222;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+}

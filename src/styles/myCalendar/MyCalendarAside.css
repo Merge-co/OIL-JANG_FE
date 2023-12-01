@@ -1,0 +1,64 @@
+.MyCalendarAsideLayout {
+    position: relative;
+    top: 45px;
+    min-width: 300px;
+    height: 685px;
+    border: 1px solid #ddd;
+    border-right: none;
+    background-color: #EF6253;
+    user-select: none;
+}
+
+.bigDate {
+    position: relative;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    font-size: 160px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.smallWeek {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: 500;
+    color: #fff;
+    top: -15px;
+}
+
+.mainCalendarTitle {
+    position: relative;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.mainEditContainer {
+    position: relative;
+}
+
+.mainEdit {
+    position: relative;
+    left: 5px;
+    margin-bottom: 3px;
+}
+
+.eventListTitle {
+    position: relative;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+    left: 5px;
+}
+
+.eventList {
+    position: relative;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+    height: 136px;
+    overflow: auto;
+}

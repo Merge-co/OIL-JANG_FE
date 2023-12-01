@@ -63,7 +63,7 @@
     background-color: transparent !important;
     box-shadow: none !important;
   }
-
+ 
   .modalClose > i {
     transition: all .3s;
   }

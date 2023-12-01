@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
 import { callMessagesRegistAPI } from '../../apis/ProductAPICalls';
+import { getCookie } from '../../modules/CookieModule';
+import { jwtDecode } from 'jwt-decode';
 
 function MergeBox() {
     
@@ -140,17 +142,22 @@ function MergeBox() {
     const sendMessagesResult = useSelector(state => state.productReducer.getMessagesResult);
 
     const onClickSendMsg = () => {
-        if (window.localStorage.getItem("mergeKeys")) {
-            if (+window.localStorage.getItem("remainMoney") < 0) {
-                if (window.confirm("예산을 초과했습니다. 쪽지를 보내시겠습니까?")) {
-                    sendMessages();        
-                }
-            } else if (window.confirm("쪽지를 보내시겠습니까?")) {
-                sendMessages();            
-            }
+        if(!getCookie("accessToken")) {
+            navigate(`/login`);
         } else {
-            alert('쪽지를 보낼 상품을 없습니다.');  
+            if (window.localStorage.getItem("mergeKeys")) {
+                if (+window.localStorage.getItem("remainMoney") < 0) {
+                    if (window.confirm("예산을 초과했습니다. 쪽지를 보내시겠습니까?")) {
+                        sendMessages();        
+                    }
+                } else if (window.confirm("쪽지를 보내시겠습니까?")) {
+                    sendMessages();            
+                }
+            } else {
+                alert('쪽지를 보낼 상품을 없습니다.');  
+            }
         }
+        
     }
 
     function sendMessages() {
