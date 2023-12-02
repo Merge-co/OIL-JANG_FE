@@ -17,7 +17,7 @@ export function timestamp(date){
 }
 
 export function timeString(time) {
-    console.log(`${"" + time[0]}:${"" + time[1]}`)
+    console.log(time);
     return `${time[0] < 10 ? "0" + time[0] : time[0]}:${time[1] < 10 ? "0" + time[1] : time[1]}`
 }
 

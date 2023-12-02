@@ -98,13 +98,14 @@ const MyCalendar = ({type}) => {
             }
     
             const [endDate, setEndDate] = useState(selectDate.substring(0, 10));
-            const [selectTime, setSeleteTime] = useState(timestamp(new Date()).substring(11,16));
-            console.log(timestamp(new Date()).substring(11, 16));
+            const [selectTime, setSeleteTime] = useState([new Date().getHours(), new Date().getMinutes()]);
+
             const onChangeEndDate = e => {
                 setEndDate(e.target.value);
             }
 
             const onChangeTime = e => {
+                console.log(e.target.value)
                 setSeleteTime(e.target.value);
             }
     
@@ -121,7 +122,7 @@ const MyCalendar = ({type}) => {
                             <div className='mainCalendarTitle'>일정 추가</div>
                             <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}   spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>
                             <input disabled type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate} min={timestamp(new Date()).substring(0, 10)}/>
-                            <input type='time' value={timeString(selectTime)} onChange={onChangeTime} className='inputDateBig' />
+                            <input type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' />
                         </div>
     
                         <div className='saveModal'>
@@ -178,7 +179,7 @@ const MyCalendar = ({type}) => {
             const [endDate, setEndDate] = useState(myEvents.filter(content => content.id == showAgenda)[0].start.toISOString().substring(0, 10));
 
             const [selectTime, setSeleteTime] = useState(myEvents.filter(content => content.id == showAgenda)[0].time);
-    
+
             const onChangeEndDate = e => {
                 setEndDate(e.target.value);
             }
@@ -194,7 +195,7 @@ const MyCalendar = ({type}) => {
                             <div className='mainCalendarTitle'>일정 수정</div>
                             <textarea className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2} spellCheck={false} placeholder="내용을 입력하세요"/>
                             <input type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate.substring(0,10)} min={timestamp(new Date()).substring(0, 10)}/>
-                            <input type='time' className='inputDateBig' Value={timeString(selectTime)} onChange={onChangeTime} />
+                            <input type='time' className='inputDateBig' defaultValue={timeString(selectTime)} onChange={onChangeTime} />
                         </div>
                         <div className='modifyOrDelete'>
                             <button onClick={modifyAgenda} className={ButtonCSS.smallBtn2}>수정</button>
