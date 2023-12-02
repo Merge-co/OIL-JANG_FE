@@ -88,13 +88,17 @@ const MyCalendar = ({type}) => {
             },[]);
     
             const onClickSave = () => {
-                let blank_pattern = /^\s+|\s+$/g;
-                if(agendaInput.replace(blank_pattern, "") !== "") {
-                    dispatch(callMyCalendarRegistAPI(agendaInput, endDate, selectTime));
+                if (selectTime) {
+                    let blank_pattern = /^\s+|\s+$/g;
+                    if(agendaInput.replace(blank_pattern, "") !== "") {
+                        dispatch(callMyCalendarRegistAPI(agendaInput, endDate, selectTime));
+                    } else {
+                        alert("내용을 입력하세요");
+                        inputFocus1.current.focus();
+                    }   
                 } else {
-                    alert("내용을 입력하세요");
-                    inputFocus1.current.focus();
-                }   
+                    alert("시간을 입력하세요");
+                }
             }
     
             const [endDate, setEndDate] = useState(selectDate.substring(0, 10));
@@ -105,7 +109,6 @@ const MyCalendar = ({type}) => {
             }
 
             const onChangeTime = e => {
-                console.log(e.target.value)
                 setSeleteTime(e.target.value);
             }
     
@@ -116,7 +119,7 @@ const MyCalendar = ({type}) => {
             );
     
             return(
-                <>  
+                <>
                     <div className='mainEditContainer'>     
                         <div className='mainEdit'>
                             <div className='mainCalendarTitle'>일정 추가</div>
@@ -136,8 +139,6 @@ const MyCalendar = ({type}) => {
         function AgendaToMain() {
             const [agendaInput2, setAgendaInput2] = useState('');
 
-            
-    
             const onChangeHandler2 = useCallback(e => {
                 setAgendaInput2(e.target.value);
             },[]);
@@ -150,21 +151,28 @@ const MyCalendar = ({type}) => {
             )
     
             const modifyAgenda = () => {
-                let blank_pattern = /^\s+|\s+$/g;
-                if(agendaInput2.replace(blank_pattern, "") !== "") {
-                    dispatch(callMyCalendarModifyAPI(agendaInput2, endDate, showAgenda, selectTime));
-                    myEvents.filter(content => content.id == showAgenda)[0].start = new Date(endDate);
-                    myEvents.filter(content => content.id == showAgenda)[0].end = new Date(endDate);
-                    myEvents.filter(content => content.id == showAgenda)[0].title = agendaInput2;
-                    myEvents.filter(content => content.id == showAgenda)[0].time = selectTime;
-                    setShowAgenda(-1);
-                    setSelectDate(selectDate.substring(0, 10));
-                    setNewAgenda(true);
+                if (!endDate && !selectTime) {
+                    alert("날짜 및 시간을 입력하세요");
+                } else if (!endDate) {
+                    alert("날짜를 입력하세요");
+                } else if (!selectTime) {
+                    alert("시간을 입력하세요");
                 } else {
-                    alert("내용을 입력하세요");
-                    inputFocus2.current.focus();
+                    let blank_pattern = /^\s+|\s+$/g;
+                    if(agendaInput2.replace(blank_pattern, "") !== "") {
+                        dispatch(callMyCalendarModifyAPI(agendaInput2, endDate, showAgenda, selectTime));
+                        myEvents.filter(content => content.id == showAgenda)[0].start = new Date(endDate);
+                        myEvents.filter(content => content.id == showAgenda)[0].end = new Date(endDate);
+                        myEvents.filter(content => content.id == showAgenda)[0].title = agendaInput2;
+                        myEvents.filter(content => content.id == showAgenda)[0].time = selectTime;
+                        setShowAgenda(-1);
+                        setSelectDate(selectDate.substring(0, 10));
+                        setNewAgenda(true);
+                    } else {
+                        alert("내용을 입력하세요");
+                        inputFocus2.current.focus();
+                    }
                 }
-                
             }
         
             const deleteAgenda = () => {
@@ -229,7 +237,7 @@ const MyCalendar = ({type}) => {
                     <div className='eventList eventListScroll'>
                         {myEvents.filter(con => con.end.toISOString().substring(0, 10) === selectDate.substring(0, 10)).map(con =>
                             <div key={con.id} onClick={() => { setShowAgenda(con.id); setNewAgenda(false); }}>
-                                <div className='eventListTitle' title={con.title} style={{width: 260, overflow: 'hidden' ,textOverflow: 'ellipsis'}} key={con.id}>{con.title}</div>
+                                <div className='eventListTitle' title={con.title} style={{width: 260, overflow: 'hidden' ,textOverflow: 'ellipsis'}} key={con.id}>- {con.title}</div>
                             </div>
                         )}
                     </div>
