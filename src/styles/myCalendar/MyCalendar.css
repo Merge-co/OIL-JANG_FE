@@ -2,13 +2,12 @@
     position: relative;
     display: flex;
     justify-content: center;
+    width: 1164px;
+    margin: 0 auto;
 }
 
 .myCalendarWidth {
-    position: relative;
     display: flex;
-    justify-content: center;
-    width: 1140px;
 }
 
 /* 캘린더 디자인 */

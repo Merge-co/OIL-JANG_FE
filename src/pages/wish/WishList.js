@@ -34,34 +34,14 @@ function WishList() {
     function WishListItem({wishListItem}) {
         return (           
             <>  
-                <div className={WishListCSS.wishListBox}>
-                    <table>
-                        <colgroup>
-                            <col className={WishListCSS.colWidth25}/>
-                            <col className={WishListCSS.colWidth10}/>
-                            <col className={WishListCSS.colWidth20}/>
-                            <col className={WishListCSS.colWidth10}/>
-                            <col className={WishListCSS.colWidth20}/>
-                            <col className={WishListCSS.colWidth15}/>
-                        </colgroup>
-                        <tr>
-                            <th>사진</th>
-                            <th>판매상태</th>
-                            <th>상품명</th>
-                            <th>가격</th>
-                            <th>상품설명</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        <tr>
-                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><img className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src={wishListItem.proImageThumbAddr} alt="상품 이미지" width="179" height="152"/></td>
-                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.sellStatus}</td>
-                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.productName}</td>
-                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{priceToString(wishListItem.productPrice)}</td>
-                            <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><div className={WishListCSS.productDescLeft}>{wishListItem.productDesc}</div></td>
-                            <td><button onClick={() => onClickDelete(wishListItem.wishCode)} className={ButtonCSS.smallBtn2}>삭제</button></td>
-                        </tr>
-                    </table>
-                </div>
+                <tr>
+                    <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><img className={`${WishListCSS.wishListCursor} ${WishListCSS.wishListImg}`} src={wishListItem.proImageThumbAddr} alt="상품 이미지" width="179" height="152"/></td>
+                    <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.sellStatus}</td>
+                    <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{wishListItem.productName}</td>
+                    <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}>{priceToString(wishListItem.productPrice)}</td>
+                    <td onClick={() => onClickItem(wishListItem.productCode)} className={WishListCSS.wishListCursor}><div className={WishListCSS.productDescLeft}>{wishListItem.productDesc}</div></td>
+                    <td><button onClick={() => onClickDelete(wishListItem.wishCode)} className={ButtonCSS.smallBtn2}>삭제</button></td>
+                </tr>
             </>
         );
     }
@@ -82,9 +62,31 @@ function WishList() {
         <>
             <div className={WishListCSS.wishListContainer}>
                 <div className={WishListCSS.wishListTitle}>관심목록</div>
-                {wishList && wishList.map(
-                    wishListItem => <WishListItem wishListItem={wishListItem}/>
-                )}
+
+
+                <div className={WishListCSS.wishListBox}>
+                    <table>
+                        <colgroup>
+                            <col className={WishListCSS.colWidth25}/>
+                            <col className={WishListCSS.colWidth10}/>
+                            <col className={WishListCSS.colWidth20}/>
+                            <col className={WishListCSS.colWidth10}/>
+                            <col className={WishListCSS.colWidth20}/>
+                            <col className={WishListCSS.colWidth15}/>
+                        </colgroup>
+                        <tr>
+                            <th>사진</th>
+                            <th>판매상태</th>
+                            <th>상품명</th>
+                            <th>가격</th>
+                            <th>상품설명</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        {wishList && wishList.map(
+                            wishListItem => <WishListItem wishListItem={wishListItem}/>
+                        )}
+                    </table>
+                </div>
                 {(wishList && wishList.length == 0) && <div className={WishListCSS.noResult}>찜한 상품이 없습니다</div>}
                 <PagingBar pagingBtn={pagingBtn} />
             </div>

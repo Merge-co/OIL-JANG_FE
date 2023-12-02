@@ -151,11 +151,15 @@ const MyCalendar = ({type}) => {
             )
     
             const modifyAgenda = () => {
+                console.log(endDate)
                 if (!endDate && !selectTime) {
                     alert("날짜 및 시간을 입력하세요");
                 } else if (!endDate) {
                     alert("날짜를 입력하세요");
-                } else if (!selectTime) {
+                } else if (!Array.isArray(endDate) && +endDate.split("-")[0] >= 10000) {
+                    alert("날짜를 입력하세요");
+                }
+                else if (!selectTime) {
                     alert("시간을 입력하세요");
                 } else {
                     let blank_pattern = /^\s+|\s+$/g;
@@ -164,7 +168,7 @@ const MyCalendar = ({type}) => {
                         myEvents.filter(content => content.id == showAgenda)[0].start = new Date(endDate);
                         myEvents.filter(content => content.id == showAgenda)[0].end = new Date(endDate);
                         myEvents.filter(content => content.id == showAgenda)[0].title = agendaInput2;
-                        myEvents.filter(content => content.id == showAgenda)[0].time = selectTime;
+                        myEvents.filter(content => content.id == showAgenda)[0].time = !Array.isArray(selectTime) ? [+selectTime.split(":")[0], +selectTime.split(":")[1]] : selectTime;
                         setShowAgenda(-1);
                         setSelectDate(selectDate.substring(0, 10));
                         setNewAgenda(true);
@@ -236,8 +240,8 @@ const MyCalendar = ({type}) => {
                     <div className='eventListTitle'>&#60;일정 목록&#62;</div>
                     <div className='eventList eventListScroll'>
                         {myEvents.filter(con => con.end.toISOString().substring(0, 10) === selectDate.substring(0, 10)).map(con =>
-                            <div key={con.id} onClick={() => { setShowAgenda(con.id); setNewAgenda(false); }}>
-                                <div className='eventListTitle' title={con.title} style={{width: 260, overflow: 'hidden' ,textOverflow: 'ellipsis'}} key={con.id}>- {con.title}</div>
+                            <div key={con.id} onClick={() => { setShowAgenda(con.id); setNewAgenda(false); }} style={{overflow: 'scroll'}}>
+                                <div className='eventListTitle' title={con.title} style={{width: 260, overflow: 'hidden' ,textOverflow: 'ellipsis', whiteSpace: 'noWrap'}} key={con.id}>- {con.title}</div>                            
                             </div>
                         )}
                     </div>
@@ -397,23 +401,24 @@ const MyCalendar = ({type}) => {
 
     return (
         <>
-            {type === "main" && <MyCalendarAside setSelectDate={setSelectDate}/>}
-            <div style={styleObj}>
-                <Calendar
-                    localizer={localizer}
-                    events={myEvents}
-                    onSelectEvent={handleSelectEvent}
-                    onSelectSlot={handleSelectSlot}
-                    selectable={true}
-                    longPressThreshold={0} 
-                    popup
-                    components={{
-                        toolbar: Toolbar,
-                    }}
-                />
+                <div className='myCalendarWidth'>
+                    {type === "main" && <MyCalendarAside setSelectDate={setSelectDate}/>}
+                    <Calendar
+                        style={styleObj}
+                        localizer={localizer}
+                        events={myEvents}
+                        onSelectEvent={handleSelectEvent}
+                        onSelectSlot={handleSelectSlot}
+                        selectable={true}
+                        longPressThreshold={0} 
+                        popup
+                        components={{
+                            toolbar: Toolbar,
+                        }}
+                    />
+                </div>
                 {type !== "main" && showAgenda !== -1 && <Agenda/>}
                 {type !== "main" && newAgenda && <NewAgendaTemplate/>}
-            </div>
         </>
     )
 }
@@ -422,9 +427,7 @@ function MyCalendarMain() {
     return(
         <>  
             <div className='myCalendarContainter'>
-                <div className='myCalendarWidth'>
-                    <MyCalendar type="main" />
-                </div>
+                <MyCalendar type="main" />
             </div>
            
             
