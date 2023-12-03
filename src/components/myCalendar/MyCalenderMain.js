@@ -172,7 +172,11 @@ const MyCalendar = ({type}) => {
                         myEvents.filter(content => content.id == showAgenda)[0].title = agendaInput2;
                         myEvents.filter(content => content.id == showAgenda)[0].time = !Array.isArray(selectTime) ? [+selectTime.split(":")[0], +selectTime.split(":")[1]] : selectTime;
                         setShowAgenda(-1);
-                        setSelectDate(selectDate.substring(0, 10));
+                        if (selectDate.substring(0, 10) < timestamp(new Date()).substring(0, 10)) {
+                            setSelectDate(timestamp(new Date()).substring(0, 10));
+                        } else {
+                            setSelectDate(selectDate.substring(0, 10));
+                        }
                         setNewAgenda(true);
                     } else {
                         alert("내용을 입력하세요");

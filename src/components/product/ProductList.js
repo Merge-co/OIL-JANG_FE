@@ -32,7 +32,7 @@ function ProductList(type) {
     useEffect(
         () => {
             
-            window.history.scrollRestoration = "auto";
+            // window.history.scrollRestoration = "auto";
             if(!curURL.searchParams.get('page') && PagingInfo != 0) {
                 dispatch({ type: GET_PAGING, payload: 0 });
             }
