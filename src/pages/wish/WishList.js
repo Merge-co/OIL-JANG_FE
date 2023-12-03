@@ -3,33 +3,43 @@ import ButtonCSS from '../../styles/Button.module.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetWishListAPI, callWishListDeleteAPI } from '../../apis/WishListAPICalls';
-import { getCookie } from '../../modules/CookieModule';
 import PagingBar from './../../components/common/PagingBar';
 import { GET_WISHLIST_AGAIN, onClickItemDetail, priceToString } from '../../modules/ProductModule';
-import { useParams } from 'react-router-dom';
+import { useRef } from 'react';
+import { GET_PAGING } from '../../modules/PagingModule';
 
 
 function WishList() {
 
     const dispatch = useDispatch();
+
     const wishListReset = useSelector(state => state.productReducer.getWishListAgain);
     const PagingInfo = useSelector(state => state.pagingReducer);
-    const params = useParams();
+    
+    const getWishListResult = useSelector(state => state.wishListReducer.getWishList);
+    const pagingBtn = getWishListResult && getWishListResult[0].pagingBtn;
+    const wishList = getWishListResult && getWishListResult[0].wishList;
+   
+    const url = new URL(window.location.href);
+    const pageParam = url.searchParams.get("page");
+
+    const rendered = useRef();
+    const requestUrl = getWishListResult && getWishListResult[1];
 
     useEffect(
         () => {
-            if(!getCookie("accessToken")) {
-                alert("로그인 해주세요.");
-            } else {
+            if (!pageParam && PagingInfo != 0) {
+                dispatch({ type: GET_PAGING, payload: 0 });
+            }      
+
+            if (rendered.current !== window.location.href) {
                 dispatch(callGetWishListAPI());
             }
-            dispatch({ type: GET_WISHLIST_AGAIN, payload: 0});
+
+            rendered.current = window.location.href;
+
         },[PagingInfo, wishListReset]
     );
-
-    const getWishListResult = useSelector(state => state.wishListReducer.getWishList);
-    const pagingBtn = getWishListResult && getWishListResult.pagingBtn;
-    const wishList = getWishListResult && getWishListResult.wishList;
 
     function WishListItem({wishListItem}) {
         return (           
@@ -58,38 +68,49 @@ function WishList() {
         }
     }
 
+    function WishListContent() {
+        return (
+            <>
+                <div className={WishListCSS.wishListContainer}>
+                    <div className={WishListCSS.wishListTitle}>관심목록</div>
+                    <div className={WishListCSS.wishListBox}>
+                        <table>
+                            <colgroup>
+                                <col className={WishListCSS.colWidth25}/>
+                                <col className={WishListCSS.colWidth10}/>
+                                <col className={WishListCSS.colWidth20}/>
+                                <col className={WishListCSS.colWidth10}/>
+                                <col className={WishListCSS.colWidth20}/>
+                                <col className={WishListCSS.colWidth15}/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>사진</th>
+                                    <th>판매상태</th>
+                                    <th>상품명</th>
+                                    <th>가격</th>
+                                    <th>상품설명</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {wishList && wishList.map(
+                                    wishListItem => <WishListItem key={wishListItem.productCode} wishListItem={wishListItem}/>
+                                )}
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                    {(wishList && wishList.length == 0) && <div className={WishListCSS.noResult}>찜한 상품이 없습니다</div>}
+                    {getWishListResult && <PagingBar pagingBtn={pagingBtn} />}
+                </div>
+            </>  
+        );
+    }
+
     return (
         <>
-            <div className={WishListCSS.wishListContainer}>
-                <div className={WishListCSS.wishListTitle}>관심목록</div>
-
-
-                <div className={WishListCSS.wishListBox}>
-                    <table>
-                        <colgroup>
-                            <col className={WishListCSS.colWidth25}/>
-                            <col className={WishListCSS.colWidth10}/>
-                            <col className={WishListCSS.colWidth20}/>
-                            <col className={WishListCSS.colWidth10}/>
-                            <col className={WishListCSS.colWidth20}/>
-                            <col className={WishListCSS.colWidth15}/>
-                        </colgroup>
-                        <tr>
-                            <th>사진</th>
-                            <th>판매상태</th>
-                            <th>상품명</th>
-                            <th>가격</th>
-                            <th>상품설명</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        {wishList && wishList.map(
-                            wishListItem => <WishListItem wishListItem={wishListItem}/>
-                        )}
-                    </table>
-                </div>
-                {(wishList && wishList.length == 0) && <div className={WishListCSS.noResult}>찜한 상품이 없습니다</div>}
-                <PagingBar pagingBtn={pagingBtn} />
-            </div>
+            {(requestUrl === rendered.current || PagingInfo) != 0 && <WishListContent/>}
         </>  
     );
 }

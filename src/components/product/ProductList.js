@@ -4,7 +4,7 @@ import ButtonCSS from '../../styles/Button.module.css';
 import PagingBarCSS from '../../styles/PagingBar.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import PagingBar from "../common/PagingBar";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { callGetProductList } from "../../apis/ProductAPICalls";
 import { GET_SEARCH_AGAIN } from "../../modules/ProductModule";
 import { GET_PAGING } from "../../modules/PagingModule";
@@ -26,27 +26,37 @@ function ProductList(type) {
 
     const dispatch = useDispatch();
 
+    const rendered = useRef();
+    const requestUrl = ProductInfos && ProductInfos.length !== 0 && ProductInfos[1];
+
     useEffect(
         () => {
+            
             window.history.scrollRestoration = "auto";
-            switch(type.type) {
-                case "merge":
-                    dispatch(callGetProductList("merge"));
-                    break;
-                case "list":
-                    dispatch(callGetProductList("list"));
-                    break;
-                case "main":
-                    dispatch(callGetProductList("main"));
-                    break;
-                default:
-                    dispatch(callGetProductList("list"));
-                    break;
+            if(!curURL.searchParams.get('page') && PagingInfo != 0) {
+                dispatch({ type: GET_PAGING, payload: 0 });
             }
-            if(!curURL.searchParams.get('page')) {
-                dispatch({ type: GET_PAGING, payload: 0});
+
+            if (rendered.current !== window.location.href) {
+                switch(type.type) {
+                    case "merge":
+                        dispatch(callGetProductList("merge"));
+                        break;
+                    case "list":
+                        dispatch(callGetProductList("list"));
+                        break;
+                    case "main":
+                        dispatch(callGetProductList("main"));
+                        break;
+                    default:
+                        dispatch(callGetProductList("list"));
+                        break;
+                }
             }
-            dispatch({ type: GET_SEARCH_AGAIN, payload: 0});
+
+            rendered.current = window.location.href;
+
+            dispatch({ type: GET_SEARCH_AGAIN, payload: 0 });
         },[PagingInfo, reset.productFilter, getCategoryCode, getSearchAgain]
     );
 
@@ -108,29 +118,30 @@ function ProductList(type) {
         );
     }
 
-    let paramCheckAll;
-    const url = new URL(window.location.href);
-    const requestUrl = ProductInfos && ProductInfos.length !== 0 && new URL(ProductInfos[1]);
-    if (requestUrl) {
-        let paramCheck1 = url.searchParams.get("categoryCode") === requestUrl.searchParams.get("categoryCode");
-        let paramCheck2 = url.searchParams.get("page") === requestUrl.searchParams.get("page");
-        if (type.type == "main") {
-            paramCheck2 = true;
-        }
-        // console.log(paramCheck2);
-        // console.log(window.localStorage.getItem("remainMoneySearch"));
-        // console.log(requestUrl.searchParams.get("maxPrice"));
-        let paramCheck3 = parseInt(+window.localStorage.getItem("remainMoney") * 1.1) == requestUrl.searchParams.get("maxPrice");
-        if (type.type != "merge") {
-            paramCheck3 = true;
-        }
-        // console.log(paramCheck3);
-        paramCheckAll = paramCheck1;
-    }
+    // let paramCheckAll;
+    // const url = new URL(window.location.href);
+    // const requestUrl = ProductInfos && ProductInfos.length !== 0 && new URL(ProductInfos[1]);
+    // if (requestUrl) {
+    //     let paramCheck1 = url.searchParams.get("categoryCode") === requestUrl.searchParams.get("categoryCode");
+    //     let paramCheck2 = url.searchParams.get("page") === requestUrl.searchParams.get("page");
+    //     if (type.type == "main") {
+    //         paramCheck2 = true;
+    //     }
+    //     console.log(paramCheck2);
+    //     console.log(window.localStorage.getItem("remainMoneySearch"));
+    //     console.log(requestUrl.searchParams.get("maxPrice"));
+    //     let paramCheck3 = parseInt(+window.localStorage.getItem("remainMoney") * 1.1) == requestUrl.searchParams.get("maxPrice");
+    //     if (type.type != "merge") {
+    //         paramCheck3 = true;
+    //     }
+    //     console.log(paramCheck3);
+    //     paramCheckAll = paramCheck1;
+    // }
 
     return(
         <>
-            {(paramCheckAll || type.type != "merge") && <ProductListResult/>}
+            {/* {(paramCheckAll || type.type != "merge") && <ProductListResult/>} */}
+            {(requestUrl === rendered.current || PagingInfo) != 0 && <ProductListResult />}
         </>
     );
 }

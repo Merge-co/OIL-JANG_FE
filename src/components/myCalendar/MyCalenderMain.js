@@ -26,6 +26,7 @@ const MyCalendar = ({type}) => {
 
     const inputFocus1 = useRef(null);
     const inputFocus2 = useRef(null);
+    let rendered = useRef(0);
 
     const [selectDate, setSelectDate] = useState(timestamp(new Date()).substring(0, 10));
 
@@ -33,7 +34,7 @@ const MyCalendar = ({type}) => {
         () => {
             dispatch(callGetMyCalendarContentAPI());
             type === "main" && setNewAgenda(true);
-            dispatch({ type: GET_CALENDAR_REGIST, payload: null});
+            dispatch({ type: GET_CALENDAR_REGIST, payload: null });
         },[]
     )
     
@@ -42,6 +43,7 @@ const MyCalendar = ({type}) => {
             let tempEvent = [];
             myCalendarContent && myCalendarContent.map(content => tempEvent.push({id: content.myCalendarCode, start: new Date(content.calendarDate), end: new Date(content.calendarDate), title: content.calendarContent, allDay: true, time: content.calendarTime}));
             setEvents(tempEvent);
+            rendered.current++;
         },[myCalendarContent]
     )
 
@@ -364,7 +366,7 @@ const MyCalendar = ({type}) => {
 
         return(
             <>
-                <div className='calendarModal'>
+                {rendered.current >= 2 && <div className='calendarModal'>
                     <div className='modalTitle'>
                         <button onClick={onCalcel} className='rightCalcel'>X</button>
                     </div>
@@ -377,7 +379,8 @@ const MyCalendar = ({type}) => {
                         <button onClick={modifyAgenda} className={ButtonCSS.smallBtn2}>수정</button>
                         <button onClick={deleteAgenda} className={ButtonCSS.smallBtn3}>삭제</button>
                     </div>
-                </div>
+                </div>}
+                
             </>
         );
     }
@@ -401,7 +404,7 @@ const MyCalendar = ({type}) => {
 
     return (
         <>
-                <div className='myCalendarWidth'>
+                {rendered.current >= 2 && <div className='myCalendarWidth'>
                     {type === "main" && <MyCalendarAside setSelectDate={setSelectDate}/>}
                     <Calendar
                         style={styleObj}
@@ -416,7 +419,8 @@ const MyCalendar = ({type}) => {
                             toolbar: Toolbar,
                         }}
                     />
-                </div>
+                </div> }
+                
                 {type !== "main" && showAgenda !== -1 && <Agenda/>}
                 {type !== "main" && newAgenda && <NewAgendaTemplate/>}
         </>
