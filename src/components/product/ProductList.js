@@ -37,7 +37,7 @@ function ProductList(type) {
                 dispatch({ type: GET_PAGING, payload: 0 });
             }
 
-            if (rendered.current !== window.location.href) {
+            if (rendered.current !== window.location.href || getSearchAgain) {
                 switch(type.type) {
                     case "merge":
                         dispatch(callGetProductList("merge"));
