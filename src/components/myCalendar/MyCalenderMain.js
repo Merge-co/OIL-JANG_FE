@@ -94,11 +94,13 @@ const MyCalendar = ({type}) => {
                     let blank_pattern = /^\s+|\s+$/g;
                     if(agendaInput.replace(blank_pattern, "") !== "") {
                         dispatch(callMyCalendarRegistAPI(agendaInput, endDate, selectTime));
+                    } else if (ifFive >= 5) {
+                        alert("하루에 최대 5개 일정만 기록 가능합니다");
                     } else {
                         alert("내용을 입력하세요");
                         inputFocus1.current.focus();
-                    }   
-                } else {
+                    } 
+                }  else {
                     alert("시간을 입력하세요");
                 }
             }
@@ -119,15 +121,17 @@ const MyCalendar = ({type}) => {
                     inputFocus1.current.focus();
                 },[]
             );
+
+            const ifFive = myEvents.filter(con => con.end.toISOString().substring(0, 10) === selectDate.substring(0, 10)).length;
     
             return(
                 <>
                     <div className='mainEditContainer'>     
                         <div className='mainEdit'>
                             <div className='mainCalendarTitle'>일정 추가</div>
-                            <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler}   spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>
-                            <input disabled type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate} min={timestamp(new Date()).substring(0, 10)}/>
-                            <input type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' />
+                            {ifFive >= 5 ? <textarea disabled className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/> : <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>}
+                            <input disabled type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate} min={timestamp(new Date()).substring(0, 10)} />
+                            {ifFive >= 5 ? <input disabled type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' /> : <input type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' />}                     
                         </div>
     
                         <div className='saveModal'>
