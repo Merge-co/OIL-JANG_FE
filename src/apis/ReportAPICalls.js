@@ -5,7 +5,7 @@ import {
     POST_PROCESSED_MESSAGES
 } from '../modules/ReportModule.js'
 
-import { GET_PROCESSDETAIL } from '../modules/ProcessModule.js';
+import { GET_PROCESSDETAIL, GET_PROCESSING_DETAIL } from '../modules/ProcessModule.js';
 import { current } from '@reduxjs/toolkit';
 
 export const callReportManagementAPI = ({ currentPage, search, process }) => {
@@ -55,7 +55,7 @@ export const callReportRegistAPI = ({ form }) => {
     return async (dispatch, getState) => {
 
         const result = await axios.post(requestURL, {
-            reportUserCode : form.get('reportUserCode'),
+            reportUserCode: form.get('reportUserCode'),
             reportUserNick: form.get('reportUserNick'),
             refReportCategoryNo: form.get('refReportCategoryNo'),
             productCode: form.get('productCode'),
@@ -118,8 +118,30 @@ export const callReportDetailAPI = ({ reportNo }) => {
     }
 }
 
-export const callProcessingDetailAPI = ({reportNo, userCode}) => {
-    const requestURL = `http://localhost:8000/reports/processingDetail/${reportNo}`
+export const callProcessingDetailAPI = ( reportNo, userCode ) => {
+
+    console.log('[ReportAPICalls] callProcessingDetailAPI')
+
+    const requestURL = `http://localhost:8000/reports/processingDetail/${reportNo}?user=${userCode}`
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*"
+            }
+        })
+            .then(response => response.json());
+        console.log('[ReportAPICalls] callProcessingDetailAPI RESULT : ', result);
+        if (result.status === 200) {
+            console.log('[ReportAPICalls] callReportDetailAPI SUCCESS');
+            dispatch({ type: GET_PROCESSING_DETAIL, payload: result });
+        }
+    }
+
+
+
 }
 export const callProcessedMessageAPI = ({ message, refUserCode, productCode }) => {
 
@@ -157,7 +179,7 @@ export const callCompanionMessageAPI = ({ message, reportUserCode, productCode }
 
     console.log('[ReportAPICalls] callProcessMessageAPI')
 
-    console.log('반려 API :' , reportUserCode);
+    console.log('반려 API :', reportUserCode);
     let requestURL = `http://localhost:8000/messages`;
     let date = new Date().toISOString().substring(0, 10);
 

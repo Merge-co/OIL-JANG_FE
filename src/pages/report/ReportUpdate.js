@@ -2,22 +2,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../../styles/Button.module.css"
 import { useEffect, useState } from "react";
-import { callReportUpdateAPI, callReportDetailAPI, callProcessedMessageAPI, callCompanionMessageAPI } from "../../apis/ReportAPICalls";
+import { callReportUpdateAPI, callReportDetailAPI, callProcessedMessageAPI, callCompanionMessageAPI, callProcessingDetailAPI } from "../../apis/ReportAPICalls";
 import ModalCSS from "../../styles/Modal.module.css"
 import ReportCSS from "../../styles/report/Report.module.css"
 
-function ReportUpdate({ reportNo, setModalOpen }) {
+function ReportUpdate({ reportNo, userCode, setModalOpen }) {
 
     const dispatch = useDispatch();
-    const processList = useSelector(state => state.processReducer);
-    const process = processList.data;
+    const processList = useSelector(state => state.processReducer.getProcessing);
+    const process = processList && processList.data;
+    const navigate = useNavigate();
 
     const closeModal = () => {
         setModalOpen(false);
+        navigate("/", { replace: false })
+        window.location.reload();
+
     }
     useEffect(() => {
-        dispatch(callReportDetailAPI({ reportNo }));
-    }, [reportNo]);
+        dispatch(callProcessingDetailAPI(reportNo, userCode));
+    }, [reportNo, userCode]);
 
     // 셋팅할 준비
     const [form, setForm] = useState({
@@ -25,10 +29,6 @@ function ReportUpdate({ reportNo, setModalOpen }) {
         processComment: '',
         sellStatusCode: 0
     });
-
-    function dateFormat(date, formatLength) {
-        return date.length > formatLength ? date.substring(0, formatLength) : date
-    }
 
     // form setting
     const onChangeHandler = (e) => {
@@ -72,15 +72,15 @@ function ReportUpdate({ reportNo, setModalOpen }) {
     }
     //반려처리에 대한 쪽지 발송 
 
-    const onClickCompanionHandler = (reportUserCode, productCode ) => {
+    const onClickCompanionHandler = (reportUserCode, productCode) => {
 
         let message = '안녕하세요. \n접수해주신 신고는 타당하지 못하여 부적합으로 신고 처리가 반려되었습니다.';
         console.log('신고유저 코드 12222222221', reportUserCode);
 
-        dispatch(callCompanionMessageAPI ({
-            message : message,
-            reportUserCode :reportUserCode,
-            productCode : productCode
+        dispatch(callCompanionMessageAPI({
+            message: message,
+            reportUserCode: reportUserCode,
+            productCode: productCode
         }));
         alert("처리완료 \n 처리 내용 구매자에게 쪽지 전송하였습니다.");
     }
@@ -107,10 +107,14 @@ function ReportUpdate({ reportNo, setModalOpen }) {
         }));
         alert("처리완료 \n 처리 내용 판매자에게 쪽지 전송하였습니다.");
     }
+
+    console.log('업데이트 : ', processList);
+    console.log('업데이트2222222 ; ', process)
+
     return (
         <>
             <div className={`${ModalCSS.modalBg}`}></div>
-            {process && (
+            {Array.isArray(process) && process.map((process) => (
                 <div className={ModalCSS.modal}>
                     <div className={`${ModalCSS.modalBox}`}>
                         <button className={`${ModalCSS.modalClose}`} onClick={closeModal}><i className="xi-close-thin xi-2x"></i></button>
@@ -118,11 +122,11 @@ function ReportUpdate({ reportNo, setModalOpen }) {
                             <div className={ReportCSS.processTitle}>
                                 <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>No: {process.reportNo}</span>
                                 <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>|</span>
-                                <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>접수일시 : {dateFormat(process.reportDate, 10)}</span>
+                                <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>접수일시 : {process.reportDate}</span>
                             </div>
                         </h4>
-                        <div style={{ marginBottom: "3%" }} >신고분류 : {process.refReportCategoryNo.reportCategoryCode}</div>
-                        <div >신고된게시글 : {process.productCode.productName}</div>
+                        <div style={{ marginBottom: "3%" }} >신고분류 : {process.reportCategoryCode}</div>
+                        <div >신고된게시글 : {process.productName}</div>
                         <div className={ReportCSS.processTitleSub}>신고사유</div>
                         <div style={{ marginBottom: "3%" }}>신고내용 : {process.reportComment}</div>
                         <div style={{ justifyContent: "space-between", display: "flex" }}>
@@ -143,13 +147,13 @@ function ReportUpdate({ reportNo, setModalOpen }) {
                             <button
                                 className={Button.smallBtn2}
                                 onClick={() => {
-                                    onClickReportUpdateHandler(process.refReportCategoryNo.reportCategoryCode, process.productCode.refUserCode, process.productCode.productCode, process.reportUserCode);
+                                    onClickReportUpdateHandler(process.reportCategoryCode, process.userCode, process.productCode, process.reportUserCode);
                                 }}
                             >완료</button>
                         </div>
                     </div>
                 </div>
-            )}
+            ))}
         </>
     )
 }
