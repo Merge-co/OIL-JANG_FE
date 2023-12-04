@@ -1,0 +1,105 @@
+/* My page section style */
+.myPageSection {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 추가: 세로 중앙 정렬을 위해 */
+  }
+  
+  
+  .editButtonContainer {
+    margin-left: auto;
+    justify-content: flex-end;
+    margin-bottom: 10px; 
+  }
+  
+   /* Edit button style */
+   .editButton {
+    background-color: #222;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    
+    }
+
+    /* Entire My Page Container Style */
+  .myPageContainer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    
+  }
+
+  
+  /* Profile section style */
+.profileSection {
+    display: flex;
+    justify-content: center; /* 이미지와 닉네임을 가운데 정렬 */
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: center;
+    
+  }
+  
+  /* Profile image style */
+  .profileImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 30px;
+  }
+  
+  /* User information style */
+  .userInfo {
+    text-align: left;
+  }
+  
+  /* username style */
+  .userName {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+ 
+  
+  /* Content section style */
+  .contentSection {
+    margin-bottom: 20px;
+    text-align: center; /* 라벨과 입력 필드를 가운데 정렬 */
+}
+
+.labelInputContainer {
+    display: flex;
+    align-items: center; /* 세로 가운데 정렬 */
+}
+
+/* Label style */
+.label {
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 5px;
+    text-align: right;
+}
+
+/* Input field style */
+.inputField {
+    width: calc(100% - 20px); /* 100%에서 padding 값을 빼고 설정 */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    font-size: 16px;
+    display: inline-block; 
+
+}
+  
+.withdrawButton {
+    background-color: #fff;
+    color: #e2e2e2;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    float: right;
+}
+  

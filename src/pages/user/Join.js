@@ -13,13 +13,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import UserLayoutCSS from "../../styles/user/UserLayout.module.css";
 import UserJoinCSS from "../../styles/user/UserJoin.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEyeSlash, faEye, faCamera } from "@fortawesome/free-solid-svg-icons";
+import Terms from "../../components/user/Terms";
 
 function Join() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   const [userData, setUserData] = useState({
     imageFile: null,
@@ -61,6 +67,19 @@ function Join() {
   const [isNicknameUniqueness, setIsNicknameUniqueness] = useState(false);
   const [isIdUniqueness, setIsIdUniqueness] = useState(false);
   const [isBirthdateValid, setIsBirthdateValids] = useState(false);
+
+
+  
+  const openModal = () => {
+    document.body.style.overflow = 'hidden';
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    document.body.style.overflow = 'visible';
+    setIsModalOpen(false);
+  };
+
 
   const [formattedPhone, setFormattedPhone] = useState("");
 
@@ -417,24 +436,36 @@ function Join() {
           <h3>회원 가입</h3>
         </div>
         <div>
-          <div>
             <div>
-              <label>프로필 선택*</label>
+              <label htmlFor="imageFile">프로필 선택*</label>
               <br />
-              <img src="" alt="" />
-              <label>
-                <img src="" alt="" />
-              </label>
-              <input
-                type="file"
-                name="imageFile"
-                accept="image/*"
-                onChange={onChangeHandler}
-                required
-              />
+              <div className={UserJoinCSS.imageUploadContainer}>
+                <div className={UserJoinCSS.imagePreviewContainer}>
+                  {userData.imageFile ? (
+                    <img
+                      src={URL.createObjectURL(userData.imageFile)}
+                      alt="프로필 이미지 미리보기"
+                    />
+                  ) : (
+                    <span>+</span>
+                  )}
+                </div>
+                <label htmlFor="imageFile" className={UserJoinCSS.cameraButton}>
+                  <FontAwesomeIcon icon={faCamera} />
+                </label>
+                <input
+                  type="file"
+                  id="imageFile"
+                  name="imageFile"
+                  accept=".png, .jpg, .jpeg"
+                  onChange={onChangeHandler}
+                  style={{ display: "none" }}
+                  required
+                />
+              </div>
             </div>
             <div>{!isImageUploaded && <p>{validationMessage}</p>}</div>
-            <br/>
+            <br />
             <label for="nickname">닉네임*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
@@ -460,7 +491,7 @@ function Join() {
             <div>
               {!userData.nickname && <p>{nicknameUniquenessMessage}</p>}
             </div>
-            <br/>
+            <br />
             <label for="id">ID*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
@@ -538,21 +569,24 @@ function Join() {
             <br />
             <label for="name">이름*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
-            <input
-              type="text"
-              className={UserLayoutCSS.input_pwd}
-              for="name"
-              placeholder="이름을 입력하세요."
-              name="name"
-              onChange={onChangeHandler}
-              required
-            />
+              <input
+                type="text"
+                className={UserLayoutCSS.input_pwd}
+                for="name"
+                placeholder="이름을 입력하세요."
+                name="name"
+                onChange={onChangeHandler}
+                required
+              />
             </div>
             {!userData.name && <p>{nameValidationMessage}</p>}
             <br />
-            <label for="birthDate">생년월일*</label>
+
+            <label htmlFor="birthDate" className={UserJoinCSS.birthDateLabel}>
+              생년월일*
+            </label>
             <br />
-            <div>
+            <div className={UserJoinCSS.birthDateContainer}>
               <DatePicker
                 selected={selectedDate}
                 onChange={(date) => {
@@ -560,33 +594,41 @@ function Join() {
                   onChangeBirthdateHandler(date);
                 }}
                 dateFormat="yyyyMMdd"
-                placeholderText="날짜를 선택해주세요."
+                placeholderText="생년월일을 입력해주세요."
                 showYearDropdown
                 scrollableYearDropdown
                 yearDropdownItemNumber={70}
                 id="birthDate"
                 name="birthDate"
+                className={UserJoinCSS.datePickerInput}
               />
-              {(!isBirthdateValid || !userData.birthDate) && (
-                <p>{birthdateValidationMessage}</p>
-              )}
             </div>
-            <label for="gender">성별*</label>
-            <br />
-            <div>
-              <select
-              id="gender"
-                name="gender"
-                value={userData.gender}
-                onChange={onChangeHandler}
-                required
-              >
-                <option value="" disabled hidden="hidden">
-                  성별
-                </option>
-                <option value={"남"}>남</option>
-                <option value={"여"}>여</option>
-              </select>
+            {(!isBirthdateValid || !userData.birthDate) && (
+              <p className={UserJoinCSS.datePickerError}>
+                {birthdateValidationMessage}
+              </p>
+            )}
+
+            <div className={UserJoinCSS.genderSelectContainer}>
+              <label htmlFor="gender" className={UserJoinCSS.genderLabel}>
+                성별*
+              </label>
+              <div>
+                <select
+                  id="gender"
+                  name="gender"
+                  value={userData.gender}
+                  onChange={onChangeHandler}
+                  className={UserJoinCSS.genderSelect}
+                  required
+                >
+                  <option value="" disabled hidden="hidden">
+                    성별
+                  </option>
+                  <option value={"남"}>남성</option>
+                  <option value={"여"}>여성</option>
+                </select>
+              </div>
             </div>
             {!isGenderSelected && (
               <p style={{ color: "red" }}>{genderValidationMessage}</p>
@@ -594,53 +636,98 @@ function Join() {
             <br />
             <label for="phone">핸드폰 번호*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
-            <input
-              type="text"
-              placeholder="휴대폰번호를 입력하세요."
-              id="phone"
-              name="phone"
-              value={formattedPhone}
-              onChange={onChangeHandler}
-              className={UserLayoutCSS.input_pwd}
-              maxLength={13}
-              required
-            />
-            <Certification
-              userData={userData}
-              onCertificationSuccess={handleCertificationSuccess}
-            />
+              <input
+                type="text"
+                placeholder="휴대폰번호를 입력하세요."
+                id="phone"
+                name="phone"
+                value={formattedPhone}
+                onChange={onChangeHandler}
+                className={UserLayoutCSS.input_pwd}
+                maxLength={13}
+                required
+              />
+              <div>
+                <Certification
+                  userData={userData}
+                  onCertificationSuccess={handleCertificationSuccess}
+                />
+              </div>
             </div>
-            {!userData.phone && <p>{phoneValidationMessage}</p>}
+            <div>{!userData.phone && <p>{phoneValidationMessage}</p>}</div>
             <br />
             <label for="email">
               Email<small>(선택사항)</small>
             </label>
             <br />
-            <div className={UserLayoutCSS.input_pwd}>           
-            <input
-              type="text"
-              placeholder="선택 입력"
-              id="email"
-              name="email"
-              onChange={onChangeHandler}
-            />
+            <div className={UserJoinCSS.input_nickname_check_btn}>
+              <input
+                type="text"
+                placeholder="선택 입력"
+                id="email"
+                name="email"
+                className={UserLayoutCSS.input_pwd}
+                onChange={onChangeHandler}
+              />
             </div>
             <br />
-            <div>
+            <div className={UserJoinCSS.agreementContainer}>
               <input
                 type="checkbox"
                 name="agreement"
                 checked={isAgreemanetChecked}
                 onChange={agreementChangeHandler}
+                className={UserJoinCSS.agreementCheckbox}
               />
-              <label>OilJang의 서비스 약관에 동의합니다.</label>
-              <a href="">약관 보기</a>
+              <label className={UserJoinCSS.agreementLabel}>
+                오일장 약관에 동의합니다.
+                <span
+                  className={UserJoinCSS.agreementLink}
+                  onClick={openModal}
+                >
+                  약관보기
+                </span>
+              </label>
             </div>
+            {isModalOpen && (
+                      <div className={UserJoinCSS.modalBackground} onClick={closeModal}>
+
+              <div className={UserJoinCSS.modalContainer} onClick={closeModal}>
+                <div className={UserJoinCSS.modalContentContainer}>
+                  <div
+                    className={UserJoinCSS.modalContent}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className={UserJoinCSS.modalTitle}>이용약관</div>
+                    <span
+                      className={UserJoinCSS.closeModal}
+                      onClick={closeModal}
+                    >
+                      &times;
+                    </span>
+                    <Terms />
+                  </div>
+                </div>
+              </div>
+              </div>
+            )}
             <br />
-            <button onClick={onClickJoinHandler}>회원 가입</button>
-            <button onClick={onClickBackHandler}>뒤로 가기</button>
+            <div className={UserJoinCSS.buttonContainer}>
+              <button
+                className={UserJoinCSS.joinButton}
+                onClick={onClickJoinHandler}
+              >
+                회원가입
+              </button>
+              <button
+                className={UserJoinCSS.backButton}
+                onClick={onClickBackHandler}
+              >
+                뒤로가기
+              </button>
+            </div>
           </div>
-        </div>
+        
       </div>
     </>
   );

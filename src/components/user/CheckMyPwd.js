@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
-import bcrypt from 'bcryptjs';
-import Modal from 'react-modal';
+import React, { useState } from "react";
+import bcrypt from "bcryptjs";
+import Modal from "react-modal";
+import CheckMyPwdCSS from "../../styles/Modal.module.css";
+import UserCheckMyPwdCSS from "../../styles/user/UserModal.module.css";
+import UserLayoutCSS from "../../styles/user/UserLayout.module.css";
 
-Modal.setAppElement('#root');
+
+Modal.setAppElement("#root");
 
 function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
-
-  const [password, setPassword] = useState('');
-
+  const [password, setPassword] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
-  
+
     const storedEncryptedPassword = userDetail.data.pwd;
     try {
       const isCorrect = bcrypt.compareSync(password, storedEncryptedPassword);
@@ -20,34 +22,56 @@ function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
         onPasswordValidated(true);
         closeModal();
       } else {
-        alert('Incorrect password. Please try again.');
+        alert("Incorrect password. Please try again.");
       }
     } catch (error) {
-      console.error('Error comparing passwords:', error);
-      alert('Error comparing passwords. Please try again.');
+      console.error("Error comparing passwords:", error);
+      alert("Error comparing passwords. Please try again.");
     }
-
   };
 
-    return(
-        <>
-        <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Password Modal">
-      <div>
-        <h2>비밀번호를 입력하세요.</h2>
-        <div>
-          <label>비밀번호:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={submitHandler}>Submit</button>
+  return (
+    <>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        contentLabel="Password Modal"
+        className={CheckMyPwdCSS.modalBg}
+      >
+        <div className={CheckMyPwdCSS.modal}>
+          <div className={CheckMyPwdCSS.modalBox}>
+            <button
+              onClick={closeModal}
+              className={UserCheckMyPwdCSS.modalClose}
+            >
+              <i>&times;</i>
+            </button>
+            <h2 className={CheckMyPwdCSS.modalTitle}>비밀번호 확인</h2>
+            <div className={CheckMyPwdCSS.div}>
+              <div className={UserCheckMyPwdCSS.inputContainer}>
+                <label className={UserCheckMyPwdCSS.passwordLabel}>
+                비밀번호
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={UserLayoutCSS.input_pwd}
+                />
+                <br/>
+                <button
+                  onClick={submitHandler}
+                  className={UserLayoutCSS.signin__btn}
+                >
+                  확인
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
     </>
-    )
-    
+  );
 }
 
 export default CheckMyPwd;

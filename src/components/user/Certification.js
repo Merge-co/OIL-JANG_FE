@@ -71,12 +71,24 @@ function Certification({ userData, onCertificationSuccess }) {
 
   return (
     <>
-      <button onClick={onClickCertification}>
+      <button className={UserJoinCSS.check_btnn} onClick={onClickCertification}>
         간편인증
       </button>
       <br />
-      {certificationSuccess && <p>인증이 완료되었습니다.</p>}
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {certificationSuccess && (
+        <>
+        <div>
+            <p style={{ color: "red" }}>인증이 완료되었습니다.</p>
+            </div>
+        </>
+      )}
+      {errorMessage && (
+        <>
+          <div>
+            <p style={{ color: "red" }}>{errorMessage}</p>
+      </div>
+        </>
+      )}
     </>
   );
 }
