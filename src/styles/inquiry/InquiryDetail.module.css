@@ -1,0 +1,67 @@
+input:focus, select:focus, textarea:focus{
+    outline: none;
+  }
+  
+  .pageTitle{
+    font-size: 1.5rem;
+    border-bottom: 1px solid #222222;
+    padding-bottom: 5px;
+  }
+  
+  .inqContent {
+    width: 100%;
+  }
+  
+  
+  .contBox{
+    width: 60%;
+    margin: 5% auto 0;
+  }
+  
+  .contBox > div {
+    margin-bottom: 5%;
+  }
+  
+  .contBox > div:last-child{
+    margin-bottom: 0;
+  }
+  
+  
+  .titleMid{
+    font-weight: 500;
+    font-size: 1.1rem;
+    display: inline-block;
+    margin-bottom: 1%;
+  }
+  
+  .input{
+    width: 100%;
+    padding: 2%;
+    border-radius: 5px;
+    border: 1px solid #9D9D9D;
+  }
+  
+  .input::placeholder{
+    color: #C7C6C6;
+  }
+
+  .textArea{
+    width: 100%;
+    height: 250px;
+    padding: 2%;
+    border: 1px solid #9d9d9d;
+    border-radius: 5px;
+  }
+  
+  .textArea::placeholder{
+    color: #C7C6C6;
+    font-size: 0.9em;
+  }
+  
+  .selectOption{
+    width: 20%;
+    border: 1px solid #9d9d9d;
+    border-radius: 5px;
+    padding: 1%;
+    cursor: pointer;
+  }

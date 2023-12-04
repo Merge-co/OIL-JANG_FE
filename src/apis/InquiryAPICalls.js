@@ -76,6 +76,7 @@ export const callInquiryDetailAPI = ({inqCode}) => {
 
     let requestURL = `http://localhost:8000/inquiries/${inqCode}`;
 
+    console.log("inqCode??????????????" + inqCode )
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
             method: "GET",
@@ -89,7 +90,7 @@ export const callInquiryDetailAPI = ({inqCode}) => {
         console.log('[InquiryAPICalls] callInquiryDetailAPI RESULT', result);
         if(result.status == 200){
             console.log('[InquiryAPICalls] callInquiryDetailAPI SUCCESS');
-            dispatch({type: GET_INQUIRIES_INQCODE, payload: result.data});
+            dispatch({type: GET_INQUIRIES_INQCODE, payload: result});
             return result;
         }
     }
