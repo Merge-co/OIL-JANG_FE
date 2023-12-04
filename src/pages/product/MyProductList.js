@@ -6,6 +6,7 @@ import { fetchMyProductListStart, fetchMyProductListSuccess, fetchMyProductListF
 import { useNavigate } from 'react-router-dom';
 import { onClickItemDetail } from '../../modules/ProductModule';
 import PagingBar from '../../components/common/PagingBar';
+import '../../styles/product/MyProductList.css'
 
 
 function MyProductList() {
@@ -26,9 +27,9 @@ function MyProductList() {
                 // callUpdateSellStatusAPICalls(code, updatedStatus);
                 const updatedProductList = myProductList.sellingList.map(product =>
                     product.productCode === code ? { ...product, sellStatus: updatedStatus } : product
-                    );
-                    setMyProductList({ ...myProductList, sellingList: updatedProductList });
-                } catch (error) {
+                );
+                setMyProductList({ ...myProductList, sellingList: updatedProductList });
+            } catch (error) {
                 // 오류 처리
             }
 
@@ -80,8 +81,9 @@ function MyProductList() {
 
 
     return (
-        <div>
-            <div>
+        <div className='WishList_wishListContainer__58dVO'>
+            <div className={WishListCSS.wishListTitle}>내 판매목록</div>
+            <div className='productListBox'>
                 {myProductList.sellingList.length === 0 ? (
                     <div>등록된 상품이 없습니다.</div>
                 ) : (
@@ -95,52 +97,58 @@ function MyProductList() {
                                 <col className={WishListCSS.colWidth20} />
                                 <col className={WishListCSS.colWidth15} />
                             </colgroup>
-                            <tr>
-                                <th>등록번호</th>
-                                <th>사진</th>
-                                <th>상품명</th>
-                                <th>가격</th>
-                                <th>관심</th>
-                                <th>상태</th>
-                            </tr>
-                            {console.log(myProductList)}
-                            {myProductList && myProductList.sellingList.map(product => (
-                                <tr key={product.productCode}>
-                                    <td>
-                                        <div onClick={() => onclickHandler(product.productCode)}>
-                                            {product.productCode}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div onClick={() => onclickHandler(product.productCode)}>
-                                            <img src={product.image} alt="상품 이미지" />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div onClick={() => onclickHandler(product.productCode)}>
-                                            {product.productName}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div onClick={() => onclickHandler(product.productCode)}>
-                                            {product.productPrice}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div onClick={() => onclickHandler(product.productCode)}>
-                                            {product.wishCount}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <select value={product.sellStatus} onChange={(e) => onChangeSellStatus(product.productCode, e)}>
-                                            <option value="판매중">판매중</option>
-                                            <option value="판매완료">판매완료</option>
-                                        </select>
-                                    </td>
+                            <thead className='productListLine'>
+                                <tr>
+                                    <th className='productListTh'>등록번호</th>
+                                    <th className='productListTh'>사진</th>
+                                    <th className='productListTh'>상품명</th>
+                                    <th className='productListTh'>가격</th>
+                                    <th className='productListTh'>관심</th>
+                                    <th className='productListTh'>상태</th>
                                 </tr>
-                            ))}
+                            </thead>
+                            <tbody>
+                                {console.log(myProductList)}
+                                {myProductList && myProductList.sellingList.map(product => (
+                                    <tr key={product.productCode} className='tableName'>
+                                        <td className='tableName'>
+                                            <div onClick={() => onclickHandler(product.productCode)}>
+                                                {product.productCode}
+                                            </div>
+                                        </td>
+                                        <td className='tableName'>
+                                            <div onClick={() => onclickHandler(product.productCode)}>
+                                                <img src={product.image} alt="상품 이미지" />
+                                            </div>
+                                        </td>
+                                        <td className='tableName'>
+                                            <div onClick={() => onclickHandler(product.productCode)}>
+                                                {product.productName}
+                                            </div>
+                                        </td>
+                                        <td className='tableName'>
+                                            <div onClick={() => onclickHandler(product.productCode)}>
+                                                {product.productPrice}
+                                            </div>
+                                        </td>
+                                        <td className='tableName'>
+                                            <div onClick={() => onclickHandler(product.productCode)}>
+                                                {product.wishCount}
+                                            </div>
+                                        </td>
+                                        <td className='tableName'>
+                                            <select value={product.sellStatus} onChange={(e) => onChangeSellStatus(product.productCode, e)} className='productState'>
+                                                <option value="판매중">판매중</option>
+                                                <option value="판매완료">판매완료</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
                         </table>
-                        <PagingBar pagingBtn={pagingBtn} />
+                        <div className='productListBtn'>
+                            <PagingBar pagingBtn={pagingBtn} />
+                        </div>
                     </>
                 )}
             </div>

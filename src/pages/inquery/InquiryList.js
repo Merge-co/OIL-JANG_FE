@@ -63,6 +63,8 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
     )
 
 
+    console.log("inqList소망: " + JSON.stringify(inqList))
+
 
     return (
         
@@ -99,7 +101,7 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
                                     </th>
                                     <th>분류</th>
                                     <th
-                                       style={{display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_USER' ? 'none' : 'inline'}}
+                                       style={{display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_USER' ? 'none' : 'inline', padding: '2%', width: '10%' }}
                                     >문의자</th>
                                     <th>제목</th>
                                     <th>문의일시</th>
@@ -112,13 +114,13 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
                                     <td><input type="checkbox" id={inquiry.inqCode}/></td>
                                     <td>{`${inquiry.inqCateName}`}</td>
                                     <td
-                                        style={{display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_USER' ? 'none' : 'inline'}}
+                                        style={{display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_USER' ? 'none' : 'inline' , padding: '2%', width: '10%'}}
                                     >
                                         {`${inquiry.name} (${inquiry.id})`}
                                     </td>
                                     <td
                                         style={{cursor:'pointer'}} className={`${MessageListCSS.msgListHover}`}
-                                        onClick={() => onInqDetailHandler(inqList.inqCode)}
+                                        onClick={() => onInqDetailHandler(inquiry.inqCode)}
                                     >
                                          {inquiry.inqTitle.length > 10 ? `${inquiry.inqTitle.substring(0,10)}...` : inquiry.inqTitle}  
                                     </td>
@@ -132,8 +134,8 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
                         </table>
             
                         <div  style={{float: 'right'}}>
-                            <input type="submit" value="등록" className={`${ButtonCSS.middleBtn2}`}  onClick={() => onRegistHandler()}/>
-                            <input type="submit" value="삭제" className={`${ButtonCSS.middleBtn2}`} style={{marginLeft: '10px'}}  onClick={() => onDeleteHandler()}/>
+                            <input type="submit" value="등록" className={`${ButtonCSS.middleBtn2}`}  onClick={() => onRegistHandler()}  style={{marginLeft: '10px', display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_ADMIN' ? 'none' : 'inline'}}/>
+                            <input type="submit" value="삭제" className={`${ButtonCSS.middleBtn2}`} style={{marginLeft: '10px', display: jwtDecode(getCookie("accessToken")).Role[0] === 'ROLE_ADMIN' ? 'none' : 'inline'}}  onClick={() => onDeleteHandler()} />
                         </div>
                        
 
