@@ -27,11 +27,11 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
     console.log("inqList ==================" + inqList)
 
     const onRegistHandler = () => {
-        navigate(`/inquiryDetail`);
+        navigate(`/inquiryDetail`, {state: {readOnly: false}});
     }
 
     const onInqDetailHandler = (inqCode) => {
-        navigate(`/inquiryDetail/${inqCode}`);
+        navigate(`/inquiryDetail/${inqCode}`, {state: {readOnly: true}});
     }
 
     const onDeleteHandler = ({inqCode, userCode}) => {
