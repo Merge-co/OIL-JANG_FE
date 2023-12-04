@@ -10,16 +10,17 @@ function ProcessManagement() {
     const dispatch = useDispatch();
     const result = useSelector(state => state.reportReducer.getReports);
     const [selectedReportNo, setSelectedReportNo] = useState(null);
+    const [selectUserCode, setselectUserCode] = useState(null);
     const [modalComponent, setModalComponent] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const resultList = result && result.data.content;
 
-    
 
 
-    const onClickProcessDetailHandler = (reportNo, processDistinction) => {
+    const onClickProcessDetailHandler = (reportNo, processDistinction,userCode) => {
         // 처리 상세페이지 이동
-        setSelectedReportNo(reportNo)
+        setSelectedReportNo(reportNo);
+        setselectUserCode(userCode);
         setModalOpen(true)
         setModalComponent(processDistinction === "처리" ? 'ProcessDetail' : 'ReportUpdate');
     }
@@ -127,7 +128,7 @@ function ProcessManagement() {
                             (
                                 Array.isArray(resultList) && resultList.map((report) => (
                                     <tr key={report.reportNo} onClick={() =>
-                                        onClickProcessDetailHandler(report.reportNo, report.processDistinction)} style={{ cursor: 'pointer' }} className={`${ReportCSS.reportListHover} `}>
+                                        onClickProcessDetailHandler(report.reportNo, report.processDistinction, report.userCode)} style={{ cursor: 'pointer' }} className={`${ReportCSS.reportListHover} `}>
                                         <td>{report.reportNo}</td>
                                         <td>{truncateText(report.reportUserNick, 5)}</td>
                                         <td>{report.nickName}</td>
@@ -187,7 +188,7 @@ function ProcessManagement() {
                 modalComponent === 'ProcessDetail' ? (
                     <ProcessDetail reportNo={selectedReportNo} setModalOpen={setModalOpen} />
                 ) : (
-                    <ReportUpdate reportNo={selectedReportNo} setModalOpen={setModalOpen} />
+                    <ReportUpdate reportNo={selectedReportNo} userCode={selectUserCode} setModalOpen={setModalOpen} />
                 )
             )
             }
