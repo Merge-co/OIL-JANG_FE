@@ -42,11 +42,11 @@ function App() {
           <Route path='productEdit/:productCode' element={<ProductEdit /> } />
 
           <Route path='/' element={<AuthCheck component={<SubHeaderLayout />} require="Login" />}>
-            <Route path='myproductlist' element={<MyProductList />} />
-            <Route path='wishList' element={<WishList />} />
-            <Route path='myInfo' index element={<AuthCheck component={<MyInfo/>} require="Login" />}></Route>
-            <Route path='myCalendar' element={<MyCalendar/>}/>
-            <Route path='editMyInfo' element={<EditMyInfo/>}/>
+            <Route path='myproductlist' element={<AuthCheck component={<MyProductList />} require="User" />} />
+            <Route path='wishList' element={<AuthCheck component={<WishList />} require="User" />} />
+            <Route path='myInfo' index element={<AuthCheck component={<MyInfo/>} require="User" />}></Route>
+            <Route path='myCalendar' element={<AuthCheck component={<MyCalendar/>} require="User" />}/>
+            <Route path='editMyInfo' element={<AuthCheck component={<EditMyInfo/>} require="User" />}/>
             <Route path='inquiry' element={<InquiryList/>}/>
             <Route path='inquiryDetail' element={<InquiryDetail/>}/>
             <Route path='inquiryDetail/:inqCode' element={<InquiryDetail/>}/>

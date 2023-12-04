@@ -47,11 +47,25 @@ function ProductEdit() {
     const handlePriceOptionChange = (option) => {
         setproductPrice(option);
         setPriceOption(option === 'share' ? '' : productPrice);
+        
     };
 
     const handlePriceChange = (event) => {
-        setproductPrice(event.target.value);
+        if (priceOption === 'sell') {
+            const enteredValue = event.target.value;
+            const numericValue = enteredValue.replace(/[^0-9]/g, '');
+    
+            if (numericValue === '') {
+                setproductPrice('');
+                return;
+            }
+    
+            setproductPrice(numericValue);
+        } else {
+            setproductPrice(event.target.value);
+        }
     };
+    
 
 
     const handleProductUpdate = async () => {
@@ -101,7 +115,6 @@ function ProductEdit() {
 
 
     const categoryOptions = [
-        { code: 1, label: "카테고리를 선택해주세요" },
         { code: 6, label: "블라우스" },
         { code: 7, label: "셔츠" },
         { code: 8, label: "반팔 티셔츠" },
@@ -135,7 +148,7 @@ function ProductEdit() {
         <>
             <div className='addDiv'>
                 <div>
-                    <h3>상품수정</h3>
+                    <h2 className='addproduct'>상품수정</h2>
                     <hr />
                     <div>
                         <label htmlFor="product_name" id="product_name" className="font_all">
@@ -172,91 +185,94 @@ function ProductEdit() {
                         <div className="image-preview-container"></div>
                     </div>
 
-                <hr />
-            </div>
-            <div className="pricing">
-                <div className="sell_h1">
-                    <label className="font_all">가격 설정 *</label>
-                    <div className="pricebtn">
-                        <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
-                            <input
-                                type="radio"
-                                name="price_option"
-                                value="sell"
-                                required
-                                checked={priceOption === 'sell'} // 추가된 부분
-                                onChange={() => handlePriceOptionChange('sell')}
-                            />
-                            판매하기
-                        </label>
-                        <label className='custom-radio' style={{ backgroundColor: priceOption === 'share' ? '#222222' : '#C7C6C6' }}>
-                            <input
-                                type="radio"
-                                name="price_option"
-                                value="share"
-                                required
-                                checked={priceOption === 'share'} // 추가된 부분
-                                onChange={() => handlePriceOptionChange('share')}
-                            />
-                            나눔하기
-                        </label>
+                    <hr />
+                </div>
+                <div className="pricing">
+                    <div className="sell_h1">
+                        <label className="font_all">가격 설정 *</label>
+                        <div className="pricebtn">
+                            <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
+                                <input
+                                    type="radio"
+                                    name="price_option"
+                                    value="sell"
+                                    required
+                                    checked={priceOption === 'sell'} // 추가된 부분
+                                    onChange={() => handlePriceOptionChange('sell')}
+                                />
+                                판매하기
+                            </label>
+                            <label className='custom-radio' style={{ backgroundColor: priceOption === 'share' ? '#222222' : '#C7C6C6' }}>
+                                <input
+                                    type="radio"
+                                    name="price_option"
+                                    value="share"
+                                    required
+                                    checked={priceOption === 'share'} // 추가된 부분
+                                    onChange={() => handlePriceOptionChange('share')}
+                                />
+                                나눔하기
+                            </label>
+                        </div>
+                    </div>
+                    <br />
+                    <input
+                        type="text"
+                        name="price"
+                        id="price"
+                        className="shareBox"
+                        placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
+                        disabled={priceOption === 'share'}
+                        value={productPrice}
+                        onChange={(e) => setproductPrice(e.target.value)}
+                    />
+
+                    <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
+
+                    </span>
+                    <hr />
+                </div>
+                {/* <div></div> */}
+                <div className='product_box'>
+                    <div className='descBox'>
+                        <h3 htmlFor="product_description" className='product_description'>
+                            상품 설명*
+                        </h3>
+                        <div className='dengerFont'>
+                            <textarea
+                                name="product_description"
+                                id="product_description"
+                                className='description'
+                                placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록, 자세한 정보와 다양한 각도의 상품 사진을 올려주세요. * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
+                                value={productDesc}
+                                onChange={(e) => setProductDesc(e.target.value)}
+                            ></textarea>
+                            <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
+                            <br />
+                        </div>
                     </div>
                 </div>
-                <br />
-                <input
-                    type="number"
-                    name="price"
-                    id="price"
-                    className="shareBox"
-                    placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
-                    disabled={priceOption === 'share'}
-                    value={productPrice}
-                    onChange={(e) => setproductPrice(e.target.value)}
-                />
-
-                <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
-
-                </span>
                 <hr />
-            </div>
-            <div></div>
-            <div className='product_box'>
-                <div className='descBox'>
-                <h3 htmlFor="product_description" className='product_description'>
-                    상품 설명*
-                </h3>
-                <textarea
-                    name="product_description"
-                    id="product_description"
-                    className='description'
-                    placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록, 자세한 정보와 다양한 각도의 상품 사진을 올려주세요. * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
-                    value={productDesc}
-                    onChange={(e) => setProductDesc(e.target.value)}
-                ></textarea>
-                <br />
+                <div className='place'>
+                    <label htmlFor="wish_place_to_trade" className='placeFont'>
+                        거래희망 장소*
+                    </label>
+                    <textarea
+                        name="wish_place_to_trade"
+                        id="wish_place_to_trade"
+                        placeholder="위치 작성"
+                        className='WishPlace'
+                        value={wishPlaceTrade}
+                        onChange={(e) => setWishPlaceTrade(e.target.value)}
+                    ></textarea>
+                    <hr />
                 </div>
-            </div>
-            <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
-            <hr />
-            <div className='place'>
-                <label htmlFor="wish_place_to_trade" className='placeFont'>
-                    거래희망 장소*
-                </label>
-                <textarea
-                    name="wish_place_to_trade"
-                    id="wish_place_to_trade"
-                    placeholder="위치 작성"
-                    value={wishPlaceTrade}
-                    onChange={(e) => setWishPlaceTrade(e.target.value)}
-                ></textarea>
-                <hr />
-            </div>
-            <div className="btn_send">
-                <div className="btn_all">
-                    <button className='editbtn' onClick={handleProductUpdate}>수정</button>
-                    <button className='editcancle' onClick={handleCancel}>취소</button>
+                <div className="btn_send">
+                    <div className='btnAll'>
+                        <button className='addbtn' onClick={handleProductUpdate}>수정</button>
+                        <button className='canclebtn' onClick={handleCancel}>취소</button>
+                    </div>
                 </div>
-            </div>
             </div>
         </>
     );

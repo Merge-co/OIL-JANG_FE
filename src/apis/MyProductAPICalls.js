@@ -1,5 +1,3 @@
-// MyProductAPICalls.js
-
 import axios from "axios";
 import { GET_MY_PRODUCT_LIST } from "../modules/ProductModule";
 import { jwtDecode } from "jwt-decode";
