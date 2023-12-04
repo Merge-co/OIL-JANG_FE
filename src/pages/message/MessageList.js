@@ -263,6 +263,7 @@ function MessageList({isReceived, keyword, page}){
                         </table>
 
                         <input type="submit" value="삭제" className={`${ButtonCSS.middleBtn2}`} style={{float: 'right'}} onClick={() => onDeleteHandler(messageList.msgCode)}/>
+                   
                         
 
                         {(totalMsg && messageList.length === totalMsg) ? "" : messageList ? <PagingBar pagingBtn={pagingBtn}/> : ""}
@@ -274,9 +275,10 @@ function MessageList({isReceived, keyword, page}){
           
                 </div>   
             </div>
-           
+    
         </>
     );
+    
 
 }
 
