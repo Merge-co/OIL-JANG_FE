@@ -141,7 +141,7 @@ function ProductList(type) {
     return(
         <>
             {/* {(paramCheckAll || type.type != "merge") && <ProductListResult/>} */}
-            {(requestUrl === rendered.current || PagingInfo) != 0 && <ProductListResult />}
+            {(requestUrl === rendered.current || PagingInfo) != 0 && <ProductListResult/>}
         </>
     );
 }

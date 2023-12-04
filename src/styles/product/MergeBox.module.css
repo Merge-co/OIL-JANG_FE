@@ -1,7 +1,6 @@
 .mergeMain {
   position: relative;
   display: flex;
-  flex-direction: column;
   flex-flow: column wrap;
 }
 
@@ -19,6 +18,10 @@
   font-size: 16px;
   font-weight: 500;
   background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible;
+}
+
+.mergeBoxWhole {
+  user-select: none;
 }
 
 .mergeBox0 {

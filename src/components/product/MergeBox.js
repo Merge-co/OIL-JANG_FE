@@ -8,7 +8,6 @@ import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
 import { callMessagesRegistAPI } from '../../apis/ProductAPICalls';
 import { getCookie } from '../../modules/CookieModule';
-import { jwtDecode } from 'jwt-decode';
 
 function MergeBox() {
     
@@ -137,9 +136,9 @@ function MergeBox() {
         if(e.key === 'Enter') {
             calcMoney();
         }
-      }
+    }
 
-    const sendMessagesResult = useSelector(state => state.productReducer.getMessagesResult);
+    // const sendMessagesResult = useSelector(state => state.productReducer.getMessagesResult);
 
     const onClickSendMsg = () => {
         if(!getCookie("accessToken")) {
@@ -174,29 +173,32 @@ function MergeBox() {
 
     return(
         <>
-            <div className={MergeBoxCSS.mergeBox0}>
-            <div onClick={() => onClickReset()} className={MergeBoxCSS.resetBox}>
-                 <img src="/images/siteImage/reset.svg" alt=""/> <div className={MergeBoxCSS.resetBtn}>초기화</div>
+            <div className={MergeBoxCSS.mergeBoxWhole}>
+                <div className={MergeBoxCSS.mergeBox0}>
+                <div onClick={() => onClickReset()} className={MergeBoxCSS.resetBox}>
+                    <img src="/images/siteImage/reset.svg" alt=""/> <div className={MergeBoxCSS.resetBtn}>초기화</div>
+                </div>
+                <div className={MergeBoxCSS.mergeBox1}>
+                    <div className={MergeBoxCSS.setMoneyTitle}>예산 설정</div><button onClick={() => onClickSetMoney()} className={ButtonCSS.smallBtn2}>설정</button>
+                    <label>
+                        <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money} placeholder="예산 설정" ref={burgetRef}/>
+                    </label>
+                </div>
+                <div className={MergeBoxCSS.mergeBox1}>
+                    <div>선택한 품목</div><div className={MergeBoxCSS.selectedItemNum}>{selectedItemCount}개</div>
+                </div>
+                <div className={MergeBoxCSS.mergeBox1}>
+                    <div>남은 예산</div><div className={MergeBoxCSS.remainPrice}>{priceToString(remain).replace("원","")}원</div>
+                </div>
+                <div className={MergeBoxCSS.mergeBox2}>
+                    {selectedItem.length !==0 ? selectedItem.map(selectedItem => 
+                        <MergeItemBox key={"selectedItem" + selectedItem.productCode } selectedItem={selectedItem}/>
+                    ): ""}
+                </div>
+                <button onClick={onClickSendMsg} className={ButtonCSS.largeBtn}>쪽지 보내기</button>
+                </div>
             </div>
-            <div className={MergeBoxCSS.mergeBox1}>
-                <div className={MergeBoxCSS.setMoneyTitle}>예산 설정</div><button onClick={() => onClickSetMoney()} className={ButtonCSS.smallBtn2}>설정</button>
-                <label>
-                    <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money} placeholder="예산 설정" ref={burgetRef}/>
-                </label>
-            </div>
-            <div className={MergeBoxCSS.mergeBox1}>
-                <div>선택한 품목</div><div className={MergeBoxCSS.selectedItemNum}>{selectedItemCount}개</div>
-            </div>
-            <div className={MergeBoxCSS.mergeBox1}>
-                <div>남은 예산</div><div className={MergeBoxCSS.remainPrice}>{priceToString(remain).replace("원","")}원</div>
-            </div>
-            <div className={MergeBoxCSS.mergeBox2}>
-                {selectedItem.length !==0 ? selectedItem.map(selectedItem => 
-                    <MergeItemBox key={"selectedItem" + selectedItem.productCode } selectedItem={selectedItem}/>
-                ): ""}
-            </div>
-            <button onClick={onClickSendMsg} className={ButtonCSS.largeBtn}>쪽지 보내기</button>
-            </div>
+            
         </>
     );
 }

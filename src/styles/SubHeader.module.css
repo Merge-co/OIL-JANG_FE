@@ -3,8 +3,8 @@
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
-    right:95px;
-    top:7px;
+    /* right: -91px; */
+    top:-51px;
     margin-bottom: 35px;
 }
 
@@ -12,6 +12,7 @@
     position: relative;
     display: flex;
     margin-right: 19%;
+    left: 91px;
 }
 
 .subHeaderItem {

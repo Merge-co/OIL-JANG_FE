@@ -1,6 +1,6 @@
 import ProductDetailCSS from '../../styles/product/ProductDetailCss.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
-import { GET_WISHLIST_AGAIN, priceToString, timeForToday } from '../../modules/ProductModule';
+import { GET_WISHLIST_DELELE_RESULT, priceToString, timeForToday } from '../../modules/ProductModule';
 import { getCookie } from '../../modules/CookieModule';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -87,32 +87,57 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     const params = useParams();
 
     const wishListRegistNo = useSelector(state => state.productReducer.getWishListRegistResult);
+    const wishListDeleteResult = useSelector(state => state.productReducer.getWishListDeleteResult);
+
+    useEffect(
+        () => {
+            dispatch({ type: GET_WISHLIST_DELELE_RESULT, payload: 0});
+            setWishLishRegist(0);
+            setIsSeding(false);
+        },[wishListDeleteResult]
+    )
+
+    useEffect(
+        () => {
+            setWishLishRegist(1);
+            setIsSeding(false);
+        },[wishListRegistNo]
+    )
+
+    const [ isSending, setIsSeding] = useState(false);
 
     const onClickPickHandler = () => {
         if (getCookie("accessToken")) {
-            if (wishLishRegist === 0) {
+            if (wishLishRegist === 0 && !isSending) {
                 dispatch(callWishListRegistAPI(params.productCode));
                 if(plusMinusCount === 0) {
                     setPlusMinusCount(1);
                 } else {
                     setPlusMinusCount(0);
                 }
-                setWishLishRegist(1);
-            } else {
+                setIsSeding(true);
+                // setWishLishRegist(1);
+            } else if(!isSending) {
+                console.log(wishListRegistNo)
                 dispatch(callWishListDeleteAPI(wishListRegistNo ? wishListRegistNo : productDetail.selectedWishCode[0]));
-                
                 if(plusMinusCount === 0) {
                     setPlusMinusCount(-1);
                 } else {
                     setPlusMinusCount(0);
                 }
-                setWishLishRegist(0);
+                setIsSeding(true);
             }
-            dispatch({ type: GET_WISHLIST_AGAIN, payload: 1});
         } else {
             alert("찜하려면 로그인 해야 합니다.");
         }
     }
+
+    const userImageThumbAddr = productDetailInfos.userImageThumbAddr
+  ? productDetailInfos.userImageThumbAddr.replace(
+      "C:\\OIL-JANG_FE\\public",
+      ""
+    ) : "";
+ 
 
     return (
         <>
@@ -140,7 +165,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                 </div>
                 <div className={ProductDetailCSS.productDetailSellerHr}>판매자정보</div>
                 <div className={ProductDetailCSS.sellerInfoBox}>
-                    <img src={productDetailInfos && productDetailInfos.userImageThumbAddr} alt="판매자 정보" className={ProductDetailCSS.sellerProfile} />
+                    <img src={productDetailInfos && userImageThumbAddr} alt="판매자 정보" className={ProductDetailCSS.sellerProfile} />
                     <div className={ProductDetailCSS.sellerInfo}>
                         <div className={ProductDetailCSS.sellerName}>{productDetailInfos.nickName}</div>
                         {/* <div className={ProductDetailCSS.otherProduct}>판매자의 다른 상품 보기</div> */}

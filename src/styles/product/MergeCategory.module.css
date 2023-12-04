@@ -3,6 +3,7 @@
     display: flex;
     align-content: center;
     margin-top: 80px;
+    user-select: none;
   }
   
   .selectedCategory {
