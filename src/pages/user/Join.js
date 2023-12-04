@@ -62,11 +62,12 @@ function Join() {
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [isCertificationCompleted, setIsCertificationCompleted] =
     useState(false);
-  const [isIdValid, setIsIdValid] = useState(true);
-  const [isNicknameValid, setIsNicknameValid] = useState(true);
+  const [isIdValid, setIsIdValid] = useState(false);
+  const [isNicknameValid, setIsNicknameValid] = useState(false);
   const [isNicknameUniqueness, setIsNicknameUniqueness] = useState(false);
   const [isIdUniqueness, setIsIdUniqueness] = useState(false);
   const [isBirthdateValid, setIsBirthdateValids] = useState(false);
+  const [isPwdValid, setIsPwdValid] = useState(false);
 
 
   
@@ -123,11 +124,19 @@ function Join() {
       setIdUniquenessMessage("아이디를 입력해주세요.");
       console.log("아이디를 입력해주세요.");
       return false;
-    } else if (!isIdUniqueness) {
+    }else if (!isIdValid) {
+      setIdUniquenessMessage("3~20자 영문 대소문자와 숫자만 사용 가능합니다.");
+      console.log("3~20자 영문 대소문자와 숫자만 사용 가능합니다.");
+      return false;
+    }else if (!isIdUniqueness) {
       setIdUniquenessMessage("아이디 중복확인을 해주세요.");
       console.log("아이디 중복확인을 해주세요.");
       return false;
     } else if (!pwd) {
+      setRealTimePasswordValidation("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
+      console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
+      return false;
+    } else if (!isPwdValid) {
       setRealTimePasswordValidation("비밀번호를 입력해주세요.");
       console.log("비밀번호를 입력해주세요.");
       return false;
@@ -197,6 +206,7 @@ function Join() {
           "8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)"
         );
       } else {
+        setIsPwdValid(true);
         setRealTimePasswordValidation("");
       }
     }
@@ -212,22 +222,27 @@ function Join() {
 
     if (name === "nickname") {
       const isNicknameValid = validateNickname(value);
+      console.log('isNicknameValid',isNicknameValid);
       if (!isNicknameValid) {
+        setIsNicknameValid(false);
         setNicknameUniquenessMessage(
           "2~10자 영문 대 소문자, 숫자, 한글을 사용하세요.(공백제외)"
         );
       } else {
+        setIsNicknameValid(true);
         setNicknameUniquenessMessage("");
       }
     }
 
     if (name === "id") {
       const isIdValid = validateId(value);
-      if (!isIdValid) {
+      if (!isIdValid) {   
+        setIsIdValid(false);
         setIdUniquenessMessage(
           "3~20자 영문 대소문자와 숫자만 사용 가능합니다."
         );
       } else {
+        setIsIdValid(true);
         setIdUniquenessMessage("");
       }
     }
@@ -268,13 +283,16 @@ function Join() {
     if (
       validateUserData(userData) &&
       isImageUploaded &&
-      isCertificationCompleted
+      isCertificationCompleted &&
+      isAgreemanetChecked
     ) {
       dispatch(
         callJoinAPI({
           userData,
         })
       );
+      alert("회원가입이 완료되었습니다.")
+      navigate("/login", { replace: true });
     } else {
       console.log("옳바르지않은 내용입니다.");
     }
@@ -295,13 +313,14 @@ function Join() {
   };
 
   const validateNickname = (nickname) => {
-    const isNicknameValid = /^[a-zA-Z0-9가-힣]{2,10}$/g.test(nickname);
+    const isNicknameValid = /^[a-zA-Z0-9가-힣]{2,10}(\s*[a-zA-Z0-9가-힣]){0,8}$/.test(nickname);
+    console.log('isNicknameValid',isNicknameValid);
     setIsNicknameValid(isNicknameValid);
     return isNicknameValid;
   };
 
   const validateId = (id) => {
-    const isIdValid = /^[a-zA-Z][a-zA-Z0-9]{2,19}$/g.test(id);
+    const isIdValid = /^[a-zA-Z][a-zA-Z0-9]{2,19}$/.test(id);
     setIsIdValid(isIdValid);
     return isIdValid;
   };
@@ -339,6 +358,7 @@ function Join() {
           const message = responseData.message;
 
           if (message === "중복된 ID입니다.") {
+            setIsIdUniqueness(false);
             setIdUniquenessMessage("중복된 ID입니다.");
             return false;
           } else {
@@ -466,7 +486,7 @@ function Join() {
             </div>
             <div>{!isImageUploaded && <p>{validationMessage}</p>}</div>
             <br />
-            <label for="nickname">닉네임*</label>
+            <label htmlFor="nickname">닉네임*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
                 type="text"
@@ -483,16 +503,16 @@ function Join() {
                 onClick={() =>
                   isNicknameValid && checkNicknameUniqueness(userData.nickname)
                 }
-                disabled={isNicknameUniqueness || !userData.nickname}
+                disabled={isNicknameUniqueness || !userData.nickname || !isNicknameValid}
               >
                 <h5>중복확인</h5>
               </button>
             </div>
             <div>
-              {!userData.nickname && <p>{nicknameUniquenessMessage}</p>}
+              {nicknameUniquenessMessage && <p>{nicknameUniquenessMessage}</p>}
             </div>
             <br />
-            <label for="id">ID*</label>
+            <label htmlFor="id">ID*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
                 type="text"
@@ -507,7 +527,7 @@ function Join() {
               <button
                 className={UserJoinCSS.check_btnn}
                 onClick={() => isIdValid && checkIdUniqueness(userData.id)}
-                disabled={isIdUniqueness || !userData.id}
+                disabled={isIdUniqueness || !userData.id || !isIdValid}
               >
                 <h5>중복 확인</h5>
               </button>
@@ -515,7 +535,7 @@ function Join() {
 
             {idUniquenessMessage && <p>{idUniquenessMessage}</p>}
             <br />
-            <label for="pwd">비밀번호*</label>
+            <label htmlFor="pwd">비밀번호*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
                 type={passwordVisibility ? "text" : "password"}
@@ -539,7 +559,7 @@ function Join() {
             </div>
             {realTimePasswordValidation && <p>{realTimePasswordValidation}</p>}
             <br />
-            <label for="confirmPwd">비밀번호 확인*</label>
+            <label htmlFor="confirmPwd">비밀번호 확인*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
                 type={passwordConfirmVisibility ? "text" : "password"}
@@ -567,12 +587,11 @@ function Join() {
               )}
             </div>
             <br />
-            <label for="name">이름*</label>
+            <label htmlFor="name">이름*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
                 type="text"
                 className={UserLayoutCSS.input_pwd}
-                for="name"
                 placeholder="이름을 입력하세요."
                 name="name"
                 onChange={onChangeHandler}
@@ -634,7 +653,7 @@ function Join() {
               <p style={{ color: "red" }}>{genderValidationMessage}</p>
             )}
             <br />
-            <label for="phone">핸드폰 번호*</label>
+            <label htmlFor="phone">핸드폰 번호*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
                 type="text"
@@ -656,7 +675,7 @@ function Join() {
             </div>
             <div>{!userData.phone && <p>{phoneValidationMessage}</p>}</div>
             <br />
-            <label for="email">
+            <label htmlFor="email">
               Email<small>(선택사항)</small>
             </label>
             <br />
