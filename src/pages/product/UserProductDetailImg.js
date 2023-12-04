@@ -10,6 +10,9 @@ function UserProductDetailImg(productDetailImg) {
     imgArr.map(img => {  
         images.push({original: img[1]});
     })
+    if(imgArr.length === 0) {
+        images.push({original: "/images/siteImage/noProductImg.svg"});
+    }
 
     return(
         <>

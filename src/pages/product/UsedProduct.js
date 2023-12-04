@@ -7,7 +7,7 @@ function UsedProduct() {
     return (
         <>
             <div style={{width: '70%', margin: '0 auto', marginBottom: 50}}>
-                <h3 style={{textAlign: 'left'}}>중고 상품</h3>
+                <h1 style={{textAlign: 'left'}}>중고 상품</h1>
                 <hr/>    
             </div>
             <div className={MergeLayoutCSS.mergeMain} style={{flexDirection: 'column'}}>

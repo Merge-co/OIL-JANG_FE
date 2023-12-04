@@ -31,8 +31,6 @@ function ProductList(type) {
 
     useEffect(
         () => {
-            
-            // window.history.scrollRestoration = "auto";
             if(!curURL.searchParams.get('page') && PagingInfo != 0) {
                 dispatch({ type: GET_PAGING, payload: 0 });
             }
@@ -79,7 +77,7 @@ function ProductList(type) {
     function MoreBtn() {
         return(
             <>
-                <div className={PagingBarCSS.barCenter}>
+                <div className={PagingBarCSS.moreBtnCenter}>
                     <button onClick={() => onMoreHandler()} className={ButtonCSS.smallBtn2}>더 보기</button>
                 </div>
             </>

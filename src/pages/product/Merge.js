@@ -16,7 +16,7 @@ function Merge() {
     return(
         <>
             <div style={{width: '70%', margin: '0 auto', marginBottom: 50, userSelect: 'none'}}>
-                <h3 style={{textAlign: 'left'}}>꾸러미</h3>
+                <h1 style={{textAlign: 'left'}}>꾸러미</h1>
                 <hr/>    
             </div>
             <div className={MergeLayoutCSS.mergeMain}>

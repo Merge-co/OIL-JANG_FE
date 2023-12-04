@@ -2,7 +2,7 @@ import ProductItemCSS from '../../styles/product/ProductItem.module.css';
 import ProductListCSS from '../../styles/product/ProductList.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useDispatch } from 'react-redux';
-import { GET_MERGE_ITEM, GET_SEARCH_AGAIN, onClickItemDetail, priceToString, timeForToday } from '../../modules/ProductModule';
+import { GET_MERGE_ITEM, onClickItemDetail, priceToString, timeForToday } from '../../modules/ProductModule';
 import { useNavigate } from 'react-router-dom';
 
 function ProductItem(productList) {
