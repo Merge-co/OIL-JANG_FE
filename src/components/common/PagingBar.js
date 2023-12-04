@@ -50,7 +50,6 @@ function PagingBar(pagingBtn) {
                         
                         <button onClick={() => onClickHandler(after)} className={`${PagingBarCSS.buttons} ${PagingBarCSS.arrowBtn}`}><i className="xi-angle-right"></i></button>
                         <button onClick={() => onClickHandler(last)} className={`${PagingBarCSS.lastButton} ${PagingBarCSS.arrowBtn}`}><i className="xi-forward"></i></button>
-                        
                     </div>
                 </div>  
             </>

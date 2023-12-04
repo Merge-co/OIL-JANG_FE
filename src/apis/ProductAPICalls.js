@@ -4,6 +4,7 @@ import { GET_PRODUCTLIST } from "../modules/ProductListModule";
 import { GET_MESSAGES_RESULT, GET_PRODUCT_DELETE_RUSULT, GET_PRODUCT_DETAIL, GET_WISHLIST_AGAIN, GET_WISHLIST_DELELE_RESULT, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
+import { timestamp } from './../modules/MyCalendarModule';
 
 export const comIp = "localhost";
 
@@ -70,7 +71,7 @@ export const callGetProductList = (type, morePage) => {
 
 export const callMessagesRegistAPI = (productCode, refUserCode) => {
     let requestURL = `http://${comIp}:8000/messages`;
-    let date = new Date().toISOString().substring(0, 10); 
+    let date = timestamp(new Date()).substring(0, 10); 
 
     return async (dispatch, getState) => {
         const result = await axios.post(requestURL, {

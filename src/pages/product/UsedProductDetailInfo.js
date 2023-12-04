@@ -11,17 +11,14 @@ import { callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import Report from '../report/Report';
 import MessageModal from '../message/MessagModal';
 
-
 function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDetail}) {
     const [wishLishRegist, setWishLishRegist] = useState(productDetail.selectedWishCode ? 1 : 0);
-
 
     const [modalType, setModalType] = useState("");
 
     useEffect(() => {
         console.log("modalType updated:", modalType);
     }, [modalType]);
-    
 
     const onClickReportHandler = () => {
         if (getCookie("accessToken")) {
@@ -33,7 +30,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         }
     }
 
-
     const onClickSendMessageHandler = () => {
         if (getCookie("accessToken")) {
             setModalType('message');
@@ -44,8 +40,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
             alert("쪽지를 보내려면 로그인 해야 합니다.");
         }
     }
-
-
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -67,12 +61,11 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         );
     }
 
-
     const onClickRemoveHandler = () => {
         if (window.confirm("상품을 삭제하시겠습니까?")) {
             dispatch(callProductDeleteAPI(params.productCode));
-            navigate(`/usedProduct`);
             alert("상품을 삭제했습니다.");
+            navigate(`/usedProduct`);
         }
     }
 
@@ -91,41 +84,45 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
 
     useEffect(
         () => {
-            dispatch({ type: GET_WISHLIST_DELELE_RESULT, payload: 0});
-            setWishLishRegist(0);
-            setIsSeding(false);
+            if(wishListDeleteResult) {
+                dispatch({ type: GET_WISHLIST_DELELE_RESULT, payload: 0});
+
+                setIsSeding(false);
+            }
         },[wishListDeleteResult]
     )
 
     useEffect(
         () => {
-            setWishLishRegist(1);
-            setIsSeding(false);
+            if(wishListRegistNo) {
+
+                setIsSeding(false); 
+            }
         },[wishListRegistNo]
     )
 
-    const [ isSending, setIsSeding] = useState(false);
+    const [ isSending, setIsSeding ] = useState(false);
 
     const onClickPickHandler = () => {
         if (getCookie("accessToken")) {
             if (wishLishRegist === 0 && !isSending) {
                 dispatch(callWishListRegistAPI(params.productCode));
+                setIsSeding(true);
+                setWishLishRegist(1);
                 if(plusMinusCount === 0) {
                     setPlusMinusCount(1);
                 } else {
                     setPlusMinusCount(0);
                 }
-                setIsSeding(true);
-                // setWishLishRegist(1);
             } else if(!isSending) {
-                console.log(wishListRegistNo)
-                dispatch(callWishListDeleteAPI(wishListRegistNo ? wishListRegistNo : productDetail.selectedWishCode[0]));
+                dispatch(callWishListDeleteAPI(wishListRegistNo ? wishListRegistNo : productDetail.selectedWishCode));
+                setIsSeding(true);
+                setWishLishRegist(0);
                 if(plusMinusCount === 0) {
                     setPlusMinusCount(-1);
                 } else {
                     setPlusMinusCount(0);
                 }
-                setIsSeding(true);
             }
         } else {
             alert("찜하려면 로그인 해야 합니다.");
