@@ -16,12 +16,16 @@
     color: #222222;
 }
 
+.productCount{
+    display: flex;
+    margin-top: 47px;
+}
 .input_box {
     width: 430px;
     height: 40px;
     border-radius: 5px;
     border: solid 1px #C7C6C6;
-    margin: 15px 120px 35px;
+    margin: 0px 70px 35px;
     padding: 10px;
 }
 
