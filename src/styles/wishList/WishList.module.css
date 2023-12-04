@@ -17,6 +17,7 @@ td {
   flex-direction: column;
   align-items: center;
   margin-top: 85px;
+  user-select: none;
 }
 
 .wishListBox {

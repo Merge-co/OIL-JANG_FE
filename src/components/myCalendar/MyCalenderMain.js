@@ -26,7 +26,8 @@ const MyCalendar = ({type}) => {
 
     const inputFocus1 = useRef(null);
     const inputFocus2 = useRef(null);
-    let rendered = useRef(0);
+    const rendered = useRef(0);
+    const firstRendered = useRef(false);
 
     const [selectDate, setSelectDate] = useState(timestamp(new Date()).substring(0, 10));
 
@@ -44,6 +45,7 @@ const MyCalendar = ({type}) => {
             myCalendarContent && myCalendarContent.map(content => tempEvent.push({id: content.myCalendarCode, start: new Date(content.calendarDate), end: new Date(content.calendarDate), title: content.calendarContent, allDay: true, time: content.calendarTime}));
             setEvents(tempEvent);
             rendered.current++;
+            firstRendered.current = true;
         },[myCalendarContent]
     )
 
@@ -105,7 +107,6 @@ const MyCalendar = ({type}) => {
                         alert("이전 날짜에 일정을 추가할 수 없습니다");
                     } else {
                         alert("내용을 입력하세요");
-                        inputFocus1.current.focus();
                     } 
                 }  else {
                     alert("시간을 입력하세요");
@@ -123,11 +124,15 @@ const MyCalendar = ({type}) => {
                 setSeleteTime(e.target.value);
             }
     
-            // useEffect(
-            //     () => {
-            //         inputFocus1.current.focus();
-            //     },[]
-            // );
+            useEffect(
+                () => {
+                    if(!firstRendered.current === true) {
+                        inputFocus1.current.focus();
+                    } else {
+                        firstRendered.current = false;
+                    }
+                },[]
+            );
 
             const ifFive = myEvents.filter(con => con.end.toISOString().substring(0, 10) === selectDate.substring(0, 10)).length;
     
@@ -182,12 +187,8 @@ const MyCalendar = ({type}) => {
                         myEvents.filter(content => content.id == showAgenda)[0].end = new Date(endDate);
                         myEvents.filter(content => content.id == showAgenda)[0].title = agendaInput2;
                         myEvents.filter(content => content.id == showAgenda)[0].time = !Array.isArray(selectTime) ? [+selectTime.split(":")[0], +selectTime.split(":")[1]] : selectTime;
-                        setShowAgenda(-1);
-                        if (selectDate.substring(0, 10) < timestamp(new Date()).substring(0, 10)) {
-                            setSelectDate(timestamp(new Date()).substring(0, 10));
-                        } else {
-                            setSelectDate(selectDate.substring(0, 10));
-                        }
+                        setShowAgenda(-1);          
+                        setSelectDate(selectDate.substring(0, 10));
                         setNewAgenda(true);
                     } else {
                         alert("내용을 입력하세요");
@@ -407,13 +408,13 @@ const MyCalendar = ({type}) => {
 
     switch(type) {
         case "main":
-            styleObj = { minWidth: 840, height: 730 };
+            styleObj = { minWidth: 840, maxWidth: 840, height: 730 };
             break;
         case "modal":
-            styleObj = { minWidth: 500, height: 500 };
+            styleObj = { minWidth: 500, maxWidth: 500, height: 500 };
             break;
         default:
-            styleObj = { minWidth: 500, height: 500 };
+            styleObj = { minWidth: 500, maxWidth: 500, height: 500 };
             break;
     }
 
@@ -428,7 +429,6 @@ const MyCalendar = ({type}) => {
                     onSelectEvent={handleSelectEvent}
                     onSelectSlot={handleSelectSlot}
                     selectable={true}
-                    longPressThreshold={0} 
                     popup
                     components={{
                         toolbar: Toolbar,

@@ -71,10 +71,7 @@ function WishList() {
     function WishListContent() {
         return (
             <>
-                <div style={{width:'70%', margin: '0 auto'}}>
-                    <h1>관심목록</h1>
-                    <hr/>
-                </div>
+                
                 <div className={WishListCSS.wishListContainer}>
                     <div className={WishListCSS.wishListBox}>
                         <table>
@@ -113,6 +110,10 @@ function WishList() {
 
     return (
         <>
+            <div style={{width:'70%', margin: '0 auto', userSelect: 'none'}}>
+                <h1>관심목록</h1>
+                <hr/>
+            </div>
             {(requestUrl === rendered.current || PagingInfo) != 0 && <WishListContent/>}
         </>  
     );

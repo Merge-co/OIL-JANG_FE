@@ -20,6 +20,10 @@
   background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible;
 }
 
+.mergeBoxWhole {
+  user-select: none;
+}
+
 .mergeBox0 {
   position: relative;
   color: #222;

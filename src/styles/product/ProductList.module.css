@@ -10,6 +10,7 @@
   flex-wrap: wrap;
   gap: 27px;
   margin-bottom: 75px;
+  user-select: none;
 }
 
 .productItem {
