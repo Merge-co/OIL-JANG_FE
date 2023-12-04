@@ -2,7 +2,7 @@ import { callDeleteUserAPI,callLogoutAPI } from "../../apis/UserAPICalls";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-
+import UserMypageCSS from "../../styles/user/UserMypage.module.css";
 
 
 function WithdrawButton() {
@@ -20,10 +20,12 @@ function WithdrawButton() {
 
     }
     
-
     return(
         <>
-        <button onClick={onClickWithdrawHandler}>회원탈퇴</button>
+        <button onClick={onClickWithdrawHandler} className={UserMypageCSS.withdrawButton}>
+            탈퇴하기
+            <hr/>
+        </button>
         </>
     )
     
