@@ -25,6 +25,15 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
         processComment: '',
         sellStatusCode: 0
     });
+      // 날짜 포맷
+      const formatDateFromArray = (dateArray) => {
+        if(dateArray.length >= 3) {
+            const year = dateArray[0];
+            const month = String(dateArray[1]).padStart(2, '0');
+            const day = String(dateArray[2]).padStart(2, '0');
+            return `${year}-${month}-${day}`
+        }
+    }
 
     // form setting
     const onChangeHandler = (e) => {
@@ -129,7 +138,7 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
                             <div className={ReportCSS.processTitle}>
                                 <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>No: {process.reportNo}</span>
                                 <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>|</span>
-                                <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>접수일시 : {process.reportDate}</span>
+                                <span className={ReportCSS.processTitleDate} style={{ margin: "5px", fontWeight: "normal" }}>접수일시 : {formatDateFromArray(process.reportDate)}</span>
                             </div>
                         </h4>
                         <div style={{ marginBottom: "3%" }} >신고분류 : {process.reportCategoryCode}</div>

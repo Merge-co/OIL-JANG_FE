@@ -17,7 +17,7 @@ function ProcessManagement() {
 
 
 
-    const onClickProcessDetailHandler = (reportNo, processDistinction,userCode) => {
+    const onClickProcessDetailHandler = (reportNo, processDistinction, userCode) => {
         // 처리 상세페이지 이동
         setSelectedReportNo(reportNo);
         setselectUserCode(userCode);
@@ -31,7 +31,7 @@ function ProcessManagement() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageEnd, setPageEnd] = useState(1);
     const pageNumber = [];
-    if (pageInfo && pageInfo) {
+    if (pageInfo && pageInfo.total > 0) {
         for (let i = 1; i <= pageInfo.pageEnd; i++) {
             pageNumber.push(i);
         }
@@ -74,7 +74,7 @@ function ProcessManagement() {
     }
     useEffect(() => {
 
-    },[result, modalOpen]);
+    }, [result, modalOpen]);
 
     // 글자 수 가 5개 이상일때 ... 으로 변경
     function truncateText(text, maxLength) {
@@ -140,6 +140,7 @@ function ProcessManagement() {
                             )}
                     </tbody>
                 </table >
+                {pageNumber.length > 0 && (
                 <div className={PagingBtn.btnDisabled}
                     style={{ background: 'none' }}>
                     {Array.isArray(resultList) &&
@@ -183,6 +184,8 @@ function ProcessManagement() {
                         </div>
                     </div>
                 </div>
+                )}
+
             </div>
             {modalOpen && (
                 modalComponent === 'ProcessDetail' ? (

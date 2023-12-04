@@ -15,7 +15,6 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
         setModalOpen(false);
     };
 
-
     const decodedToken = jwtDecode(getCookie('accessToken'));
     const seller = decodedToken.nickName;
     const sellerCode = decodedToken.userCode;
@@ -33,8 +32,6 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
         reportComment: '',
         sellStatusCode: sellStatus
     });
-
-
 
     // form Data Set
     const onChangeHandler = (e) => {
