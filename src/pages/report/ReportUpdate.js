@@ -11,13 +11,9 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
     const dispatch = useDispatch();
     const processList = useSelector(state => state.processReducer.getProcessing);
     const process = processList && processList.data;
-    const navigate = useNavigate();
 
     const closeModal = () => {
         setModalOpen(false);
-        navigate("/", { replace: false })
-        window.location.reload();
-
     }
     useEffect(() => {
         dispatch(callProcessingDetailAPI(reportNo, userCode));
@@ -38,7 +34,7 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
         });
     }
 
-    const onClickReportUpdateHandler = (reportCategoryCode, refUserCode, productCode, reportUserCode) => {
+    const onClickReportUpdateHandler = (reportCategoryCode, refUserCode, productCode, reportUserCode, count) => {
         console.log('[ReportUpdate] onClickReportUpdateHdandler');
 
         const formData = new FormData();
@@ -49,25 +45,27 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
 
         if (formData.get('sellStatusCode') === '0') {
             console.log('폼데이터 : ', formData.get('sellStatusCode'))
-            alert('처리 카테고리를 선택하세요.');
+            alert('신고처리 카테고리를 선택하세요.');
             return;
         }
         if (formData.get('processComment') === '') {
             alert('신고처리 내용을 입력하세요.')
-            return
+            return;
         }
         dispatch(callReportUpdateAPI({
             form: formData
         }));
 
         if (formData.get('sellStatusCode') === "3") {
-            onClickSendMessageHandler(reportCategoryCode, refUserCode, productCode);
+            onClickProcessingHandler(reportCategoryCode, refUserCode, productCode, count);
         } else if (formData.get('sellStatusCode') === "1") {
             onClickCompanionHandler(reportUserCode, productCode);
         } else {
             console.error("Errer");
         }
+
         setModalOpen(false);
+        window.location.reload();
         // window.location.reload();
     }
     //반려처리에 대한 쪽지 발송 
@@ -82,22 +80,22 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
             reportUserCode: reportUserCode,
             productCode: productCode
         }));
-        alert("처리완료 \n 처리 내용 구매자에게 쪽지 전송하였습니다.");
+        alert("처리완료. 반려처리 되었습니다.");
     }
 
     // 신고처리에 대한 쪽지 발송
-    const onClickSendMessageHandler = (reportCategoryCode, refUserCode, productCode) => {
+    const onClickProcessingHandler = (reportCategoryCode, refUserCode, productCode, count) => {
 
         let message = '';
 
         if (reportCategoryCode === '광고성 콘텐츠에요') {
-            message = '광고성 컨테츠로 인해 삭제되었습니다.'
+            message = '안녕하세요. \n광고성 컨테츠로 인해 삭제되었습니다.'
         } else if (reportCategoryCode === '거래금지 품목이에요') {
-            message = '광고성 컨테츠로 인해 삭제되었습니다.'
+            message = '안녕하세요. \n광고성 컨테츠로 인해 삭제되었습니다.'
         } else if (reportCategoryCode === '가품,이미테이션 제품이에요.') {
-            message = '가품, 이미테이션 제품으로 인해 삭제되었습니다.'
+            message = '안녕하세요. \n가품, 이미테이션 제품으로 인해 삭제되었습니다.'
         } else if (reportCategoryCode === '사기가 의심돼요') {
-            message = '사기글 의심으로 인해 삭제되었습니다.'
+            message = '안녕하세요. \n사기글 의심으로 인해 삭제되었습니다.'
         }
         console.log('refUserCode', refUserCode);
         dispatch(callProcessedMessageAPI({
@@ -105,11 +103,20 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
             refUserCode: refUserCode,
             productCode: productCode
         }));
-        alert("처리완료 \n 처리 내용 판매자에게 쪽지 전송하였습니다.");
+        alert('처리완료. 게시글이 삭제처리 되었습니다.');
+        console.log('유저가 삭제당한 횟수 : ', count);
+        const formData = new FormData();
+        let date = new Date();
+        // const sanctions = confirm("사용자 게시글 삭제 횟수 :", count);
+        if (count === 5) {
+            // 판매자 게시글이 5번 삭제되었을 경우 
+
+        }
     }
 
     console.log('업데이트 : ', processList);
     console.log('업데이트2222222 ; ', process)
+    console.log('')
 
     return (
         <>
@@ -147,7 +154,7 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
                             <button
                                 className={Button.smallBtn2}
                                 onClick={() => {
-                                    onClickReportUpdateHandler(process.reportCategoryCode, process.userCode, process.productCode, process.reportUserCode);
+                                    onClickReportUpdateHandler(process.reportCategoryCode, process.userCode, process.productCode, process.reportUserCode, process.count);
                                 }}
                             >완료</button>
                         </div>
