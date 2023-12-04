@@ -86,7 +86,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         () => {
             if(wishListDeleteResult) {
                 dispatch({ type: GET_WISHLIST_DELELE_RESULT, payload: 0});
-
                 setIsSeding(false);
             }
         },[wishListDeleteResult]
@@ -95,7 +94,6 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     useEffect(
         () => {
             if(wishListRegistNo) {
-
                 setIsSeding(false); 
             }
         },[wishListRegistNo]
