@@ -10,7 +10,6 @@ import MergeLayoutCSS from "../../styles/product/MergeLayout.module.css";
 function Merge() {
 
     const getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
-    const productList = useSelector(state => state.productListReducer);
    
     const url = new URL(window.location.href);
 
@@ -26,7 +25,7 @@ function Merge() {
                     <ProductCategory type="merge"/>
                     <MergeCategory />
                     {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductFilter/> : ""}
-                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge" /> : <img src="/images/siteImage/mergeGuide.svg" alt="꾸러미 가이드"/>}
+                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge" /> : <img src="/images/siteImage/mergeGuide.png" alt="꾸러미 가이드"/>}
                 </div>
                 <MergeBox/>
             </div>

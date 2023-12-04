@@ -123,11 +123,11 @@ const MyCalendar = ({type}) => {
                 setSeleteTime(e.target.value);
             }
     
-            useEffect(
-                () => {
-                    inputFocus1.current.focus();
-                },[]
-            );
+            // useEffect(
+            //     () => {
+            //         inputFocus1.current.focus();
+            //     },[]
+            // );
 
             const ifFive = myEvents.filter(con => con.end.toISOString().substring(0, 10) === selectDate.substring(0, 10)).length;
     
@@ -136,9 +136,9 @@ const MyCalendar = ({type}) => {
                     <div className='mainEditContainer'>     
                         <div className='mainEdit'>
                             <div className='mainCalendarTitle'>일정 추가</div>
-                            {ifFive >= 5 || selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10) ? <textarea disabled className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/> : <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>}
                             <input disabled type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate} min={timestamp(new Date()).substring(0, 10)} />
-                            {ifFive >= 5 || selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10)  ? <input disabled type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' /> : <input type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' />}                     
+                            {ifFive >= 5 || selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10)  ? <input disabled type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' /> : <input type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' />}     
+                            {ifFive >= 5 || selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10) ? <textarea disabled className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/> : <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>}                
                         </div>
     
                         <div className='saveModal'>
@@ -222,9 +222,9 @@ const MyCalendar = ({type}) => {
                     <div className=''>
                         <div className='mainEdit'>
                             <div className='mainCalendarTitle'>일정 수정</div>
-                            <textarea className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2} spellCheck={false} placeholder="내용을 입력하세요"/>
                             <input type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate.substring(0,10)} min={timestamp(new Date()).substring(0, 10)}/>
                             <input type='time' className='inputDateBig' defaultValue={timeString(selectTime)} onChange={onChangeTime} />
+                            <textarea className="agendaTextarea" value={agendaInput2} onChange={onChangeHandler2} maxLength={100} ref={inputFocus2} spellCheck={false} placeholder="내용을 입력하세요"/>
                         </div>
                         <div className='modifyOrDelete'>
                             <button onClick={modifyAgenda} className={ButtonCSS.smallBtn2}>수정</button>
@@ -419,25 +419,25 @@ const MyCalendar = ({type}) => {
 
     return (
         <>
-                {rendered.current >= 2 && <div className='myCalendarWidth'>
-                    {type === "main" && <MyCalendarAside setSelectDate={setSelectDate}/>}
-                    <Calendar
-                        style={styleObj}
-                        localizer={localizer}
-                        events={myEvents}
-                        onSelectEvent={handleSelectEvent}
-                        onSelectSlot={handleSelectSlot}
-                        selectable={true}
-                        longPressThreshold={0} 
-                        popup
-                        components={{
-                            toolbar: Toolbar,
-                        }}
-                    />
-                </div> }
-                
-                {type !== "main" && showAgenda !== -1 && <Agenda/>}
-                {type !== "main" && newAgenda && <NewAgendaTemplate/>}
+            {rendered.current >= 2 && <div className='myCalendarWidth'>
+                {type === "main" && <MyCalendarAside setSelectDate={setSelectDate}/>}
+                <Calendar
+                    style={styleObj}
+                    localizer={localizer}
+                    events={myEvents}
+                    onSelectEvent={handleSelectEvent}
+                    onSelectSlot={handleSelectSlot}
+                    selectable={true}
+                    longPressThreshold={0} 
+                    popup
+                    components={{
+                        toolbar: Toolbar,
+                    }}
+                />
+            </div> }
+            
+            {type !== "main" && showAgenda !== -1 && <Agenda/>}
+            {type !== "main" && newAgenda && <NewAgendaTemplate/>}
         </>
     )
 }
@@ -448,8 +448,6 @@ function MyCalendarMain() {
             <div className='myCalendarContainter'>
                 <MyCalendar type="main" />
             </div>
-           
-            
         </>
     );
 }
