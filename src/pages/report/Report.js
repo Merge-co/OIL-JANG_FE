@@ -14,24 +14,7 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
     const closeModal = () => {
         setModalOpen(false);
     };
-    // 모달 외부 클릭시 끄기
-    // Modal창을 useRef 관리
-    const modalRef = useRef < HTMLDivElement > (null);
 
-    useEffect(() => {
-        // 이벤트 핸들러 함수
-        const handler = (e) => {
-            // mousedown 이벤트가 발생한 영역이 모달칭이 아닐 때, 모달창 제거 
-            if (modalRef.current && !modalRef.current.contains(e.target)) {
-                closeModal();
-            }
-        };
-        document.addEventListener("mousedown", handler);
-        return () => {
-            document.removeEventListener("mousedown", handler);
-        }
-    }, []
-    );
 
     const decodedToken = jwtDecode(getCookie('accessToken'));
     const seller = decodedToken.nickName;
@@ -64,12 +47,6 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
     const onClickRegisterHandler = () => {
         console.log('[ReportRegisteration] onClickReportRegisterationHandler')
 
-        if (reportForm.refReportCategoryNo === 0) {
-            alert('신고분류를 선택해주세요');
-            return;
-        }
-
-
         const formData = new FormData();
 
         formData.append('reportUserCode', reportForm.reportUserCode);
@@ -79,6 +56,19 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
         formData.append("reportComment", reportForm.reportComment);
         formData.append("sellStatusCode", reportForm.sellStatusCode);
 
+
+        if (formData.get('refReportCategoryNo') === '0') {
+            console.log('신고 분류를 선택하세요: ', formData.get('refReportCategoryNo'))
+            alert('신고 분류를 선택하세요')
+            return;
+        }
+
+        if(formData.get('reportComment') === '') {
+            console.log('신고내용 입력 됐나요 : ', formData.get('reportComment'))
+            alert('신고내용을 입력하세요')
+            return;
+        }
+      
         // console.log("bbbbb", formData);
         // console.log('[ReportRegist] fromData reportUserNick : ', formData.get('reportUserNick'));
         // console.log('[ReportRegist] fromData refReportCategoryNo : ', formData.get('refReportCategoryNo'));
