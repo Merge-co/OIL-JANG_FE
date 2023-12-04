@@ -18,6 +18,8 @@ const COOKIE_NAME = "accessToken";
 export const callLoginAPI = ({ form }) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8000/login`;
 
+  console.log("form : ", form);
+
   return async (dispatch, getState) => {
     try {
       const result = await fetch(requestURL, {
@@ -47,6 +49,10 @@ export const callLoginAPI = ({ form }) => {
         result.failType === "예상치 못한 오류입니다. 관리자에게 문의하세요..."
       ) {
         alert("존재하지 않은 계정입니다.");
+      } else if (
+        result.failType === "탈퇴한 회원입니다. 로그인이 불가능합니다."
+      ) {
+        alert("탈퇴한 계정입니다.");
       }
 
       dispatch({ type: POST_LOGIN, payload: result });
@@ -164,6 +170,7 @@ export const callDeleteUserAPI = () => {
         },
       })
       .then((data) => {
+        console.error("탈퇴 성공:", data);
         dispatch({ type: DELETE_USERS, payload: data });
       })
       .catch((error) => {

@@ -46,6 +46,8 @@ function Login() {
       navigate("/", { replace: true });
     } else if(isUserLogin){
       navigate("/error", { replace: true });
+    } else if(loginUser.message === '탈퇴한 회원입니다. 로그인이 불가능합니다.'){
+      alert("탈퇴한 회원입니다.");
     }
 
 
@@ -62,7 +64,7 @@ function Login() {
     try {
       await dispatch(callLoginAPI({ form: form }));
   
-      window.location.reload();
+      
     } catch (error) {
       console.error("Login error:", error);
     }

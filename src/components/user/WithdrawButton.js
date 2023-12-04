@@ -13,10 +13,17 @@ function WithdrawButton() {
 
 
     const onClickWithdrawHandler = () => {
+
+        const shouldWithdraw = window.confirm("정말로 탈퇴하시겠습니까?");
         
-        dispatch(callDeleteUserAPI());
-        dispatch(callLogoutAPI());
-        navigate("/", { replace: true })
+        if (shouldWithdraw) {
+            dispatch(callDeleteUserAPI())
+              .then(() => dispatch(callLogoutAPI()))
+              .then(() => navigate("/", { replace: true }))
+              .catch((error) => {
+                console.error("탈퇴 중 에러 발생:", error);
+              });
+          }
 
     }
     
