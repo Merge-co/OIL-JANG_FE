@@ -6,13 +6,21 @@ import MergeLayoutCSS from "../../styles/product/MergeLayout.module.css";
 function UsedProduct() {
     return (
         <>
-            <div className={MergeLayoutCSS.mergeMain}>
-                <div>
-                <div className={MergeLayoutCSS.mergeCategoryFilter}>
-                    <ProductCategory type="list"/>
-                    <ProductFilter/>
-                </div>
-                <ProductList type="list" />
+            <div style={{width: '70%', margin: '0 auto', marginBottom: 50}}>
+                <h3 style={{textAlign: 'left'}}>중고 상품</h3>
+                <hr/>    
+            </div>
+            <div className={MergeLayoutCSS.mergeMain} style={{flexDirection: 'column'}}>
+                
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <div>
+                    <div className={MergeLayoutCSS.mergeCategoryFilter}>
+                        <ProductCategory type="list"/>
+                        <ProductFilter/>
+                    </div>
+                    <ProductList type="list" />
+                    </div>
+                    
                 </div>
             </div>
         </>  

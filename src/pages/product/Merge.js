@@ -16,12 +16,17 @@ function Merge() {
 
     return(
         <>
+            <div style={{width: '70%', margin: '0 auto', marginBottom: 50}}>
+                <h3 style={{textAlign: 'left'}}>꾸러미</h3>
+                <hr/>    
+            </div>
             <div className={MergeLayoutCSS.mergeMain}>
+                
                 <div>
                     <ProductCategory type="merge"/>
                     <MergeCategory />
                     {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductFilter/> : ""}
-                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge" /> : !window.localStorage.getItem("mergeGuide") && <img src="/images/siteImage/mergeGuide.svg" alt="꾸러미 가이드"/>}
+                    {url.searchParams.get("categoryCode") && getCategoryCode ? <ProductList type="merge" /> : <img src="/images/siteImage/mergeGuide.svg" alt="꾸러미 가이드"/>}
                 </div>
                 <MergeBox/>
             </div>

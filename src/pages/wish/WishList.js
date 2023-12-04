@@ -71,8 +71,11 @@ function WishList() {
     function WishListContent() {
         return (
             <>
+                <div style={{width:'70%', margin: '0 auto'}}>
+                    <h1>관심목록</h1>
+                    <hr/>
+                </div>
                 <div className={WishListCSS.wishListContainer}>
-                    <div className={WishListCSS.wishListTitle}>관심목록</div>
                     <div className={WishListCSS.wishListBox}>
                         <table>
                             <colgroup>

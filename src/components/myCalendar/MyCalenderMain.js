@@ -58,16 +58,21 @@ const MyCalendar = ({type}) => {
 
     const handleSelectSlot = ({ start, action }) => {
         if(action === "click") {
-            if(timestamp(start).substring(0, 10) >= timestamp(new Date()).substring(0, 10)) {
-                setTempEvent(new Date(start.toISOString().substring(0,10)));
-                setShowAgenda(-1);
-                setNewAgenda(true);
-                setSelectDate(timestamp(start).substring(0, 10));
-            } else {
-                if(type !== "main") {
-                    alert("현재 날짜부터 선택 가능합니다"); 
-                }
-            }
+            setTempEvent(new Date(start.toISOString().substring(0,10)));
+            setShowAgenda(-1);
+            setNewAgenda(true);
+            setSelectDate(timestamp(start).substring(0, 10));
+
+            // if(timestamp(start).substring(0, 10) >= timestamp(new Date()).substring(0, 10)) {
+            //     setTempEvent(new Date(start.toISOString().substring(0,10)));
+            //     setShowAgenda(-1);
+            //     setNewAgenda(true);
+            //     setSelectDate(timestamp(start).substring(0, 10));
+            // } else {
+            //     if(type !== "main") {
+            //         alert("현재 날짜부터 선택 가능합니다"); 
+            //     }
+            // }
         }
     }
 
@@ -96,6 +101,8 @@ const MyCalendar = ({type}) => {
                         dispatch(callMyCalendarRegistAPI(agendaInput, endDate, selectTime));
                     } else if (ifFive >= 5) {
                         alert("하루에 최대 5개 일정만 기록 가능합니다");
+                    } else if(selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10)) {
+                        alert("이전 날짜에 일정을 추가할 수 없습니다");
                     } else {
                         alert("내용을 입력하세요");
                         inputFocus1.current.focus();
@@ -129,9 +136,9 @@ const MyCalendar = ({type}) => {
                     <div className='mainEditContainer'>     
                         <div className='mainEdit'>
                             <div className='mainCalendarTitle'>일정 추가</div>
-                            {ifFive >= 5 ? <textarea disabled className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/> : <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>}
+                            {ifFive >= 5 || selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10) ? <textarea disabled className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/> : <textarea className="agendaTextarea" value={agendaInput} onChange={onChangeHandler} spellCheck={false} maxLength={100} ref={inputFocus1} placeholder="내용을 입력하세요"/>}
                             <input disabled type='date' className='inputDateBig' onChange={onChangeEndDate} defaultValue={selectDate} min={timestamp(new Date()).substring(0, 10)} />
-                            {ifFive >= 5 ? <input disabled type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' /> : <input type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' />}                     
+                            {ifFive >= 5 || selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10)  ? <input disabled type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' /> : <input type='time'onChange={onChangeTime} defaultValue={timeString(selectTime)} className='inputDateBig' />}                     
                         </div>
     
                         <div className='saveModal'>

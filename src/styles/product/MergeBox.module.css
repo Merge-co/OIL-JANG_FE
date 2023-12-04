@@ -1,7 +1,6 @@
 .mergeMain {
   position: relative;
   display: flex;
-  flex-direction: column;
   flex-flow: column wrap;
 }
 

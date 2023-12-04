@@ -114,6 +114,13 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         }
     }
 
+    const userImageThumbAddr = productDetailInfos.userImageThumbAddr
+  ? productDetailInfos.userImageThumbAddr.replace(
+      "C:\\OIL-JANG_FE\\public",
+      ""
+    ) : "";
+ 
+
     return (
         <>
             <div className={ProductDetailCSS.productDetailRight}>
@@ -140,7 +147,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                 </div>
                 <div className={ProductDetailCSS.productDetailSellerHr}>판매자정보</div>
                 <div className={ProductDetailCSS.sellerInfoBox}>
-                    <img src={productDetailInfos && productDetailInfos.userImageThumbAddr} alt="판매자 정보" className={ProductDetailCSS.sellerProfile} />
+                    <img src={productDetailInfos && userImageThumbAddr} alt="판매자 정보" className={ProductDetailCSS.sellerProfile} />
                     <div className={ProductDetailCSS.sellerInfo}>
                         <div className={ProductDetailCSS.sellerName}>{productDetailInfos.nickName}</div>
                         {/* <div className={ProductDetailCSS.otherProduct}>판매자의 다른 상품 보기</div> */}
