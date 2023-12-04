@@ -1,0 +1,39 @@
+/* .ProductList{
+    width: 80%;
+    margin: 0 auto;
+} */
+.wishListBox table{
+    position: relative;
+    margin-bottom: 45px;
+}
+.productListBox{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 1000px;
+    color: #222;
+}
+.tableName{
+    text-align: center;
+    border-bottom: 1px solid #222222;
+    margin-bottom: 45px;
+    height: 223px;
+}
+
+.productListTh{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+    font-weight: normal;
+}
+.productState{
+    width: 145px;
+    height: 48px;
+    border-radius: 5px;
+    border: solid 1px #222222;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+}
+.productListBtn{
+    margin: 50px;
+}
