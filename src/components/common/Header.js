@@ -18,7 +18,7 @@ function Header() {
     dispatch(callLogoutAPI());
     setHeaderChange(1);
   };
-  
+
   useEffect(
     () => {
       if((getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0].toString().indexOf("ADMIN") !== -1)) {
@@ -57,13 +57,6 @@ function Header() {
     );
   }
 
-  // function LogIn() {
-  //   return(
-  //     <div>
-  //       <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/login"><img src="/images/siteImage/logInIcon.svg" alt="로그인 이미지"/></NavLink>
-  //     </div>
-  //   );
-  // }
 
   function LogOut() {
     return(
