@@ -12,7 +12,7 @@ const AddProduct = () => {
     const dispatch = useDispatch();
     const [imageCount, setImageCount] = useState(0);
     const [priceOption, setPriceOption] = useState('sell');
-    const [price, setPrice] = useState('');
+    const [price, setPrice] = useState(0);
     const [images, setImages] = useState([]);
     const [productName, setProductName] = useState('');
     const [refCategoryCode, setRefCategoryCode] = useState(null);
@@ -20,6 +20,9 @@ const AddProduct = () => {
     const [productDesc, setProductDesc] = useState(null);
     const [wishPlaceTrade, setWishPlaceTrade] = useState(null);
 
+    const MAX_DESCRIPTION_LENGTH = 300;
+    const [description, setDescription] = useState('');
+    const [descriptionLength, setDescriptionLength] = useState(0);
 
 
     const navigate = useNavigate();
@@ -54,10 +57,9 @@ const AddProduct = () => {
                 return;
             }
 
-            setPrice(numericValue || null);
+            setPrice(numericValue !== '' ? parseInt(numericValue) : 0);
         }
     };
-
 
 
     const handleImageUpload = (event) => {
@@ -82,6 +84,17 @@ const AddProduct = () => {
         updateImageCount(newImages);
     };
     const handleDescriptionChange = (e) => {
+        const inputDescription = e.target.value;
+        if (inputDescription.length <= MAX_DESCRIPTION_LENGTH) {
+            setDescription(inputDescription);
+            setDescriptionLength(inputDescription.length);
+            setProductDesc(inputDescription);
+        } else {
+            alert('300자 이내로 작성해주세요.');
+        }
+        setDescription(inputDescription);
+        setDescriptionLength(inputDescription.length);
+        setProductDesc(inputDescription);
         setProductDesc(e.target.value);
     };
 
@@ -100,7 +113,7 @@ const AddProduct = () => {
         formData.append('productDesc', productDesc !== null ? productDesc : '');
         formData.append('wishPlaceTrade', wishPlaceTrade !== null ? wishPlaceTrade : '');
         formData.append('refUserCode', refUserCode);
-        formData.append('sellStatusCode', refUserCode);
+        formData.append('sellStatusCode', 1);
 
 
         if (!productName || productName.trim() === '') {
@@ -249,19 +262,26 @@ const AddProduct = () => {
                 <h2 className='addproduct'>상품등록</h2>
                 <hr />
                 <div>
-                    <label htmlFor="product_name" id="product_name" className="font_all">
-                        상품명 *
-                    </label>
-                    <input
-                        type="text"
-                        name="productName"
-                        id="product_name"
-                        className="input_box"
-                        placeholder="제목을 입력해 주세요"
-                        required
-                        value={productName}
-                        onChange={onChangeHandler}
-                    />
+                    <div className='productCount'>
+                        <label htmlFor="product_name" id="product_name" className="font_all">
+                            상품명*
+                        </label>
+                        {productName !== null && (
+                            <div>({productName.length}/50)</div>
+                        )}
+                        <input
+                            type="text"
+                            name="productName"
+                            id="product_name"
+                            className="input_box"
+                            placeholder="제목을 입력해 주세요"
+                            required
+                            maxLength={50}
+                            value={productName}
+                            onChange={onChangeHandler}
+                        />
+                    </div>
+
                     <br />
                     <div className="count_flex">
                         <label htmlFor="image_upload" >
@@ -361,7 +381,7 @@ const AddProduct = () => {
                         className='PriceBox'
                         placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
                         disabled={priceOption === 'share'}
-                        value={price !== '' ? priceToString(price) : ''}
+                        value={price !== '' ? priceToString(price) : price}
                         onChange={handlePriceChange}
                     />
                     <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
@@ -370,35 +390,46 @@ const AddProduct = () => {
                 </div>
                 <div>
                     <div className='product_box'>
-                        <h3 htmlFor="product_description" className='product_description'>
-                            상품 설명*
-                        </h3>
+                        <div className='descCount'>
+                            <h3 htmlFor="product_description" className='product_description'>
+                                상품 설명*
+                            </h3>
+                            <div>({descriptionLength}/{MAX_DESCRIPTION_LENGTH})</div>
+                        </div>
                         <div className='dengerFont'>
-                        <textarea
-                            name="product_description"
-                            id="product_description"
-                            className='description'
-                            placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록,자세한 정보와 다양한 각도의 상품 사진을 올려주세요.
+                            <textarea
+                                name="product_description"
+                                id="product_description"
+                                className='description'
+                                placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록,자세한 정보와 다양한 각도의 상품 사진을 올려주세요.
             * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
-                            onChange={handleDescriptionChange}
-                        ></textarea>
-                        <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
+                                onChange={handleDescriptionChange}
+                                maxLength={300}
+                            ></textarea>
+                            <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
                         </div>
                     </div>
                     <br />
                     <hr />
                 </div>
                 <div className='place'>
-                    <label htmlFor="wish_place_to_trade" className='placeFont'>
-                        거래희망 장소*
-                    </label>
+                    <div className='wishCount'>
+                        <label htmlFor="wish_place_to_trade" className='placeFont'>
+                            거래희망 장소*
+                        </label>
+                        {wishPlaceTrade !== null && (
+                            <div>({wishPlaceTrade.length}/50)</div>
+                        )}
+                    </div>
                     <textarea
                         name="wishPlaceTrade"
                         id="wish"
                         className='WishPlace'
                         placeholder="위치 작성"
                         onChange={handleWish}
+                        maxLength={50}
                     ></textarea>
+
                     <hr />
                 </div>
                 <div>
