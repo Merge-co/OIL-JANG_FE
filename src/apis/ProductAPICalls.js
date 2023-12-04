@@ -63,7 +63,8 @@ export const callGetProductList = (type, morePage) => {
             result => result.data.results
         );
 
-        dispatch({ type: GET_PRODUCTLIST, payload: [result, requestURL]});
+        // dispatch({ type: GET_PRODUCTLIST, payload: [result, requestURL] });
+        dispatch({ type: GET_PRODUCTLIST, payload: [result, window.location.href]});
     };
 }
 

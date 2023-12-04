@@ -34,17 +34,18 @@ function Main() {
 
     return(
         <>
-        <div className={MainCSS.MainLayout}>
-            <div className={MainCSS.MainBannerLayout}>
-                <div>
-                    <div className="mainBanner">
+            <div className={MainCSS.MainLayout}>
+                <div className={MainCSS.MainBannerLayout}>
+                    <div>
+                        <div className="mainBanner">
                             <ImageGallery items={images} showBullets={true} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} showNav={false} slideInterval={5000} autoPlay={true} onClick={onClick}/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
                 <div>
-                    <div className={MainCSS.MainTitle}><img src="/images/siteImage/weeklyHot.svg"/>주간! 중고 상품</div>
+                    <div className={MainCSS.MainTitle}>
+                        <img src="/images/siteImage/weeklyHot.svg" />주간! 중고 상품
+                    </div>
                     <ProductList type="main"/>   
                 </div>
             </div>     

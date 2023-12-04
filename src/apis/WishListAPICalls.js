@@ -36,6 +36,6 @@ export const callGetWishListAPI = () => {
         }).then(
             result => result.data.results
         );
-        dispatch({ type: GET_WISHLIST, payload: result});
+        dispatch({ type: GET_WISHLIST, payload: [result, window.location.href]});
     };
 }
