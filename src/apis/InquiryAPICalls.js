@@ -233,19 +233,32 @@ export const callInquiryListAPI = ({userCode, inqCateCode, inqStatus, page, role
 // }
 
 
-export const callInquiryModifyAPI = ({userCode, inqCode}) => {
+export const callInquiryModifyAPI = ({form, userCode, inqCode}) => {
     console.log('[InquiryAPICalls] callInquiryModifyAPI Call');
 
     let requestURL = `http://localhost:8000/users/${userCode}/inquiries/${inqCode}`;
 
     return async(dispatch, getState) => {
+
+        let date = new Date();
+
         const result = await axios.put(requestURL, {
+
+            inqCode: form.get('inqCode'),
+            inqTitle: form.get('inqTitle'),
+            inqContent: form.get('inqContent'),
+            inqAnswer: form.get('inqAnswer'),
+            inqTime: date,
+            refUserCode: jwtDecode(getCookie("accessToken")).userCode,
+            inqCateCode: form.get('inqCateCode'),
+            inqCateName: form.get('inqCateName'),
+            inqStatus: form.get('inqStatus'),
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
                 Authorization: `Bearer ${getCookie("accessToken")}`
-            }
+            },
         })
 
         console.log('[MessageAPICalls] callInquiryModifyAPI RESULT', result);
@@ -253,7 +266,6 @@ export const callInquiryModifyAPI = ({userCode, inqCode}) => {
         dispatch({type: PUT_INQUIRIES_INQCODE, payload: result});
         return result;
     }
-
 }
 
 

@@ -4,25 +4,36 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { callInquiryDetailAPI, callInquiryModifyAPI, callInquiryRegistAPI } from '../../apis/InquiryAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { getCookie } from '../../modules/CookieModule';
 
 
 
 function InquiryDetail({inqCode, userCode}){
+
+   // const isReadOnly = location.state ? location.state.readOnly : false;
 
     const dispatch = useDispatch();
     const params = useParams();
     const navigate = useNavigate();
 
     const [inqDetail, setInqDetail] = useState([]);
-    const [replyContent, setReplyContent] = useState('');
     const [isReadOnly, setIsReadOnly] = useState(true);
     let [inputCount, setInputCount] = useState(0);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [category, setCategory] = useState({
+        inqCateCode : 0,
+        inqCateName: '',
+    })
 
     console.log("inqCode" + params.inqCode)
 
+    
     useEffect(
         
         () => {
+            if (params.inqCode) {
             dispatch(callInquiryDetailAPI({
                 inqCode: params.inqCode
            
@@ -30,39 +41,38 @@ function InquiryDetail({inqCode, userCode}){
                 console.log("result ========" + result)
                 if(result && result.data){
                     setInqDetail([result.data.results]);
-                    const {refUserCode, inqCateCode} = result.data.results.inqSelectDetailDTOList[0];
+                    const {refUserCode, inqCateCode, inqCateName} = result.data.results.inqSelectDetailDTOList[0];
                     setForm({
                         ...form,
                         refUserCode,
                         inqCateCode,
+                        inqCateName,
                     });
                 }else{ 
                     console.log('[MessageDetail] API response does not contain data: ', result)
                 }
             }))
+          }
         }, [dispatch, inqCode]
     );
 
+    
 
+    console.log(inqDetail)
     const [form, setForm] = useState({
-        inqCode: 0,
+        inqCode: params.inqCode,
         inqTitle: '',
         inqContent: '',
         inqAnswer: '',
         inqTime: '',
-        refUserCode: 0,
+        refUserCode: params.userCode,
         inqCateCode: 0,
         inqCateName: '',
         inqStatus:'',
     })
 
 
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [category, setCategory] = useState({
-        inqCateCode : 0,
-        inqCateName: '',
-    })
+
 
     const onChangeHandler = (e) => {
 
@@ -73,11 +83,6 @@ function InquiryDetail({inqCode, userCode}){
                 setTitle(inputValue);
             }else if(e.target.name === 'inqContent'){
                 setContent(inputValue);
-            }else if(e.target.name === 'inqCateCode' || e.target.name === 'inqCateName'){
-                setCategory({
-                    ...category,
-                    inqCateName : inputValue,
-                })
             }
         }
 
@@ -110,8 +115,8 @@ function InquiryDetail({inqCode, userCode}){
 
         const formData = new FormData();
         formData.append("inqCode", form.inqCode);
-        formData.append("inqTitle", form.inqTitle);
-        formData.append("inqContent", form.inqContent);
+        formData.append("inqTitle", title);
+        formData.append("inqContent", content);
         formData.append("inqAnswer", form.inqAnswer);
         formData.append("inqTime", form.inqTime);
         formData.append("refUserCode", form.refUserCode);
@@ -123,14 +128,12 @@ function InquiryDetail({inqCode, userCode}){
         if(isReadOnly){
             setTitle('');
             setContent('');
-            setCategory({
-                inqCateCode: 0,
-                inqCateName:'',
-            });
             setIsReadOnly(!isReadOnly);
         } else{
             console.log(!isReadOnly)
             dispatch(callInquiryModifyAPI({
+                userCode: form.refUserCode,
+                inqCode: params.inqCode,
                 form: formData 
             })).then((response) => {
                 alert('수정을 성공했습니다!');
@@ -141,6 +144,12 @@ function InquiryDetail({inqCode, userCode}){
 
 
     }
+
+    const categoryOptions = [
+        {code: 1, label: "시스템 문의"},
+        {code: 2, label: "이의 제기"},
+        {code: 3, label: "기타"},
+    ];
 
     return(
 
@@ -174,10 +183,10 @@ function InquiryDetail({inqCode, userCode}){
                         value={isReadOnly ? inquiry.inqSelectDetailDTOList[0].inqTitle : title}
                         style={{border : isReadOnly ? "none" : "1px solid #9d9d9d"}}
                         onChange={onChangeHandler}
-                        maxLength={15}
+                        maxLength={30}
                         name='inqTitle'
                     />
-      {console.log(isReadOnly)}
+                    {console.log(isReadOnly)}
       
                     </div>
                 
@@ -190,11 +199,13 @@ function InquiryDetail({inqCode, userCode}){
                         style={{border : isReadOnly ? "none" : "1px solid #9d9d9d"}}
                         onChange={onChangeHandler}
                         name='inqCateName'
+                        value={inquiry.inqSelectDetailDTOList[0].inqCateCode}
+                        disabled
                     >
-                        <option value={0}>선택하세요</option>
-                        <option value={1}>시스템문의</option>
-                        <option value={2}>이의제기</option>
-                        <option value={3}>기타</option>
+                        <option value="" selected hidden="hidden" disabled>선택하세요</option>
+                        {categoryOptions.map((category) => (
+                            <option key={category.code} value={category.code}>{category.label}</option>
+                        ))}
                     </select>
                     {console.log(isReadOnly)}
                     </div>
