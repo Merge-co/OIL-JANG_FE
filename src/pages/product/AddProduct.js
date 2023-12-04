@@ -246,7 +246,7 @@ const AddProduct = () => {
     return (
         <>
             <div className='addDiv'>
-                <h3>상품등록</h3>
+                <h2 className='addproduct'>상품등록</h2>
                 <hr />
                 <div>
                     <label htmlFor="product_name" id="product_name" className="font_all">
@@ -373,6 +373,7 @@ const AddProduct = () => {
                         <h3 htmlFor="product_description" className='product_description'>
                             상품 설명*
                         </h3>
+                        <div className='dengerFont'>
                         <textarea
                             name="product_description"
                             id="product_description"
@@ -381,9 +382,10 @@ const AddProduct = () => {
             * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
                             onChange={handleDescriptionChange}
                         ></textarea>
+                        <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
+                        </div>
                     </div>
                     <br />
-                    <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
                     <hr />
                 </div>
                 <div className='place'>

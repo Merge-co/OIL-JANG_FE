@@ -3,10 +3,11 @@
     margin: 0 auto;
 }
 
-h3 {
+.addproduct {
     font-size: 22pt;
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     color: #222222;
+    margin: 18px 0px;
 }
 
 .font_all {
@@ -63,6 +64,10 @@ h3 {
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     color: #222222;
     margin: 88px 95px 0px 0px;
+}
+.dengerFont{
+    display: flex;
+    flex-direction: column;
 }
 
 .WishPlace {
@@ -239,7 +244,7 @@ div#spin {
 
 .danger {
     text-align: right;
-    margin: 13px 110px 30px 0px;
+    margin: 15px;
 }
 
 .place {
