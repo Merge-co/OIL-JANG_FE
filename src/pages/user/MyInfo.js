@@ -31,7 +31,7 @@ function MyInfo() {
       setIsPasswordValidated(true);
       navigate("/editMyInfo", { state: { isPasswordValidated: true } });
     } else {
-      console.log("Incorrect password");
+      console.log("틀린 비밀번호입니다.");
     }
   };
 
@@ -43,10 +43,8 @@ function MyInfo() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user.data) {
-      console.log("userDetail", user.data);
-    }
-  }, [user.data]);
+    console.log("Updated user:", user);
+  }, [user]);
 
   if (user.loading) {
     return <p>Loading...</p>;
@@ -56,17 +54,15 @@ function MyInfo() {
     return <p>No user data available.</p>;
   }
 
-  const userImageThumbAddr = userDetail.data.userImageThumbAddr
-  ? userDetail.data.userImageThumbAddr.replace(
-      "C:\\OIL-JANG_FE\\public",
-      ""
-    )
-  : "";
-  console.log("userImageThumbAddr", userImageThumbAddr);
+  const userImageThumbAddr =
+    userDetail.data && userDetail.data.userImageThumbAddr
+      ? userDetail.data.userImageThumbAddr.replace(
+          "C:\\OIL-JANG_FE\\public",
+          ""
+        )
+      : "";
 
   const onClickEditHandler = () => {
-    console.log("userDetail.data.EnrollType", userDetail.data.enrollType);
-    console.log("EnrollType check", userDetail.data.enrollType === "GOOGLE");
     if (userDetail.data && userDetail.data.enrollType !== "NORMAL") {
       navigate("/editMyInfo", { state: { isPasswordValidated: true } });
     } else {
@@ -108,7 +104,7 @@ function MyInfo() {
 
               <div className={UserMypageCSS.userInfo}>
                 <div className={UserMypageCSS.userName}>
-                  {userDetail.data.nickname || ""}
+                  {userDetail.data?.nickname || ""}
                 </div>
               </div>
             </div>
@@ -120,20 +116,20 @@ function MyInfo() {
 
                 <input
                   type="text"
-                  value={userDetail.data.name || ""}
+                  value={userDetail.data?.name || ""}
                   readOnly
                   className={UserMypageCSS.inputField}
                 />
               </div>
 
-              {userDetail.data.enrollType === "NORMAL" && (
+              {userDetail.data?.enrollType === "NORMAL" && (
                 <>
                   <div className={UserMypageCSS.labelInputContainer}>
                     <label className={UserMypageCSS.label}>생년월일</label>
 
                     <input
                       type="text"
-                      value={userDetail.data.birthDate || ""}
+                      value={userDetail.data?.birthDate || ""}
                       readOnly
                       className={UserMypageCSS.inputField}
                     />
@@ -146,13 +142,13 @@ function MyInfo() {
                 <br />
                 <input
                   type="text"
-                  value={userDetail.data.email || ""}
+                  value={userDetail.data?.email || ""}
                   readOnly
                   className={UserMypageCSS.inputField}
                 />
               </div>
 
-              {userDetail.data.enrollType === "NORMAL" && (
+              {userDetail.data?.enrollType === "NORMAL" && (
                 <>
                   <div className={UserMypageCSS.labelInputContainer}>
                     <label className={UserMypageCSS.label}>휴대폰 번호</label>

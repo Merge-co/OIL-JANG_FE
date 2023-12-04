@@ -65,11 +65,11 @@ function EditMyInfo() {
     } 
     
     if (
-      (userData.profileImage || userData.nickname || userData.newPassword || userData.newPasswordConfirm) &&
+      userData.newPassword &&
       !isPwdValid &&
       userDetail.data.enrollType === "NORMAL"
     ) {
-      alert("The password is not in the correct format.");
+      alert("옳지 않은 비밀번호 형식입니다.");
       return;
     }else if (
       (userData.newPassword || userData.newPasswordConfirm) &&
@@ -101,7 +101,8 @@ function EditMyInfo() {
 
     dispatch(callUpdateUserAPI({ updatedData }));
 
-    navigate("/myInfo");
+    navigate("/myInfo", { replace: true });
+    
   };
 
   useEffect(() => {
