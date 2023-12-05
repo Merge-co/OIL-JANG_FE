@@ -255,7 +255,7 @@ const MyCalendar = ({type}) => {
                     <div className='smallWeek'>
                         {getDayOfWeek(selectDate)}
                     </div>
-                    <div className='eventListTitle'>&#60;일정 목록&#62;</div>
+                    <div className='eventListTitle' style={{display: 'flex', justifyContent: 'center'}}>&#60;일정 목록&#62;</div>
                     <div className='eventList eventListScroll'>
                         {myEvents.filter(con => con.end.toISOString().substring(0, 10) === selectDate.substring(0, 10)).map(con =>
                             <div key={con.id} onClick={() => { setShowAgenda(con.id); setNewAgenda(false); }} style={{overflow: 'scroll'}}>

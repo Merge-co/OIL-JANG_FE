@@ -87,7 +87,7 @@ function Header() {
       <div className={HeaderCSS.headerLayout}>
         <div>
           <NavLink to="/">
-            <img src="/images/siteImage/logo.svg" alt="오일장 로고" height={50} className={HeaderCSS.headerLogo} />
+            <img src="/images/siteImage/logo.png" alt="오일장 로고" height={50} className={HeaderCSS.headerLogo} />
           </NavLink>
         </div>
         <div className={HeaderCSS.headerContainter}>
