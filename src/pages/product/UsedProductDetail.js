@@ -5,6 +5,9 @@ import { callGetProductDetail } from '../../apis/ProductAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserProductDetailImg from './UserProductDetailImg';
 import UsedProductDetailInfo from './UsedProductDetailInfo';
+import { navigate } from 'react-big-calendar/lib/utils/constants';
+import { jwtDecode } from 'jwt-decode';
+import { getCookie } from '../../modules/CookieModule';
 
 function UsedProductDetail() {
 
@@ -23,16 +26,28 @@ function UsedProductDetail() {
         },[]
     );
 
-
     const navigate = useNavigate();
+
+    console.log(productDetailInfos)
+
+    if(productDetailInfos && productDetailInfos.sellStatusCode === 3 && productDetailInfos.productCode == params.productCode) {
+        alert("잘못된 페이지 접근입니다.");
+        navigate("/usedProduct");
+    } else if(getCookie("accessToken") && productDetailInfos && productDetailInfos.sellStatusCode === 2 && productDetailInfos.productCode == params.productCode && productDetailInfos.refUserCode != jwtDecode(getCookie("accessToken")).userCode) {
+        alert("잘못된 페이지 접근입니다.");
+        navigate("/usedProduct");
+    }
 
     const onClickHome = () => {
         navigate(`/`);
     }
 
+
+
     function ProductDetailInfo() {
         return (
             <>
+                {productDetailInfos.sellStatusCode !== 3 &&
                 <div className={ProductDetailCSS.productDetailContainer}>
                     <div className={ProductDetailCSS.productDetailBox}>
                         <div className={ProductDetailCSS.productDetailBox}>
@@ -60,7 +75,7 @@ function UsedProductDetail() {
                         </div>
                     </div>
                 </div>
-                
+                }
             </>
         );
     }
