@@ -2,6 +2,7 @@ import ProductItem from "./ProductItem";
 import ProductListCSS from '../../styles/product/ProductList.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import PagingBarCSS from '../../styles/PagingBar.module.css';
+import MainCSS from '../../styles/MainLayout.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import PagingBar from "../common/PagingBar";
 import { useEffect, useRef } from "react";
@@ -105,6 +106,9 @@ function ProductList(type) {
     function ProductListResult() {
         return (
             <>
+                {type.type === "main" && <div className={MainCSS.MainTitle}>
+                    <img src="/images/siteImage/weeklyHot.svg" alt="weeklyHot" />주간! 중고 상품
+                </div>}
                 <div style={styleObject} className={ProductListCSS.productList}>
                     {
                         productList ? productList.map(productList => <ProductItem key={"productList" + productList.productCode} productList={productList} type={type.type}/>) : ""

@@ -48,9 +48,7 @@ function Main() {
             <div className={MainCSS.MainLayout}>
                 
                 <div>
-                    <div className={MainCSS.MainTitle}>
-                        <img src="/images/siteImage/weeklyHot.svg" />주간! 중고 상품
-                    </div>
+                    
                     <ProductList type="main"/>   
                 </div>
             </div>     
