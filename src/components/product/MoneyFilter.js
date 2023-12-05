@@ -4,11 +4,14 @@ import ProductFilterCSS from '../../styles/product/ProductFilter.module.css'
 import { useDispatch } from 'react-redux';
 import { GET_MONEY_SETTING } from '../../modules/ProductModule';
 function MoneyFilter() {
+    const curURL = new URL(window.location.href);
 
     const [ moneyCriteria, setMoneyCriteria ] = useState({
-        minPriceValue: '',
-        maxPriceValue: ''
+        minPriceValue: curURL.searchParams.get('minPrice') || '',
+        maxPriceValue: curURL.searchParams.get('maxPrice') || ''
     });
+
+    console.log( curURL.searchParams.get('minPrice'))
 
     const { minPriceValue, maxPriceValue } = moneyCriteria;
 
