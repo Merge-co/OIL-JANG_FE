@@ -37,7 +37,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
             console.log("성공하면 찍힙니다")
             console.log("message: " + modalType,getCookie("accessToken") )
         } else {
-            alert("쪽지를 보내려면 로그인 해야 합니다.");
+            navigate(`/login`);
         }
     }
 
@@ -73,7 +73,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     const dispatch = useDispatch();
 
     const onClickEditHandler = () => {
-        navigate(`/productEdit/${params.productCode}`)
+        navigate(`/productEdit                                          /${params.productCode}`)
     }
 
     const [plusMinusCount, setPlusMinusCount] = useState(0);
@@ -123,7 +123,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                 }
             }
         } else {
-            alert("찜하려면 로그인 해야 합니다.");
+            navigate(`/login`);
         }
     }
 

@@ -1,11 +1,12 @@
 .mainBanner .image-gallery-slide img {
-    width: 100%;
+    width: 1920px;
 }
 
 .mainBanner .image-gallery-slide .image-gallery-image {
-    min-height: 305px;
-    max-height: 305px;
+    min-height: 350px;
+    max-height: 350px;
     object-fit: cover;
+    width: 1920px;
 }
 
 .productDetailGallery .image-gallery-slide img {

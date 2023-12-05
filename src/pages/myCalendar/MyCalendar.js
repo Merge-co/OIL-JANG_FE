@@ -4,7 +4,7 @@ function MyCalendar() {
     return(
         <>
             <div style={{width:'70%', margin: '0 auto'}}>
-                <h1>일정관리</h1>
+                <h1 style={{color: "#222222"}}>일정관리</h1>
                 <hr/>
             </div>
             <MyCalendarMain/>

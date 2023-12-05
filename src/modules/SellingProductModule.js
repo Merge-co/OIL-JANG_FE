@@ -35,13 +35,13 @@ export const {
 /* 리듀서 */
 const productReducer = handleActions(
   {
-    [GET_PRODUCT]: (state, { payload }) => ({ ...state, product: payload.product }),
-    [GET_PRODUCTS]: (state, { payload }) => ({ ...state, products: payload.products }),
-    [GET_PRODUCTS_MEAL]: (state, { payload }) => ({ ...state, mealProducts: payload.mealProducts }),
-    [GET_PRODUCTS_DESSERT]: (state, { payload }) => ({ ...state, dessertProducts: payload.dessertProducts }),
-    [GET_PRODUCTS_BEVERAGE]: (state, { payload }) => ({ ...state, beverageProducts: payload.beverageProducts }),
+    // [GET_PRODUCT]: (state, { payload }) => ({ ...state, product: payload.product }),
+    // [GET_PRODUCTS]: (state, { payload }) => ({ ...state, products: payload.products }),
+    // [GET_PRODUCTS_MEAL]: (state, { payload }) => ({ ...state, mealProducts: payload.mealProducts }),
+    // [GET_PRODUCTS_DESSERT]: (state, { payload }) => ({ ...state, dessertProducts: payload.dessertProducts }),
+    // [GET_PRODUCTS_BEVERAGE]: (state, { payload }) => ({ ...state, beverageProducts: payload.beverageProducts }),
     [POST_PRODUCT]: (state, { payload }) => ({ ...state, product: payload.product }),
-    [PUT_PRODUCT]: (state, { payload }) => ({ ...state, product: payload.product }),
+    // [PUT_PRODUCT]: (state, { payload }) => ({ ...state, product: payload.product }),
   },
   initialState
 );

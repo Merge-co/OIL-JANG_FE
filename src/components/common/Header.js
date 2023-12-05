@@ -57,7 +57,6 @@ function Header() {
     );
   }
 
-
   function LogOut() {
     return(
       <div>
@@ -87,24 +86,13 @@ function Header() {
       <div className={HeaderCSS.headerLayout}>
         <div>
           <NavLink to="/">
-            <img src="/images/siteImage/logo.svg" alt="오일장 로고" height={50} className={HeaderCSS.headerLogo} />
+            <img src="/images/siteImage/logo.png" alt="오일장 로고" height={50} className={HeaderCSS.headerLogo} />
           </NavLink>
         </div>
         <div className={HeaderCSS.headerContainter}>
           {headerChange === 3 ? <AdminHeader/> : <NotLogIn/>}
-          {/* <div>
-           <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/test">토큰 테스트</NavLink>
-          </div> */}
         </div>
       </div>
-      {/* <div>
-        <NavLink to="/login">로그인</NavLink>
-      </div>
-      <div>
-        <NavLink to="/" onClick={Logouthandler}>
-          로그아웃
-        </NavLink>
-      </div> */}
       <div className={HeaderCSS.headerMargin}></div>
     </>
   );

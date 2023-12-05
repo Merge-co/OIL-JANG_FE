@@ -39,10 +39,8 @@ function App() {
           <Route path='merge' element={<AuthCheck component={<Merge />} require="NoAdmin" />} />
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
-
-          <Route path='addProduct' element={<AuthCheck component={<AddProduct />} require="Login" />} /> 
-          <Route path='productEdit/:productCode' element={<AuthCheck component={<ProductEdit /> } require="Login" />} /> 
-
+          <Route path='addProduct' element={<AuthCheck component={<AddProduct />} require="User" />} />
+          <Route path='productEdit/:productCode' element={<AuthCheck component={<ProductEdit />} require="User" /> } />
 
           <Route path='/' element={<AuthCheck component={<SubHeaderLayout />} require="Login" />}>
             <Route path='myproductlist' element={<AuthCheck component={<MyProductList />} require="User" />} />
@@ -60,12 +58,11 @@ function App() {
           </Route>
           <Route path='messageDetail/:msgCode' element={<MessageDetail />} />
 
-
-
-
-          <Route path='/report' element={<Report />} />
-          <Route path='/processManagement' element={<ReportManagement />} />
-          <Route path='/sanctions' element={<SanctionsManagement />} />
+            <Route path='/' element={<AuthCheck component={<Message />} require="User" />}>
+             <Route path='messageList' element={<MessageList />} />
+            </Route>
+            <Route path='messageDetail/:msgCode' element={<AuthCheck component={<MessageDetail/>} require="User" />}/>
+          <Route path='/sanctions' element={<AuthCheck component={<SanctionsManagement />} require="Admin" />} />
 
           <Route path='login' element={<Login />} />
           <Route path='join' element={<Join />} />
