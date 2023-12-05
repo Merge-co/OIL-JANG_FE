@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetWishListAPI, callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import PagingBar from './../../components/common/PagingBar';
-import { GET_WISHLIST_AGAIN, onClickItemDetail, priceToString } from '../../modules/ProductModule';
+import { GET_WISHLIST_AGAIN, GET_WISHLIST_DELELE_RESULT, onClickItemDetail, priceToString } from '../../modules/ProductModule';
 import { useRef } from 'react';
 import { GET_PAGING } from '../../modules/PagingModule';
 
@@ -14,6 +14,7 @@ function WishList() {
     const dispatch = useDispatch();
 
     const wishListReset = useSelector(state => state.productReducer.getWishListAgain);
+    const wishListDelete = useSelector(state => state.productReducer.getWishListDeleteResult);
     const PagingInfo = useSelector(state => state.pagingReducer);
     
     const getWishListResult = useSelector(state => state.wishListReducer.getWishList);
@@ -32,13 +33,13 @@ function WishList() {
                 dispatch({ type: GET_PAGING, payload: 0 });
             }      
 
-            if (rendered.current !== window.location.href) {
+            if (rendered.current !== window.location.href || wishListDelete === 1) {
                 dispatch(callGetWishListAPI());
             }
 
             rendered.current = window.location.href;
-
-        },[PagingInfo, wishListReset]
+            dispatch({ type: GET_WISHLIST_DELELE_RESULT, payload: 0});
+        },[PagingInfo, wishListReset, wishListDelete]
     );
 
     function WishListItem({wishListItem}) {
