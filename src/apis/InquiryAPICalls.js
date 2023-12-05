@@ -54,7 +54,7 @@ export const callInquiryRegistAPI = ({form}) => {
                 inqCateCode: form.get('inqCateCode'),
                 inqCateName: form.get('inqCateName')
             },
-            inqStatus: form.get('inqStatus'),
+            inqStatus: 'N',
             method: "POST",
             headers: {
                 "Accept": "*/*",
@@ -100,25 +100,36 @@ export const callInquiryDetailAPI = ({inqCode}) => {
 export const callInquiryListAPI = ({userCode, inqCateCode, inqStatus, page, role, keyword}) => {
     console.log('[InquiryAPICalls] callInquiryListAPI Call');
 
-    let requestURL = `http://localhost:8000/users/${userCode}/inquiries?`;
+    let requestURL = `http://localhost:8000/users/${userCode}/inquiries`;
     
     const params = new URLSearchParams(window.location.search);
 
+    console.log('22222222222222222222222222', userCode);
+    console.log('111111111111111111111111111111', inqStatus);
+
     
     if(params.get("page")){
-        requestURL += `&page=${params.get("page")}`;
+        requestURL += (requestURL.includes('?') ? '&' : '?') + `page=${params.get("page")}`;
     }
 
-    if(params.get("inqCateCode")){
-        requestURL += `&inqCateCode=${params.get("inqCateCode")}&keyword=${params.get("keyword")}`;
+    if(inqCateCode){
+        if(requestURL.includes('?')){
+            requestURL += `&inqCateCode=${inqCateCode}`;
+        }else{
+            requestURL += `?inqCateCode=${inqCateCode}`;
+        }
     }
 
-    if(params.get("inqStatus")){
-        requestURL += `&inqStatus=${params.get("inqStatus")}&keyword=${params.get("keyword")}`;
+    if(inqStatus){
+        if(requestURL.includes('?')){
+            requestURL += `&inqStatus=${inqStatus}`;
+        }else{
+            requestURL += `?inqStatus=${inqStatus}`;
+        }
     }
 
     if(params.get("keyword")){
-        requestURL += `&keyword=${params.get("keyword")}`;
+          requestURL += (requestURL.includes('?') ? '&' : '?') + `keyword=${params.get("keyword")}`;
     }
     
     return async (dispatch, getState) => {
@@ -191,10 +202,10 @@ export const callInquiryListAPI = ({userCode, inqCateCode, inqStatus, page, role
 
 
 
-// export const callInquiryStatusListAPI = ({userCode, page, role, inqStatus}) => {
+// export const callInquiryStatusListAPI = ({userCode, page, inqStatus}) => {
 //     console.log('[InquiryAPICalls] callInquiryStatusListAPI Call');
 
-//     const requestURL = `http://localhost:8000/users/${userCode}/inquiries/status/${inqStatus}`;
+//     let requestURL = `http://localhost:8000/users/${userCode}/inquiries/status/${inqStatus}`;
     
 //     const params = new URLSearchParams(window.location.search);
 
@@ -249,10 +260,10 @@ export const callInquiryModifyAPI = ({form, userCode, inqCode}) => {
             inqContent: form.get('inqContent'),
             inqAnswer: form.get('inqAnswer'),
             inqTime: date,
-            refUserCode: jwtDecode(getCookie("accessToken")).userCode,
+            refUserCode: form.get('refUserCode'),
             inqCateCode: form.get('inqCateCode'),
             inqCateName: form.get('inqCateName'),
-            inqStatus: form.get('inqStatus'),
+            inqStatus: 'N',
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

@@ -28,6 +28,9 @@ import InquiryList from './pages/inquery/InquiryList';
 import MyCalendar from './pages/myCalendar/MyCalendar';
 import AuthCheck from './AuthCheck';
 import InquiryDetail from './pages/inquery/InquiryDetail';
+import InquiryDetailForm from './pages/inquery/InquiryDetailForm';
+import InquiryAdmin from './pages/inquery/InquiryAdmin';
+
 
 function App() {
   return (
@@ -47,17 +50,20 @@ function App() {
             <Route path='myInfo' index element={<AuthCheck component={<MyInfo/>} require="User" />}></Route>
             <Route path='myCalendar' element={<AuthCheck component={<MyCalendar/>} require="User" />}/>
             <Route path='editMyInfo' element={<AuthCheck component={<EditMyInfo/>} require="User" />}/>
+            
             <Route path='inquiry' element={<InquiryList/>}/>
-            <Route path='inquiryDetail' element={<InquiryDetail/>}/>
             <Route path='inquiryDetail/:inqCode' element={<InquiryDetail/>}/>
           </Route>
+
+            <Route path='inquiryDetail' element={<InquiryDetailForm/>}/>
+            <Route path='inquiryAdmin/:inqCode' element={<InquiryAdmin/>} />
 
             <Route path='/' element={<Message />}>
              <Route path='messageList' element={<MessageList />} />
             </Route>
             <Route path='messageDetail/:msgCode' element={<MessageDetail/>}/>
  
-
+   
 
 
           <Route path='/report' element={<Report />} />

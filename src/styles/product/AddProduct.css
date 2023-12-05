@@ -221,7 +221,7 @@
 }
 
 /* 라디오 버튼 숨기기 */
-input[type="radio"] {
+.input[type="radio"] {
     display: none;
 }
 
