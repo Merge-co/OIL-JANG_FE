@@ -37,3 +37,10 @@
 .productListBtn{
     margin: 50px;
 }
+.noItem{
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    color: #222222;
+    font-size: 16pt;
+    text-align: center;
+    margin: 100px;
+}

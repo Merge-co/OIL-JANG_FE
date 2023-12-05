@@ -13,6 +13,7 @@ import processReducer from './ProcessModule';
 import myCalendarReducer from './MyCalendarModule';
 import inquiryReducer from './InquiryModule';
 import inquiryCategoryReducer from './InquiryCategoryModule';
+import sanctionsReducer from './SanctionsModule';
 
 const rootReducer = combineReducers({
     productCategoryReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     processReducer,
     myCalendarReducer,
     inquiryReducer,
-    inquiryCategoryReducer
+    inquiryCategoryReducer,
+    sanctionsReducer
 });
 export default rootReducer;

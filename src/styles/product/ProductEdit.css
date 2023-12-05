@@ -3,10 +3,39 @@
     height: 40px;
     border-radius: 5px;
     border: solid 1px #C7C6C6;
-    margin: 15px 100px 35px;
+    margin: 15px 110px 35px;
     padding: 10px;
 }
-
+.placeBox{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.nameCount{
+    display: flex;
+    margin: 45px 0px 0px;
+}
+.wishCount{
+    margin: 10px 0px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    color: #222222;
+}
+.descCount{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.descLength{
+    margin: 10px 5px 10px;
+}
+.productBox{
+    width: 430px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #C7C6C6;
+    margin: 0px 99px 35px;
+    padding: 10px;
+}
 /* btn모음 */
 .descBox{
     display: flex;
@@ -14,6 +43,12 @@
 /* 라디오 버튼 숨기기 */
 input[type="radio"] {
     display: none;
+}
+.priceFont{
+    font-size: 16pt;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    color: #222222;
+    margin: 70px 0px 0px;
 }
 
 /* 사용자 지정 라디오 버튼 스타일 */

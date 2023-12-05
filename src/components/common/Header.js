@@ -47,7 +47,7 @@ function Header() {
         </div>
         <div><NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to ="/addProduct">상품등록</NavLink></div>
         <div>
-          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to= "/myInfo"><img src="/images/siteImage/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
+          <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to= {getCookie("accessToken") ? "/myInfo" : "/login"}><img src="/images/siteImage/userIcon.svg" alt="마이페이지 아이콘"/></NavLink>
         </div>
         <div>
           <NavLink className={`${({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} ${HeaderCSS.headerMessage}`} style={{ textDecoration: "none" }} to= {(isUserLogin !== null && isUserLogin !== undefined) ? "/messageList" : "/login" }><img src="/images/siteImage/messageIcon.svg" alt="쪽지 이미지"/></NavLink>
@@ -56,7 +56,6 @@ function Header() {
       </>
     );
   }
-
 
   function LogOut() {
     return(
@@ -87,24 +86,13 @@ function Header() {
       <div className={HeaderCSS.headerLayout}>
         <div>
           <NavLink to="/">
-            <img src="/images/siteImage/logo.svg" alt="오일장 로고" height={50} className={HeaderCSS.headerLogo} />
+            <img src="/images/siteImage/logo.png" alt="오일장 로고" height={50} className={HeaderCSS.headerLogo} />
           </NavLink>
         </div>
         <div className={HeaderCSS.headerContainter}>
           {headerChange === 3 ? <AdminHeader/> : <NotLogIn/>}
-          {/* <div>
-           <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/test">토큰 테스트</NavLink>
-          </div> */}
         </div>
       </div>
-      {/* <div>
-        <NavLink to="/login">로그인</NavLink>
-      </div>
-      <div>
-        <NavLink to="/" onClick={Logouthandler}>
-          로그아웃
-        </NavLink>
-      </div> */}
       <div className={HeaderCSS.headerMargin}></div>
     </>
   );

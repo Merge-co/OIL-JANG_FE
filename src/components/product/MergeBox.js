@@ -35,7 +35,7 @@ function MergeBox() {
         () => {
             burgetRef.current.focus();
             if(window.localStorage.getItem("burget") == 0) {
-                setMoney("");
+                setMoney(0);
             } else {
                 setMoney(window.localStorage.getItem("burget"));
             }

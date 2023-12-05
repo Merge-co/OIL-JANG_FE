@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../modules/CookieModule";
 import ReportCSS from '../../styles/report/Report.module.css';
 
-function Report({refUserCode, productCode, sellStatus, productName, setModalOpen }) {
+function Report({ refUserCode, productCode, sellStatus, productName, setModalOpen }) {
     // nickName -> 판매자 정보 
 
     // 모달창 끄기 버튼
@@ -60,12 +60,12 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
             return;
         }
 
-        if(formData.get('reportComment') === '') {
+        if (formData.get('reportComment') === '') {
             console.log('신고내용 입력 됐나요 : ', formData.get('reportComment'))
             alert('신고내용을 입력하세요')
             return;
         }
-      
+
         // console.log("bbbbb", formData);
         // console.log('[ReportRegist] fromData reportUserNick : ', formData.get('reportUserNick'));
         // console.log('[ReportRegist] fromData refReportCategoryNo : ', formData.get('refReportCategoryNo'));
@@ -88,24 +88,26 @@ function Report({refUserCode, productCode, sellStatus, productName, setModalOpen
                     <h4 className={ModalCSS.modalTitle} style={{ display: "flex", justifyContent: "space-between" }}>신고처리</h4>
                     <div className={ModalCSS.reportBox} >
                         <div className={`${ModalCSS.modalContent}`}>
-                            <div style={{ justifyContent: "space-between", display: "flex" }}>
-                                <div style={{ display: "flex", marginBottom: "3%" }}>신고분류</div>
-                                <select name="refReportCategoryNo" onChange={onChangeHandler} className={ReportCSS.search} style={{ padding: "5px", width: "40%" }}>
-                                    <option disabled hidden="hidden" selected>선택해주세요.</option>
-                                    <option value={1}>광고성 컨텐츠에요</option>
-                                    <option value={2}>거래 금지 품목이에요</option>
-                                    <option value={3}>가품, 이미테이션제품이에요</option>
-                                    <option value={4}>사기가의심돼요</option>
-                                </select>
+                            <div style={{ justifyContent: "space-between", right: "auto" }}>
+                                <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <li style={{ display: "flex", marginBottom: "3%" }}>신고분류</li>
+                                    <select name="refReportCategoryNo" onChange={onChangeHandler} className={ReportCSS.search} style={{ padding: "5px", width: "40%" }}>
+                                        <option disabled hidden="hidden" selected>선택해주세요.</option>
+                                        <option value={1}>광고성 컨텐츠에요</option>
+                                        <option value={2}>거래 금지 품목이에요</option>
+                                        <option value={3}>가품, 이미테이션제품이에요</option>
+                                        <option value={4}>사기가의심돼요</option>
+                                    </select>
+                                </ul>
                             </div>
                         </div>
                         <ul>
-                            <li>판매게시글 <span>{productName}</span></li>
-                            <div>신고사유</div>
+                            <li>판매게시글</li><span>{productName}</span>
+                            <li>신고사유</li>
                         </ul>
                         <textarea
                             className={ReportCSS.textarea}
-                            name="reportComment"             
+                            name="reportComment"
                             onChange={onChangeHandler}
                             style={{ width: '100%', padding: "2%", height: "100px" }}
                             placeholder="신고 내용을 직접 작성해주세요. &#13;자세하게 적어주시면 신고처리에 큰 도움이 됩니다." />

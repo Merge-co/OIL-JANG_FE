@@ -1,8 +1,8 @@
 p{
-    color:red;
-    font-size: 14px;
-    transition:.2s linear;
-    font-weight: 500;
+  color:red;
+  font-size: 14px;
+  transition:.2s linear;
+  font-weight: 500;
 }
 
 label{
@@ -63,8 +63,6 @@ label{
     white-space: pre-wrap;
     margin: 0;
 }
-
-
 
 
 
@@ -258,6 +256,25 @@ label{
         font-weight: 700;
     }
   }
+
+  /* .joinButton :disabled {
+    background:#EF6253;
+    width:100%;
+    max-width:680px;
+    height:50px;
+    border-radius:8px;
+    margin:0 5px;
+    border:none;
+    cursor:not-allowed;
+    font-size:14px;
+    transition:.2s linear;
+    font-weight: 600;
+    opacity: 80%;
+    &:hover {
+        opacity: 100%;
+        font-weight: 700;
+    }
+  } */
   
   /* Back 버튼 스타일 */
   .backButton {
@@ -294,4 +311,31 @@ label{
     z-index: 1000; /* 모달 배경을 가장 위로 표시 */
   }
   
+  .certificate_message {
+    margin-top: 10px;
+    text-align: left;
+    margin-left: 0px;
+  }
   
+  .input_certificate {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* 열 방향으로 배치하도록 수정 */
+    gap: 10px; /* 간격 설정 */
+  }
+  
+  .certificate_btnn { 
+    height: 30px !important;
+    border-radius: 8px;
+    padding: 0 10px;
+    cursor: pointer;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    &:hover {
+      font-weight: 700;
+    }
+  }
+  
+  .input_certificate button,
+  .input_certificate input {
+    height: 100%;
+  }

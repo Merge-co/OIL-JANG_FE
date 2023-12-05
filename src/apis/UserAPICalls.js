@@ -50,7 +50,7 @@ export const callLoginAPI = ({ form }) => {
       ) {
         alert("존재하지 않은 계정입니다.");
       } else if (
-        result.failType === "탈퇴한 회원입니다. 로그인이 불가능합니다."
+        result.message === "탈퇴한 회원입니다. 로그인이 불가능합니다."
       ) {
         alert("탈퇴한 계정입니다.");
       }

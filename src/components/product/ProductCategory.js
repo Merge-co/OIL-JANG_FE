@@ -80,15 +80,6 @@ function ProductCategory(type) {
                     changeCategoryLists = [...changeCategoryLists];
                     setCategoryLists(changeCategoryLists);
                 } 
-                // else {
-                //     changeCategoryLists.map(categoryList => {
-                //         if(categoryList.id == 6) {
-                //             categoryList.categoryChecked = !categoryList.categoryChecked;
-                //         }
-                //     });
-                //     changeCategoryLists = [...changeCategoryLists];
-                //     setCategoryLists(changeCategoryLists);
-                // }
             }
         },[changeCategoryLists.length !== 0]
     );
@@ -106,8 +97,6 @@ function ProductCategory(type) {
                 }
             });
             changeCategoryLists = [...changeCategoryLists];
-
-            let checkFive = changeCategoryLists.filter(category => category.categoryChecked === true);
             setCategoryLists(changeCategoryLists);
         } else {
             let checkFive = categoryLists.filter(category => category.categoryChecked === true);
@@ -120,15 +109,6 @@ function ProductCategory(type) {
                     categoryList.categoryChecked = !categoryList.categoryChecked;
                 }
             });
-
-            // categoryLists.map(categoryList => {
-            //     if(categoryList.id === id) { 
-            //         let listCheck = categoryList.categoryChecked && type.type === "list";
-            //         if(!listCheck) {
-            //             categoryList.categoryChecked = !categoryList.categoryChecked;
-            //         }
-            //     }
-            // });
 
             changeCategoryLists = [...categoryLists];
             
@@ -180,7 +160,6 @@ function ProductCategory(type) {
             alert("최소 1개의 카테고리를 선택해주세요");
         } else if(!window.localStorage.getItem("burget") && type.type === "merge") {
             alert("예산을 설정해주세요");
-            dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
         } else if (type.type === "list") {
             if(checkFive.length !== 0) {
                 curURL.searchParams.set('categoryCode', checkFive[0].id);

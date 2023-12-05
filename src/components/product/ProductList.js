@@ -2,6 +2,7 @@ import ProductItem from "./ProductItem";
 import ProductListCSS from '../../styles/product/ProductList.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import PagingBarCSS from '../../styles/PagingBar.module.css';
+import MainCSS from '../../styles/MainLayout.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import PagingBar from "../common/PagingBar";
 import { useEffect, useRef } from "react";
@@ -105,6 +106,9 @@ function ProductList(type) {
     function ProductListResult() {
         return (
             <>
+                {type.type === "main" && <div className={MainCSS.MainTitle}>
+                    <img src="/images/siteImage/weeklyHot.svg" alt="weeklyHot" />주간! 중고 상품
+                </div>}
                 <div style={styleObject} className={ProductListCSS.productList}>
                     {
                         productList ? productList.map(productList => <ProductItem key={"productList" + productList.productCode} productList={productList} type={type.type}/>) : ""
@@ -116,30 +120,9 @@ function ProductList(type) {
         );
     }
 
-    // let paramCheckAll;
-    // const url = new URL(window.location.href);
-    // const requestUrl = ProductInfos && ProductInfos.length !== 0 && new URL(ProductInfos[1]);
-    // if (requestUrl) {
-    //     let paramCheck1 = url.searchParams.get("categoryCode") === requestUrl.searchParams.get("categoryCode");
-    //     let paramCheck2 = url.searchParams.get("page") === requestUrl.searchParams.get("page");
-    //     if (type.type == "main") {
-    //         paramCheck2 = true;
-    //     }
-    //     console.log(paramCheck2);
-    //     console.log(window.localStorage.getItem("remainMoneySearch"));
-    //     console.log(requestUrl.searchParams.get("maxPrice"));
-    //     let paramCheck3 = parseInt(+window.localStorage.getItem("remainMoney") * 1.1) == requestUrl.searchParams.get("maxPrice");
-    //     if (type.type != "merge") {
-    //         paramCheck3 = true;
-    //     }
-    //     console.log(paramCheck3);
-    //     paramCheckAll = paramCheck1;
-    // }
-
     return(
         <>
-            {/* {(paramCheckAll || type.type != "merge") && <ProductListResult/>} */}
-            {(requestUrl === rendered.current || PagingInfo) != 0 && <ProductListResult/>}
+            {((requestUrl === rendered.current || PagingInfo) != 0 || curURL.searchParams.get('sortCondition')) && <ProductListResult/>}
         </>
     );
 }

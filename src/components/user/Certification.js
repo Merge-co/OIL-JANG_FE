@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import UserLayoutCSS from "../../styles/user/UserLayout.module.css";
 import UserJoinCSS from "../../styles/user/UserJoin.module.css";
 
 function Certification({ userData, onCertificationSuccess }) {
@@ -60,7 +59,6 @@ function Certification({ userData, onCertificationSuccess }) {
       const { success, error_msg } = response;
 
       if (success) {
-        alert("인증 성공");
         setCertificationSuccess(true);
         onCertificationSuccess();
       } else {
@@ -71,24 +69,18 @@ function Certification({ userData, onCertificationSuccess }) {
 
   return (
     <>
-      <button className={UserJoinCSS.check_btnn} onClick={onClickCertification}>
-        간편인증
-      </button>
-      <br />
-      {certificationSuccess && (
-        <>
-        <div>
-            <p style={{ color: "red" }}>인증이 완료되었습니다.</p>
-            </div>
-        </>
-      )}
-      {errorMessage && (
-        <>
-          <div>
-            <p style={{ color: "red" }}>{errorMessage}</p>
+      <div className={UserJoinCSS.input_certificate}>
+        <button disabled={certificationSuccess} 
+          onClick={onClickCertification}
+          className={UserJoinCSS.certificate_btnn}
+          >
+          간편인증
+        </button>
+        {certificationSuccess ? (
+          <p style={{ color:"#00CC00" }}>인증이 완료되었습니다.</p>
+        ) : (<p className={UserJoinCSS.certificate_message} >{errorMessage}</p>)
+        }
       </div>
-        </>
-      )}
     </>
   );
 }

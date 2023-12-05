@@ -8,6 +8,8 @@
     border-right: none;
     background-color: #EF6253;
     user-select: none;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
 
 .bigDate {
@@ -52,7 +54,6 @@
     font-size: 22px;
     font-weight: 500;
     color: #fff;
-    left: 5px;
 }
 
 .eventList {
