@@ -224,8 +224,17 @@ function MessageList({isReceived, keyword, page}){
                                 <option value="제목">내용</option>
                                 <option value="이름">이름</option>
                             </select>
-                            <input type="search" placeholder="검색" className={`${MessageListCSS.searchInput}`} name="keyword" defaultValue={keyword}/>
-                            <input type="submit" value="검색" className={`${MessageListCSS.searchBtn}`} style={{cursor:'pointer'}}/>
+                            <input 
+                                type="search" 
+                                placeholder="검색" 
+                                className={`${MessageListCSS.searchInput}`} 
+                                name="keyword" 
+                                defaultValue={keyword}/>
+                            <input 
+                                type="submit" 
+                                value="검색" 
+                                className={`${MessageListCSS.searchBtn}`} 
+                                style={{cursor:'pointer'}}/>
                         </form>
                     
                  
@@ -233,7 +242,11 @@ function MessageList({isReceived, keyword, page}){
                             <thead>
                             <tr className={`${MessageListCSS.tr}`}>
                                 <th className={`${MessageListCSS.text1}`}>
-                                    <input type="checkbox" name="sort" id="sort" checked={isCheckedAll} onChange={isCheckedHandler}/>
+                                    <input 
+                                        type="checkbox" 
+                                        name="sort" id="sort" 
+                                        checked={isCheckedAll} 
+                                        onChange={isCheckedHandler}/>
                                 </th>
                                 {console.log("isReceived " + isReceived)}
                                 <th>{isReceived !== undefined ? (isReceived ? '보낸사람' : '받은사람') : '사람 정보 없음'}</th>
@@ -246,7 +259,14 @@ function MessageList({isReceived, keyword, page}){
                             <tbody>
                                 {messageList && messageList[0].msgList.map(message => (
                                     <tr key={message.msgCode}>
-                                        <td><input type="checkbox" name="sort" id={message.msgCode} onChange={handleCheckedOne}/></td>
+                                        <td>
+                                            <input 
+                                                type="checkbox" 
+                                                name="sort" 
+                                                id={message.msgCode} 
+                                                onChange={handleCheckedOne}
+                                            />
+                                        </td>
                                         <td>{`${message.name} (${message.id})`}</td>
                                         <td onClick={() => handleMessageClick(message.msgCode)} style={{cursor:'pointer'}} className={`${MessageListCSS.msgListHover}`}>
                                             {message.msgContent.length > 10 ? `${message.msgContent.substring(0,10)}...` : message.msgContent}
@@ -262,7 +282,13 @@ function MessageList({isReceived, keyword, page}){
             
                         </table>
 
-                        <input type="submit" value="삭제" className={`${ButtonCSS.middleBtn2}`} style={{float: 'right'}} onClick={() => onDeleteHandler(messageList.msgCode)}/>
+                        <input 
+                            type="submit"
+                            value="삭제" 
+                            className={`${ButtonCSS.middleBtn2}`} 
+                            style={{float: 'right'}} 
+                            onClick={() => onDeleteHandler(messageList.msgCode)}
+                        />
                    
                         
 

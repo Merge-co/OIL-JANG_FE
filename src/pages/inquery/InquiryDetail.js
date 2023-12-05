@@ -2,7 +2,7 @@ import InquiryDetailCSS from '../../styles/inquiry/InquiryDetail.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { callInquiryDetailAPI, callInquiryModifyAPI, callInquiryRegistAPI } from '../../apis/InquiryAPICalls';
+import { callInquiryDetailAPI, callInquiryModifyAPI } from '../../apis/InquiryAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { getCookie } from '../../modules/CookieModule';
@@ -11,7 +11,6 @@ import { getCookie } from '../../modules/CookieModule';
 
 function InquiryDetail({inqCode, userCode}){
 
-   // const isReadOnly = location.state ? location.state.readOnly : false;
 
     const dispatch = useDispatch();
     const params = useParams();
@@ -27,14 +26,12 @@ function InquiryDetail({inqCode, userCode}){
         inqCateName: '',
     })
 
-    console.log("inqCode" + params.inqCode)
 
     
     useEffect(
         
         () => {
-            if (params.inqCode) {
-            dispatch(callInquiryDetailAPI({
+                dispatch(callInquiryDetailAPI({
                 inqCode: params.inqCode
            
             })).then((result => {
@@ -49,10 +46,10 @@ function InquiryDetail({inqCode, userCode}){
                         inqCateName,
                     });
                 }else{ 
-                    console.log('[MessageDetail] API response does not contain data: ', result)
+                    console.log('[InquiryDetail] API response does not contain data: ', result)
                 }
             }))
-          }
+          
         }, [dispatch, inqCode]
     );
 
@@ -151,6 +148,14 @@ function InquiryDetail({inqCode, userCode}){
         {code: 3, label: "기타"},
     ];
 
+
+
+
+
+
+
+    
+
     return(
 
         <>
@@ -236,21 +241,55 @@ function InquiryDetail({inqCode, userCode}){
                         <span> / 1000 자</span>
                      </p>
                     </div>
+
+
+                    <div style={{display : inquiry.inqSelectDetailDTOList[0].inqStatus === 'Y' ? 'block' : 'none'}}> 
+                        <div style={{marginBottom: '2%', fontWeight:'600', paddingBottom:'1%',borderBottom : isReadOnly ? "1px solid #9d9d9d" : "none"}}>답변하기</div>
         
+        
+                            <textarea 
+                                className={`${InquiryDetailCSS.textArea}`}  
+                                placeholder="내용을 입력해주세요(최대 1000자)"
+                                onChange={onChangeHandler}
+                                name='inqAnswer'    
+                                maxLength={1000}
+                                key={inquiry.inqCode}
+                                readOnly={isReadOnly || inquiry.inqSelectDetailDTOList[0].inqStatus === 'Y'}
+                                style={{ border: isReadOnly ? 'none' : '1px solid #ccc'}}
+                            >
+                                {inquiry.inqSelectDetailDTOList[0].inqAnswer}
+                            </textarea>
+        
+        
+                            {console.log(isReadOnly)}
+        
+                        <p style={{color: '#9D9D9D', fontSize:'0.95rem', display: isReadOnly ? 'none' : 'block'}}>
+                            <span>{inputCount}</span>
+                            <span> / 1000 자</span>
+                        </p>
+                    </div>
+    
                     <input
                         type="submit" 
                         value={isReadOnly ? "수정" : "등록"} 
                         className={`${ButtonCSS.middleBtn2}`} 
                         style={{float: 'right',   
                                 backgroundColor: !isReadOnly && !form.inqContent.trim() ? '#d3d3d3' : '',
-                                cursor:!isReadOnly && !form.inqContent.trim() ? 'default' : 'pointer',}}
+                                cursor:!isReadOnly && !form.inqContent.trim() ? 'default' : 'pointer',
+                                display : inquiry.inqSelectDetailDTOList[0].inqStatus === 'Y' ? 'none' : 'block'
+                            }}
                         onClick={handleReplyClick}
                         title={!isReadOnly && !form.inqContent.trim() ? '내용을 입력해주세요' : ''}
                         disabled={!isReadOnly && !form.inqContent.trim()} 
                     />
                           {console.log(isReadOnly)}
+
+
+
                 </div>
+
              ))}
+    
     
             </div>
         </>
