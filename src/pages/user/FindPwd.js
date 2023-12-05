@@ -37,24 +37,25 @@ function FindPwd() {
 
   const onClickHandler = async () => {
     try {
-      const result = await dispatch(callPostIdAPI({ form: form }));
-      setUserData(result.data);
-
-      console.log("userData", userData);
-
-      console.log("result.data", result.data);
-      if (
-        result.data === null ||
-        result.data === undefined ||
-        result.data === ""
-      ) {
-        alert("해당 되는 정보가 없습니다.");
+      if(form.name !== "" && form.id !== "" && form.birthDate !== "" && form.gender !== ""){
+        const result = await dispatch(callPostIdAPI({ form: form }));
+        setUserData(result.data);
+        if (
+          result.data === null ||
+          result.data === undefined ||
+          result.data === ""
+        ) {
+          alert("해당 되는 정보가 없습니다.");
+          return;
+        } else if (form.id !== result.data) {
+          alert("해당 되는 정보가 없습니다.");
+          return;
+        } else {
+          openModal();
+        }
+      }else{
+        alert("내용을 입력해주세요.");
         return;
-      } else if (form.id !== result.data) {
-        alert("해당 되는 정보가 없습니다.");
-        return;
-      } else {
-        openModal();
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -69,7 +70,7 @@ function FindPwd() {
     <>
       <div className={UserLayoutCSS.container}>
         <div>
-          <h3>비밀번호 찾기</h3>
+          <h3>비밀번호 변경</h3>
         </div>
         <div>
           <label>아이디</label>

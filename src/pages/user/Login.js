@@ -36,21 +36,15 @@ function Login() {
     useSelector((state) => state)
   );
 
- 
-
   useEffect(() => {
     const isUserLogin = getCookie("accessToken")
    
-     if (isUserLogin) {
+     if (loginUser.message !== '탈퇴한 회원입니다. 로그인이 불가능합니다.' && isUserLogin) {
       console.log("[Login] Login SUCCESS {}", loginUser);
-      navigate("/", { replace: true });
-    } else if(isUserLogin){
+      window.history.back();
+    } else if(loginUser.message !== '탈퇴한 회원입니다. 로그인이 불가능합니다.' && isUserLogin){
       navigate("/error", { replace: true });
-    } else if(loginUser.message === '탈퇴한 회원입니다. 로그인이 불가능합니다.'){
-      alert("탈퇴한 회원입니다.");
     }
-
-
   }, [loginUser]);
 
   const onChangeHandler = (e) => {
@@ -69,6 +63,7 @@ function Login() {
       console.error("Login error:", error);
     }
   };
+
 
 
   const onClickOAuth2LoginHandler = async (provider) => {
@@ -107,6 +102,12 @@ function Login() {
   }
 } 
 
+  const onKeyPressHandler = (event) => {
+  if (event.key === 'Enter') {
+    document.getElementById('loginButton').click();
+    }
+  };
+
   return (
     <>
       <div className={UserLayoutCSS.container}>
@@ -120,6 +121,7 @@ function Login() {
             name="id"
             placeholder="ID"
             onChange={onChangeHandler}
+            onKeyDown={onKeyPressHandler}
             className={UserLayoutCSS.input_id}
           />
           </div>
@@ -129,6 +131,7 @@ function Login() {
             name="pwd"
             placeholder="PWD"
             onChange={onChangeHandler}
+            onKeyDown={onKeyPressHandler}
             className={UserLayoutCSS.input_pwd}
           />
           <button className={UserLayoutCSS.show_btn} onClick={togglePasswordVisibility}>
@@ -138,7 +141,7 @@ function Login() {
           <br />
 
           <div className={UserLayoutCSS.login_btn_container}>
-          <button className={UserLayoutCSS.signin__btn}  onClick={onClickLoginHandler}>로그인</button>
+          <button id="loginButton" className={UserLayoutCSS.signin__btn}  onClick={onClickLoginHandler}>로그인</button>
           </div>
         </div>
         <div className={UserLayoutCSS.login_btn_container}>

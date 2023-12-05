@@ -177,9 +177,9 @@ function EditMyInfo() {
       const isPwdValid = validatePassword(value);
       console.log("isPwdValid onchage", isPwdValid);
       if (!isPwdValid && userData.newPassword !== "") {
-        console.log("8~16자 영문 대 소문자, 숫자 특수문자를 사용하세요.");
+        console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
         setRealTimePasswordValidation(
-          "8~16자 영문 대 소문자, 숫자 특수문자를 사용하세요."
+          "8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)"
         );
         setIsPwdValid(false);
       } else {
@@ -350,14 +350,14 @@ function EditMyInfo() {
                   중복 확인
                 </button>
               </div>
-              {!isNicknameValid && <h4>{nicknameUniquenessMessage}</h4>}
+              {(!isNicknameValid && nicknameUniquenessMessage !=="사용 가능한 닉네임입니다.")? (<p >{nicknameUniquenessMessage}</p>) : (<p style={{color:"#00CC00"}}>{nicknameUniquenessMessage}</p>) }
               <br />
               <label for="id">아이디</label>
               <div className={UserJoinCSS.input_nickname_check_btn}>
                 <br />
                 <input
                   type="text"
-                  className={UserLayoutCSS.input_pwd}
+                  className={UserLayoutCSS.input_phone}
                   placeholder={userDetail.data.id}
                   readOnly
                 />
@@ -377,6 +377,7 @@ function EditMyInfo() {
                     <button
                       className={UserLayoutCSS.show_btn}
                       onClick={togglePasswordVisibility}
+                      style={{height:"70%"}}
                     >
                       {passwordVisibility ? (
                         <FontAwesomeIcon icon={faEyeSlash} />
@@ -386,7 +387,7 @@ function EditMyInfo() {
                     </button>
                   </div>
                   {realTimePasswordValidation && (
-                    <h4>{realTimePasswordValidation}</h4>
+                    <p>{realTimePasswordValidation}</p>
                   )}
                   <br />
                   <label>변경할 비밀번호 확인</label>
@@ -409,7 +410,7 @@ function EditMyInfo() {
                       )}
                     </button>
                   </div>
-                  {passwordMatchMessage && <h4>{passwordMatchMessage}</h4>}
+                  {passwordMatchMessage && <p>{passwordMatchMessage}</p>}
                   <br />
                 </>
               )}
@@ -454,7 +455,7 @@ function EditMyInfo() {
                     <input
                       type="text"
                       placeholder={userDetail.data.phone}
-                      className={UserLayoutCSS.input_pwd}
+                      className={UserLayoutCSS.input_phone}
                       onChange={onChangeHandler}
                       name="phone"
                       readOnly

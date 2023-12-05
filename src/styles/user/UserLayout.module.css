@@ -12,6 +12,7 @@ h3{
     text-align:center;
     margin:10px 0 10px 0 ;
     transition:.2s linear;
+    font-size: 23pt;
 }
 
 .input_pwd{
@@ -38,6 +39,18 @@ h3{
     display:block;
 }
 
+.input_phone{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    max-width:680px;
+    margin:3% 0px 1% 0px;
+    font-size:18px;
+    font-weight: 600;
+    width: 100%;
+    display:block;
+}
+
 .input_id::placeholder{
     color: #999;
     font-size: 15px;
@@ -47,6 +60,12 @@ h3{
 
 .input_pwd::placeholder{
     color: #999;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.input_phone::placeholder{
+    color: #222;
     font-size: 15px;
     margin-bottom: 20px;
 }

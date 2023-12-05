@@ -4,12 +4,15 @@ import Modal from "react-modal";
 import CheckMyPwdCSS from "../../styles/Modal.module.css";
 import UserCheckMyPwdCSS from "../../styles/user/UserModal.module.css";
 import UserLayoutCSS from "../../styles/user/UserLayout.module.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#root");
 
 function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
   const [password, setPassword] = useState("");
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -21,13 +24,21 @@ function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
       if (isCorrect) {
         onPasswordValidated(true);
         closeModal();
-      } else {
-        alert("Incorrect password. Please try again.");
+      }else if(!password){
+        alert("비밀번호를 작성해주세요.");
+      } 
+      
+      else {
+        alert("옳지않은 비밀번호입니다.");
       }
     } catch (error) {
       console.error("Error comparing passwords:", error);
       alert("Error comparing passwords. Please try again.");
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!passwordVisibility);
   };
 
   return (
@@ -38,7 +49,7 @@ function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
         contentLabel="Password Modal"
         className={CheckMyPwdCSS.modalBg}
       >
-        <div className={CheckMyPwdCSS.modal}>
+        <div className={CheckMyPwdCSS.modal} style={{width : "30%"}}>
           <div className={CheckMyPwdCSS.modalBox}>
             <button
               onClick={closeModal}
@@ -53,11 +64,22 @@ function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
                 비밀번호
                 </label>
                 <input
-                  type="password"
+                  type={passwordVisibility ? "text" : "password"}                  
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className={UserLayoutCSS.input_pwd}
                 />
+                <button
+                className={UserLayoutCSS.show_btn}
+                onClick={togglePasswordVisibility}
+                style={{height:"70%"}}
+              >
+                {passwordVisibility ? (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                ) : (
+                  <FontAwesomeIcon icon={faEye} />
+                )}
+              </button>
                 <br/>
                 <button
                   onClick={submitHandler}
