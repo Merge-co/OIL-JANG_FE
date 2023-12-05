@@ -23,6 +23,8 @@ const AddProduct = () => {
     const MAX_DESCRIPTION_LENGTH = 300;
     const [description, setDescription] = useState('');
     const [descriptionLength, setDescriptionLength] = useState(0);
+    const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
 
 
     const navigate = useNavigate();
@@ -65,19 +67,24 @@ const AddProduct = () => {
     const handleImageUpload = (event) => {
         const selectedImages = event.target.files;
         const newImages = [...images];
+        console.log("newImages", newImages)
 
-        if (selectedImages.length + newImages.length > MAX_IMAGES) {
+        if (newImages.length + selectedImages.length > MAX_IMAGES) {
             alert(`더 이상 ${MAX_IMAGES}개 이상의 이미지를 업로드할 수 없습니다.`);
             return;
         }
 
         for (let i = 0; i < selectedImages.length; i++) {
-            if (newImages.length < MAX_IMAGES) {
-                newImages.push(selectedImages[i]);
-            } else {
-                alert(`더 이상 ${MAX_IMAGES}개 이상의 이미지를 업로드할 수 없습니다.`);
-                break;
+            const fileType = selectedImages[i].type;
+
+            if (!allowedFileTypes.includes(fileType)) {
+                alert('올바른 이미지 파일 형식 입니다(jpeg, jpg, png)만 업로드 가능합니다.');
+                return;
             }
+        }
+
+        for (let i = 0; i < selectedImages.length; i++) {
+            newImages.push(selectedImages[i]);
         }
 
         setImages(newImages);
@@ -179,9 +186,8 @@ const AddProduct = () => {
                 setProductDesc('');
                 setRefCategoryCode(null);
                 window.navigator.vibrate(200);
-                if (window.confirm('상품이 등록되었습니다. 메인페이지로 이동합니다')) {
-                    navigate('/');
-                }
+                window.alert('상품이 등록되었습니다. 메인페이지로 이동합니다');
+                navigate('/');
             } else {
                 console.error('상품 등록에 실패했습니다.', response.data);
             }
@@ -298,7 +304,7 @@ const AddProduct = () => {
                                         id="image_upload"
                                         multiple
                                         required
-                                        onChange={handleImageUpload}
+                                        onChange={(event) => handleImageUpload(event)}
                                     />
                                     +
                                 </label>
@@ -306,6 +312,7 @@ const AddProduct = () => {
                                     {images.map((image, index) => (
                                         <div key={index} className="image-preview-item">
                                             <img
+                                                key={`image-${index}`}
                                                 src={URL.createObjectURL(image)}
                                                 alt={`Uploaded Image ${index}`}
                                                 style={{ width: '180px', height: '180px' }}
@@ -356,6 +363,7 @@ const AddProduct = () => {
                                     required
                                     checked={priceOption === 'sell'} // 추가된 부분
                                     onChange={() => handlePriceOptionChange('sell')}
+                                    className='input'
                                 />
                                 판매하기
                             </label>
@@ -368,22 +376,26 @@ const AddProduct = () => {
                                     required
                                     checked={priceOption === 'share'} // 추가된 부분
                                     onChange={() => handlePriceOptionChange('share')}
+                                    className='input'
                                 />
                                 나눔하기
                             </label>
                         </div>
                     </div>
                     <br />
-                    <input
-                        type="text"
-                        name="price"
-                        id="price"
-                        className='PriceBox'
-                        placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
-                        disabled={priceOption === 'share'}
-                        value={price !== '' ? priceToString(price) : price}
-                        onChange={handlePriceChange}
-                    />
+                    <div className='wondiv'>
+                        <input
+                            type="text"
+                            name="price"
+                            id="price"
+                            className='PriceBox'
+                            placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
+                            disabled={priceOption === 'share'}
+                            value={price !== '' ? priceToString(price).replace("원", '') : price}
+                            onChange={handlePriceChange}
+                        />
+                        <h3 className='koreaWon'>원</h3>
+                    </div>
                     <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
                     </span>
                     <hr />

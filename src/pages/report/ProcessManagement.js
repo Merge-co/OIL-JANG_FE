@@ -52,6 +52,7 @@ function ProcessManagement() {
         dispatch(callReportManagementAPI({
             process: processType
         }));
+        
     }
 
     // Search setting
