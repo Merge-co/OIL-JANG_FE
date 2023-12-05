@@ -28,6 +28,13 @@
     margin: 0px 70px 35px;
     padding: 10px;
 }
+.wondiv{
+    display: flex;
+    margin: 0px 160px;
+}
+.koreaWon{
+    margin: 5px 0px;
+}
 
 .custom-file-input {
     display: none;
@@ -44,7 +51,7 @@
     height: 40px;
     border-radius: 5px;
     border: solid 1px #C7C6C6;
-    margin: 0px 190px 80px;
+    margin: 0px 30px 80px;
     padding: 10px;
 }
 
@@ -221,7 +228,7 @@
 }
 
 /* 라디오 버튼 숨기기 */
-input[type="radio"] {
+.input[type="radio"] {
     display: none;
 }
 

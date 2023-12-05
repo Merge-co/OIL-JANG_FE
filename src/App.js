@@ -38,8 +38,8 @@ function App() {
           <Route path='merge' element={<AuthCheck component={<Merge />} require="NoAdmin" />}/>
           <Route path='usedProduct' element={<UsedProduct />} />
           <Route path='usedProduct/:productCode' element={<UsedProductDetail />} />
-          <Route path='addProduct' element={<AddProduct />} />
-          <Route path='productEdit/:productCode' element={<ProductEdit /> } />
+          <Route path='addProduct' element={<AuthCheck component={<AddProduct />} require="Login" />} /> 
+          <Route path='productEdit/:productCode' element={<AuthCheck component={<ProductEdit /> } require="Login" />} /> 
 
           <Route path='/' element={<AuthCheck component={<SubHeaderLayout />} require="Login" />}>
             <Route path='myproductlist' element={<AuthCheck component={<MyProductList />} require="User" />} />
