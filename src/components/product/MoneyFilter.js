@@ -11,8 +11,6 @@ function MoneyFilter() {
         maxPriceValue: curURL.searchParams.get('maxPrice') || ''
     });
 
-    console.log( curURL.searchParams.get('minPrice'))
-
     const { minPriceValue, maxPriceValue } = moneyCriteria;
 
     const dispatch = useDispatch();

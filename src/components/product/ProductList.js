@@ -122,7 +122,7 @@ function ProductList(type) {
 
     return(
         <>
-            {((requestUrl === rendered.current || PagingInfo) != 0 || getSearchAgain === 1) && <ProductListResult/>}
+            {((requestUrl === rendered.current || PagingInfo) != 0 || curURL.searchParams.get('sortCondition')) && <ProductListResult/>}
         </>
     );
 }
