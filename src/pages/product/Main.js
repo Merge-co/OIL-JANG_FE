@@ -21,7 +21,7 @@ function Main() {
             original: "/images/siteImage/bannerImg4.png"
         },
         {
-            original: "/images/siteImage/bannerImg1.png"
+            original: "/images/siteImage/bannerImg5.png"
         },
     ];
 
@@ -33,7 +33,7 @@ function Main() {
         url.indexOf("bannerImg2") !== -1 && navigate(`/usedProduct`);
         url.indexOf("bannerImg3") !== -1 && navigate(`/merge`);
         url.indexOf("bannerImg4") !== -1 && navigate(`/addProduct`);
-        url.indexOf("bannerImg5") !== -1 && navigate(`/addProduct`);
+        url.indexOf("bannerImg5") !== -1 && navigate(`/myCalendar`);
     }
 
     return(
