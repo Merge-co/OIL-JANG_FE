@@ -5,7 +5,6 @@ import { callGetProductDetail } from '../../apis/ProductAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserProductDetailImg from './UserProductDetailImg';
 import UsedProductDetailInfo from './UsedProductDetailInfo';
-import { navigate } from 'react-big-calendar/lib/utils/constants';
 import { jwtDecode } from 'jwt-decode';
 import { getCookie } from '../../modules/CookieModule';
 
@@ -41,9 +40,7 @@ function UsedProductDetail() {
     const onClickHome = () => {
         navigate(`/`);
     }
-
-
-
+    
     function ProductDetailInfo() {
         return (
             <>

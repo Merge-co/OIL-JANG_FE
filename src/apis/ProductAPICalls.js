@@ -1,7 +1,7 @@
 import axios from "axios";
 import { GET_CATEGORIES } from "../modules/ProductCategoryModule";
 import { GET_PRODUCTLIST } from "../modules/ProductListModule";
-import { GET_MESSAGES_RESULT, GET_PRODUCT_DELETE_RUSULT, GET_PRODUCT_DETAIL, GET_WISHLIST_AGAIN, GET_WISHLIST_DELELE_RESULT, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
+import { GET_MESSAGES_RESULT, GET_PRODUCT_DELETE_RUSULT, GET_PRODUCT_DETAIL, GET_WISHLIST_REGIST_RESULT } from "../modules/ProductModule";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
 import { timestamp } from './../modules/MyCalendarModule';

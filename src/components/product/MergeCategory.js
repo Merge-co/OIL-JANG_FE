@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GET_CATEGORY_CODE, GET_RESET_MERGE_CATEGERY_ALL } from '../../modules/ProductModule';
 import { GET_MERGE_CATEGORY } from '../../modules/MergeModule';
 import { useNavigate } from 'react-router-dom';
-import { GET_PAGING } from '../../modules/PagingModule';
 
 function MergeCategory() {
 

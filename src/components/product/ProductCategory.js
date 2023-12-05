@@ -80,15 +80,6 @@ function ProductCategory(type) {
                     changeCategoryLists = [...changeCategoryLists];
                     setCategoryLists(changeCategoryLists);
                 } 
-                // else {
-                //     changeCategoryLists.map(categoryList => {
-                //         if(categoryList.id == 6) {
-                //             categoryList.categoryChecked = !categoryList.categoryChecked;
-                //         }
-                //     });
-                //     changeCategoryLists = [...changeCategoryLists];
-                //     setCategoryLists(changeCategoryLists);
-                // }
             }
         },[changeCategoryLists.length !== 0]
     );
@@ -106,8 +97,6 @@ function ProductCategory(type) {
                 }
             });
             changeCategoryLists = [...changeCategoryLists];
-
-            let checkFive = changeCategoryLists.filter(category => category.categoryChecked === true);
             setCategoryLists(changeCategoryLists);
         } else {
             let checkFive = categoryLists.filter(category => category.categoryChecked === true);
@@ -120,15 +109,6 @@ function ProductCategory(type) {
                     categoryList.categoryChecked = !categoryList.categoryChecked;
                 }
             });
-
-            // categoryLists.map(categoryList => {
-            //     if(categoryList.id === id) { 
-            //         let listCheck = categoryList.categoryChecked && type.type === "list";
-            //         if(!listCheck) {
-            //             categoryList.categoryChecked = !categoryList.categoryChecked;
-            //         }
-            //     }
-            // });
 
             changeCategoryLists = [...categoryLists];
             

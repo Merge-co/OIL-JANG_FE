@@ -2,7 +2,6 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../modules/CookieModule";
 import { GET_CALENDAR_CONTENT, GET_CALENDAR_REGIST } from "../modules/MyCalendarModule";
-import { compareSync } from "bcryptjs";
 
 export const comIp = "localhost";
 

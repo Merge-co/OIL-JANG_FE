@@ -57,7 +57,6 @@ function Header() {
     );
   }
 
-
   function LogOut() {
     return(
       <div>
@@ -92,19 +91,8 @@ function Header() {
         </div>
         <div className={HeaderCSS.headerContainter}>
           {headerChange === 3 ? <AdminHeader/> : <NotLogIn/>}
-          {/* <div>
-           <NavLink className={({isActive}) => isActive? HeaderCSS.headerActive : HeaderCSS.headerNotActive} style={{ textDecoration: "none" }} to="/test">토큰 테스트</NavLink>
-          </div> */}
         </div>
       </div>
-      {/* <div>
-        <NavLink to="/login">로그인</NavLink>
-      </div>
-      <div>
-        <NavLink to="/" onClick={Logouthandler}>
-          로그아웃
-        </NavLink>
-      </div> */}
       <div className={HeaderCSS.headerMargin}></div>
     </>
   );

@@ -120,29 +120,8 @@ function ProductList(type) {
         );
     }
 
-    // let paramCheckAll;
-    // const url = new URL(window.location.href);
-    // const requestUrl = ProductInfos && ProductInfos.length !== 0 && new URL(ProductInfos[1]);
-    // if (requestUrl) {
-    //     let paramCheck1 = url.searchParams.get("categoryCode") === requestUrl.searchParams.get("categoryCode");
-    //     let paramCheck2 = url.searchParams.get("page") === requestUrl.searchParams.get("page");
-    //     if (type.type == "main") {
-    //         paramCheck2 = true;
-    //     }
-    //     console.log(paramCheck2);
-    //     console.log(window.localStorage.getItem("remainMoneySearch"));
-    //     console.log(requestUrl.searchParams.get("maxPrice"));
-    //     let paramCheck3 = parseInt(+window.localStorage.getItem("remainMoney") * 1.1) == requestUrl.searchParams.get("maxPrice");
-    //     if (type.type != "merge") {
-    //         paramCheck3 = true;
-    //     }
-    //     console.log(paramCheck3);
-    //     paramCheckAll = paramCheck1;
-    // }
-
     return(
         <>
-            {/* {(paramCheckAll || type.type != "merge") && <ProductListResult/>} */}
             {((requestUrl === rendered.current || PagingInfo) != 0 || curURL.searchParams.get('sortCondition')) && <ProductListResult/>}
         </>
     );
