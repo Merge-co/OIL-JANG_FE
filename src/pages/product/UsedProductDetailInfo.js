@@ -73,7 +73,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     const dispatch = useDispatch();
 
     const onClickEditHandler = () => {
-        navigate(`/productEdit/${params.productCode}`)
+        navigate(`/productEdit                                          /${params.productCode}`)
     }
 
     const [plusMinusCount, setPlusMinusCount] = useState(0);

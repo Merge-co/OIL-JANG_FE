@@ -112,7 +112,7 @@ function WishList() {
     return (
         <>
             <div style={{width:'70%', margin: '0 auto', userSelect: 'none'}}>
-                <h1>관심목록</h1>
+                <h1 style={{color: "#222222"}}>관심목록</h1>
                 <hr/>
             </div>
             {(requestUrl === rendered.current || PagingInfo) != 0 && <WishListContent/>}
