@@ -40,20 +40,21 @@ function FindId() {
 
   const onClickHandler = async () => {
     try {
-      const result = await dispatch(callPostIdAPI({ form: form }));
-
-      console.log("userData", userData);
-
-      console.log("result.data", result.data);
-      if (
-        result.data !== null &&
-        result.data !== undefined &&
-        result.data !== ""
-      ) {
-        setUserData(result.data);
-        openModal();
-      } else {
-        alert("해당 되는 정보가 없습니다.");
+      if(form.name !== "" && form.gender !== "" && form.birthDate !== ""){
+        console.log('form.name',form.name);
+        const result = await dispatch(callPostIdAPI({ form: form }));
+        if (
+          result.data !== null &&
+          result.data !== undefined &&
+          result.data !== ""
+        ) {
+          setUserData(result.data);
+          openModal();
+        }else {
+          alert("해당 되는 정보가 없습니다.");
+        }
+      }else{
+        alert("내용을 작성해주세요.");
       }
     } catch (error) {
       console.error("Login error:", error);

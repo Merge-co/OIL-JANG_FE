@@ -110,62 +110,119 @@ function Join() {
 
     if (!isImageUploaded) {
       setValidationMessage("프로필 이미지를 선택해주세요.");
+      const ErrorElement = document.getElementById('profileMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
       console.log("프로필 이미지를 선택해주세요.");
       return false;
     } else if (!nickname) {
       setNicknameUniquenessMessage("닉네임을 입력해주세요.");
       console.log("닉네임을 입력해주세요.");
+      const ErrorElement = document.getElementById('nicknameMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
       return false;
     } else if (!isNicknameUniqueness) {
       setNicknameUniquenessMessage("닉네임 중복확인을 해주세요.");
       console.log("닉네임 중복확인을 해주세요.");
+      const ErrorElement = document.getElementById('nicknameMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
       return false;
     } else if (!id) {
       setIdUniquenessMessage("아이디를 입력해주세요.");
       console.log("아이디를 입력해주세요.");
+      const ErrorElement = document.getElementById('idMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
       return false;
-    }else if (!isIdValid) {
+    }else if (!validateId) {
       setIdUniquenessMessage("3~20자 영문 대소문자와 숫자만 사용 가능합니다.");
       console.log("3~20자 영문 대소문자와 숫자만 사용 가능합니다.");
+      const ErrorElement = document.getElementById('idMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
       return false;
     }else if (!isIdUniqueness) {
       setIdUniquenessMessage("아이디 중복확인을 해주세요.");
       console.log("아이디 중복확인을 해주세요.");
+      const ErrorElement = document.getElementById('idMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (!pwd) {
       setRealTimePasswordValidation("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
       console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
+      const ErrorElement = document.getElementById('pwdMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (!isPwdValid) {
       setRealTimePasswordValidation("비밀번호를 입력해주세요.");
       console.log("비밀번호를 입력해주세요.");
+      const ErrorElement = document.getElementById('pwdMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (!confirmPwd) {
       setPasswordMatchMessage("비밀번호를 입력해주세요.");
       console.log("비밀번호를 입력해주세요.");
+      const ErrorElement = document.getElementById('pwdMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (pwd !== confirmPwd) {
       setPasswordMatchMessage("비밀번호가 일치하지 않습니다.");
       console.log("비밀번호가 일치하지 않습니다.");
+      const ErrorElement = document.getElementById('pwdMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (!name) {
       setNameValidationMessage("이름을 입력해주세요.");
       console.log("이름을 입력해주세요.");
+      const ErrorElement = document.getElementById('nameMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (!birthDate) {
       setBirthdateValidationMessage("생년월일을 입력해주세요.");
       console.log("생년월일을 입력해주세요.");
+      const ErrorElement = document.getElementById('dateMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (!isGenderSelected) {
       setGenderValidationMessage("성별을 선택해주세요.");
       console.log("성별을 선택해주세요.");
+      const ErrorElement = document.getElementById('genderMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return false;
     } else if (!phone) {
       setPhoneValidationMessage("핸드폰번호를 입력해주세요.");
+      const ErrorElement = document.getElementById('phoneMessage');
+      if (ErrorElement) {
+        ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       console.log("핸드폰번호를 입력해주세요.");
     } else if (!isCertificationCompleted) {
       alert("본인 인증이 완료되지 않았습니다. 인증을 완료해주세요.");
       console.log("본인 인증이 완료되지 않았습니다. 인증을 완료해주세요.");
+      
       return false;
     } else if (!isAgreemanetChecked) {
       alert("서비스 약관에 동의해주세요.");
@@ -236,13 +293,13 @@ function Join() {
 
     if (name === "id") {
       const isIdValid = validateId(value);
-      if (!isIdValid) {   
-        setIsIdValid(false);
+      console.log('isIdValid',isIdValid);
+      setIsIdValid(isIdValid);
+      if (!isIdValid) {
         setIdUniquenessMessage(
           "3~20자 영문 대소문자와 숫자만 사용 가능합니다."
         );
       } else {
-        setIsIdValid(true);
         setIdUniquenessMessage("");
       }
     }
@@ -294,6 +351,7 @@ function Join() {
       alert("회원가입이 완료되었습니다.")
       navigate("/login", { replace: true });
     } else {
+
       console.log("옳바르지않은 내용입니다.");
     }
   };
@@ -322,6 +380,7 @@ function Join() {
   const validateId = (id) => {
     const isIdValid = /^[a-zA-Z][a-zA-Z0-9]{2,19}$/.test(id);
     setIsIdValid(isIdValid);
+    console.log('validateId isIdValid',isIdValid);
     return isIdValid;
   };
 
@@ -484,7 +543,7 @@ function Join() {
                 />
               </div>
             </div>
-            <div>{!isImageUploaded && <p>{validationMessage}</p>}</div>
+            <div>{!isImageUploaded && <p id="profileMessage">{validationMessage}</p>}</div>
             <br />
             <label htmlFor="nickname">닉네임*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
@@ -508,8 +567,9 @@ function Join() {
                 <h5>중복확인</h5>
               </button>
             </div>
-            <div>
-              {nicknameUniquenessMessage && <p>{nicknameUniquenessMessage}</p>}
+            <div id="nicknameMessage">
+              {(nicknameUniquenessMessage && nicknameUniquenessMessage !== "사용 가능한 닉네임입니다.") ? <p>{nicknameUniquenessMessage}</p> : <p style={{color:"#00CC00"}}>{nicknameUniquenessMessage}</p>}
+            {console.log('nicknameUniquenessMessage',nicknameUniquenessMessage)}
             </div>
             <br />
             <label htmlFor="id">ID*</label>
@@ -532,9 +592,10 @@ function Join() {
                 <h5>중복 확인</h5>
               </button>
             </div>
-
-            {idUniquenessMessage && <p>{idUniquenessMessage}</p>}
-            <br />
+            <div id="idMessage">
+            {(idUniquenessMessage && idUniquenessMessage !== "사용 가능한 아이디입니다.") ? <p>{idUniquenessMessage}</p> : <p style={{color:"#00CC00"}}>{idUniquenessMessage}</p> }
+            </div>
+            <br/>
             <label htmlFor="pwd">비밀번호*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
               <input
@@ -557,7 +618,9 @@ function Join() {
                 )}
               </button>
             </div>
+            <div id="pwdMessage">
             {realTimePasswordValidation && <p>{realTimePasswordValidation}</p>}
+            </div>
             <br />
             <label htmlFor="confirmPwd">비밀번호 확인*</label>
             <div className={UserJoinCSS.input_nickname_check_btn}>
@@ -581,7 +644,7 @@ function Join() {
                 )}
               </button>
             </div>
-            <div>
+            <div id="idMessage">
               {(passwordMatchMessage || !userData.confirmPwd) && (
                 <p>{passwordMatchMessage}</p>
               )}
@@ -598,7 +661,9 @@ function Join() {
                 required
               />
             </div>
+            <div id="nameMessage">
             {!userData.name && <p>{nameValidationMessage}</p>}
+            </div>
             <br />
 
             <label htmlFor="birthDate" className={UserJoinCSS.birthDateLabel}>
@@ -622,11 +687,13 @@ function Join() {
                 className={UserJoinCSS.datePickerInput}
               />
             </div>
-            {(!isBirthdateValid || !userData.birthDate) && (
+            <div id="dateMessage">
+            {(!userData.birthDate) && (
               <p className={UserJoinCSS.datePickerError}>
                 {birthdateValidationMessage}
               </p>
             )}
+            </div>
 
             <div className={UserJoinCSS.genderSelectContainer}>
               <label htmlFor="gender" className={UserJoinCSS.genderLabel}>
@@ -649,12 +716,14 @@ function Join() {
                 </select>
               </div>
             </div>
+            <div id="genderMessage">
             {!isGenderSelected && (
               <p style={{ color: "red" }}>{genderValidationMessage}</p>
             )}
+            </div>
             <br />
             <label htmlFor="phone">핸드폰 번호*</label>
-            <div className={UserJoinCSS.input_nickname_check_btn}>
+            <div className={UserJoinCSS.input_certifecate}>
               <input
                 type="text"
                 placeholder="휴대폰번호를 입력하세요."
@@ -666,14 +735,12 @@ function Join() {
                 maxLength={13}
                 required
               />
-              <div>
                 <Certification
                   userData={userData}
                   onCertificationSuccess={handleCertificationSuccess}
                 />
-              </div>
             </div>
-            <div>{!userData.phone && <p>{phoneValidationMessage}</p>}</div>
+            <div id="phoneMessage">{!userData.phone && <p>{phoneValidationMessage}</p>}</div>
             <br />
             <label htmlFor="email">
               Email<small>(선택사항)</small>

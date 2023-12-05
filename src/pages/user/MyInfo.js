@@ -70,6 +70,16 @@ function MyInfo() {
     }
   };
 
+  const validatePassword = (password) => {
+    console.log("validatePassword");
+    const isPwdValid =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%^&*()-_+=]{8,16}$/.test(
+        password
+      );
+    console.log("isPwdValid", isPwdValid);
+    return isPwdValid;
+  };
+
   return (
     <>
       {userDetail && (
@@ -136,8 +146,7 @@ function MyInfo() {
                   </div>
                 </>
               )}
-
-              <div className={UserMypageCSS.labelInputContainer}>
+              {userDetail.data?.email && ( <div className={UserMypageCSS.labelInputContainer}>
                 <label className={UserMypageCSS.label}>이메일 주소</label>
                 <br />
                 <input
@@ -146,7 +155,7 @@ function MyInfo() {
                   readOnly
                   className={UserMypageCSS.inputField}
                 />
-              </div>
+              </div>)}
 
               {userDetail.data?.enrollType === "NORMAL" && (
                 <>
