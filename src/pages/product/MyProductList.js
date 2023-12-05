@@ -85,7 +85,7 @@ function MyProductList() {
             <div className={WishListCSS.wishListTitle}>내 판매목록</div>
             <div className='productListBox'>
                 {myProductList.sellingList.length === 0 ? (
-                    <div>등록된 상품이 없습니다.</div>
+                    <div className='noItem'>등록된 상품이 없습니다.</div>
                 ) : (
                     <>
                         <table>
@@ -118,7 +118,7 @@ function MyProductList() {
                                         </td>
                                         <td className='tableName'>
                                             <div onClick={() => onclickHandler(product.productCode)}>
-                                                <img src={product.image} alt="상품 이미지" />
+                                                <img src={product.productThumbAddr} alt="상품 이미지" width={180} height={152} />
                                             </div>
                                         </td>
                                         <td className='tableName'>

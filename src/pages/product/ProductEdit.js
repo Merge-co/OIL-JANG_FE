@@ -15,6 +15,10 @@ function ProductEdit() {
     const [productDesc, setProductDesc] = useState('');
     const [wishPlaceTrade, setWishPlaceTrade] = useState('');
 
+    const [descriptionLength, setDescriptionLength] = useState(0);
+    const [productNameLength, setProductNameLength] = useState(0);
+    const [wishPlaceTradeLength, setWishPlaceTradeLength] = useState(0);
+
     const { productCode } = useParams();
     const navigate = useNavigate();
 
@@ -47,25 +51,43 @@ function ProductEdit() {
     const handlePriceOptionChange = (option) => {
         setproductPrice(option);
         setPriceOption(option === 'share' ? '' : productPrice);
-        
+
     };
 
     const handlePriceChange = (event) => {
         if (priceOption === 'sell') {
             const enteredValue = event.target.value;
             const numericValue = enteredValue.replace(/[^0-9]/g, '');
-    
+
             if (numericValue === '') {
                 setproductPrice('');
                 return;
             }
-    
+
             setproductPrice(numericValue);
         } else {
             setproductPrice(event.target.value);
         }
     };
-    
+
+    const handleProductNameChange = (event) => {
+        const { value } = event.target;
+        setProductName(value);
+        setProductNameLength(value.length); // 상품명 길이 설정
+    };
+
+    const handleDescriptionChange = (event) => {
+        const description = event.target.value;
+        setProductDesc(description); // 상품 설명 업데이트
+        setDescriptionLength(description.length);
+    };
+
+    const handleWishPlaceTradeChange = (event) => {
+        const { value } = event.target;
+        setWishPlaceTrade(value);
+        setWishPlaceTradeLength(value.length); // 거래 희망 장소 길이 설정
+    };
+
 
 
     const handleProductUpdate = async () => {
@@ -151,18 +173,23 @@ function ProductEdit() {
                     <h2 className='addproduct'>상품수정</h2>
                     <hr />
                     <div>
-                        <label htmlFor="product_name" id="product_name" className="font_all">
-                            상품명 *
-                        </label>
-                        <input
-                            type="text"
-                            name="product_name"
-                            id="product_name"
-                            className="input_box"
-                            value={productName}
-                            onChange={(e) => setProductName(e.target.value)}
-                            required
-                        />
+                        <div className='nameCount'>
+                            <label htmlFor="product_name" id="product_name" className="font_all">
+                                상품명 *
+                            </label>
+                            <h5 className='productLength'>{productNameLength}/50</h5>
+
+                            <input
+                                type="text"
+                                name="product_name"
+                                id="product_name"
+                                className="input_box"
+                                value={productName}
+                                onChange={handleProductNameChange}
+                                maxLength={50}
+                                required
+                            />
+                        </div>
                         <br />
                         <div className='Category'>
                             <label htmlFor="ref_category" id="ref_category" className="font_all">
@@ -189,7 +216,7 @@ function ProductEdit() {
                 </div>
                 <div className="pricing">
                     <div className="sell_h1">
-                        <label className="font_all">가격 설정 *</label>
+                        <label className="priceFont">가격 설정 *</label>
                         <div className="pricebtn">
                             <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
                                 <input
@@ -224,7 +251,7 @@ function ProductEdit() {
                         placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
                         disabled={priceOption === 'share'}
                         value={productPrice}
-                        onChange={(e) => setproductPrice(e.target.value)}
+                        onChange={handlePriceChange}
                     />
 
                     <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
@@ -235,9 +262,12 @@ function ProductEdit() {
                 {/* <div></div> */}
                 <div className='product_box'>
                     <div className='descBox'>
-                        <h3 htmlFor="product_description" className='product_description'>
-                            상품 설명*
-                        </h3>
+                        <div className='descCount'>
+                            <h3 htmlFor="product_description" className='product_description'>
+                                상품 설명*
+                            </h3>
+                            <h5 className='descLength'>{descriptionLength}/300</h5>
+                        </div>
                         <div className='dengerFont'>
                             <textarea
                                 name="product_description"
@@ -245,7 +275,8 @@ function ProductEdit() {
                                 className='description'
                                 placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요. 서로가 믿고 거래할 수 있도록, 자세한 정보와 다양한 각도의 상품 사진을 올려주세요. * 안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 오일장(주)가 함께 합니다."
                                 value={productDesc}
-                                onChange={(e) => setProductDesc(e.target.value)}
+                                onChange={handleDescriptionChange}
+                                maxLength={300}
                             ></textarea>
                             <p className='danger'>*부적합한 게시글은 사전에 통보 없이 삭제 될 수 있음을 알려드립니다.</p>
                             <br />
@@ -254,16 +285,20 @@ function ProductEdit() {
                 </div>
                 <hr />
                 <div className='place'>
+                    <div className='wishCount'>
                     <label htmlFor="wish_place_to_trade" className='placeFont'>
                         거래희망 장소*
                     </label>
+                    <h5 className='wishCount'>{wishPlaceTradeLength}/50</h5>
+                    </div>
                     <textarea
                         name="wish_place_to_trade"
                         id="wish_place_to_trade"
                         placeholder="위치 작성"
                         className='WishPlace'
                         value={wishPlaceTrade}
-                        onChange={(e) => setWishPlaceTrade(e.target.value)}
+                        onChange={handleWishPlaceTradeChange}
+                        maxLength={50}
                     ></textarea>
                     <hr />
                 </div>
@@ -277,4 +312,4 @@ function ProductEdit() {
         </>
     );
 };
-export default ProductEdit;
+export default ProductEdit; 
