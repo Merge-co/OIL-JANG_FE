@@ -6,6 +6,7 @@ function AuthCheck({component: Component, require: Reqiure}) {
 
     const pathname = useLocation();
 
+
     switch(Reqiure) {
         case "Admin":
             return (
@@ -13,11 +14,11 @@ function AuthCheck({component: Component, require: Reqiure}) {
             )
         case "User":
             return (
-                !getCookie("accessToken") ? <Navigate to= '/login' state={pathname}/> : getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN") ? <Navigate to= '/' {...alert("접근할 수 없는 페이지입니다.")} /> : Component
+                !getCookie("accessToken") ? <Navigate to= '/login' state={pathname} replace={true} /> : getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN") ? <Navigate to= '/' {...alert("접근할 수 없는 페이지입니다.")} /> : Component
             )
         case "Login" :
             return (
-                !getCookie("accessToken") ? <Navigate to= '/login' path={pathname}/> : Component
+                !getCookie("accessToken") ? <Navigate to= '/login' state={pathname} replace={true} /> : Component
             )
         case "NoAdmin" :
             return (
