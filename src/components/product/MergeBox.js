@@ -9,7 +9,6 @@ import MergeItemBox from './MergeItemBox';
 import { callMessagesRegistAPI } from '../../apis/ProductAPICalls';
 import { getCookie } from '../../modules/CookieModule';
 import resetImg from '../../images/siteImage/reset.svg';
-import { thisTypeAnnotation } from '@babel/types';
 
 function MergeBox() {
     
@@ -35,6 +34,7 @@ function MergeBox() {
 
     useEffect(
         () => {
+            burgetRef.current.focus();
             if(window.localStorage.getItem("burget") == null) {
                 setMoney(0);
             } else {
@@ -65,7 +65,6 @@ function MergeBox() {
     
     useEffect(
         () => {
-            burgetRef.current.focus();
             dispatch({ type: GET_MERGE_ITEM, payload: 0});
             if(!window.localStorage.getItem("burget")) {
                 window.localStorage.setItem("burget", 0);
