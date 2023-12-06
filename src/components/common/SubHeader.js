@@ -1,10 +1,13 @@
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SubHeaderCSS from '../../styles/SubHeader.module.css';
+import { getCookie } from "../../modules/CookieModule";
+import { jwtDecode } from "jwt-decode";
 
 function SubHeader() {
 
     return (
         <>  
+            {getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0] !== "ROLE_ADMIN" &&
             <div className={SubHeaderCSS.subHeaderLayout}>
                 <div className={SubHeaderCSS.subHeaderContainter}>
                     <div className={SubHeaderCSS.subHeaderItem}>
@@ -23,7 +26,7 @@ function SubHeader() {
                         <NavLink className={({isActive}) => isActive || window.location.href.toString().includes("inquiryDetail")? SubHeaderCSS.subHeaderBorderActive : SubHeaderCSS.subHeaderBorder} to="/inquiry" style={{ textDecoration: "none" }}><div>1:1 문의</div></NavLink>
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     );
 }
