@@ -1,6 +1,7 @@
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import "../../styles/product/ProductDetailImg.css";
+import noProductImg from '../../images/siteImage/noProductImg.svg';
 
 function UserProductDetailImg(productDetailImg) {
 
@@ -11,7 +12,7 @@ function UserProductDetailImg(productDetailImg) {
         images.push({original: img[1]});
     })
     if(imgArr.length === 0) {
-        images.push({original: "/images/siteImage/noProductImg.svg"});
+        images.push({original: noProductImg});
     }
 
     return(

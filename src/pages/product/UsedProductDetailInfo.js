@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import Report from '../report/Report';
 import MessageModal from '../message/MessagModal';
+import reportBtn from '../../images/siteImage/reportBtn.svg';
 
 function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDetail}) {
     const [wishLishRegist, setWishLishRegist] = useState(productDetail.selectedWishCode ? 1 : 0);
@@ -154,7 +155,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                         <div className={ProductDetailCSS.productDetailWish}>찜 {productDetailInfos.wishCount + plusMinusCount}</div>
                     </div>
                     {!getCookie("accessToken") || getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode !== productDetailInfos.refUserCode) ? <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
-                        <img src="/images/siteImage/reportBtn.svg" alt=""/>&nbsp;
+                        <img src={reportBtn} alt=""/>&nbsp;
                         <div className={`${ProductDetailCSS.reportContent}`} >신고하기</div>
                     </div> : ""}
                 </div>

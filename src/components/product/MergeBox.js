@@ -8,6 +8,7 @@ import { GET_PAGING } from '../../modules/PagingModule';
 import MergeItemBox from './MergeItemBox';
 import { callMessagesRegistAPI } from '../../apis/ProductAPICalls';
 import { getCookie } from '../../modules/CookieModule';
+import resetImg from '../../images/siteImage/reset.svg';
 
 function MergeBox() {
     
@@ -176,7 +177,7 @@ function MergeBox() {
             <div className={MergeBoxCSS.mergeBoxWhole}>
                 <div className={MergeBoxCSS.mergeBox0}>
                 <div onClick={() => onClickReset()} className={MergeBoxCSS.resetBox}>
-                    <img src="/images/siteImage/reset.svg" alt=""/> <div className={MergeBoxCSS.resetBtn}>초기화</div>
+                    <img src={resetImg} alt=""/> <div className={MergeBoxCSS.resetBtn}>초기화</div>
                 </div>
                 <div className={MergeBoxCSS.mergeBox1}>
                     <div className={MergeBoxCSS.setMoneyTitle}>예산 설정</div><button onClick={() => onClickSetMoney()} className={ButtonCSS.smallBtn2}>설정</button>
