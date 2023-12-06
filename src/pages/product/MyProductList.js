@@ -19,11 +19,11 @@ function MyProductList() {
 
     const onChangeSellStatus = async (productCode, event) => {
         const updatedStatus = event.target.value;
-        const confirmMessage = `판매 상태를 변경하시겠습니까?`;
+        const confirmMessage = `판매완료를 선택하신면 수정이 불가능 합니다. 정말로 판매완료를 하시겠습니까?`;
 
         if (window.confirm(confirmMessage)) {
             try {
-                const response = await fetch(`http://localhost:8000/products/${productCode}`, {
+                const response = await fetch(`http://localhost:8000/products/${productCode}/soldOut`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -33,8 +33,13 @@ function MyProductList() {
                 });
 
                 if (response.ok) {
-                    // 성공적으로 처리된 경우에 대한 로직을 추가할 수 있습니다.
-                    // 예: 서버에서 반환한 새로운 데이터로 상태를 업데이트하는 등
+                    const updatedProductList = myProductList.sellingList.map(product => {
+                        if (product.productCode === productCode) {
+                            return { ...product, sellStatus: updatedStatus };
+                        }
+                        return product;
+                    });
+                    setMyProductList({ ...myProductList, sellingList: updatedProductList });
                 } else {
                     throw new Error('상태 변경 실패');
                 }
@@ -140,7 +145,7 @@ function MyProductList() {
                                         </td>
                                         <td className='tableName'>
                                             <div onClick={() => onclickHandler(product.productCode)}>
-                                            {product.productPrice.toLocaleString()}원
+                                                {product.productPrice.toLocaleString()}원
                                             </div>
                                         </td>
                                         <td className='tableName'>
@@ -149,7 +154,12 @@ function MyProductList() {
                                             </div>
                                         </td>
                                         <td className='tableName'>
-                                            <select value={product.sellStatus} onChange={(e) => onChangeSellStatus(product.productCode, e)} className='productState'>
+                                            <select
+                                                value={product.sellStatus}
+                                                onChange={(e) => onChangeSellStatus(product.productCode, e)}
+                                                className='productState'
+                                                disabled={product.sellStatus === '판매완료'}
+                                            >
                                                 <option value="판매중" style={{ color: "#222222" }}>판매중</option>
                                                 <option value="판매완료" style={{ color: "#222222" }}>판매완료</option>
                                             </select>
