@@ -3,7 +3,7 @@
     height: 40px;
     border-radius: 5px;
     border: solid 1px #C7C6C6;
-    margin: 15px 110px 35px;
+    margin: 15px 80px 35px;
     padding: 10px;
 }
 .placeBox{
@@ -50,7 +50,10 @@ input[type="radio"] {
     color: #222222;
     margin: 70px 0px 0px;
 }
-
+.priceWon{
+    margin-top: 20px;
+    font-size: 22px;
+}
 /* 사용자 지정 라디오 버튼 스타일 */
 .custom-radio {
     /* position: relative; */
@@ -106,6 +109,6 @@ input[type="radio"] {
     height: 40px;
     border-radius: 5px;
     border: solid 1px #C7C6C6;
-    margin: 15px 195px 35px;
+    margin: 15px 35px 35px;
     padding: 10px;
 }
