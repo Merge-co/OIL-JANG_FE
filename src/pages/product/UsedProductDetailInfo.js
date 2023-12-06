@@ -24,7 +24,9 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     const pathname = useLocation();
 
     const onClickReportHandler = () => {
-        if (getCookie("accessToken")) {
+        if(getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN") {
+            alert("관리자는 이용할 수 없습니다.");
+        } else if (getCookie("accessToken")) {
             setModalType('report');
             setModalOpen(true);
             console.log("report: " + modalType, getCookie("accessToken") )
@@ -34,7 +36,9 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     }
 
     const onClickSendMessageHandler = () => {
-        if (getCookie("accessToken")) {
+        if(getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN") {
+            alert("관리자는 이용할 수 없습니다.");
+        } else if (getCookie("accessToken")) {
             setModalType('message');
             setModalOpen(true);
             console.log("성공하면 찍힙니다")
@@ -105,7 +109,9 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
     const [ isSending, setIsSeding ] = useState(false);
 
     const onClickPickHandler = () => {
-        if (getCookie("accessToken")) {
+        if(getCookie("accessToken") && jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN") {
+            alert("관리자는 이용할 수 없습니다.");
+        } else if (getCookie("accessToken")) {
             if (wishLishRegist === 0 && !isSending) {
                 dispatch(callWishListRegistAPI(params.productCode));
                 setIsSeding(true);
