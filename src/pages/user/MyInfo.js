@@ -45,6 +45,7 @@ function MyInfo() {
         await dispatch(callGetUserAPI());
         setIsLoading(false); 
       } catch (error) {
+        alert("사용자 정보를 불러오는 중 에러 발생:", error)
         // console.error("사용자 정보를 불러오는 중 에러 발생:", error);
       }
     };
