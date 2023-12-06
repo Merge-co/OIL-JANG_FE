@@ -111,7 +111,7 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
 
     // 신고처리에 대한 쪽지 발송
     const onClickProcessingHandler = (reportCategoryCode, refUserCode, productCode, count) => {
-
+                     
         let message = '';
 
         if (reportCategoryCode === '광고성 콘텐츠에요') {
@@ -130,18 +130,17 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
             productCode: productCode
         }));
         alert('처리완료. 게시글이 삭제처리 되었습니다.');
-        let date = new Date();
-        if (count === 4) {
+        console.log('count', count);
+        if (count === 5) {
             // 판매자 게시글이 5번 삭제되었을 경우 
             window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
-            console.log('유저가 삭제당한 횟수 : ', count);
             dispatch(callSanctionsRegistAPI(refUserCode));
             navigate('/sanctions')
-        } else if (count === 9) {
+        } else if (count === 10) {
             window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
             dispatch(callSanctionsRegistAPI(refUserCode));
             navigate('/sanctions')
-        } else if (count === 14) {
+        } else if (count === 15) {
             window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
             dispatch(callSanctionsRegistAPI(refUserCode));
             navigate('/sanctions')

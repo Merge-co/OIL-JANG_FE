@@ -174,7 +174,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                     {getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode === productDetailInfos.refUserCode) ? <Seller/> : <Buyer/>}
                 </div>
             </div>
-            {modalType === 'report' && modalOpen && getCookie("accessToken") && <Report nickName={productDetailInfos.nickName} productCode={productDetailInfos.productCode} sellStatus={productDetailInfos.sellStatusCode} productName={productDetailInfos.refUserCode} setModalOpen={setModalOpen} />}
+            {modalType === 'report' && modalOpen && getCookie("accessToken") && <Report nickName={productDetailInfos.nickName} productCode={productDetailInfos.productCode} sellStatus={productDetailInfos.sellStatusCode} productName={productDetailInfos.productName} setModalOpen={setModalOpen} />}
             {modalType === 'message' && modalOpen && getCookie("accessToken") && <MessageModal setModalOpen={setModalOpen}/>}
         </>
     );

@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../modules/CookieModule";
 import ReportCSS from '../../styles/report/Report.module.css';
 
-function Report({ refUserCode, productCode, sellStatus, productName, setModalOpen }) {
+function Report({productCode, sellStatus, productName, setModalOpen }) {
     // nickName -> 판매자 정보 
 
     // 모달창 끄기 버튼
@@ -73,6 +73,7 @@ function Report({ refUserCode, productCode, sellStatus, productName, setModalOpe
         // console.log('[ReportRegist] fromData reportComment : ', formData.get('reportComment'));
         // console.log('[ReportRegist] fromData sellStatusCode : ', formData.get('sellStatusCode'));
         // console.log("aaaa", formData);
+        
         dispatch(callReportRegistAPI({
             form: formData
         }));
