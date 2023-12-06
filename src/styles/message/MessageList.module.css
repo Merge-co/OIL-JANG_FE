@@ -115,6 +115,7 @@ input:focus, select:focus, textarea:focus{
     color: #9D9D9D;
     padding: 5px;
     width: 18%;
+    vertical-align: bottom;
   }
 
   .searchInput{

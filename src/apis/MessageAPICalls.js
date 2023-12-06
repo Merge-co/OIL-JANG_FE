@@ -80,6 +80,8 @@ export const callMessageListAPI = ({userCode, isReceived, page, keyword}) => {
     let requestURL = `http://localhost:8000/users/${userCode}/messages?isReceived=${isReceived}`;
 
   
+    console.log("api ======== keyword 1" , keyword)
+  
 
     const params = new URLSearchParams(window.location.search);
     console.log("222 : " + page)
@@ -88,10 +90,16 @@ export const callMessageListAPI = ({userCode, isReceived, page, keyword}) => {
         requestURL += `&page=${params.get("page")}`;
     }
 
-    if(params.get("keyword")){
-        requestURL += `&keyword=${params.get("keyword")}`;
+    // if(params.get("keyword")){
+    //     requestURL += `&keyword=${params.get("keyword")}`;
+    // }
+
+    if(keyword){
+        requestURL += `&keyword=${keyword}`
     }
 
+
+    console.log("api ======== keyword 1" , keyword)
     
     return async (dispatch, getState) => {
         try{
@@ -140,4 +148,3 @@ export const callMessageDeleteAPI = ({msgCode}) => {
         return result;
     }
 }
-
