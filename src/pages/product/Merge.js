@@ -32,7 +32,7 @@ function Merge() {
                         <div className={`${ModalCSS.modalBox}`}>
                             <h4 className={`${ModalCSS.modalTitle}`} style={{userSelect: 'none'}}>꾸러미 가이드</h4>
                             <div className={`${ModalCSS.modalContent}`} style={{userSelect: 'none'}}>
-                                <img src={mergeGuide} alt="" width={700}/>
+                                <img src={mergeGuide} alt="" width={"100%"}/>
                             </div>
                         </div>
                     </div>

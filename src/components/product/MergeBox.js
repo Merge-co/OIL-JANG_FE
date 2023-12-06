@@ -35,7 +35,7 @@ function MergeBox() {
     useEffect(
         () => {
             burgetRef.current.focus();
-            if(window.localStorage.getItem("burget") == 0) {
+            if(window.localStorage.getItem("burget") == null) {
                 setMoney(0);
             } else {
                 setMoney(window.localStorage.getItem("burget"));
@@ -66,6 +66,9 @@ function MergeBox() {
     useEffect(
         () => {
             dispatch({ type: GET_MERGE_ITEM, payload: 0});
+            if(!window.localStorage.getItem("burget")) {
+                window.localStorage.setItem("burget", 0);
+            }
             if(window.localStorage.getItem("mergeKeys")) {
                 const mergeKeys = window.localStorage.getItem("mergeKeys").toString().split(",");
                 const selectedItems = [];
@@ -86,7 +89,7 @@ function MergeBox() {
         let isReset = window.confirm('초기화하시겠습니까?');
         if(isReset) {
             burgetRef.current.focus();
-            window.localStorage.setItem("burget", '');
+            window.localStorage.setItem("burget", 0);
             window.localStorage.setItem("remainMoney", 0);
             window.localStorage.setItem("remainMoneySearch", 0);
             if(window.localStorage.getItem("mergeKeys")) {
@@ -95,7 +98,7 @@ function MergeBox() {
                 );
                 window.localStorage.removeItem("mergeKeys");
             }
-            setMoney('');
+            setMoney(0);
             setRemain('0');
             setSelectedItem([]);
             setSelectedItemCount('0');
@@ -150,10 +153,10 @@ function MergeBox() {
             if (window.localStorage.getItem("mergeKeys")) {
                 if (+window.localStorage.getItem("remainMoney") < 0) {
                     if (window.confirm("예산을 초과했습니다. 쪽지를 보내시겠습니까?")) {
-                        sendMessages();
+                        sendMessages();        
                     }
                 } else if (window.confirm("쪽지를 보내시겠습니까?")) {
-                    sendMessages();
+                    sendMessages();            
                 }
             } else {
                 alert('쪽지를 보낼 상품을 없습니다.');  
@@ -184,7 +187,7 @@ function MergeBox() {
                 <div className={MergeBoxCSS.mergeBox1}>
                     <div className={MergeBoxCSS.setMoneyTitle}>예산 설정</div><button onClick={() => onClickSetMoney()} className={ButtonCSS.smallBtn2}>설정</button>
                     <label>
-                        <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money || ''} placeholder="예산 설정" ref={burgetRef}/>
+                        <input className={MergeBoxCSS.setMoney} onChange={onChangeHandler} onKeyPress={handleKeyPress} value={money} placeholder="미입력시 0원" ref={burgetRef}/>
                     </label>
                 </div>
                 <div className={MergeBoxCSS.mergeBox1}>

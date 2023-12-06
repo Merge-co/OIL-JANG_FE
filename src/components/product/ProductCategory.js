@@ -158,8 +158,6 @@ function ProductCategory(type) {
     const onClickHandler = () => {
         if(checkFive.length === 0 && type.type === "merge") {
             alert("최소 1개의 카테고리를 선택해주세요");
-        } else if(!window.localStorage.getItem("burget") && type.type === "merge") {
-            alert("예산을 설정해주세요");
         } else if (type.type === "list") {
             if(checkFive.length !== 0) {
                 curURL.searchParams.set('categoryCode', checkFive[0].id);
@@ -180,6 +178,13 @@ function ProductCategory(type) {
             navigate(`${curURL.search}`);
             dispatch({ type: GET_SEARCH_AGAIN, payload: 1});
         } else {
+            if(!window.localStorage.getItem("burget") && type.type === "merge") {
+                window.localStorage.setItem("burget", 0);
+            }
+            if(window.localStorage.getItem("burget") == 0 && !window.localStorage.getItem("zeroOne")) {
+                alert('예산설정이 0원으로 되어 있습니다.');
+                window.localStorage.setItem("zeroOne", 1);
+            }
             dispatch({ type: GET_MERGE_CATEGORY, payload: checkFive});
             dispatch({ type: GET_CATEGORY_CODE, payload: 0});
             navigate(``);
