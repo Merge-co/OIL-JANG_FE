@@ -4,7 +4,8 @@ import { callReportManagementAPI } from "../../apis/ReportAPICalls";
 import ReportCSS from '../../styles/report/Report.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import PagingBtn from '../../styles/PagingBar.module.css';
-import { callSanctionsListAPI } from "../../apis/SanctionsAPICalls";
+import { callSanctionsListAPI, callSanctionsUpdateAPI } from "../../apis/SanctionsAPICalls";
+import { current } from "@reduxjs/toolkit";
 function SanctionsManagement() {
 
     const dispatch = useDispatch();
@@ -24,12 +25,45 @@ function SanctionsManagement() {
         }
     }
 
-    const onClickSanctionsUpdateHandler = () => {
+    //현재 날짜
+    const currentDate = new Date();
+    const isoCurrentDate = currentDate.toISOString();
+    // 7일 이후의 날짜 
+    const afterSevenDays = new Date();
+    afterSevenDays.setDate(currentDate.getDate() + 7);
+    const isoAfterSevenDays = afterSevenDays.toISOString();
+    // 30일 이후의 날짜
+    const afterThirtyDays = new Date();
+    afterThirtyDays.setDate(currentDate.getDate() + 30);
+    const isoAfterThirtyDays = afterThirtyDays.toISOString();
+    // 영구 정지
+    const permanentSuspension = new Date();
+    permanentSuspension.setDate(currentDate.getFullYear() + 1000);
+    const isoPermanentSuspension = permanentSuspension.toISOString();
+
+    const onClickSanctionsUpdateHandler = (refUserCode, count) => {
 
         const formData = new FormData();
+        formData.append("refUserCode", refUserCode);
+        formData.append("sanctionsDate", form.sanctionsDate);
+        formData.append("managerDate", form.managerDate);
 
+        dispatch(callSanctionsUpdateAPI({
+            form: formData
+        }));
     }
 
+    const [form, setForm] = useState({
+        managerDate: isoCurrentDate,
+        sanctionsDate: '',
+    });
+
+    const onChangeHandler = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    }
 
     useEffect(() => {
         setStart((currentPage - 1) * 5);
@@ -43,7 +77,7 @@ function SanctionsManagement() {
         return text.length > maxLength ? text.substring(0, maxLength) + '***' : text;
     }
 
-    console.log('sanctionsList...', sanctionsList)
+    console.log('sanctions...', sanctions)
     return (
         <>
             <div className={`${ReportCSS.box1} ${ReportCSS.contBox}`}>
@@ -78,17 +112,19 @@ function SanctionsManagement() {
                                 <th>{sanctions.nickName}({truncateText(sanctions.userId, 3)})</th>
                                 <th>{sanctions.count}</th>
                                 <th>
-                                    <select>
-                                        <option>7일</option>
-                                        <option>30일</option>
-                                        <option>영구정지</option>
+                                    <select
+                                        onChange={onChangeHandler}
+                                        name="sanctionsDate">
+                                        <option disabled selected hidden="hidden">제제기한</option>
+                                        <option value={isoAfterSevenDays}>7일</option>
+                                        <option value={isoAfterThirtyDays}>30일</option>
+                                        <option value={isoPermanentSuspension}>영구정지</option>
                                     </select>
-
                                 </th>
                                 <th>
-                                    <button 
-                                    onClick={onClickSanctionsUpdateHandler}
-                                    className={ButtonCSS.smallBtn1}>완료</button>
+                                    <button
+                                        onClick={() => { onClickSanctionsUpdateHandler(sanctions.refUserCode, sanctions.count) }}
+                                        className={ButtonCSS.smallBtn1}>완료</button>
                                 </th>
                             </tr>
                         ))}

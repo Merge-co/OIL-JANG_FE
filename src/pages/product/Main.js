@@ -4,24 +4,29 @@ import ProductList from "../../components/product/ProductList";
 import MainCSS from '../../styles/MainLayout.module.css';
 import '../../styles/ImageGallery.css'
 import { useNavigate } from "react-router-dom";
+import banner1 from '../../images/siteImage/bannerImg1.png';
+import banner2 from '../../images/siteImage/bannerImg2.png';
+import banner3 from '../../images/siteImage/bannerImg3.png';
+import banner4 from '../../images/siteImage/bannerImg4.png';
+import banner5 from '../../images/siteImage/bannerImg5.png';
 
 function Main() {
     
     const images = [
         {
-            original: "/images/siteImage/bannerImg1.png",
+            original: banner1
         },
         {
-            original: "/images/siteImage/bannerImg2.png"
+            original: banner2
         },
         {
-            original: "/images/siteImage/bannerImg3.png"
+            original: banner3
         },
         {
-            original: "/images/siteImage/bannerImg4.png"
+            original: banner4
         },
         {
-            original: "/images/siteImage/bannerImg5.png"
+            original: banner5
         },
     ];
 

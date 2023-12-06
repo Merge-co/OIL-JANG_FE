@@ -10,6 +10,7 @@ import { callGetProductList } from "../../apis/ProductAPICalls";
 import { GET_SEARCH_AGAIN } from "../../modules/ProductModule";
 import { GET_PAGING } from "../../modules/PagingModule";
 import { useState } from "react";
+import weeklyHot from '../../images/siteImage/weeklyHot.svg';
 
 function ProductList(type) {
 
@@ -107,7 +108,7 @@ function ProductList(type) {
         return (
             <>
                 {type.type === "main" && <div className={MainCSS.MainTitle}>
-                    <img src="/images/siteImage/weeklyHot.svg" alt="weeklyHot" />주간! 중고 상품
+                    <img src={weeklyHot} alt="weeklyHot" />주간! 중고 상품
                 </div>}
                 <div style={styleObject} className={ProductListCSS.productList}>
                     {

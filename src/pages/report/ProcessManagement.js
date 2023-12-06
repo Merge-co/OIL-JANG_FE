@@ -15,8 +15,6 @@ function ProcessManagement() {
     const [modalOpen, setModalOpen] = useState(false);
     const resultList = result && result.data.content;
 
-
-
     const onClickProcessDetailHandler = (reportNo, processDistinction, userCode) => {
         // 처리 상세페이지 이동
         setSelectedReportNo(reportNo);

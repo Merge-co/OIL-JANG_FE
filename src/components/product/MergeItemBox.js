@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
 import { GET_MERGE_ITEM, onClickItemDetail, priceToString } from '../../modules/ProductModule';
+import mergeCancelBtn from '../../images/siteImage/mergeCancelBtn.svg';
 function MergeItemBox({selectedItem}) {
 
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ function MergeItemBox({selectedItem}) {
                         <div className={MergeBoxCSS.selectedProductTitle} title={selectedItem.productName}>{selectedItem.productName}</div>
                         <div className={MergeBoxCSS.selcetedProductPrice}>{priceToString(selectedItem.productPrice)}</div>
                     </div>
-                    <img onClick={() => onClickHandler()} src="/images/siteImage/mergeCancelBtn.svg" height="34px" className={MergeBoxCSS.cancelBtn} alt=""/>
+                    <img onClick={() => onClickHandler()} src={mergeCancelBtn} height="34px" className={MergeBoxCSS.cancelBtn} alt=""/>
                 </div>
             </div>
         </>
