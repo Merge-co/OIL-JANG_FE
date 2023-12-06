@@ -7,6 +7,7 @@ import ProductList from "../../components/product/ProductList";
 import MergeLayoutCSS from "../../styles/product/MergeLayout.module.css";
 import ModalCSS from "../../styles/Modal.module.css";
 import { useState } from "react";
+import mergeGuide from '../../images/siteImage/mergeGuide.png';
 
 function Merge() {
 
@@ -31,7 +32,7 @@ function Merge() {
                         <div className={`${ModalCSS.modalBox}`}>
                             <h4 className={`${ModalCSS.modalTitle}`} style={{userSelect: 'none'}}>꾸러미 가이드</h4>
                             <div className={`${ModalCSS.modalContent}`} style={{userSelect: 'none'}}>
-                                <img src="/images/siteImage/mergeGuide.png" alt="" width={700}/>
+                                <img src={mergeGuide} alt="" width={700}/>
                             </div>
                         </div>
                     </div>

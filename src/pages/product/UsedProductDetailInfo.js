@@ -3,13 +3,14 @@ import ButtonCSS from '../../styles/Button.module.css';
 import { GET_WISHLIST_DELELE_RESULT, priceToString, timeForToday } from '../../modules/ProductModule';
 import { getCookie } from '../../modules/CookieModule';
 import { jwtDecode } from 'jwt-decode';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { callProductDeleteAPI, callWishListRegistAPI } from '../../apis/ProductAPICalls';
 import { useEffect, useState } from 'react';
 import { callWishListDeleteAPI } from '../../apis/WishListAPICalls';
 import Report from '../report/Report';
 import MessageModal from '../message/MessagModal';
+import reportBtn from '../../images/siteImage/reportBtn.svg';
 
 function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDetail}) {
     const [wishLishRegist, setWishLishRegist] = useState(productDetail.selectedWishCode ? 1 : 0);
@@ -20,13 +21,15 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         console.log("modalType updated:", modalType);
     }, [modalType]);
 
+    const pathname = useLocation();
+
     const onClickReportHandler = () => {
         if (getCookie("accessToken")) {
             setModalType('report');
             setModalOpen(true);
             console.log("report: " + modalType, getCookie("accessToken") )
         } else {
-            navigate(`/login`);
+            navigate('/login', {state: pathname});
         }
     }
 
@@ -37,7 +40,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
             console.log("성공하면 찍힙니다")
             console.log("message: " + modalType,getCookie("accessToken") )
         } else {
-            navigate(`/login`);
+            navigate('/login', {state: pathname});
         }
     }
 
@@ -123,7 +126,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                 }
             }
         } else {
-            navigate(`/login`);
+            navigate('/login', {state: pathname});
         }
     }
 
@@ -154,7 +157,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                         <div className={ProductDetailCSS.productDetailWish}>찜 {productDetailInfos.wishCount + plusMinusCount}</div>
                     </div>
                     {!getCookie("accessToken") || getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).userCode !== productDetailInfos.refUserCode) ? <div onClick={() => onClickReportHandler()} className={ProductDetailCSS.reportBtnBox}>
-                        <img src="/images/siteImage/reportBtn.svg" alt=""/>&nbsp;
+                        <img src={reportBtn} alt=""/>&nbsp;
                         <div className={`${ProductDetailCSS.reportContent}`} >신고하기</div>
                     </div> : ""}
                 </div>

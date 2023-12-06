@@ -1,8 +1,11 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { getCookie } from "./modules/CookieModule";
 import { jwtDecode } from "jwt-decode";
 
 function AuthCheck({component: Component, require: Reqiure}) {
+
+    const pathname = useLocation();
+
 
     switch(Reqiure) {
         case "Admin":
@@ -11,11 +14,11 @@ function AuthCheck({component: Component, require: Reqiure}) {
             )
         case "User":
             return (
-                !getCookie("accessToken") ? <Navigate to= '/login'/> : getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN") ? <Navigate to= '/' {...alert("접근할 수 없는 페이지입니다.")} /> : Component
+                !getCookie("accessToken") ? <Navigate to= '/login' state={pathname} replace={true} /> : getCookie("accessToken") && (jwtDecode(getCookie("accessToken")).Role[0] === "ROLE_ADMIN") ? <Navigate to= '/' {...alert("접근할 수 없는 페이지입니다.")} /> : Component
             )
         case "Login" :
             return (
-                !getCookie("accessToken") ? <Navigate to= '/login'/> : Component
+                !getCookie("accessToken") ? <Navigate to= '/login' state={pathname} replace={true} /> : Component
             )
         case "NoAdmin" :
             return (

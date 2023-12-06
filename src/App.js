@@ -21,7 +21,6 @@ import FindId from './pages/user/FindId';
 import MyInfo from './pages/user/MyInfo';
 import EditMyInfo from './pages/user/EditMyInfo';
 import Error from './components/common/Error';
-import Result from './components/user/Result';
 import FindPwd from './pages/user/FindPwd';
 import Message from './components/message/Message';
 import InquiryList from './pages/inquery/InquiryList';
@@ -61,8 +60,8 @@ function App() {
           </Route>
           <Route path='messageDetail/:msgCode' element={<AuthCheck component={<MessageDetail/>} require="User" />}/>
 
-          <Route path='/report' element={<Report />} />
-          <Route path='/processManagement' element={<ReportManagement />} />
+          <Route path='/report' element={<AuthCheck component={<Report />} require="Admin" />} />
+          <Route path='/processManagement' element={<AuthCheck component={<ReportManagement />} require="Admin" />} />
           <Route path='/sanctions' element={<AuthCheck component={<SanctionsManagement />} require="Admin" />} />
           
           <Route path='login' element={<Login />} />

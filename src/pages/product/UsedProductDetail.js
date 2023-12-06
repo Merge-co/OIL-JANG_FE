@@ -7,6 +7,8 @@ import UserProductDetailImg from './UserProductDetailImg';
 import UsedProductDetailInfo from './UsedProductDetailInfo';
 import { jwtDecode } from 'jwt-decode';
 import { getCookie } from '../../modules/CookieModule';
+import categoryArrow from '../../images/siteImage/categoryArrow.svg';
+import homeIcon from '../../images/siteImage/home.svg';
 
 function UsedProductDetail() {
 
@@ -50,12 +52,12 @@ function UsedProductDetail() {
                         <div className={ProductDetailCSS.productDetailBox}>
                             <div className={ProductDetailCSS.productDirBox}>
                             <img onClick={() => onClickHome()} className={`${ProductDetailCSS.homeBtnCursor} ${ProductDetailCSS.productDirBtn}`}
-                            src="/images/siteImage/home.svg" height="24" alt=""/>
+                            src={homeIcon} height="24" alt=""/>
                                 <div className={ProductDetailCSS.productDir1}>
                                 <div className={ProductDetailCSS.productDirBtn}>&nbsp;홈&nbsp;</div>
-                                <img className={ProductDetailCSS.productDir1} src="/images/siteImage/categoryArrow.svg" height="15" alt=""/>
+                                <img className={ProductDetailCSS.productDir1} src={categoryArrow} height="15" alt=""/>
                                 <div className={ProductDetailCSS.productDirBtn}>&nbsp;{productDetailInfos.upperCategoryName}&nbsp;</div>
-                                <img className={ProductDetailCSS.productDir1} src="/images/siteImage/categoryArrow.svg" height="15" alt=""/>
+                                <img className={ProductDetailCSS.productDir1} src={categoryArrow} height="15" alt=""/>
                                 <div className={ProductDetailCSS.productDirBtn}>&nbsp;{productDetailInfos.categoryName}&nbsp;</div>
                                 </div>
                             </div>
