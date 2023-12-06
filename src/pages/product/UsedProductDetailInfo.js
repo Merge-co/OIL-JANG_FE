@@ -3,7 +3,7 @@ import ButtonCSS from '../../styles/Button.module.css';
 import { GET_WISHLIST_DELELE_RESULT, priceToString, timeForToday } from '../../modules/ProductModule';
 import { getCookie } from '../../modules/CookieModule';
 import { jwtDecode } from 'jwt-decode';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { callProductDeleteAPI, callWishListRegistAPI } from '../../apis/ProductAPICalls';
 import { useEffect, useState } from 'react';
@@ -21,13 +21,15 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
         console.log("modalType updated:", modalType);
     }, [modalType]);
 
+    const pathname = useLocation();
+
     const onClickReportHandler = () => {
         if (getCookie("accessToken")) {
             setModalType('report');
             setModalOpen(true);
             console.log("report: " + modalType, getCookie("accessToken") )
         } else {
-            navigate(`/login`);
+            navigate('/login', {state: pathname});
         }
     }
 
@@ -38,7 +40,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
             console.log("성공하면 찍힙니다")
             console.log("message: " + modalType,getCookie("accessToken") )
         } else {
-            navigate(`/login`);
+            navigate('/login', {state: pathname});
         }
     }
 
@@ -124,7 +126,7 @@ function UsedProductDetailInfo({productDetailInfos, wishLishRegisted, productDet
                 }
             }
         } else {
-            navigate(`/login`);
+            navigate('/login', {state: pathname});
         }
     }
 
