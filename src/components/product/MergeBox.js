@@ -1,7 +1,7 @@
 import MergeBoxCSS from '../../styles/product/MergeBox.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { GET_CATEGORY_CODE, GET_MERGE_ITEM, GET_RESET_FILTER, GET_RESET_MERGE_CATEGERY_ALL, GET_RESET_PRODUCT_CATEGERY, GET_SEARCH_AGAIN, priceToString } from '../../modules/ProductModule';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_PAGING } from '../../modules/PagingModule';
@@ -21,6 +21,7 @@ function MergeBox() {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+    const pathname = useLocation();
 
     const onChangeHandler = e => {
         let money = +e.target.value.replace(/[^0-9]/g, '');
@@ -142,7 +143,8 @@ function MergeBox() {
 
     const onClickSendMsg = () => {
         if(!getCookie("accessToken")) {
-            navigate(`/login`);
+            navigate('/login', {state: pathname});
+
         } else {
             if (window.localStorage.getItem("mergeKeys")) {
                 if (+window.localStorage.getItem("remainMoney") < 0) {

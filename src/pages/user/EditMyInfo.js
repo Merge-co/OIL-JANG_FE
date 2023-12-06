@@ -31,12 +31,12 @@ function EditMyInfo() {
   const [isPwdValid, setIsPwdValid] = useState(false);
   const [initialUserData, setInitialUserData] = useState({});
 
-  console.log("user", user);
+  // console.log("user", user);
 
-  console.log("userDetail", userDetail);
+  // console.log("userDetail", userDetail);
 
   useEffect(() => {
-    console.log("Is password validated:", isPasswordValidated);
+    // console.log("Is password validated:", isPasswordValidated);
 
     if (!isPasswordValidated) {
       navigate("/error");
@@ -92,22 +92,30 @@ function EditMyInfo() {
       delete updatedData.newPasswordConfirm;
     }
 
-    console.log("userData.profileImage : ", userData.profileImage);
-    console.log("userData.profileImage : ", userData.nickname);
-    console.log("userData.profileImage : ", userData.nickname);
-    console.log("userData.profileImage : ", userData.newPasswordConfirm);
+    // console.log("userData.profileImage : ", userData.profileImage);
+    // console.log("userData.profileImage : ", userData.nickname);
+    // console.log("userData.profileImage : ", userData.nickname);
+    // console.log("userData.profileImage : ", userData.newPasswordConfirm);
 
-    console.log("updatedData : ", updatedData);
+    // console.log("updatedData : ", updatedData);
 
-    dispatch(callUpdateUserAPI({ updatedData }));
+    dispatch(callUpdateUserAPI( {updatedData} ));
 
-    navigate("/myInfo", { replace: true });
+    navigate("/myInfo");
+    window.location.reload();
     
   };
 
   useEffect(() => {
     dispatch(callGetUserAPI());
   }, [dispatch]);
+
+  useEffect(() => {
+    const previewImage = document.getElementById("previewImage");
+    if (previewImage) {
+      previewImage.src = URL.createObjectURL(userData.imageFile);
+    }
+  }, [userData.imageFile]);
 
   useEffect(() => {
     if (userDetail) {
@@ -126,8 +134,10 @@ function EditMyInfo() {
   const onChangeHandler = (e) => {
     const name = e.target.name;
     const value = name === "imageFile" ? e.target.files[0] : e.target.value;
-    console.log("name:", name);
-    console.log("value:", value);
+    // console.log("name:", name);
+    // console.log("value:", value);
+
+    // console.log('userData : ', userData);
   
     const isFieldModified = initialUserData[name] !== value;
   
@@ -136,18 +146,25 @@ function EditMyInfo() {
     } else {
       setIsModified(false);
     }
+
   
     if (name === "imageFile") {
-      console.log("name:", name);
-  
-      // 이미지 프리뷰 갱신
-      const previewImage = document.getElementById("previewImage");
+      // console.log("name:", name);
+
+      const selectedFile = e.target.files[0];
+
+      if(selectedFile){
+        // console.log("Selected File:", selectedFile);
+        // 이미지 프리뷰 갱신
+        const previewImage = document.getElementById("previewImage");
       if (previewImage) {
         previewImage.src = URL.createObjectURL(value);
+      }
         setUserData({
           ...userData,
           [name]: value,
         });
+
       }
     } else {
       setUserData({
@@ -160,7 +177,7 @@ function EditMyInfo() {
       }
     }
   
-    console.log("check image : ", userData.imageFile);
+    // console.log("check image : ", userData.imageFile);
   
     if (name === "nickname") {
       const isNicknameValid = validateNickname(value);
@@ -169,42 +186,49 @@ function EditMyInfo() {
           "2~10자 영문 대 소문자, 숫자, 한글을 사용하세요.(공백제외)"
         );
       } else {
+        setUserData({
+          ...userData,
+          [name]: value,
+        });
         setNicknameUniquenessMessage("");
       }
     }
   
     if (name === "newPassword") {
       const isPwdValid = validatePassword(value);
-      console.log("isPwdValid onchage", isPwdValid);
+      // console.log("isPwdValid onchage", isPwdValid);
       if (!isPwdValid && userData.newPassword !== "") {
-        console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
+        // console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
         setRealTimePasswordValidation(
           "8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)"
         );
         setIsPwdValid(false);
       } else {
+        setUserData({
+          ...userData,
+          [name]: value,
+        });
         setRealTimePasswordValidation("");
         setIsPwdValid(true);
       }
     }
   
     if (name === "newPasswordConfirm") {
-      console.log("value", value);
-      console.log("newPassword", userData.newPassword);
+      // console.log("value", value);
+      // console.log("newPassword", userData.newPassword);
       const doPasswordsMatch = value === userData.newPassword;
       if (!doPasswordsMatch) {
         setPasswordMatchMessage("비밀번호가 일치하지 않습니다.");
         setIsPasswordMatch(false);
       } else {
+        setUserData({
+          ...userData,
+          [name]: value,
+        });
         setPasswordMatchMessage("");
         setIsPasswordMatch(true);
       }
     }
-  
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
   
     // 내정보 수정 조건 확인
     const isUpdateAllowed =
@@ -215,10 +239,10 @@ function EditMyInfo() {
   
     if (isUpdateAllowed) {
       // 내정보 수정 가능한 경우
-      console.log("내정보 수정이 가능합니다.");
+      // console.log("내정보 수정이 가능합니다.");
     } else {
       // 내정보 수정이 불가능한 경우
-      console.log("내정보 수정이 불가능합니다.");
+      // console.log("내정보 수정이 불가능합니다.");
     }
   };
 
@@ -229,12 +253,12 @@ function EditMyInfo() {
   };
 
   const validatePassword = (password) => {
-    console.log("validatePassword");
+    // console.log("validatePassword");
     const isPwdValid =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%^&*()-_+=]{8,16}$/.test(
         password
       );
-    console.log("isPwdValid", isPwdValid);
+    // console.log("isPwdValid", isPwdValid);
     return isPwdValid;
   };
 
@@ -249,12 +273,12 @@ function EditMyInfo() {
   const userImageThumbAddr = userDetail.data && userDetail.data.userImageThumbAddr
   ? userDetail.data.userImageThumbAddr.replace("C:\\OIL-JANG_FE\\public", "")
   : "";
-  console.log("userImageThumbAddr", userImageThumbAddr);
+  // console.log("userImageThumbAddr", userImageThumbAddr);
 
   const onClickBackHandler = () => {
     alert("취소 하시겠습니까?");
 
-    navigate("/myInfo", { replace: true });
+    navigate("/myInfo");
   };
 
   const checkNicknameUniqueness = async (nickname) => {
@@ -264,7 +288,7 @@ function EditMyInfo() {
       try {
         const response = await dispatch(callDuplicatedNicknameAPI(nickname));
 
-        console.log("Full Nickname Uniqueness Response:", response);
+        // console.log("Full Nickname Uniqueness Response:", response);
 
         if (response && response.data) {
           const responseData = response.data;
@@ -279,11 +303,11 @@ function EditMyInfo() {
             return true;
           }
         } else {
-          console.error("Invalid response structure:", response);
+          // console.error("Invalid response structure:", response);
           setNicknameUniquenessMessage("Error checking Nickname uniqueness.");
         }
       } catch (error) {
-        console.error("Error checking Nickname uniqueness:", error);
+        // console.error("Error checking Nickname uniqueness:", error);
         return false;
       } finally {
         setIsNicknameValid(false);
@@ -303,6 +327,7 @@ function EditMyInfo() {
             <div>
               <div className={UserJoinCSS.imageUploadContainer}>
                 <div className={UserJoinCSS.imagePreviewContainer}>
+                  
                   {userData.imageFile && userData.imageFile instanceof File ? (
                     <img
                       src={URL.createObjectURL(userData.imageFile)}
@@ -319,13 +344,13 @@ function EditMyInfo() {
                   type="file"
                   id="imageFile"
                   name="imageFile"
-                  accept="image/png, image/jpeg"
+                  accept=".png, .jpeg , .jpg"
                   onChange={onChangeHandler}
                   style={{ display: "none" }}
                   required
                 />
               </div>
-              <label for="nickname">닉네임*</label>
+              <label htmlFor="nickname">닉네임*</label>
               <div className={UserJoinCSS.input_nickname_check_btn}>
                 <input
                   type="text"
@@ -352,7 +377,7 @@ function EditMyInfo() {
               </div>
               {(!isNicknameValid && nicknameUniquenessMessage !=="사용 가능한 닉네임입니다.")? (<p >{nicknameUniquenessMessage}</p>) : (<p style={{color:"#00CC00"}}>{nicknameUniquenessMessage}</p>) }
               <br />
-              <label for="id">아이디</label>
+              <label htmlFor="id">아이디</label>
               <div className={UserJoinCSS.input_nickname_check_btn}>
                 <br />
                 <input
@@ -438,7 +463,8 @@ function EditMyInfo() {
                   <br />
                 </>
               )}
-              <label>이메일 주소</label>
+              { (userDetail.data?.email) && 
+              <> <label>이메일 주소</label>
               <div className={UserJoinCSS.input_nickname_check_btn}>
                 <input
                   type="text"
@@ -446,7 +472,7 @@ function EditMyInfo() {
                   className={UserLayoutCSS.input_pwd}
                   readOnly
                 />
-              </div>
+              </div> </>}
               <br />
               {userDetail.data.enrollType === "NORMAL" && (
                 <>

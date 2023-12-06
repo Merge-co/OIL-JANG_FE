@@ -13,6 +13,7 @@ function UsedProductDetail() {
     const dispatch = useDispatch();
     const params = useParams();
 
+
     const productDetail = useSelector(state => state.productReducer.getProductDetail);
     const productDetailInfos = productDetail && productDetail.productDetail[0];
     const productDetailImg = productDetail && productDetail.selectedProductDetailImg;

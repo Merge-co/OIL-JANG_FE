@@ -44,9 +44,9 @@ function Certification({ userData, onCertificationSuccess }) {
         phone: userData.phone,
       };
 
-      console.log("data", data.name);
-      console.log("data", data.phone);
-      console.log("data", data);
+      // console.log("data", data.name);
+      // console.log("data", data.phone);
+      // console.log("data", data);
 
       /* 4. 본인인증 창 호출하기 */
       IMP.certification(data, handleCertificationCallback);
@@ -54,8 +54,8 @@ function Certification({ userData, onCertificationSuccess }) {
 
     /* 3. 콜백 함수 정의하기 */
     function handleCertificationCallback(response) {
-      console.log("handleCertificationCallback called");
-      console.log("IAMport Certification Response:", response);
+      // console.log("handleCertificationCallback called");
+      // console.log("IAMport Certification Response:", response);
       const { success, error_msg } = response;
 
       if (success) {

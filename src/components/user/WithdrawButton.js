@@ -21,7 +21,8 @@ function WithdrawButton() {
               .then(() => dispatch(callLogoutAPI()))
               .then(() => navigate("/", { replace: true }))
               .catch((error) => {
-                console.error("탈퇴 중 에러 발생:", error);
+                alert("오류가 발생했습니다.",error)
+                // console.error("탈퇴 중 에러 발생:", error);
               });
           }
 
