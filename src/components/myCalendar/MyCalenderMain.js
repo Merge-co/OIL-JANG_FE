@@ -19,6 +19,7 @@ const MyCalendar = ({type}) => {
     const [tempEvent, setTempEvent] = useState([]);
     const [newAgenda, setNewAgenda] = useState(false);
     const [showAgenda, setShowAgenda] = useState(-1);
+    const [isSending, setIsSending] = useState(false);
 
     const myCalendarContent = useSelector(state => state.myCalendarReducer.getCalendarContent);
     const registCalendarContent = useSelector(state => state.myCalendarReducer.getCalendarRegist);
@@ -55,6 +56,7 @@ const MyCalendar = ({type}) => {
             if(content) {
                 setEvents(prev => [...prev, {id: content.myCalendarCode, start: new Date(content.calendarDate), end: new Date(content.calendarDate), title: content.calendarContent, allDay: true, time: content.calendarTime}]);
             }
+            setIsSending(false);
         },[registCalendarContent]
     )
 
@@ -99,14 +101,17 @@ const MyCalendar = ({type}) => {
             const onClickSave = () => {
                 if (selectTime) {
                     let blank_pattern = /^\s+|\s+$/g;
-                    if(agendaInput.replace(blank_pattern, "") !== "") {
-                        dispatch(callMyCalendarRegistAPI(agendaInput, endDate, selectTime));
-                    } else if (ifFive >= 5) {
+                    if (ifFive >= 5) {
                         alert("하루에 최대 5개 일정만 기록 가능합니다");
                     } else if(selectDate.substring(0,10) < timestamp(new Date()).substring(0, 10)) {
                         alert("이전 날짜에 일정을 추가할 수 없습니다");
-                    } else {
+                    } else if(agendaInput.replace(blank_pattern, "") === "") {
                         alert("내용을 입력하세요");
+                    } else {
+                        dispatch(callMyCalendarRegistAPI(agendaInput, endDate, selectTime));
+                        if(!isSending) {
+                            setIsSending(true);
+                        }
                     } 
                 }  else {
                     alert("시간을 입력하세요");
