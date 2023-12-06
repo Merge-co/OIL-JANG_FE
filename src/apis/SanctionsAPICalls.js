@@ -57,7 +57,6 @@ export const callSanctionsRegistAPI = (refUserCode) => {
             .then(response => response);
         console.log('[SanctionsAPICalls] callSanctionsWriteAPI RESULT : ', result);
         dispatch({ type: POST_SANCTIONS, payload: result });
-
     }
 }
 

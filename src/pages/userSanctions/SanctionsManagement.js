@@ -5,7 +5,6 @@ import ReportCSS from '../../styles/report/Report.module.css';
 import ButtonCSS from '../../styles/Button.module.css';
 import PagingBtn from '../../styles/PagingBar.module.css';
 import { callSanctionsListAPI, callSanctionsUpdateAPI } from "../../apis/SanctionsAPICalls";
-import { current } from "@reduxjs/toolkit";
 function SanctionsManagement() {
 
     const dispatch = useDispatch();
@@ -65,6 +64,15 @@ function SanctionsManagement() {
         });
     }
 
+    const formatDateFromArray = (dateArray) => {
+        if (dateArray.length >= 3) {
+            const year = dateArray[0];
+            const month = String(dateArray[1]).padStart(2, '0');
+            const day = String(dateArray[2]).padStart(2, '0');
+            return `${year}-${month}-${day}`
+        }
+    }
+
     useEffect(() => {
         setStart((currentPage - 1) * 5);
         dispatch(callSanctionsListAPI({
@@ -72,16 +80,11 @@ function SanctionsManagement() {
         }));
     }, [currentPage]);
 
-    // 글자 수 가 5개 이상일때 ... 으로 변경
-    function truncateText(text, maxLength) {
-        return text.length > maxLength ? text.substring(0, maxLength) + '***' : text;
-    }
-
     console.log('sanctions...', sanctions)
     return (
         <>
             <div className={`${ReportCSS.box1} ${ReportCSS.contBox}`}>
-                <h1>사용자제재</h1>
+                <h1>제재관리</h1>
                 <hr />
             </div>
             <div className={`${ReportCSS.box1} ${ReportCSS.contBox}`}>
@@ -101,34 +104,50 @@ function SanctionsManagement() {
                     <thead>
                         <tr className={`${ReportCSS.tr}`}>
                             <th>사용자</th>
-                            <th>제재횟수</th>
+                            <th>신고횟수</th>
                             <th>제재기한</th>
-                            <th>완료?</th>
+                            <th>상태값변경</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {sanctions.map((sanctions) => (
-                            <tr key={sanctions.sanctionsCode}>
-                                <th>{sanctions.nickName}({truncateText(sanctions.userId, 3)})</th>
-                                <th>{sanctions.count}</th>
-                                <th>
+
+                    {sanctions.map((sanction) => (
+                        <tbody key={sanction.sanctionsCode}>
+                            <tr>
+                                <th>{sanction.nickName}({sanction.userId})</th>
+                                <th>{sanction.count}</th>
+                                <th>{sanction.sanctionsDate === null ? (
                                     <select
                                         onChange={onChangeHandler}
                                         name="sanctionsDate">
-                                        <option disabled selected hidden="hidden">제제기한</option>
+                                        <option disabled selected hidden="hidden">제재기한</option>
                                         <option value={isoAfterSevenDays}>7일</option>
                                         <option value={isoAfterThirtyDays}>30일</option>
                                         <option value={isoPermanentSuspension}>영구정지</option>
-                                    </select>
+                                    </select>) : (<>{formatDateFromArray(sanction.sanctionsDate)}</>
+                                )}
                                 </th>
                                 <th>
-                                    <button
-                                        onClick={() => { onClickSanctionsUpdateHandler(sanctions.refUserCode, sanctions.count) }}
-                                        className={ButtonCSS.smallBtn1}>완료</button>
+                                    {sanction.sanctionsDate === null ? (
+                                        <button
+                                            onClick={() => { onClickSanctionsUpdateHandler(sanction.refUserCode, sanction.count) }}
+                                            className={ButtonCSS.smallBtn2}>완료</button>) :
+                                        (<button
+                                            disabled
+                                            style={{
+                                                width: '95px',
+                                                height: '35px',
+                                                border: 'none', boxShadow: 'none', padding: '0', overflow: 'visible', cursor: 'pointer',
+                                                borderRadius: '5px',
+                                                backgroundColor: '#C7C6C6',
+                                                color: '#fff',
+                                                fontSize: '16px',
+                                                fontWeight: '500'
+                                            }} className={ButtonCSS.smallBtn1}>처리완료</button>
+                                        )}
                                 </th>
                             </tr>
-                        ))}
-                    </tbody>
+                        </tbody>
+                    ))}
                 </table >
                 {/* 페이징 */}
                 {pageNumber.length > 0 && (
@@ -176,7 +195,7 @@ function SanctionsManagement() {
                         </div>
                     </div>
                 )}
-            </div>
+            </div >
         </>
     )
 }

@@ -51,6 +51,7 @@ export const callReportManagementAPI = ({ currentPage, search, process }) => {
 export const callReportRegistAPI = ({ form }) => {
     const requestURL = `http://localhost:8000/reports/report`;
 
+
     let distinction = "미처리";
     return async (dispatch, getState) => {
 
@@ -66,13 +67,12 @@ export const callReportRegistAPI = ({ form }) => {
 
         ).then(response => response);
         console.log('[ReportAPICalls] callReportWriteAPI RESULT : ', result);
-        dispatch({ type: POST_REPORT, payload: result });
+        // dispatch({ type: POST_REPORT, payload: result });
     };
 }
 
 export const callReportUpdateAPI = ({ form }) => {
     console.log('[ReportAPICalls] callProductUpdateAPI Call');
-
     const requestURL = `http://localhost:8000/reports/process`
 
     return async (dispatch, getStatus) => {
@@ -170,7 +170,7 @@ export const callProcessedMessageAPI = ({ message, refUserCode, productCode }) =
             "senderCode": 4
 
         }).then(response => response);
-        dispatch({ type: POST_PROCESSED_MESSAGES, payload: result });
+        // dispatch({ type: POST_PROCESSED_MESSAGES, payload: result });
         console.log('[ReportAPICalls] callProcessedMessageAPI SUCCESS');
     };
 }
@@ -203,7 +203,7 @@ export const callCompanionMessageAPI = ({ message, reportUserCode, productCode }
             "senderCode": 4
 
         }).then(response => response);
-        dispatch({ type: POST_PROCESSED_MESSAGES, payload: result });
+        // dispatch({ type: POST_PROCESSED_MESSAGES, payload: result });
         console.log('[ReportAPICalls] callProcessedMessageAPI SUCCESS');
     };
 }
