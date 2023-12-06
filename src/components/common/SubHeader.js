@@ -1,8 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import SubHeaderCSS from '../../styles/SubHeader.module.css';
 
 function SubHeader() {
-
 
     return (
         <>  
@@ -21,7 +20,7 @@ function SubHeader() {
                         <NavLink className={({isActive}) => isActive? SubHeaderCSS.subHeaderBorderActive : SubHeaderCSS.subHeaderBorder} to="/myCalendar" style={{ textDecoration: "none" }}><div>일정관리</div></NavLink>
                     </div>
                     <div className={SubHeaderCSS.subHeaderItem}>
-                        <NavLink className={({isActive}) => isActive? SubHeaderCSS.subHeaderBorderActive : SubHeaderCSS.subHeaderBorder} to="/inquiry" style={{ textDecoration: "none" }}><div>1:1 문의</div></NavLink>
+                        <NavLink className={({isActive}) => isActive || window.location.href.toString().includes("inquiryDetail")? SubHeaderCSS.subHeaderBorderActive : SubHeaderCSS.subHeaderBorder} to="/inquiry" style={{ textDecoration: "none" }}><div>1:1 문의</div></NavLink>
                     </div>
                 </div>
             </div>
