@@ -17,27 +17,35 @@ function MyProductList() {
     const PagingInfo = useSelector(state => state.pagingReducer);
     const navigate = useNavigate();
 
-    const onChangeSellStatus = async (code, event) => {
+    const onChangeSellStatus = async (productCode, event) => {
         const updatedStatus = event.target.value;
         const confirmMessage = `판매 상태를 변경하시겠습니까?`;
 
         if (window.confirm(confirmMessage)) {
             try {
-                // 서버에 판매 상태 업데이트 요청
-                // callUpdateSellStatusAPICalls(code, updatedStatus);
-                const updatedProductList = myProductList.sellingList.map(product =>
-                    product.productCode === code ? { ...product, sellStatus: updatedStatus } : product
-                );
-                setMyProductList({ ...myProductList, sellingList: updatedProductList });
+                const response = await fetch(`http://localhost:8000/products/${productCode}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 추가적인 헤더 정보를 설정할 수 있습니다.
+                    },
+                    body: JSON.stringify({ productCode, sellStatus: updatedStatus }),
+                });
+
+                if (response.ok) {
+                    // 성공적으로 처리된 경우에 대한 로직을 추가할 수 있습니다.
+                    // 예: 서버에서 반환한 새로운 데이터로 상태를 업데이트하는 등
+                } else {
+                    throw new Error('상태 변경 실패');
+                }
             } catch (error) {
-                // 오류 처리
+                console.error('상태 변경 중 에러 발생:', error);
             }
-
         } else {
-
+            // 사용자가 '취소'를 누른 경우의 로직을 작성할 수 있습니다.
         }
-
     };
+
 
     useEffect(() => {
         async function fetchData() {
@@ -82,7 +90,11 @@ function MyProductList() {
 
     return (
         <div className='WishList_wishListContainer__58dVO'>
-            <div className={WishListCSS.wishListTitle}>내 판매목록</div>
+            {/* <div className={WishListCSS.wishListTitle} style={{color:"#222222"}}>내 판매목록</div> */}
+            <div style={{ width: '70%', margin: '0 auto', userSelect: 'none' }}>
+                <h1 style={{ color: "#222222" }}>내 판매 목록</h1>
+                <hr />
+            </div>
             <div className='productListBox'>
                 {myProductList.sellingList.length === 0 ? (
                     <div className='noItem'>등록된 상품이 없습니다.</div>
@@ -128,7 +140,7 @@ function MyProductList() {
                                         </td>
                                         <td className='tableName'>
                                             <div onClick={() => onclickHandler(product.productCode)}>
-                                                {product.productPrice}
+                                            {product.productPrice.toLocaleString()}원
                                             </div>
                                         </td>
                                         <td className='tableName'>
@@ -138,8 +150,8 @@ function MyProductList() {
                                         </td>
                                         <td className='tableName'>
                                             <select value={product.sellStatus} onChange={(e) => onChangeSellStatus(product.productCode, e)} className='productState'>
-                                                <option value="판매중">판매중</option>
-                                                <option value="판매완료">판매완료</option>
+                                                <option value="판매중" style={{ color: "#222222" }}>판매중</option>
+                                                <option value="판매완료" style={{ color: "#222222" }}>판매완료</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -155,4 +167,6 @@ function MyProductList() {
         </div>
     );
 }
+
+
 export default MyProductList;

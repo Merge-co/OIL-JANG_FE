@@ -49,8 +49,10 @@ function ProductEdit() {
 
 
     const handlePriceOptionChange = (option) => {
-        setproductPrice(option);
-        setPriceOption(option === 'share' ? '' : productPrice);
+        setPriceOption(option === 'share' ? 'share' : 'sell');
+        if (option === 'share') {
+            setproductPrice('');
+        }
 
     };
 
@@ -243,20 +245,22 @@ function ProductEdit() {
                         </div>
                     </div>
                     <br />
-                    <input
-                        type="text"
-                        name="price"
-                        id="price"
-                        className="shareBox"
-                        placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
-                        disabled={priceOption === 'share'}
-                        value={productPrice}
-                        onChange={handlePriceChange}
-                    />
-
+                    <div className='wondiv'>
+                        <input
+                            type="text"
+                            name="price"
+                            id="price"
+                            className="shareBox"
+                            placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
+                            disabled={priceOption === 'share'}
+                            value={productPrice}
+                            onChange={handlePriceChange}
+                        />
+                        <h3 className='priceWon'>원</h3>
+                    </div>
                     <span id="priceInfo" style={{ display: priceOption === 'share' ? 'inline' : 'none' }}>
-
                     </span>
+
                     <hr />
                 </div>
                 {/* <div></div> */}
@@ -286,10 +290,10 @@ function ProductEdit() {
                 <hr />
                 <div className='place'>
                     <div className='wishCount'>
-                    <label htmlFor="wish_place_to_trade" className='placeFont'>
-                        거래희망 장소*
-                    </label>
-                    <h5 className='wishCount'>{wishPlaceTradeLength}/50</h5>
+                        <label htmlFor="wish_place_to_trade" className='placeFont'>
+                            거래희망 장소*
+                        </label>
+                        <h5 className='wishCount'>{wishPlaceTradeLength}/50</h5>
                     </div>
                     <textarea
                         name="wish_place_to_trade"
