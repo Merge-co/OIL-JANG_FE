@@ -18,13 +18,14 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
     const dispatch = useDispatch();
     const params = useParams();
     const curURL = new URL(window.location.href);
+    console.log("role 받아오는지 : " + role)
 
     const [inqList, setInqList] = useState();
 
     let pagingBtn = inqList && inqList[0].pagingBtn;
-       // console.log("2" + JSON.stringify(pagingBtn))
+    console.log("2" , inqList && inqList[0].pagingBtn)
     let totalInq = inqList && inqList[0].totalInq;
-    console.log("inqList ==================" + inqList)
+    console.log("totalInq ==================" , inqList && inqList[0].totalInq)
 
     const onRegistHandler = () => {
         navigate(`/inquiryDetail`);
@@ -60,6 +61,8 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
                 } else{
                     console.log('[InquiryList] API rsponse does not contain data', result);
                 }
+
+                console.log("role!!!!!!!!!!!!!!!!!!!!!" , role)
             }).catch((error) => {
                 console.log('[InquiryList] API call error:', error);
             })

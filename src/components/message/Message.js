@@ -10,9 +10,12 @@ function Message(){
     
     console.log("Message컴포넌트")
     const [isReceived, setIsReceived] = useState(true);
+    const [clickedButton, setClickedButton] = useState(true);
+    
 
 
     const handleMenuClick = (isReceived) => {
+        setClickedButton(isReceived);
         setIsReceived(isReceived);
     }
     
@@ -21,7 +24,7 @@ function Message(){
 
     return(
         <>
-            <MessageMenu onMenuClick={handleMenuClick} />
+            <MessageMenu onMenuClick={handleMenuClick} clickedButton={clickedButton}/>
             <MessageList isReceived={isReceived} />
         </>
     )

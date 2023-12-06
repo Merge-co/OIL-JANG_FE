@@ -107,7 +107,7 @@ export const callInquiryListAPI = ({userCode, inqCateCode, inqStatus, page, role
     console.log('22222222222222222222222222', userCode);
     console.log('111111111111111111111111111111', inqStatus);
 
-    
+    console.log("page: " + page)
     if(params.get("page")){
         requestURL += (requestURL.includes('?') ? '&' : '?') + `page=${params.get("page")}`;
     }
@@ -131,6 +131,17 @@ export const callInquiryListAPI = ({userCode, inqCateCode, inqStatus, page, role
     if(params.get("keyword")){
           requestURL += (requestURL.includes('?') ? '&' : '?') + `keyword=${params.get("keyword")}`;
     }
+
+    console.log("한성님의 롤" + role)
+    if(role){
+        if(requestURL.includes('?')){
+            requestURL += `&role=${role}`;
+        }else{
+            requestURL += `?role=${role}`;
+        }
+    }
+
+    console.log("role1111111111111" + role)
     
     return async (dispatch, getState) => {
         try{
@@ -139,14 +150,18 @@ export const callInquiryListAPI = ({userCode, inqCateCode, inqStatus, page, role
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
-                    Authorization: `Bearer ${getCookie("accessToken")}`
+                    Authorization: `Bearer ${getCookie("accessToken")}`,
                 },
+             
+                
                 
             })
             console.log('[InquiryAPICalls] callInquiryListAPI RESULT', result);
             if(result.status == 200){
                 console.log('[InquiryAPICalls] callInquiryListAPI SUCCESS');
                 dispatch({type: GET_INQUIRIES_USERCODE, payload: result, requestURL});
+
+                console.log("role22222222222222222" + role)
                 return result;
             }
         }catch(error){
