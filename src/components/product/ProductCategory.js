@@ -181,6 +181,10 @@ function ProductCategory(type) {
             if(!window.localStorage.getItem("burget") && type.type === "merge") {
                 window.localStorage.setItem("burget", 0);
             }
+            if(window.localStorage.getItem("burget") == 0 && !window.localStorage.getItem("zeroOne")) {
+                alert('예산설정이 0원으로 되어 있습니다.');
+                window.localStorage.setItem("zeroOne", 1);
+            }
             dispatch({ type: GET_MERGE_CATEGORY, payload: checkFive});
             dispatch({ type: GET_CATEGORY_CODE, payload: 0});
             navigate(``);
