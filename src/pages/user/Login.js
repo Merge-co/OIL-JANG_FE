@@ -81,6 +81,8 @@ function Login() {
         `http://localhost:8000/oauth2/authorize/google?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}`
      
        const oauthWindow = window.open(authUrl, 'oauth2Login', 'width=500,height=600');
+
+       
       
 
     }else if(provider === "naver"){
