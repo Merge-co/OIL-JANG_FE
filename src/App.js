@@ -60,8 +60,8 @@ function App() {
           </Route>
           <Route path='messageDetail/:msgCode' element={<AuthCheck component={<MessageDetail/>} require="User" />}/>
 
-          <Route path='/report' element={<Report />} />
-          <Route path='/processManagement' element={<ReportManagement />} />
+          <Route path='/report' element={<AuthCheck component={<Report />} require="Admin" />} />
+          <Route path='/processManagement' element={<AuthCheck component={<ReportManagement />} require="Admin" />} />
           <Route path='/sanctions' element={<AuthCheck component={<SanctionsManagement />} require="Admin" />} />
           
           <Route path='login' element={<Login />} />
