@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { callReportUpdateAPI, callReportDetailAPI, callProcessedMessageAPI, callCompanionMessageAPI, callProcessingDetailAPI, callReportManagementAPI } from "../../apis/ReportAPICalls";
 import ModalCSS from "../../styles/Modal.module.css"
 import ReportCSS from "../../styles/report/Report.module.css"
+import { callSanctionsRegistAPI } from "../../apis/SanctionsAPICalls";
 
 function ReportUpdate({ reportNo, userCode, setModalOpen }) {
 
@@ -73,7 +74,6 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
 
 
         if (formData.get('sellStatusCode') === '0') {
-            console.log('폼데이터 : ', formData.get('sellStatusCode'))
             alert('신고처리 카테고리를 선택하세요.');
             return;
         }
@@ -93,7 +93,7 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
             console.error("Errer");
         }
         setModalOpen(false);
-        window.location.reload();
+        // window.location.reload();
     }
     //반려처리에 대한 쪽지 발송 
     const onClickCompanionHandler = (reportUserCode, productCode) => {
@@ -130,24 +130,23 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
             productCode: productCode
         }));
         alert('처리완료. 게시글이 삭제처리 되었습니다.');
-        console.log('유저가 삭제당한 횟수 : ', count);
-
-        if (count === 5) {
+        let date = new Date();
+        if (count === 4) {
             // 판매자 게시글이 5번 삭제되었을 경우 
             window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
+            console.log('유저가 삭제당한 횟수 : ', count);
+            dispatch(callSanctionsRegistAPI(refUserCode));
             navigate('/sanctions')
-        } else if (count === 10) {
+        } else if (count === 9) {
             window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
+            dispatch(callSanctionsRegistAPI(refUserCode));
             navigate('/sanctions')
-        } else if (count === 15) {
+        } else if (count === 14) {
             window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
+            dispatch(callSanctionsRegistAPI(refUserCode));
             navigate('/sanctions')
         }
     }
-
-    console.log('업데이트 : ', processList);
-    console.log('업데이트2222222 ; ', process)
-    console.log('')
 
     return (
         <>
