@@ -5,6 +5,8 @@ import ProductList from '../../components/product/ProductList';
 import { useLocation } from "react-router";
 import { useNavigate, useParams } from 'react-router-dom';
 import '../../styles/product/ProductEdit.css'
+import { priceToString } from '../../modules/ProductModule';
+
 
 
 function ProductEdit() {
@@ -18,6 +20,8 @@ function ProductEdit() {
     const [descriptionLength, setDescriptionLength] = useState(0);
     const [productNameLength, setProductNameLength] = useState(0);
     const [wishPlaceTradeLength, setWishPlaceTradeLength] = useState(0);
+    const [inputPrice, setInputPrice] = useState('');
+    
 
     const { productCode } = useParams();
     const navigate = useNavigate();
@@ -65,6 +69,11 @@ function ProductEdit() {
                 setproductPrice('');
                 return;
             }
+            const parsedValue = parseInt(numericValue, 10);
+            if (parsedValue > 1000000000) {
+                alert('10억 이상의 값은 입력할 수 없습니다.');
+                return;
+            }
 
             setproductPrice(numericValue);
         } else {
@@ -98,6 +107,33 @@ function ProductEdit() {
         console.log('productPrice:', productPrice);
         console.log('productDesc:', productDesc);
         console.log('wishPlaceTrade:', wishPlaceTrade);
+
+        if (!productName) {
+            alert('상품 이름을 입력해주세요.');
+            return;
+        }
+
+        if (!productPrice && priceOption === 'sell') {
+            alert('가격을 입력해주세요.');
+            return;
+        }
+
+        if (!refCategoryCode) {
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
+        if (!productDesc) {
+            alert('상품 설명을 입력해주세요.');
+            return;
+        }
+
+        if (!wishPlaceTrade) {
+            alert('거래희망 장소를 입력해주세요.');
+            return;
+        }
+
+    
 
         if (!params.productCode) {
             console.error('Product code is missing.');
@@ -253,7 +289,7 @@ function ProductEdit() {
                             className="shareBox"
                             placeholder={priceOption === 'share' ? '나눔입니다' : '가격을 입력하세요'}
                             disabled={priceOption === 'share'}
-                            value={productPrice}
+                            value={productPrice !== '' ? priceToString(productPrice).replace("원", '') : productPrice}
                             onChange={handlePriceChange}
                         />
                         <h3 className='priceWon'>원</h3>
