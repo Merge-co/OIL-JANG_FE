@@ -114,11 +114,11 @@ function Join() {
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
-      console.log("프로필 이미지를 선택해주세요.");
+      // console.log("프로필 이미지를 선택해주세요.");
       return false;
     } else if (!nickname) {
       setNicknameUniquenessMessage("닉네임을 입력해주세요.");
-      console.log("닉네임을 입력해주세요.");
+      // console.log("닉네임을 입력해주세요.");
       const ErrorElement = document.getElementById('nicknameMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -126,7 +126,7 @@ function Join() {
       return false;
     } else if (!isNicknameUniqueness) {
       setNicknameUniquenessMessage("닉네임 중복확인을 해주세요.");
-      console.log("닉네임 중복확인을 해주세요.");
+      // console.log("닉네임 중복확인을 해주세요.");
       const ErrorElement = document.getElementById('nicknameMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -134,7 +134,7 @@ function Join() {
       return false;
     } else if (!id) {
       setIdUniquenessMessage("아이디를 입력해주세요.");
-      console.log("아이디를 입력해주세요.");
+      // console.log("아이디를 입력해주세요.");
       const ErrorElement = document.getElementById('idMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -142,7 +142,7 @@ function Join() {
       return false;
     }else if (!validateId) {
       setIdUniquenessMessage("3~20자 영문 대소문자와 숫자만 사용 가능합니다.");
-      console.log("3~20자 영문 대소문자와 숫자만 사용 가능합니다.");
+      // console.log("3~20자 영문 대소문자와 숫자만 사용 가능합니다.");
       const ErrorElement = document.getElementById('idMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -150,7 +150,7 @@ function Join() {
       return false;
     }else if (!isIdUniqueness) {
       setIdUniquenessMessage("아이디 중복확인을 해주세요.");
-      console.log("아이디 중복확인을 해주세요.");
+      // console.log("아이디 중복확인을 해주세요.");
       const ErrorElement = document.getElementById('idMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -158,7 +158,7 @@ function Join() {
       return false;
     } else if (!pwd) {
       setRealTimePasswordValidation("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
-      console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
+      // console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
       const ErrorElement = document.getElementById('pwdMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -166,7 +166,7 @@ function Join() {
       return false;
     } else if (!isPwdValid) {
       setRealTimePasswordValidation("비밀번호를 입력해주세요.");
-      console.log("비밀번호를 입력해주세요.");
+      // console.log("비밀번호를 입력해주세요.");
       const ErrorElement = document.getElementById('pwdMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -174,7 +174,7 @@ function Join() {
       return false;
     } else if (!confirmPwd) {
       setPasswordMatchMessage("비밀번호를 입력해주세요.");
-      console.log("비밀번호를 입력해주세요.");
+      // console.log("비밀번호를 입력해주세요.");
       const ErrorElement = document.getElementById('pwdMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -182,7 +182,7 @@ function Join() {
       return false;
     } else if (pwd !== confirmPwd) {
       setPasswordMatchMessage("비밀번호가 일치하지 않습니다.");
-      console.log("비밀번호가 일치하지 않습니다.");
+      // console.log("비밀번호가 일치하지 않습니다.");
       const ErrorElement = document.getElementById('pwdMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -190,7 +190,7 @@ function Join() {
       return false;
     } else if (!name) {
       setNameValidationMessage("이름을 입력해주세요.");
-      console.log("이름을 입력해주세요.");
+      // console.log("이름을 입력해주세요.");
       const ErrorElement = document.getElementById('nameMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -198,7 +198,7 @@ function Join() {
       return false;
     } else if (!birthDate) {
       setBirthdateValidationMessage("생년월일을 입력해주세요.");
-      console.log("생년월일을 입력해주세요.");
+      // console.log("생년월일을 입력해주세요.");
       const ErrorElement = document.getElementById('dateMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -206,7 +206,7 @@ function Join() {
       return false;
     } else if (!isGenderSelected) {
       setGenderValidationMessage("성별을 선택해주세요.");
-      console.log("성별을 선택해주세요.");
+      // console.log("성별을 선택해주세요.");
       const ErrorElement = document.getElementById('genderMessage');
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -218,19 +218,19 @@ function Join() {
       if (ErrorElement) {
         ErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      console.log("핸드폰번호를 입력해주세요.");
+      // console.log("핸드폰번호를 입력해주세요.");
     } else if (!isCertificationCompleted) {
       alert("본인 인증이 완료되지 않았습니다. 인증을 완료해주세요.");
-      console.log("본인 인증이 완료되지 않았습니다. 인증을 완료해주세요.");
+      // console.log("본인 인증이 완료되지 않았습니다. 인증을 완료해주세요.");
       
       return false;
     } else if (!isAgreemanetChecked) {
       alert("서비스 약관에 동의해주세요.");
-      console.log("서비스 약관에 동의해주세요.");
+      // console.log("서비스 약관에 동의해주세요.");
       return false;
     } else if (!isRequiredFieldsFilled) {
       alert("모든 필수 항목을 작성해주세요.");
-      console.log("모든 필수 항목을 작성해주세요.");
+      // console.log("모든 필수 항목을 작성해주세요.");
       return false;
     }
 
@@ -245,20 +245,15 @@ function Join() {
       ...userData,
       [name]: value,
     });
-    console.log(
-      "imageFile onChangeHandler2",
-      name === "imageFile" ? value : userData.imageFile
-    );
-    console.log("agreement onChangeHandler", name === "agreement");
     if (name === "imageFile" && value !== null) {
       setIsImageUploaded(true);
     }
 
     if (name === "pwd") {
       const isPwdValid = validatePassword(value);
-      console.log("isPwdValid onchage", isPwdValid);
+      // console.log("isPwdValid onchage", isPwdValid);
       if (!isPwdValid && userData.pwd !== "") {
-        console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
+        // console.log("8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)");
         setRealTimePasswordValidation(
           "8~16자 영문 대 소문자, 숫자, 특수문자(@$!%*?&)"
         );
@@ -279,7 +274,7 @@ function Join() {
 
     if (name === "nickname") {
       const isNicknameValid = validateNickname(value);
-      console.log('isNicknameValid',isNicknameValid);
+      // console.log('isNicknameValid',isNicknameValid);
       if (!isNicknameValid) {
         setIsNicknameValid(false);
         setNicknameUniquenessMessage(
@@ -293,7 +288,7 @@ function Join() {
 
     if (name === "id") {
       const isIdValid = validateId(value);
-      console.log('isIdValid',isIdValid);
+      // console.log('isIdValid',isIdValid);
       setIsIdValid(isIdValid);
       if (!isIdValid) {
         setIdUniquenessMessage(
@@ -325,7 +320,7 @@ function Join() {
     }
 
     if (name === "gender" && value !== "") {
-      console.log("IsGenderSelected", isGenderSelected);
+      // console.log("IsGenderSelected", isGenderSelected);
       setIsGenderSelected(true);
     }
 
@@ -352,7 +347,7 @@ function Join() {
       navigate("/login", { replace: true });
     } else {
 
-      console.log("옳바르지않은 내용입니다.");
+      // console.log("옳바르지않은 내용입니다.");
     }
   };
 
@@ -361,18 +356,18 @@ function Join() {
   };
 
   const validatePassword = (password) => {
-    console.log("validatePassword");
+    // console.log("validatePassword");
     const isPwdValid =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%^&*()-_+=]{8,16}$/.test(
         password
       );
-    console.log("isPwdValid", isPwdValid);
+    // console.log("isPwdValid", isPwdValid);
     return isPwdValid;
   };
 
   const validateNickname = (nickname) => {
     const isNicknameValid = /^[a-zA-Z0-9가-힣]{2,10}(\s*[a-zA-Z0-9가-힣]){0,8}$/.test(nickname);
-    console.log('isNicknameValid',isNicknameValid);
+    // console.log('isNicknameValid',isNicknameValid);
     setIsNicknameValid(isNicknameValid);
     return isNicknameValid;
   };
@@ -380,7 +375,7 @@ function Join() {
   const validateId = (id) => {
     const isIdValid = /^[a-zA-Z][a-zA-Z0-9]{2,19}$/.test(id);
     setIsIdValid(isIdValid);
-    console.log('validateId isIdValid',isIdValid);
+    // console.log('validateId isIdValid',isIdValid);
     return isIdValid;
   };
 
@@ -410,7 +405,7 @@ function Join() {
       try {
         const response = await dispatch(callDuplicatedUserIdAPI(id));
 
-        console.log("Full ID Uniqueness Response:", response);
+        // console.log("Full ID Uniqueness Response:", response);
 
         if (response && response.data) {
           const responseData = response.data;
@@ -426,11 +421,11 @@ function Join() {
             return true;
           }
         } else {
-          console.error("Invalid response structure:", response);
+          // console.error("Invalid response structure:", response);
           setIdUniquenessMessage("Error checking ID uniqueness.");
         }
       } catch (error) {
-        console.error("Error checking ID uniqueness:", error);
+        // console.error("Error checking ID uniqueness:", error);
         return false;
       } finally {
         setIsIdValid(false);
@@ -445,7 +440,7 @@ function Join() {
       try {
         const response = await dispatch(callDuplicatedNicknameAPI(nickname));
 
-        console.log("Full Nickname Uniqueness Response:", response);
+        // console.log("Full Nickname Uniqueness Response:", response);
 
         if (response && response.data) {
           const responseData = response.data;
@@ -460,11 +455,11 @@ function Join() {
             return true;
           }
         } else {
-          console.error("Invalid response structure:", response);
+          // console.error("Invalid response structure:", response);
           setNicknameUniquenessMessage("Error checking Nickname uniqueness.");
         }
       } catch (error) {
-        console.error("Error checking Nickname uniqueness:", error);
+        // console.error("Error checking Nickname uniqueness:", error);
         return false;
       } finally {
         setIsNicknameValid(false);
@@ -490,7 +485,7 @@ function Join() {
 
   useEffect(() => {
     if (user.status === 200 || user.reponse === "ok") {
-      console.log("[Join] Join SUCCESS {}", user);
+      // console.log("[Join] Join SUCCESS {}", user);
       navigate("/login", { replace: true });
       dispatch({ type: POST_LOGIN, payload: "" });
     }
@@ -569,7 +564,6 @@ function Join() {
             </div>
             <div id="nicknameMessage">
               {(nicknameUniquenessMessage && nicknameUniquenessMessage !== "사용 가능한 닉네임입니다.") ? <p>{nicknameUniquenessMessage}</p> : <p style={{color:"#00CC00"}}>{nicknameUniquenessMessage}</p>}
-            {console.log('nicknameUniquenessMessage',nicknameUniquenessMessage)}
             </div>
             <br />
             <label htmlFor="id">ID*</label>

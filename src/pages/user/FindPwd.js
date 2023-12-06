@@ -58,7 +58,8 @@ function FindPwd() {
         return;
       }
     } catch (error) {
-      console.error("Login error:", error);
+      alert("오류가 발생했습니다. 다시 입력해주세요.");
+      // console.error("Login error:", error);
     }
   };
 

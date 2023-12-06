@@ -49,7 +49,10 @@ const userReducer = handleActions(
         [POST_USERS]: (state, { payload }) => {
             return {
                 ...state,
-                ...payload
+                data: {
+                    ...state.data,
+                    ...payload.data
+                }
             }
         },
 

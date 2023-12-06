@@ -32,8 +32,8 @@ function CheckMyPwd({ isOpen, closeModal, userDetail, onPasswordValidated }) {
         alert("옳지않은 비밀번호입니다.");
       }
     } catch (error) {
-      console.error("Error comparing passwords:", error);
-      alert("Error comparing passwords. Please try again.");
+      // console.error("Error comparing passwords:", error);
+      alert("오류가 발생했습니다. 비밀번호를 다시 입력해주세요.");
     }
   };
 

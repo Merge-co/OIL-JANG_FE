@@ -32,16 +32,16 @@ function FindId() {
       ...form,
       [e.target.name]: e.target.value,
     });
-    console.log('e.target.value,',e.target.value,);
-    console.log('name',form.name);
-    console.log('gender',form.gender);
-    console.log('birthDate',form.birthDate);
+    // console.log('e.target.value,',e.target.value,);
+    // console.log('name',form.name);
+    // console.log('gender',form.gender);
+    // console.log('birthDate',form.birthDate);
   };
 
   const onClickHandler = async () => {
     try {
       if(form.name !== "" && form.gender !== "" && form.birthDate !== ""){
-        console.log('form.name',form.name);
+        // console.log('form.name',form.name);
         const result = await dispatch(callPostIdAPI({ form: form }));
         if (
           result.data !== null &&
@@ -57,7 +57,7 @@ function FindId() {
         alert("내용을 작성해주세요.");
       }
     } catch (error) {
-      console.error("Login error:", error);
+      // console.error("Login error:", error);
     }
   };
 

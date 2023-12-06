@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { callLoginAPI } from "../../apis/UserAPICalls";
 import { getCookie } from './../../modules/CookieModule';
 import UserLayoutCSS from '../../styles/user/UserLayout.module.css';
@@ -8,11 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash,faEye } from "@fortawesome/free-solid-svg-icons";
 
 
-
-
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {state} = useLocation();
+  console.log('state : ',state);
+
   
   const loginUser = useSelector((state) => state.userReducer);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -21,13 +22,10 @@ function Login() {
     pwd: "",
   });
 
-  
-  
+
   const togglePasswordVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
   };
-
-
   
 
   console.log("loginUser", loginUser);
@@ -41,7 +39,11 @@ function Login() {
    
      if (loginUser.message !== '탈퇴한 회원입니다. 로그인이 불가능합니다.' && isUserLogin) {
       console.log("[Login] Login SUCCESS {}", loginUser);
-      window.history.back();
+      if(state) {
+        navigate(state.pathname);
+      } else {
+        navigate(`/`);
+      }
     } else if(loginUser.message !== '탈퇴한 회원입니다. 로그인이 불가능합니다.' && isUserLogin){
       navigate("/error", { replace: true });
     }

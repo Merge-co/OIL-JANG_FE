@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import WithdrawButton from "../../components/user/WithdrawButton";
 import CheckMyPwd from "../../components/user/CheckMyPwd";
 import UserMypageCSS from "../../styles/user/UserMypage.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 function MyInfo() {
   const dispatch = useDispatch();
@@ -14,7 +16,8 @@ function MyInfo() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPasswordValidated, setIsPasswordValidated] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true); 
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -23,35 +26,59 @@ function MyInfo() {
     setIsModalOpen(false);
   };
 
-  console.log('userDetail',userDetail);
+  // console.log('userDetail',userDetail);
 
   const onPasswordValidated = (isValid) => {
-    console.log("Password validated:", isValid);
+    // console.log("Password validated:", isValid);
     if (isValid) {
       setIsPasswordValidated(true);
       navigate("/editMyInfo", { state: { isPasswordValidated: true } });
     } else {
-      console.log("틀린 비밀번호입니다.");
+      // console.log("틀린 비밀번호입니다.");
     }
   };
 
-  console.log("user", user);
-  console.log("userDetail", userDetail);
 
   useEffect(() => {
-    dispatch(callGetUserAPI());
+    const fetchData = async () => {
+      try {
+        await dispatch(callGetUserAPI());
+        setIsLoading(false); 
+      } catch (error) {
+        // console.error("사용자 정보를 불러오는 중 에러 발생:", error);
+      }
+    };
+
+    fetchData();
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log("Updated user:", user);
-  }, [user]);
+  if (isLoading) {
 
-  if (user.loading) {
-    return <p>Loading...</p>;
-  }
+    const centerStyle = {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh", 
+    };
+
+    <div style={centerStyle}>
+    <FontAwesomeIcon style={{ justifyContent:"center", textAlign:"center", alignContent:"center", width:"5%", height:"5%"}} icon={faSpinner} spin />
+  </div>  }
 
   if (!user.data) {
-    return <p>No user data available.</p>;
+
+    const centerStyle = {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh", // 화면 전체 높이를 차지하도록 설정
+    };
+
+    return (
+      <div style={centerStyle}>
+        <FontAwesomeIcon style={{ justifyContent:"center", textAlign:"center", alignContent:"center", width:"5%", height:"5%"}} icon={faSpinner} spin />
+      </div>
+    );
   }
 
   const userImageThumbAddr =
@@ -68,16 +95,6 @@ function MyInfo() {
     } else {
       openModal();
     }
-  };
-
-  const validatePassword = (password) => {
-    console.log("validatePassword");
-    const isPwdValid =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%^&*()-_+=]{8,16}$/.test(
-        password
-      );
-    console.log("isPwdValid", isPwdValid);
-    return isPwdValid;
   };
 
   return (
@@ -126,44 +143,45 @@ function MyInfo() {
 
                 <input
                   type="text"
-                  value={userDetail.data?.name || ""}
+                  value=
+                  {userDetail.data?.name}
                   readOnly
                   className={UserMypageCSS.inputField}
                 />
               </div>
 
-              {userDetail.data?.enrollType === "NORMAL" && (
+              {(userDetail.data?.enrollType === "NORMAL") && (
                 <>
                   <div className={UserMypageCSS.labelInputContainer}>
                     <label className={UserMypageCSS.label}>생년월일</label>
 
                     <input
                       type="text"
-                      value={userDetail.data?.birthDate || ""}
+                      value={userDetail.data?.birthDate}
                       readOnly
                       className={UserMypageCSS.inputField}
                     />
                   </div>
                 </>
               )}
-              {userDetail.data?.email && ( <div className={UserMypageCSS.labelInputContainer}>
+              {(userDetail.data?.email) && ( <div className={UserMypageCSS.labelInputContainer}>
                 <label className={UserMypageCSS.label}>이메일 주소</label>
                 <br />
                 <input
                   type="text"
-                  value={userDetail.data?.email || ""}
+                  value={userDetail.data?.email}
                   readOnly
                   className={UserMypageCSS.inputField}
                 />
               </div>)}
 
-              {userDetail.data?.enrollType === "NORMAL" && (
+              {(userDetail.data?.enrollType === "NORMAL") && (
                 <>
                   <div className={UserMypageCSS.labelInputContainer}>
                     <label className={UserMypageCSS.label}>휴대폰 번호</label>
                     <input
                       type="text"
-                      value={userDetail.data.phone || ""}
+                      value={userDetail.data?.phone}
                       readOnly
                       className={UserMypageCSS.inputField}
                     />
