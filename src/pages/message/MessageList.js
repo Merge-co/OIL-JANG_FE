@@ -14,6 +14,7 @@ import MessageListCSS from '../../styles/message/MessageList.module.css'
 import { GET_PAGING } from '../../modules/PagingModule';
 import { jwtDecode } from 'jwt-decode';
 import { getCookie } from '../../modules/CookieModule';
+import { GET_MESSAGES_ISRECEIVED } from '../../modules/MessageModule';
 
 function MessageList({isReceived, keyword, page}){
 
@@ -47,15 +48,14 @@ function MessageList({isReceived, keyword, page}){
     
 
 
+    const memoizedIsReceived = useMemo(() => isReceived === false ? false : isReceived, [isReceived]);
 
+    useEffect(() => {
 
-    useEffect(
-
-        () => {
 
             dispatch(callMessageListAPI({
                 userCode: jwtDecode(getCookie("accessToken")).userCode,
-                isReceived: isReceived,
+                isReceived: memoizedIsReceived,
                 page: page,
                 keyword: keyword,
             })).then((result) => {
@@ -67,6 +67,7 @@ function MessageList({isReceived, keyword, page}){
                     if(!curURL.searchParams.get('page')){
                         dispatch({type: GET_PAGING, payload: 0});
                     }
+                    
                 }else{
                     console.error('[MessageList] API response does not contain data:', result);
                 }
@@ -79,68 +80,6 @@ function MessageList({isReceived, keyword, page}){
     );
     console.log('isReceived1!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
     console.log('messageList:==========================', messageList);
-
-
-
-
-
-    // const handleMenuClick = useCallback((isReceived) => {
-    //     // 메뉴 클릭에 대한 동작 정의
-    //     if (isReceived === true) {
-
-    //         // 받은 쪽지함 처리
-    //         dispatch(callMessageListAPI({
-    //         userCode: jwtDecode(getCookie("accessToken")).userCode,
-    //         isReceived: true,
-    //         page: page,
-    //         keyword: keyword,
-    //         })).then((result) => {
-    //         console.table("result : " + result);
-    //         if(result && result.data){
-    //             setMessageList([result.data.results]);
-    //             if(!curURL.searchParams.get('page')){
-    //                 dispatch({type: GET_PAGING, payload: 0});
-    //             }
-    //         }else{
-    //             console.error('[MessageList] API response does not contain data:', result);
-    //         }
-
-    //     }).catch((error) => {
-    //         console.error('[MessageList] API call error:', error);
-    //     })
-
-    //     console.log('isReceived2!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
-
-    //     } else if (isReceived === false) {
-        
-    //         // 보낸 쪽지함 처리
-    //         dispatch(callMessageListAPI({
-    //         userCode: jwtDecode(getCookie("accessToken")).userCode,
-    //         isReceived: false,
-    //         page: page,
-    //         keyword: keyword,
-    //         })).then((result) => {
-    //         console.table("result : " + result);
-    //         if(result && result.data){
-    //             setMessageList([result.data.results]);
-    //             if(!curURL.searchParams.get('page')){
-    //                 dispatch({type: GET_PAGING, payload: 0});
-    //             }
-    //         }else{
-    //             console.error('[MessageList] API response does not contain data:', result);
-    //         }
-
-    //         console.log('isReceived3!!!!!!!!!!!!!!!!!!!!!!!!!!!!:' , isReceived);
-
-    //     }).catch((error) => {
-    //         console.error('[MessageList] API call error:', error);
-    //     })
-    //     };
-    //         }, [PagingInfo, dispatch, isReceived, page, keyword]); 
-    
-        
-
-    //     const memoizedMessageMenu = useMemo(() => <MessageMenu onMenuClick={handleMenuClick} />, [handleMenuClick]);
 
 
         const [isCheckedAll, setIsCheckedAll] = useState(false);
@@ -201,6 +140,29 @@ function MessageList({isReceived, keyword, page}){
     }
         };
 
+        const onSearchHandler = () => {
+            dispatch(callMessageListAPI({
+                userCode: jwtDecode(getCookie("accessToken")).userCode,
+                isReceived: isReceived,
+                page: page,
+                keyword: keyword,
+            })).then((result) => {
+                console.log("keyword============"+ keyword)
+                console.log("page============"+ page)
+
+                console.table("result : " + result);
+                if(result && result.data){
+                    setMessageList([result.data.results]);
+                    if(!curURL.searchParams.get('page')){
+                        dispatch({type: GET_PAGING, payload: 0});
+                    }
+                    console.log("keyword============"+ keyword)
+                }else{
+                    console.error('[MessageList] API response does not contain data:', result);
+                }
+        
+            })
+        }
 
     return (
         <>
@@ -231,10 +193,12 @@ function MessageList({isReceived, keyword, page}){
                                 name="keyword" 
                                 defaultValue={keyword}/>
                             <input 
-                                type="submit" 
+                                type="button" 
                                 value="검색" 
                                 className={`${MessageListCSS.searchBtn}`} 
-                                style={{cursor:'pointer'}}/>
+                                style={{cursor:'pointer'}}
+                                onClick={onSearchHandler}
+                                />
                         </form>
                     
                  
