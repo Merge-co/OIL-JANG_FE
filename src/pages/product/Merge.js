@@ -14,13 +14,29 @@ function Merge() {
     const getCategoryCode = useSelector(state => state.productReducer.getCategoryCode);
    
     const url = new URL(window.location.href);
-    const [ closeModal, setCloseModal ] = useState(false);
+    const [closeModal, setCloseModal] = useState(false);
+    const [checked, setChecked] = useState(false);
 
     function MergeGuide() {
 
         const onClickCloseGuide = () => {
-            window.localStorage.setItem("mergeGuide", 1);
+            let date = new Date();
+            date = date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+            if (checked) {
+                window.localStorage.setItem("mergeGuide", date);
+            } else {
+                window.localStorage.removeItem("mergeGuide");
+            }
+            
             setCloseModal(true);
+        }
+
+        const onCheked = e => {
+            if (e.target.checked) {
+                setChecked(true);
+            } else {
+                setChecked(false);
+            }
         }
 
         return(
@@ -34,6 +50,7 @@ function Merge() {
                             <div className={`${ModalCSS.modalContent}`} style={{userSelect: 'none'}}>
                                 <img src={mergeGuide} alt="" width={"100%"}/>
                             </div>
+                            <label><input type="checkbox" checked={checked} onChange={(e) => onCheked(e)}/><span style={{color: "#222", fontSize: 16, userSelect: 'none'}}>7일 동안 보지 않기</span></label>
                         </div>
                     </div>
                 </div>
