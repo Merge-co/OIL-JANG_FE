@@ -164,6 +164,17 @@ function MessageList({isReceived, keyword, page}){
             })
         }
 
+        const formatDateFromArray = (dateArray) => {
+            if (dateArray.length >= 3) {
+                const year = dateArray[0];
+                const month = String(dateArray[1]).padStart(2, '0');
+                const day = String(dateArray[2]).padStart(2, '0');
+                const minute = String(dateArray[3]).padStart(2, '0');
+                const second = String(dateArray[4]).padStart(2, '0');
+                return `${year}-${month}-${day}-${minute}:${second}`
+            }
+        }
+
     return (
         <>
             <div style={{width: '70%', margin: '0 auto'}}>
@@ -216,7 +227,9 @@ function MessageList({isReceived, keyword, page}){
                                 <th>{isReceived !== undefined ? (isReceived ? '보낸사람' : '받은사람') : '사람 정보 없음'}</th>
                                 <th>내용</th>
                                 <th>수신일시</th>
-                                <th>수신확인</th>
+                                {!isReceived ?
+                                    <th>수신확인</th> : ""}
+                     
                             </tr>
                             
                             </thead>
@@ -235,7 +248,8 @@ function MessageList({isReceived, keyword, page}){
                                         <td onClick={() => handleMessageClick(message.msgCode)} style={{cursor:'pointer'}} className={`${MessageListCSS.msgListHover}`}>
                                             {message.msgContent.length > 10 ? `${message.msgContent.substring(0,10)}...` : message.msgContent}
                                         </td>
-                                        <td>{message.msgTime}</td>
+                                        {console.log(message.msgTime)}
+                                        <td>{`${formatDateFromArray(message.msgTime)}`}</td>
                                         <td>{message.msgStatus}</td>
                                     </tr>
                                 ))}

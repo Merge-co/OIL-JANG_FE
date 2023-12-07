@@ -146,7 +146,14 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
     };
 
 
-
+    const formatDateFromArray = (dateArray) => {
+        if (dateArray.length >= 3) {
+            const year = dateArray[0];
+            const month = String(dateArray[1]).padStart(2, '0');
+            const day = String(dateArray[2]).padStart(2, '0');
+            return `${year}-${month}-${day}`
+        }
+    }
 
 
 
@@ -270,7 +277,7 @@ function InquiryList({inqCateCode, inqStatus, page, role, keyword}) {
                                     >
                                          {inquiry.inqTitle.length > 10 ? `${inquiry.inqTitle.substring(0,10)}...` : inquiry.inqTitle}  
                                     </td>
-                                    <td>{`${inquiry.inqTime}`}</td>
+                                    <td>{`${formatDateFromArray(inquiry.inqTime)}`}</td>
                                     <td>{`${inquiry.inqStatus}`}</td>
                                 </tr>
                                

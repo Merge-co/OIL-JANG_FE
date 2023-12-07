@@ -176,7 +176,13 @@ function InquiryDetail({inqCode, userCode}){
                     >
                     <div 
                         className={`${InquiryDetailCSS.titleMid}`}
-                        style={{borderBottom : isReadOnly ? "1px solid #9d9d9d" : "none", width: '100%'}}
+                        style={{
+                            borderBottom : isReadOnly ? "1px solid #9d9d9d" : "none", 
+                            width: '100%',
+                            marginBottom: '2%', 
+                            fontWeight:'600', 
+                            paddingBottom:'1%',
+                        }}
                     >
                             제목
                         </div>
@@ -197,7 +203,15 @@ function InquiryDetail({inqCode, userCode}){
                 
         
                     <div className={`${InquiryDetailCSS.inqSort}`}>
-                    <div className={`${InquiryDetailCSS.titleMid}`} style={{marginRight:'5%'}}>분류</div>
+                    <div className={`${InquiryDetailCSS.titleMid}`} 
+                            style={{marginRight:'5%',
+                                    marginBottom: '2%', 
+                                    fontWeight:'600', 
+                                    paddingBottom:'1%'
+                                }}
+                        >
+                        분류
+                    </div>
                     <select 
                         className={`${InquiryDetailCSS.selectOption}`} 
                         readOnly={isReadOnly}
@@ -218,8 +232,14 @@ function InquiryDetail({inqCode, userCode}){
                     <div 
                         className={`${InquiryDetailCSS.textAreaBox}`}
                     >
-                    <div className={`${InquiryDetailCSS.titleMid}`} 
-                         style={{borderBottom : isReadOnly ? "1px solid #9d9d9d" : "none", width: '100%'}}
+                    <div  
+                         style={{borderBottom : isReadOnly ? "1px solid #9d9d9d" : "none", 
+                                width: '100%',
+                                marginBottom: '2%', 
+                                fontWeight:'600', 
+                                paddingBottom:'1%',
+                            
+                            }}
                     >
                         문의 내용
                     </div>
@@ -244,7 +264,15 @@ function InquiryDetail({inqCode, userCode}){
 
 
                     <div style={{display : inquiry.inqSelectDetailDTOList[0].inqStatus === 'Y' ? 'block' : 'none'}}> 
-                        <div style={{marginBottom: '2%', fontWeight:'600', paddingBottom:'1%',borderBottom : isReadOnly ? "1px solid #9d9d9d" : "none"}}>답변하기</div>
+                        <div 
+                            style={{marginBottom: '2%', 
+                                    fontWeight:'600', 
+                                    paddingBottom:'1%',
+                                    borderBottom : isReadOnly ? "1px solid #9d9d9d" : "none"}}
+                                    
+                        >
+                                답변내용
+                        </div>
         
         
                             <textarea 
