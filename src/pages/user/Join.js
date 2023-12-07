@@ -108,6 +108,8 @@ function Join() {
       gender !== "" &&
       phone !== "";
 
+      // console.log('isGenderSelected',isGenderSelected);
+
     if (!isImageUploaded) {
       setValidationMessage("프로필 이미지를 선택해주세요.");
       const ErrorElement = document.getElementById('profileMessage');
