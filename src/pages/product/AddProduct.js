@@ -174,23 +174,27 @@ const AddProduct = () => {
 
 
         try {
-            const response = await axios.post('http://localhost:8000/products', formData);
+            const response = await axios.post('http://localhost:8000/products', formData).then(
+                response => {
+                    if (response.status === 200) {
+                        console.log('상품이 성공적으로 등록되었습니다.');
+                        setImageCount(0);
+                        setPriceOption('sell');
+                        setPrice('');
+                        setImages([]);
+                        setProductName('');
+                        setProductDesc('');
+                        setRefCategoryCode(null);
+                        window.navigator.vibrate(200);
+                        window.alert('상품이 등록되었습니다. 메인페이지로 이동합니다');
+                        navigate('/');
+                    } else {
+                        console.error('상품 등록에 실패했습니다.', response.data);
+                    }
+                }
+            );
 
-            if (response.status === 200) {
-                console.log('상품이 성공적으로 등록되었습니다.');
-                setImageCount(0);
-                setPriceOption('sell');
-                setPrice('');
-                setImages([]);
-                setProductName('');
-                setProductDesc('');
-                setRefCategoryCode(null);
-                window.navigator.vibrate(200);
-                window.alert('상품이 등록되었습니다. 메인페이지로 이동합니다');
-                navigate('/');
-            } else {
-                console.error('상품 등록에 실패했습니다.', response.data);
-            }
+           
         } catch (error) {
             console.error('API 호출 중 오류가 발생했습니다.', error);
         }
