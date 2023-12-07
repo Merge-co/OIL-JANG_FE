@@ -152,10 +152,10 @@ function MergeBox() {
         } else {
             if (window.localStorage.getItem("mergeKeys")) {
                 if (+window.localStorage.getItem("remainMoney") < 0) {
-                    if (window.confirm("예산을 초과했습니다. 쪽지를 보내시겠습니까?")) {
+                    if (window.confirm("예산을 초과했습니다. [상품 구매합니다] 내용으로 쪽지를 보내시겠습니까?")) {
                         sendMessages();        
                     }
-                } else if (window.confirm("쪽지를 보내시겠습니까?")) {
+                } else if (window.confirm("[상품 구매합니다] 내용으로 쪽지를 보내시겠습니까?")) {
                     sendMessages();            
                 }
             } else {
