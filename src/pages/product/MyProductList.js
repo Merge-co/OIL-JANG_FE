@@ -158,10 +158,10 @@ function MyProductList() {
                                                 value={product.sellStatus}
                                                 onChange={(e) => onChangeSellStatus(product.productCode, e)}
                                                 className='productState'
-                                                disabled={product.sellStatus === '판매완료'}
+                                                disabled={product.sellStatus == '판매 완료'}
                                             >
-                                                <option value="판매중" style={{ color: "#222222" }}>판매중</option>
-                                                <option value="판매완료" style={{ color: "#222222" }}>판매완료</option>
+                                                <option value="판매 중" style={{ color: "#222222" }}>판매중</option>
+                                                <option value="판매 완료" style={{ color: "#222222" }}>판매완료</option>
                                             </select>
                                         </td>
                                     </tr>
