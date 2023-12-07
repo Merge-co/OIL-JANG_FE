@@ -39,9 +39,6 @@ function Merge() {
             }
         }
 
-        console.log(checked);
-
-
         return(
             <>
                 <div className={`${ModalCSS.div}`}>
