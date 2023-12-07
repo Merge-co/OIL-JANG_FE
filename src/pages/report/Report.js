@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../modules/CookieModule";
 import ReportCSS from '../../styles/report/Report.module.css';
 
-function Report({productCode, sellStatus, productName, setModalOpen }) {
+function Report({ productCode, sellStatus, productName, setModalOpen }) {
     // nickName -> 판매자 정보 
 
     // 모달창 끄기 버튼
@@ -66,14 +66,6 @@ function Report({productCode, sellStatus, productName, setModalOpen }) {
             return;
         }
 
-        // console.log("bbbbb", formData);
-        // console.log('[ReportRegist] fromData reportUserNick : ', formData.get('reportUserNick'));
-        // console.log('[ReportRegist] fromData refReportCategoryNo : ', formData.get('refReportCategoryNo'));
-        // console.log('[ReportRegist] fromData productCode : ', formData.get('productCode'));
-        // console.log('[ReportRegist] fromData reportComment : ', formData.get('reportComment'));
-        // console.log('[ReportRegist] fromData sellStatusCode : ', formData.get('sellStatusCode'));
-        // console.log("aaaa", formData);
-        
         dispatch(callReportRegistAPI({
             form: formData
         }));
@@ -90,9 +82,13 @@ function Report({productCode, sellStatus, productName, setModalOpen }) {
                     <div className={ModalCSS.reportBox} >
                         <div className={`${ModalCSS.modalContent}`}>
                             <div style={{ justifyContent: "space-between", right: "auto" }}>
+
+                                <ul style={{ display: "flex", justifyContent: "space-between" }} >
+                                    <li>판매게시글</li><span>{productName}</span>
+                                </ul>
                                 <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <li style={{ display: "flex", marginBottom: "3%" }}>신고분류</li>
-                                    <select name="refReportCategoryNo" onChange={onChangeHandler} className={ReportCSS.search} style={{ padding: "5px", width: "40%" }}>
+                                    <li style={{ display: "flex", marginBottom: "6%" }}>신고분류</li>
+                                    <select name="refReportCategoryNo" onChange={onChangeHandler} className={ReportCSS.search} style={{ marginBottom: "10px", padding: "5px", width: "40%" }}>
                                         <option disabled hidden="hidden" selected>선택해주세요.</option>
                                         <option value={1}>광고성 컨텐츠에요</option>
                                         <option value={2}>거래 금지 품목이에요</option>
@@ -100,12 +96,9 @@ function Report({productCode, sellStatus, productName, setModalOpen }) {
                                         <option value={4}>사기가의심돼요</option>
                                     </select>
                                 </ul>
+                                <ul><li>신고사유</li></ul>
                             </div>
                         </div>
-                        <ul>
-                            <li>판매게시글</li><span>{productName}</span>
-                            <li>신고사유</li>
-                        </ul>
                         <textarea
                             className={ReportCSS.textarea}
                             name="reportComment"
@@ -117,7 +110,7 @@ function Report({productCode, sellStatus, productName, setModalOpen }) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 

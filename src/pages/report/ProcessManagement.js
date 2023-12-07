@@ -190,7 +190,7 @@ function ProcessManagement() {
                 modalComponent === 'ProcessDetail' ? (
                     <ProcessDetail reportNo={selectedReportNo} setModalOpen={setModalOpen} />
                 ) : (
-                    <ReportUpdate reportNo={selectedReportNo} userCode={selectUserCode} setModalOpen={setModalOpen} />
+                    <ReportUpdate reportNo={selectedReportNo} userCode={selectUserCode} setModalOpen={(value) => {setModalOpen(value)}} />
                 )
             )
             }

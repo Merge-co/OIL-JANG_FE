@@ -93,13 +93,12 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
             console.error("Errer");
         }
         setModalOpen(false);
-        // window.location.reload();
+        window.location.reload();
     }
     //반려처리에 대한 쪽지 발송 
     const onClickCompanionHandler = (reportUserCode, productCode) => {
 
         let message = '안녕하세요. \n접수해주신 신고는 타당하지 못하여 부적합으로 신고 처리가 반려되었습니다.';
-        console.log('신고유저 코드 12222222221', reportUserCode);
 
         dispatch(callCompanionMessageAPI({
             message: message,
@@ -131,18 +130,18 @@ function ReportUpdate({ reportNo, userCode, setModalOpen }) {
         }));
         alert('처리완료. 게시글이 삭제처리 되었습니다.');
         console.log('count', count);
-        if (count === 5) {
+        if (count === 4) {
             // 판매자 게시글이 5번 삭제되었을 경우 
-            window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
             dispatch(callSanctionsRegistAPI(refUserCode));
+            window.confirm(`신고대상자는 5회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
             navigate('/sanctions')
-        } else if (count === 10) {
-            window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
+        } else if (count === 9) {
             dispatch(callSanctionsRegistAPI(refUserCode));
+            window.confirm(`신고대상자는 10회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
             navigate('/sanctions')
-        } else if (count === 15) {
-            window.confirm(`신고대상자는 ${count}회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
+        } else if (count === 14) {
             dispatch(callSanctionsRegistAPI(refUserCode));
+            window.confirm(`신고대상자는 15회 신고내역이있습니다. \n사용자제제를 진행하겠습니까?`)
             navigate('/sanctions')
         }
     }
