@@ -16,44 +16,67 @@ function ProductEdit() {
     const [productPrice, setproductPrice] = useState('');
     const [productDesc, setProductDesc] = useState('');
     const [wishPlaceTrade, setWishPlaceTrade] = useState('');
-
-    const [descriptionLength, setDescriptionLength] = useState(0);
+    const [descriptionLength, setDescriptionLength] = useState(0);  
     const [productNameLength, setProductNameLength] = useState(0);
     const [wishPlaceTradeLength, setWishPlaceTradeLength] = useState(0);
-    const [inputPrice, setInputPrice] = useState('');
-    
+
+
 
     const { productCode } = useParams();
     const navigate = useNavigate();
-
-
     const params = useParams();
+
     console.log('Received productCode', params.productCode);
 
 
     useEffect(() => {
-        const fetchProductName = async () => {
+        const fetchProductInfo = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/products/${productCode}`);
                 const productData = response.data.results.productDetail[0];
+
+                const receivedCategoryName = productData.categoryName;
+                console.log('Received Category Name:', receivedCategoryName);
+
+                const categoryCode = getCategoryCodeFromName(receivedCategoryName);
+
+                const receivedCategoryCode = productData.categoryCode;
+                console.log('Received Category Code:', receivedCategoryCode);
 
                 setproductPrice(productData.productPrice.toString());
                 setProductDesc(productData.productDesc);
                 setProductName(productData.productName);
                 setRefCategoryCode(productData.refCategoryCode);
                 setWishPlaceTrade(productData.wishPlaceTrade);
+                setRefCategoryCode(categoryCode);
+
+                setDescriptionLength(productData.productDesc.length);
+                setProductNameLength(productData.productName.length);
+                setWishPlaceTradeLength(productData.wishPlaceTrade.length);
+
+                if (parseInt(productData.productPrice, 10) === 0) {
+                    setPriceOption('share');
+                    setproductPrice('');
+                } else {
+                    setPriceOption('sell');
+                    setproductPrice(productData.productPrice.toString());
+                }
 
                 console.log('API Response:', productData);
             } catch (error) {
                 console.error('상품 정보를 가져오는 도중 에러 발생: ', error);
             }
         };
-        fetchProductName();
-    }, []);
+
+        if (productCode) {
+            fetchProductInfo();
+        }
+
+    }, [productCode]);
 
 
     const handlePriceOptionChange = (option) => {
-        setPriceOption(option === 'share' ? 'share' : 'sell');
+        setPriceOption(option);
         if (option === 'share') {
             setproductPrice('');
         }
@@ -99,6 +122,11 @@ function ProductEdit() {
         setWishPlaceTradeLength(value.length); // 거래 희망 장소 길이 설정
     };
 
+    const getCategoryCodeFromName = (name) => {
+        const foundCategory = categoryOptions.find(category => category.label === name);
+        return foundCategory ? foundCategory.code : ''; // 해당하는 카테고리 이름이 없을 경우 빈 문자열 반환
+    };
+
 
 
     const handleProductUpdate = async () => {
@@ -133,7 +161,7 @@ function ProductEdit() {
             return;
         }
 
-    
+
 
         if (!params.productCode) {
             console.error('Product code is missing.');
@@ -252,33 +280,34 @@ function ProductEdit() {
 
                     <hr />
                 </div>
-                <div className="pricing">
-                    <div className="sell_h1">
-                        <label className="priceFont">가격 설정 *</label>
-                        <div className="pricebtn">
+                <div className='pricing'>
+                    <div className='sell_h1'>
+                        <label className='priceFont'>가격 설정 *</label>
+                        <div className='pricebtn'>
                             <label className='custom-radio' style={{ backgroundColor: priceOption === 'sell' ? '#222222' : '#C7C6C6' }}>
                                 <input
-                                    type="radio"
-                                    name="price_option"
-                                    value="sell"
+                                    type='radio'
+                                    name='price_option'
+                                    value='sell'
                                     required
-                                    checked={priceOption === 'sell'} // 추가된 부분
+                                    checked={priceOption === 'sell'}
                                     onChange={() => handlePriceOptionChange('sell')}
                                 />
                                 판매하기
                             </label>
                             <label className='custom-radio' style={{ backgroundColor: priceOption === 'share' ? '#222222' : '#C7C6C6' }}>
                                 <input
-                                    type="radio"
-                                    name="price_option"
-                                    value="share"
+                                    type='radio'
+                                    name='price_option'
+                                    value='share'
                                     required
-                                    checked={priceOption === 'share'} // 추가된 부분
+                                    checked={priceOption === 'share'}
                                     onChange={() => handlePriceOptionChange('share')}
                                 />
                                 나눔하기
                             </label>
                         </div>
+
                     </div>
                     <br />
                     <div className='wondiv'>
