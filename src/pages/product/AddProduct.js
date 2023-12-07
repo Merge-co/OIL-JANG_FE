@@ -174,15 +174,6 @@ const AddProduct = () => {
 
 
         try {
-            await axios('http://localhost:8000/products', {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "multipart/form-data",
-                },
-              });
-            await axios.post('http://localhost:8000/products', formData)
             const response = await axios.post('http://localhost:8000/products', formData).then(
                 response => {
                     if (response.status === 200) {
