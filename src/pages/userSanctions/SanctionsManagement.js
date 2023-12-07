@@ -49,8 +49,12 @@ function SanctionsManagement() {
 
         dispatch(callSanctionsUpdateAPI({
             form: formData
-        }));
-    }
+        })).then(() => {
+            dispatch(callSanctionsListAPI ({
+                currentPage : currentPage
+            }));
+        });
+    };
 
     const [form, setForm] = useState({
         managerDate: isoCurrentDate,
@@ -72,13 +76,17 @@ function SanctionsManagement() {
             return `${year}-${month}-${day}`
         }
     }
-
     useEffect(() => {
         setStart((currentPage - 1) * 5);
         dispatch(callSanctionsListAPI({
             currentPage: currentPage
         }));
     }, [currentPage]);
+
+    useEffect(() => {
+        dispatch(callSanctionsListAPI({ currentPage: 1 }));
+    }, [dispatch]);
+    
 
     console.log('sanctions...', sanctions)
     return (

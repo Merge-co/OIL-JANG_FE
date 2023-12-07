@@ -16,10 +16,6 @@ export const callSanctionsListAPI = ({ currentPage }) => {
         requestURL += `?currentPage=${currentPage}`; // offset 대신 currentPage 사용
     }
 
-    // if (currentPage !== undefined && currentPage !== null) {
-    //     requestURL += `?offset=${currentPage}`;
-    // }
-
     return async (dispatch, getState) => {
         try {
             const response = await fetch(requestURL, {
