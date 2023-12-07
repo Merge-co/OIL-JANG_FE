@@ -100,6 +100,17 @@ function InquiryAdmin({inqCode, userCode}) {
         }
 
 
+        const formatDateFromArray = (dateArray) => {
+            if (dateArray.length >= 3) {
+                const year = dateArray[0];
+                const month = String(dateArray[1]).padStart(2, '0');
+                const day = String(dateArray[2]).padStart(2, '0');
+                return `${year}-${month}-${day}`
+            }
+        }
+    
+
+
     return(
         <>
             <div className={`${InquiryDetailCSS.inqContent}`}>
@@ -122,7 +133,7 @@ function InquiryAdmin({inqCode, userCode}) {
                                 <li style={{marginBottom:'2%'}}><span style={{fontWeight: '600'}}>분류 : </span>{inquiry.inqSelectDetailDTOList[0].inqCateName}</li>
                                 <li style={{marginBottom:'2%'}}><span style={{fontWeight: '600'}}>문의자 : </span>{`${inquiry.inqSelectDetailDTOList[0].name} (${inquiry.inqSelectDetailDTOList[0].id})`}</li>
                                 <li style={{marginBottom:'2%'}}><span style={{fontWeight: '600'}}>제목 : </span>{inquiry.inqSelectDetailDTOList[0].inqTitle}</li>
-                                <li style={{marginBottom:'2%'}}><span style={{fontWeight: '600'}}>문의일시 : </span>{inquiry.inqSelectDetailDTOList[0].inqTime}</li>
+                                <li style={{marginBottom:'2%'}}><span style={{fontWeight: '600'}}>문의일시 : </span>{`${formatDateFromArray(inquiry.inqSelectDetailDTOList[0].inqTime)}`}</li>
                                 <li><span style={{fontWeight: '600'}}>내용 : </span>{inquiry.inqSelectDetailDTOList[0].inqContent}</li>
                             </ul>
                  

@@ -190,12 +190,23 @@ function MessageDetail({msgCode}){
 
     }
 
+    const formatDateFromArray = (dateArray) => {
+        if (dateArray.length >= 3) {
+            const year = dateArray[0];
+            const month = String(dateArray[1]).padStart(2, '0');
+            const day = String(dateArray[2]).padStart(2, '0');
+            const minute = String(dateArray[3]).padStart(2, '0');
+            const second = String(dateArray[4]).padStart(2, '0');
+            return `${year}-${month}-${day}-${minute}:${second}`
+        }
+    }
+
 
 
 return(
     <>
         <div className={`${MessagDetailCSS.msgDetail}`}>
-            <h3 className={`${MessagDetailCSS.pageTitle}`}>쪽지함</h3>
+            <h3 className={`${MessagDetailCSS.pageTitle}`} style={{textAlign:"left"}}>쪽지함</h3>
             {/* <div className={`${MessagDetailCSS.msgNav}`} style={{marginTop: '5%'}}>
                  {memoizedMessageMenu}
             </div> */}
@@ -205,7 +216,7 @@ return(
             {messageDetail && messageDetail[0] && ( 
                 <ul key={messageDetail[0].msgCode}>
                 <li>보낸 사람 &nbsp;&nbsp;&nbsp;&nbsp;<span>{`${messageDetail[0].name} ${messageDetail[0].id}`}</span></li>
-                <li>수신 일시 &nbsp;&nbsp;&nbsp;&nbsp;<span>{messageDetail[0].msgTime}</span></li>
+                <li>수신 일시 &nbsp;&nbsp;&nbsp;&nbsp;<span>{`${formatDateFromArray(messageDetail[0].msgTime)}`}</span></li>
                 <li>게시글 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{`${messageDetail[0].productName || ''} ${messageDetail[0].productDesc || ''}`}</span></li>
                 </ul>
             )}

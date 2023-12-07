@@ -9,12 +9,23 @@ import{
 } from '../modules/MessageModule.js';
 import { getCookie } from '../modules/CookieModule.js';
 import { jwtDecode } from 'jwt-decode';
+import { timestamp } from '../modules/MyCalendarModule.js';
+
 
 export const callMessageRegistAPI = ({form}) => {
     console.log('[MessageAPICalls] callMessageRegistAPI Call');
+    console.log(new Date(timestamp()))
 
     const requestURL = `http://localhost:8000/messages`;
-    let date = new Date();
+   // const date = new Date();
+    //let date = timestamp(new Date()).substring(0, 20); 
+   // console.log("Date:!!!!!!!!!!!!!!!!!!!!!! " + date)
+    //let today = new Date().setHours(today.getHours() + 9);
+
+    let today = new Date();
+    today.setHours(today.getHours() + 18);
+    today = today.toISOString().replace('T', ' ').substring(0, 19);
+    today = new Date(today);
 
     return async (dispatch, getState) => {
 
@@ -23,7 +34,7 @@ export const callMessageRegistAPI = ({form}) => {
             msgCode: form.get('msgCode'),
             msgContent: form.get('msgContent'),
             msgStatus: "N",
-            msgTime: date,
+            msgTime: today,
             refProductCode: form.get('refProductCode'),
             senderCode: form.get('senderCode'),
             receiverCode: form.get('receiverCode'),
