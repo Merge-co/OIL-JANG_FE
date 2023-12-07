@@ -53,7 +53,7 @@ function Merge() {
                             <div className={`${ModalCSS.modalContent}`} style={{userSelect: 'none'}}>
                                 <img src={mergeGuide} alt="" width={"100%"}/>
                             </div>
-                            <label><input type="checkbox" checked={checked} onChange={(e) => onCheked(e)}/><span>7일 동안 보지 않기</span></label>
+                            <label><input type="checkbox" checked={checked} onChange={(e) => onCheked(e)}/><span style={{color: "#222", fontSize: 16}}>7일 동안 보지 않기</span></label>
                         </div>
                     </div>
                 </div>
