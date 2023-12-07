@@ -35,6 +35,9 @@ function UsedProductDetail() {
     if(productDetailInfos && productDetailInfos.sellStatusCode === 3 && productDetailInfos.productCode == params.productCode) {
         alert("잘못된 페이지 접근입니다.");
         navigate("/usedProduct");
+    } else if(!getCookie("accessToken") && productDetailInfos && productDetailInfos.sellStatusCode === 2 && productDetailInfos.productCode == params.productCode) {
+        alert("잘못된 페이지 접근입니다.");
+        navigate("/usedProduct");
     } else if(getCookie("accessToken") && productDetailInfos && productDetailInfos.sellStatusCode === 2 && productDetailInfos.productCode == params.productCode && productDetailInfos.refUserCode != jwtDecode(getCookie("accessToken")).userCode) {
         alert("잘못된 페이지 접근입니다.");
         navigate("/usedProduct");
