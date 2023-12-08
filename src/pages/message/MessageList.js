@@ -250,7 +250,8 @@ function MessageList({isReceived, keyword, page}){
                                         </td>
                                         {console.log(message.msgTime)}
                                         <td>{`${formatDateFromArray(message.msgTime)}`}</td>
-                                        <td>{message.msgStatus}</td>
+                                        {!isReceived ?
+                                        <td>{message.msgStatus}</td> : ""}
                                     </tr>
                                 ))}
 
